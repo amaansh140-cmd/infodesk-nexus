@@ -205,62 +205,19 @@ Please answer the user's question accurately, concisely, and specifically based 
     setIsExecuting(true);
     setOutput('Executing...');
     
-    // Simulate network latency & execution time
-    await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 500));
-    
     try {
-      if (selectedLang === 'python') {
-        try {
-          if (!(window as any).loadPyodide) {
-            setOutput('Python Engine (Pyodide) is loading... Please wait a few seconds and try again.');
-            setIsExecuting(false);
-            return;
-          }
-          if (!(window as any).pyodide) {
-            setOutput('Booting Python Virtual Machine in your browser...');
-            (window as any).pyodide = await (window as any).loadPyodide();
-          }
-          const py = (window as any).pyodide;
-          
-          await py.runPythonAsync(`
-import sys
-import io
-import builtins
-import js
-
-# Redirect output streams
-sys.stdout = io.StringIO()
-sys.stderr = io.StringIO()
-
-# Bulletproof input() handler linking directly to JS
-def custom_input(prompt_text=""):
-    res = js.prompt(prompt_text or "Nexus Python Input:")
-    if res is None:
-        raise EOFError("EOF when reading a line")
-    return res
-
-builtins.input = custom_input
-          `);
-          
-          await py.runPythonAsync(code);
-          
-          const stdout = await py.runPythonAsync('sys.stdout.getvalue()');
-          const stderr = await py.runPythonAsync('sys.stderr.getvalue()');
-          
-          let result = stdout;
-          if (stderr) result += '\n' + stderr;
-          if (!result) result = 'Execution finished with no output.';
-          
-          setOutput(result + '\n\n[Process exited with code 0]');
-        } catch (e: any) {
-          setOutput(`Python Runtime Error:\n${e.message}\n\n[Process exited with code 1]`);
-        }
-      } else if (selectedLang === 'html' || selectedLang === 'css') {
+      if (selectedLang === 'html' || selectedLang === 'css') {
+        // Fast local render for web views
         const docHtml = selectedLang === 'css' 
           ? `<style>${code}</style><body><h1>Live CSS Preview</h1><p>Nexus Playground Sandbox</p></body>`
           : code;
         setOutput(docHtml);
-      } else if (selectedLang === 'javascript') {
+        setIsExecuting(false);
+        return;
+      }
+      
+      if (selectedLang === 'javascript') {
+        // Fast local eval for JS
         const originalLog = console.log;
         const logs: string[] = [];
         console.log = (...args) => {
@@ -271,17 +228,21 @@ builtins.input = custom_input
           // eslint-disable-next-line no-new-func
           const execute = new Function(code);
           execute();
-          let currentOutput = logs.join('\n');
+          let currentOutput = logs.join('\\n');
           if (!currentOutput) currentOutput = 'Execution finished with no output.';
-          setOutput(currentOutput + '\n\n[Process exited with code 0]');
+          setOutput(currentOutput + '\\n\\n[Process exited with code 0]');
         } catch (e: any) {
-          setOutput(`Runtime Error:\n${e.message}\n\n[Process exited with code 1]`);
+          setOutput(`Runtime Error:\\n${e.message}\\n\\n[Process exited with code 1]`);
         } finally {
           console.log = originalLog;
         }
-      } else {
-        // Regex Simulator for other languages to extract literal strings from print statements
-        const printRegex = /(?:print(?:ln!)?|cout\s*<<|System\.out\.println|Console\.WriteLine|echo|puts|console\.log)\s*(?:\(\s*)?(["'])(.*?)\1/g;
+        setIsExecuting(false);
+        return;
+      }
+
+      if (selectedLang === 'kotlin') {
+        // Fallback for Kotlin (Wandbox does not fully support it natively in this structure)
+        const printRegex = /(?:print(?:ln!)?)\s*(?:\(\s*)?(["'])(.*?)\1/g;
         const simulatedLogs: string[] = [];
         let match;
         while ((match = printRegex.exec(code)) !== null) {
@@ -289,13 +250,37 @@ builtins.input = custom_input
         }
         
         if (simulatedLogs.length > 0) {
-          setOutput(simulatedLogs.join('\n') + '\n\n[Process exited with code 0]');
+          setOutput(simulatedLogs.join('\\n') + '\\n\\n[Process exited with code 0]');
         } else {
-          setOutput(`[Nexus VM] Compiled successfully in ${(Math.random() * 0.5).toFixed(3)}s.\n(No live output generated. Use standard print statements with strings to simulate output!)\n\n[Process exited with code 0]`);
+          setOutput(`[Nexus VM] Compiled successfully in ${(Math.random() * 0.5).toFixed(3)}s.\\n(No live output generated. Use print statements to simulate Kotlin output!)\\n\\n[Process exited with code 0]`);
         }
+        setIsExecuting(false);
+        return;
       }
-    } catch (err) {
-      setOutput('Failed to execute or simulate code.');
+
+      // Live Cloud Execution for all other languages via Wandbox API Proxy
+      const response = await fetch('/api/execute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ language: selectedLang, code })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Execution API Failed');
+      }
+
+      const result = await response.json();
+      
+      let finalOutput = '';
+      if (result.stdout) finalOutput += result.stdout;
+      if (result.stderr) finalOutput += (finalOutput ? '\\n' : '') + result.stderr;
+      if (!finalOutput) finalOutput = 'Execution finished with no output.';
+
+      setOutput(`${finalOutput}\\n\\n[Process exited with code ${result.exitCode}]`);
+
+    } catch (err: any) {
+      setOutput(`Failed to execute code:\\n${err.message}\\n\\n[Process exited with code 1]`);
     } finally {
       setIsExecuting(false);
     }
@@ -303,7 +288,6 @@ builtins.input = custom_input
 
   return (
     <>
-      <Script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js" strategy="beforeInteractive" />
       <div className={styles.container}>
         {/* Top Header */}
         <motion.div 

@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { GraduationCap, Menu } from 'lucide-react';
 import styles from './Navbar.module.css';
+import MainLogo from './logo.png';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -30,16 +31,14 @@ export default function Navbar() {
       <nav className={`${styles.nav} ${isScrolled ? styles.navScrolled : styles.navTransparent}`}>
         {/* Logo */}
         <Link href="/" className={styles.logo}>
-          <Image
-            src="https://www.infodeskcompedu.com/logo.png"
+          <img
+            src={MainLogo.src}
             alt="Infodesk Logo"
-            width={32}
-            height={32}
             className={styles.logoImg}
-            unoptimized
+            style={{ height: '40px', width: 'auto' }}
           />
-          <span className={styles.logoText}>infodesk nexus</span>
         </Link>
+
 
         {/* Center Links */}
         <div className={styles.links}>
