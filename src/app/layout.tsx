@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
         {/* LiquidEther WebGL Background */}
         <LiquidEtherBackground />
 
@@ -24,9 +24,7 @@ export default function RootLayout({
         <div className="app-content">
           <Navbar />
           <main className="main-content">
-            <PageTransition>
-              {children}
-            </PageTransition>
+            {children}
           </main>
         </div>
       </body>

@@ -1,13 +1,27 @@
 'use client';
 
 import Link from 'next/link';
-import { Play, BookOpen, Award } from 'lucide-react';
+import { 
+  Play, BookOpen, Award, Database, Sparkles, 
+  ShieldCheck, GraduationCap, Clock, Zap 
+} from 'lucide-react';
 import styles from './home.module.css';
 import { motion } from 'framer-motion';
 
+const CourseIcons: Record<string, any> = {
+  Database,
+  Sparkles
+};
+
 const activeCoures = [
-  { title: 'Advanced Data Structures', progress: 68, icon: '📊' },
-  { title: 'Machine Learning Fundamentals', progress: 42, icon: '🤖' },
+  { title: 'Data Science', progress: 68, icon: 'Database', color: '#6366f1' },
+  { title: 'Prompt Engineering', progress: 42, icon: 'Sparkles', color: '#10b981' },
+];
+
+const benefitsData = [
+  { title: 'Certified', icon: ShieldCheck, color: '#10b981' },
+  { title: 'Experienced Faculty', icon: GraduationCap, color: '#6366f1' },
+  { title: 'Lifetime Access', icon: Clock, color: '#f59e0b' },
 ];
 
 export default function HomePage() {
@@ -88,11 +102,21 @@ export default function HomePage() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <div className={`liquid-glass-strong ${styles.rightCard}`}>
+        <motion.div 
+          className={`liquid-glass-strong ${styles.rightCard}`}
+          animate={{ y: [0, -15, 0] }}
+          transition={{
+            y: {
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }
+          }}
+        >
           <div className={styles.cardHeader}>
             <BookOpen size={16} className={styles.cardHeaderIcon} />
-            <span className={styles.cardHeaderTitle}>Active Courses</span>
-            <span className={`${styles.badge} liquid-glass theme-text-faint`}>2 ongoing</span>
+            <span className={styles.cardHeaderTitle}>Trending Courses</span>
+            <span className={`${styles.badge} liquid-glass theme-text-faint`}>Popular now</span>
           </div>
 
           <div className={styles.courseList}>
@@ -105,7 +129,12 @@ export default function HomePage() {
                 transition={{ delay: 0.6 + index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className={styles.courseIcon}>{c.icon}</div>
+                <div className={styles.courseIcon}>
+                  {(() => {
+                    const Icon = CourseIcons[c.icon];
+                    return Icon ? <Icon size={20} color={c.color} strokeWidth={2.5} /> : null;
+                  })()}
+                </div>
                 <div className={styles.courseInfo}>
                   <p className={styles.courseTitle}>{c.title}</p>
                   <div className={styles.progressTrack}>
@@ -120,23 +149,23 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Certifications */}
+          {/* Benefits */}
           <div className={styles.certSection}>
             <div className={styles.cardHeader}>
-              <Award size={16} className={styles.cardHeaderIcon} />
-              <span className={styles.cardHeaderTitle}>Certifications</span>
+              <Zap size={16} className={styles.cardHeaderIcon} />
+              <span className={styles.cardHeaderTitle}>Benefits</span>
             </div>
             <div className={styles.certGrid}>
-              {['Data Science Pro', 'Python Expert', 'AI Fundamentals'].map((cert, index) => (
+              {benefitsData.map((benefit, index) => (
                 <motion.div 
-                  key={cert} 
+                  key={benefit.title} 
                   className={`liquid-glass ${styles.certBadge} hover-scale`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.9 + index * 0.1 }}
                 >
-                  <Award size={20} className={styles.certIcon} />
-                  <span className={`${styles.certLabel} theme-text-muted`}>{cert}</span>
+                  <benefit.icon size={20} className={styles.certIcon} color={benefit.color} />
+                  <span className={`${styles.certLabel} theme-text-muted`}>{benefit.title}</span>
                 </motion.div>
               ))}
             </div>
@@ -158,11 +187,11 @@ export default function HomePage() {
               <div className={styles.previewGradient} />
             </div>
             <div className={styles.previewInfo}>
-              <p className={styles.previewTitle}>Advanced Data Structures</p>
+              <p className={styles.previewTitle}>Data Science</p>
               <p className={`${styles.previewMeta} theme-text-faint`}>Lecture 12 · Trees &amp; Graphs</p>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

@@ -1,107 +1,26 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, BookOpen, Clock, BarChart2, ChevronDown, ChevronUp } from 'lucide-react';
+import { 
+  Search, BookOpen, Clock, ChevronDown, ChevronUp,
+  Database, Cloud, Globe, ShieldCheck, BarChart3, Workflow, Sparkles, Zap
+} from 'lucide-react';
 import styles from './courses.module.css';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
-const courses = [
-  {
-    id: 1,
-    title: 'Advanced Data Structures & Algorithms',
-    duration: '12 weeks',
-    level: 'Advanced',
-    category: 'Computer Science',
-    icon: '/assets/icons/dsa.png',
-    color: '#6366f1', // Indigo
-    syllabus: [
-      { week: 'W1-2', topic: 'Algorithm Analysis & Big O' },
-      { week: 'W3-5', topic: 'Trees, Graphs, & Heaps' },
-      { week: 'W6-8', topic: 'Dynamic Programming' },
-      { week: 'W9-12', topic: 'NP-Completeness & Capstone' },
-    ]
-  },
-  {
-    id: 2,
-    title: 'Machine Learning Fundamentals',
-    duration: '10 weeks',
-    level: 'Intermediate',
-    category: 'Artificial Intelligence',
-    icon: '/assets/icons/ml.png',
-    color: '#10b981', // Emerald
-    syllabus: [
-      { week: 'W1-3', topic: 'Supervised vs Unsupervised' },
-      { week: 'W4-6', topic: 'Neural Networks & Backprop' },
-      { week: 'W7-8', topic: 'CNNs & Computer Vision' },
-      { week: 'W9-10', topic: 'Deployment & MLOps' },
-    ]
-  },
-  {
-    id: 3,
-    title: 'Full-Stack Web Development',
-    duration: '16 weeks',
-    level: 'Intermediate',
-    category: 'Web Development',
-    icon: '/assets/icons/webdev.png',
-    color: '#f59e0b', // Amber
-    syllabus: [
-      { week: 'W1-4', topic: 'Modern UI/UX & React' },
-      { week: 'W5-8', topic: 'Node.js & Express APIs' },
-      { week: 'W9-12', topic: 'SQL/NoSQL Databases' },
-      { week: 'W13-16', topic: 'Cloud Architectures & Vercel' },
-    ]
-  },
-  {
-    id: 4,
-    title: 'Quantum Computing Basics',
-    duration: '8 weeks',
-    level: 'Advanced',
-    category: 'Physics & CS',
-    icon: '/assets/icons/quantum.png',
-    color: '#8b5cf6', // Violet
-    syllabus: [
-      { week: 'W1-2', topic: 'Qubits & Superposition' },
-      { week: 'W3-4', topic: 'Quantum Gates & Circuits' },
-      { week: 'W5-6', topic: 'Shor & Grover Algorithms' },
-      { week: 'W7-8', topic: 'Qiskit & Real Hardware' },
-    ]
-  },
-  {
-    id: 5,
-    title: 'Cybersecurity & Ethical Hacking',
-    duration: '14 weeks',
-    level: 'Advanced',
-    category: 'Security',
-    icon: '/assets/icons/security.png',
-    color: '#ef4444', // Red
-    syllabus: [
-      { week: 'W1-3', topic: 'Cryptography & Hashes' },
-      { week: 'W4-7', topic: 'Network Penetration' },
-      { week: 'W8-10', topic: 'Web App Vulnerabilities' },
-      { week: 'W11-14', topic: 'Forensics & Incident Response' },
-    ]
-  },
-  {
-    id: 6,
-    title: 'Product Design & UX Research',
-    duration: '6 weeks',
-    level: 'Beginner',
-    category: 'Design',
-    icon: '/assets/icons/design.png',
-    color: '#ec4899', // Pink
-    syllabus: [
-      { week: 'W1-2', topic: 'Empathy & User Journeys' },
-      { week: 'W3-4', topic: 'Wireframing & Prototyping' },
-      { week: 'W5-6', topic: 'User Testing & Analytics' },
-    ]
-  },
-];
+import { courses } from '@/data/courses';
 
-const levelColor: Record<string, string> = {
-  Beginner: 'rgba(255,255,255,0.55)',
-  Intermediate: 'rgba(255,255,255,0.70)',
-  Advanced: 'rgba(255,255,255,0.90)',
+const CourseIcons: Record<string, any> = {
+  Database,
+  Cloud,
+  Globe,
+  ShieldCheck,
+  BarChart3,
+  Workflow,
+  Sparkles,
+  Zap
 };
 
 export default function CoursesPage() {
@@ -148,20 +67,25 @@ export default function CoursesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ y: -8 }}
+            whileHover={{ 
+              y: -8,
+              backgroundColor: `${course.color}1A`,
+              borderColor: `${course.color}33`
+            }}
           >
             <div className={styles.cardThumb}>
               <div className={styles.iconContainer}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <div 
-                  className={styles.cardImage}
-                  style={{ 
-                    backgroundColor: course.color,
-                    maskImage: `url(${course.icon})`,
-                    WebkitMaskImage: `url(${course.icon})`
-                  }}
-                  aria-label={course.title}
-                />
+                {(() => {
+                  const Icon = CourseIcons[course.icon];
+                  return Icon ? (
+                    <Icon 
+                      size={24} 
+                      color={course.color} 
+                      strokeWidth={2.5}
+                      className={styles.cardIcon}
+                    />
+                  ) : null;
+                })()}
               </div>
             </div>
 
@@ -174,21 +98,14 @@ export default function CoursesPage() {
                   <Clock size={11} />
                   {course.duration}
                 </span>
-                <span
-                  className={styles.pill}
-                  style={{ color: levelColor[course.level] }}
-                >
-                  <BarChart2 size={11} />
-                  {course.level}
-                </span>
               </div>
               
               <button 
                 className={styles.viewSyllabusBtn}
                 onClick={() => toggleSyllabus(course.id)}
+                aria-label="Toggle Syllabus"
               >
-                {expandedCourse === course.id ? 'Hide Syllabus' : 'View Syllabus'}
-                {expandedCourse === course.id ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                &nbsp;
               </button>
               
               <motion.div 
@@ -211,10 +128,13 @@ export default function CoursesPage() {
             </div>
 
             <div className={styles.cardAction}>
-              <button className={`liquid-glass-strong ${styles.enrollBtn}`}>
-                Enroll Now
-                <BookOpen size={14} />
-              </button>
+
+              <Link href={`/courses/${course.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+                <button className={`liquid-glass-strong ${styles.enrollBtn}`} style={{ width: '100%', cursor: 'pointer' }}>
+                  Know More
+                  <BookOpen size={14} />
+                </button>
+              </Link>
             </div>
           </motion.article>
         ))}

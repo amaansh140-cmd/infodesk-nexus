@@ -18,6 +18,7 @@
 html, body {
   min-height: 100vh;
   width: 100%;
+  font-size: 14px;
 }
 
 body {
@@ -60,12 +61,14 @@ img {
    ============================================ */
 .liquid-glass {
   position: relative;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.75);
   background-blend-mode: normal;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.8);
   overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
 }
 
 .liquid-glass::before {
@@ -100,12 +103,14 @@ img {
    ============================================ */
 .liquid-glass-strong {
   position: relative;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.9);
   background-blend-mode: normal;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.8);
   overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
 }
 
 .liquid-glass-strong::before {
@@ -167,4 +172,14 @@ img {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
 }

@@ -1,8 +1,8 @@
 .hero {
   display: flex;
   flex-direction: row;
-  min-height: calc(100vh - 80px);
-  padding: 2rem 1.5rem 2rem 1.5rem;
+  min-height: auto;
+  padding: 2rem 1.5rem;
   gap: 2rem;
   align-items: center;
 }
@@ -130,7 +130,7 @@
 
 @media (max-width: 768px) {
   .rightPanel {
-    width: 100%;
+    display: none;
   }
 }
 
@@ -142,12 +142,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  animation: float 5s ease-in-out infinite alternate;
-}
-
-@keyframes float {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-15px); }
+  transform: translateZ(0);
 }
 
 .cardHeader {

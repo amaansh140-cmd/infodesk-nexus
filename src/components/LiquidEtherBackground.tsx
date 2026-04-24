@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import LiquidEther from './LiquidEther';
 
 export default function LiquidEtherBackground() {
-  const colors = useMemo(() => ['#e0e7ff', '#fbcfe8', '#fef4c5'], []);
+  const colors = useMemo(() => ['#001f3f', '#1e3a8a', '#ffffff'], []);
 
   return (
     <div style={{
@@ -16,13 +16,12 @@ export default function LiquidEtherBackground() {
     }}>
       <LiquidEther
         colors={colors}
-        mouseForce={20}
-        cursorSize={100}
-        isViscous
-        viscous={30}
-        iterationsViscous={20}
-        iterationsPoisson={20}
-        resolution={0.4}
+        mouseForce={15}
+        cursorSize={80}
+        isViscous={false}
+        iterationsPoisson={8}
+        resolution={0.6}
+        BFECC={false}
         isBounce={false}
         autoDemo
         autoSpeed={0.5}

@@ -95,12 +95,9 @@
 
 .card:hover {
   transform: translateY(-8px);
-  background: rgba(17, 24, 39, 0.12);
-  backdrop-filter: blur(60px) saturate(1.8);
-  -webkit-backdrop-filter: blur(60px) saturate(1.8);
   box-shadow: 
-    0 20px 40px rgba(0,0,0,0.4),
-    inset 0 0 0 1px rgba(17, 24, 39,0.2);
+    0 20px 40px rgba(0,0,0,0.15),
+    inset 0 0 0 1px rgba(17, 24, 39,0.05);
 }
 
 /* Sections */
@@ -216,6 +213,24 @@
 
 .cardContent {
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* ─── Touch/Mobile Optimization ─── */
+@media (max-width: 1024px) {
+  .cardAction {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .cardContent {
+    transform: translateY(-10px);
+  }
+  .card:hover .iconContainer {
+    transform: none; /* Disable icon rotate on touch */
+  }
+  .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 .enrollBtn {
