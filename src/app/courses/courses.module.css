@@ -191,62 +191,71 @@
   color: rgba(17, 24, 39,0.45);
 }
 
+.priceTag {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  padding: 0.4rem 0.875rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #111827;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(17, 24, 39, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
 .cardAction {
   width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 1.25rem;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  padding: 1.25rem 1.5rem;
+  background: rgba(255, 255, 255, 0.4);
+  border-top: 1px solid rgba(17, 24, 39, 0.03);
+  margin-top: auto;
 }
 
-.card:hover .cardAction {
-  opacity: 1;
-  transform: translateY(0);
+.actionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.card:hover .cardContent {
-  transform: translateY(-10px);
+.learnMoreLink {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(17, 24, 39, 0.5);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-.cardContent {
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+.learnMoreLink:hover {
+  color: #111827;
 }
 
-/* ─── Touch/Mobile Optimization ─── */
-@media (max-width: 1024px) {
-  .cardAction {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .cardContent {
-    transform: translateY(-10px);
-  }
-  .card:hover .iconContainer {
-    transform: none; /* Disable icon rotate on touch */
-  }
-  .card:hover {
-    transform: none;
-    box-shadow: none;
-  }
+.cartButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #111827 !important;
+  color: white !important;
+  border: none;
+}
+
+.alreadyInCart {
+  background: rgba(17, 24, 39, 0.1) !important;
+  color: rgba(17, 24, 39, 0.4) !important;
+  cursor: default;
 }
 
 .enrollBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  border-radius: 9999px;
-  padding: 0.75rem 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: rgba(17, 24, 39,1);
-  background: rgba(17, 24, 39,0.05);
-  border: none;
-  width: 100%;
-  cursor: pointer;
+  display: none; /* Replaced by actionRow */
 }
 
 @media (max-width: 1100px) {

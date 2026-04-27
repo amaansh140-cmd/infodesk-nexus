@@ -1,12 +1,80 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { auth } from '@/lib/firebase';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  updateProfile,
+  signInWithPopup,
+  GoogleAuthProvider
+} from 'firebase/auth';
 import styles from './auth.module.css';
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push('/dashboard');
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      if (isSignIn) {
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: fullName });
+      }
+      router.push('/dashboard');
+    } catch (err: any) {
+      // Map Firebase errors to user-friendly messages
+      let msg = err.message;
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+        msg = 'Invalid email or password.';
+      } else if (err.code === 'auth/email-already-in-use') {
+        msg = 'An account with this email already exists.';
+      } else if (err.code === 'auth/weak-password') {
+        msg = 'Password should be at least 6 characters.';
+      }
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      setError('');
+      setLoading(true);
+      await signInWithPopup(auth, provider);
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Google sign-in failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Animation variants for form switcher
   const variants = {
@@ -56,17 +124,37 @@ export default function AuthPage() {
           />
           <button
             className={`${styles.toggleBtn} ${isSignIn ? styles.toggleBtnActive : ''}`}
-            onClick={() => setIsSignIn(true)}
+            onClick={() => {
+              setIsSignIn(true);
+              setError('');
+            }}
           >
             Sign In
           </button>
           <button
             className={`${styles.toggleBtn} ${!isSignIn ? styles.toggleBtnActive : ''}`}
-            onClick={() => setIsSignIn(false)}
+            onClick={() => {
+              setIsSignIn(false);
+              setError('');
+            }}
           >
             Sign Up
           </button>
         </div>
+
+        {/* Error Display */}
+        <AnimatePresence>
+          {error && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className={styles.errorBanner}
+            >
+              {error}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* The Form Area */}
         <div className={styles.formWrapper}>
@@ -81,21 +169,35 @@ export default function AuthPage() {
                 exit="exit"
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 className={styles.form}
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleAuth}
               >
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>Email Address</label>
-                  <input type="email" placeholder="student@example.com" className={styles.input} required />
+                  <input 
+                    type="email" 
+                    placeholder="student@example.com" 
+                    className={styles.input} 
+                    required 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>Password</label>
-                  <input type="password" placeholder="••••••••" className={styles.input} required />
+                  <input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    className={styles.input} 
+                    required 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </div>
                 <Link href="#" className={styles.forgotPassword}>
                   Forgot Password?
                 </Link>
-                <button type="submit" className={styles.submitBtn}>
-                  Sign In
+                <button type="submit" className={styles.submitBtn} disabled={loading}>
+                  {loading ? 'Processing...' : 'Sign In'}
                 </button>
               </motion.form>
             ) : (
@@ -108,22 +210,43 @@ export default function AuthPage() {
                 exit="exit"
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 className={styles.form}
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleAuth}
               >
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>Full Name</label>
-                  <input type="text" placeholder="John Doe" className={styles.input} required />
+                  <input 
+                    type="text" 
+                    placeholder="John Doe" 
+                    className={styles.input} 
+                    required 
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
                 </div>
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>Email Address</label>
-                  <input type="email" placeholder="student@example.com" className={styles.input} required />
+                  <input 
+                    type="email" 
+                    placeholder="student@example.com" 
+                    className={styles.input} 
+                    required 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>Password</label>
-                  <input type="password" placeholder="Create a strong password" className={styles.input} required />
+                  <input 
+                    type="password" 
+                    placeholder="Create a strong password" 
+                    className={styles.input} 
+                    required 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </div>
-                <button type="submit" className={styles.submitBtn}>
-                  Create Account
+                <button type="submit" className={styles.submitBtn} disabled={loading}>
+                  {loading ? 'Creating Account...' : 'Create Account'}
                 </button>
               </motion.form>
             )}
@@ -136,7 +259,7 @@ export default function AuthPage() {
             <span className={styles.dividerText}>Or continue with</span>
             <div className={styles.dividerLine} />
           </div>
-          <button className={styles.socialBtn}>
+          <button className={styles.socialBtn} onClick={handleGoogleSignIn} disabled={loading}>
             <svg className={styles.googleIcon} viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />

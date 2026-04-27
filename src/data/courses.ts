@@ -16,6 +16,7 @@ export interface Course {
   description: string;
   whatYouLearn: string[];
   syllabus: SyllabusItem[];
+  price: number;
 }
 
 export const SHARED_BENEFITS: string[] = [
@@ -159,6 +160,7 @@ export const courses: Course[] = [
         project: 'Set up an Informatica environment and document a data pipeline',
       },
     ],
+    price: 14999,
   },
   {
     id: 2,
@@ -238,6 +240,7 @@ export const courses: Course[] = [
         project: 'Deploy a secure, auto-scaling web application on GCP',
       },
     ],
+    price: 12999,
   },
   {
     id: 3,
@@ -377,6 +380,7 @@ export const courses: Course[] = [
         project: 'Execute an integrated multi-channel marketing campaign',
       },
     ],
+    price: 9999,
   },
   {
     id: 4,
@@ -516,6 +520,7 @@ export const courses: Course[] = [
         project: 'Recover encrypted files from a corrupted disk image',
       },
     ],
+    price: 12499,
   },
   {
     id: 5,
@@ -655,6 +660,7 @@ export const courses: Course[] = [
         project: 'Set up a full CI/CD deployment pipeline for a Power BI app',
       },
     ],
+    price: 8999,
   },
   {
     id: 6,
@@ -746,6 +752,7 @@ export const courses: Course[] = [
         project: 'Deploy a fully interactive Alteryx App to a server for business users',
       },
     ],
+    price: 8999,
   },
   {
     id: 7,
@@ -813,6 +820,7 @@ export const courses: Course[] = [
         project: 'Build and deploy a production-ready AI assistant',
       },
     ],
+    price: 4999,
   },
   {
     id: 8,
@@ -880,5 +888,6 @@ export const courses: Course[] = [
         project: 'Build a lead capture system: form → CRM → Slack notification → email sequence',
       },
     ],
+    price: 17999,
   },
 ];

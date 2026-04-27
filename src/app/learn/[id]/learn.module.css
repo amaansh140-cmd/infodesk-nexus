@@ -1,0 +1,310 @@
+.page {
+  display: flex;
+  height: calc(100vh - 80px);
+  background: #fff;
+  overflow: hidden;
+}
+
+/* ─── Main Content (Video Area) ─── */
+.videoArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  position: relative;
+  overflow-y: auto;
+}
+
+.playerWrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.playerPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #111 0%, #222 100%);
+  color: white;
+  text-align: center;
+  gap: 1rem;
+}
+
+.playIcon {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.playIcon:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.videoDetails {
+  padding: 2rem;
+  background: #fff;
+  flex: 1;
+}
+
+.videoTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 0.5rem;
+}
+
+.videoMeta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* ─── Sidebars (Syllabus & AI) ─── */
+.sidebars {
+  width: 400px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  background: #fdfdfd;
+}
+
+.sidebarTabs {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.tab {
+  flex: 1;
+  padding: 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #666;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background: transparent;
+  border: none;
+}
+
+.tabActive {
+  color: #111;
+}
+
+.tabIndicator {
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: #111;
+  border-radius: 2px;
+}
+
+.tabContent {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Syllabus Styles */
+.syllabusList {
+  display: flex;
+  flex-direction: column;
+}
+
+.module {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.moduleHeader {
+  padding: 1.25rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: #fff;
+  transition: background 0.2s ease;
+}
+
+.moduleHeader:hover {
+  background: #f9f9f9;
+}
+
+.moduleInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.moduleLabel {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  color: #999;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.moduleTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.lessonList {
+  background: #fcfcfc;
+  padding: 0.5rem 0;
+}
+
+.lessonItem {
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  color: #555;
+  transition: all 0.2s ease;
+}
+
+.lessonItem:hover {
+  background: rgba(0, 0, 0, 0.03);
+  color: #111;
+}
+
+.lessonItemActive {
+  background: rgba(0, 0, 0, 0.05);
+  color: #111;
+  font-weight: 600;
+}
+
+/* AI Mentor Styles */
+.aiMentor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+}
+
+.chatHistory {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 85%;
+}
+
+.userMsg {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.botMsg {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.msgBubble {
+  padding: 0.75rem 1rem;
+  border-radius: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.userBubble {
+  background: #111;
+  color: #fff;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.botBubble {
+  background: #f3f4f6;
+  color: #111;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.chatInputArea {
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.inputWrapper {
+  display: flex;
+  gap: 0.5rem;
+  background: #f3f4f6;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  align-items: center;
+}
+
+.chatInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: #111;
+  outline: none;
+}
+
+.sendBtn {
+  width: 32px;
+  height: 32px;
+  background: #111;
+  color: #fff;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+.sendBtn:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .page {
+    flex-direction: column;
+    height: auto;
+  }
+  .sidebars {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}

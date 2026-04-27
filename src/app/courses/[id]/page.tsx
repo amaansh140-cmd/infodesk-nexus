@@ -1,19 +1,44 @@
 'use client';
 
-import React, { use, useState } from 'react';
+import React, { use, useState, useEffect } from 'react';
 import { notFound, useRouter } from 'next/navigation';
-import { ArrowLeft, Clock, BookOpen, Code, Layers, ChevronDown, ChevronUp, CheckCircle2, Zap, Gift } from 'lucide-react';
+import { ArrowLeft, Clock, BookOpen, Code, Layers, ChevronDown, ChevronUp, CheckCircle2, Zap, Gift, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { courses, SHARED_BENEFITS } from '@/data/courses';
+import { auth, db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 import styles from './course-details.module.css';
+import { useCart } from '@/context/CartContext';
+import { ShoppingBag } from 'lucide-react';
 
 export default function CourseDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const resolvedParams = use(params);
   const courseId = parseInt(resolvedParams.id, 10);
   const course = courses.find((c) => c.id === courseId);
+  
   const [openWeek, setOpenWeek] = useState<number | null>(0);
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const { addToCart, cart } = useCart();
+
+  const isInCart = cart.some(c => c.id === courseId);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        const docRef = doc(db, 'users', currentUser.uid, 'enrolledCourses', courseId.toString());
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setIsEnrolled(true);
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, [courseId]);
 
   if (!course) return notFound();
 
@@ -52,8 +77,6 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
 
         {/* Left Column */}
         <div className={styles.mainCol}>
-
-
           {/* What You'll Learn */}
           <motion.div
             className={`liquid-glass ${styles.card}`}
@@ -133,7 +156,6 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
               ))}
             </div>
           </motion.div>
-
         </div>
 
         {/* Side Column */}
@@ -144,14 +166,40 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <div className={`liquid-glass-strong ${styles.card}`}>
-            <h2 className={styles.sectionTitle}>Ready to start?</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <button
-                className={`${styles.actionBtn} ${styles.enrollBtn}`}
-                style={{ boxShadow: `0 4px 14px ${course.color}30`, background: course.color }}
-              >
-                <BookOpen size={18} /> Enroll Now
-              </button>
+            {!isEnrolled && (
+              <div className={styles.pricingBlock}>
+                <h3 className={styles.priceTag}>₹{course.price.toLocaleString('en-IN')}</h3>
+                <p className={`${styles.priceSub} theme-text-faint`}>6-month intensive access</p>
+              </div>
+            )}
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+              {isEnrolled ? (
+                <Link href={`/learn/${id}`} className={`${styles.actionBtn} ${styles.enrolledBtn}`}>
+                  <Check size={18} /> Resume Learning
+                </Link>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      if (!isInCart) addToCart(course);
+                      router.push('/checkout');
+                    }}
+                    className={`${styles.actionBtn}`}
+                    style={{ background: '#111827', color: 'white' }}
+                  >
+                    Buy Now
+                  </button>
+                  <button
+                    onClick={() => addToCart(course)}
+                    disabled={isInCart}
+                    className={`${styles.actionBtn} ${styles.cartAddBtn}`}
+                  >
+                    <ShoppingBag size={18} />
+                    {isInCart ? 'In Bag' : 'Add to Bag'}
+                  </button>
+                </>
+              )}
               <Link href="/playground" style={{ textDecoration: 'none' }}>
                 <button className={`${styles.actionBtn} ${styles.ideBtn}`}>
                   <Code size={18} /> Launch IDE
