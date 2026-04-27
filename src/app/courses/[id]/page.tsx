@@ -175,7 +175,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
               {isEnrolled ? (
-                <Link href={`/learn/${id}`} className={`${styles.actionBtn} ${styles.enrolledBtn}`}>
+                <Link href={`/learn/${resolvedParams.id}`} className={`${styles.actionBtn} ${styles.enrolledBtn}`}>
                   <Check size={18} /> Resume Learning
                 </Link>
               ) : (
