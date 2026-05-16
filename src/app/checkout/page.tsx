@@ -50,7 +50,8 @@ export default function CheckoutPage() {
           color: course.color,
           enrolledAt: serverTimestamp(),
           progress: 0,
-          lastAccessed: serverTimestamp()
+          lastAccessed: serverTimestamp(),
+          source: 'online'
         });
       }
       setSuccess(true);

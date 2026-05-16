@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { 
-  BookOpen, ClipboardList, Award, Settings, 
-  LogOut, QrCode
+  LayoutDashboard, Users, BookOpen, Settings, 
+  LogOut, CalendarCheck
 } from 'lucide-react';
-import styles from './dashboard.module.css';
+import styles from './admin.module.css';
 import { motion } from 'framer-motion';
 import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
@@ -14,14 +14,14 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 
 const sidebarLinks = [
-  { icon: BookOpen, label: 'My Courses', href: '/dashboard' },
-  { icon: QrCode, label: 'Mark Attendance', href: '/dashboard/attendance' },
-  { icon: ClipboardList, label: 'Assignments', href: '/dashboard/assignments' },
-  { icon: Award, label: 'Certificates', href: '/dashboard/certificates' },
-  { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+  { icon: LayoutDashboard, label: 'Overview', href: '/admin' },
+  { icon: Users, label: 'Students', href: '/admin/students' },
+  { icon: BookOpen, label: 'Manage Courses', href: '/admin/courses' },
+  { icon: CalendarCheck, label: 'Attendance', href: '/admin/attendance' },
+  { icon: Settings, label: 'Settings', href: '/admin/settings' },
 ];
 
-export default function DashboardLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -39,18 +39,14 @@ export default function DashboardLayout({
       } else {
         try {
           const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-          console.log("DEBUG - Current User UID:", currentUser.uid);
-          console.log("DEBUG - Document Exists:", userDoc.exists());
-          if (userDoc.exists()) {
-            console.log("DEBUG - Document Data:", userDoc.data());
-          }
-          
-          if (userDoc.exists() && userDoc.data().role === 'admin') {
-            router.push('/admin');
-            return; // keep loading true to avoid flash
+          if (!userDoc.exists() || userDoc.data().role !== 'admin') {
+            router.push('/dashboard');
+            return;
           }
         } catch (err) {
-          console.error("DEBUG - Error fetching user role in dashboard:", err);
+          console.error("Error fetching admin role:", err);
+          router.push('/dashboard');
+          return;
         }
         setLoading(false);
       }
@@ -90,11 +86,11 @@ export default function DashboardLayout({
       >
         <div className={styles.sidebarHeader}>
           <div className={styles.avatar}>
-            {user?.displayName?.[0] || 'U'}
+            {user?.displayName?.[0] || 'A'}
           </div>
           <div style={{ minWidth: 0 }}>
-            <p className={styles.avatarName}>{user?.displayName || 'Student'}</p>
-            <p className={`${styles.avatarRole} theme-text-faint`}>Academic Account</p>
+            <p className={styles.avatarName}>{user?.displayName || 'Admin'}</p>
+            <p className={`${styles.avatarRole} theme-text-faint`}>Portal Administrator</p>
           </div>
         </div>
 
@@ -102,17 +98,20 @@ export default function DashboardLayout({
           {sidebarLinks.map(({ icon: Icon, label, href }, i) => {
             const isActive = pathname === href;
             return (
-              <Link key={label} href={href} legacyBehavior>
-                <motion.a
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 + i * 0.1 }}
+              >
+                <Link 
+                  href={href} 
                   className={`${styles.sidebarLink} hover-scale ${isActive ? styles.sidebarLinkActive : ''}`}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 + i * 0.1 }}
                 >
                   <Icon size={16} />
                   <span>{label}</span>
-                </motion.a>
-              </Link>
+                </Link>
+              </motion.div>
             );
           })}
           

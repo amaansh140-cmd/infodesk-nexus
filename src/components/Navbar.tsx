@@ -14,10 +14,10 @@ import { useCart } from '@/context/CartContext';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
   { href: '/courses', label: 'Courses' },
   { href: '/playground', label: 'Playground' },
   { href: '/forge', label: 'The Forge' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
