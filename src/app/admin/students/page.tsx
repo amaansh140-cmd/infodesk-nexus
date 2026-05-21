@@ -18,6 +18,7 @@ interface UserData {
   phone?: string;
   courses?: any[];
   photoURL?: string;
+  source?: 'online' | 'manual';
 }
 
 export default function AdminStudentsPage() {
@@ -171,7 +172,7 @@ export default function AdminStudentsPage() {
           let courseId = '';
           let courseTitle = '';
           
-          const targetCourse = predefinedCourses.find(c => c.id.toString() === courseIdentifier || c.title.toLowerCase() === courseIdentifier.toLowerCase());
+          const targetCourse = courses.find(c => c.id.toString() === courseIdentifier || c.title.toLowerCase() === courseIdentifier.toLowerCase());
           
           if (targetCourse) {
             courseId = targetCourse.id.toString();

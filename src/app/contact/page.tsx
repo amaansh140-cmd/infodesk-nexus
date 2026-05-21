@@ -62,7 +62,7 @@ const courseOptions = [
   'Graphics Design', 'C / C++', 'Other',
 ];
 
-const cardVariants = {
+const cardVariants: any = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
     opacity: 1, y: 0,

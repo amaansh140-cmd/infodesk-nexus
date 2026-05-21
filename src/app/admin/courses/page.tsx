@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { courses as initialCourses } from '@/data/courses';
+import { courses as initialCourses, Course } from '@/data/courses';
 import { Database, Cloud, Globe, ShieldCheck, BarChart3, Workflow, Sparkles, Code, Trash2, Plus } from 'lucide-react';
 import styles from './courses.module.css';
 
@@ -38,7 +38,7 @@ export default function AdminCoursesPage() {
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const courseToAdd = {
+    const courseToAdd: Course = {
       id: Date.now(), // Generate a mock ID
       title: newCourse.title,
       description: newCourse.description,
@@ -47,7 +47,9 @@ export default function AdminCoursesPage() {
       price: Number(newCourse.price),
       icon: 'Code', // Default icon
       color: '#6366f1', // Default color
-      chapters: []
+      category: 'Development',
+      whatYouLearn: [],
+      syllabus: []
     };
 
     setCourses([courseToAdd, ...courses]);
