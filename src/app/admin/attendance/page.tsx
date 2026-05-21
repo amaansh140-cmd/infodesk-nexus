@@ -59,8 +59,10 @@ export default function AdminAttendancePage() {
           const enrolledSnap = await getDocs(collection(db, 'users', userDoc.id, 'enrolledCourses'));
           const enrolledCourses = enrolledSnap.docs.map(d => ({ id: d.id, ...d.data() }));
           
-          enrolledCourses.forEach(c => {
-            dynamicCourses.set(c.courseId.toString(), c.title);
+          enrolledCourses.forEach((c: any) => {
+            if (c.courseId) {
+              dynamicCourses.set(c.courseId.toString(), c.title || 'Unknown');
+            }
           });
 
           studentsList.push({
