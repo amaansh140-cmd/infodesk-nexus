@@ -468,6 +468,7 @@ const LiquidEther = memo(({
         this.init();
       }
       getFloatType() {
+        if (typeof navigator === 'undefined' || !navigator.userAgent) return THREE.FloatType;
         return /iPad|iPhone|iPod/i.test(navigator.userAgent) ? THREE.HalfFloatType : THREE.FloatType;
       }
       createAllFBO() {
@@ -552,29 +553,33 @@ const LiquidEther = memo(({
       }
     }
 
-    const container = mountRef.current!;
-    const webgl = new WebGLManager({ $wrapper: container, autoDemo, autoSpeed, autoIntensity, takeoverDuration, autoResumeDelay, autoRampDuration });
-    webglRef.current = webgl;
+    try {
+      const container = mountRef.current!;
+      const webgl = new WebGLManager({ $wrapper: container, autoDemo, autoSpeed, autoIntensity, takeoverDuration, autoResumeDelay, autoRampDuration });
+      webglRef.current = webgl;
 
-    const sim = webgl.output!.simulation;
-    Object.assign(sim.options, { mouse_force: mouseForce, cursor_size: cursorSize, isViscous, viscous, iterations_viscous: iterationsViscous, iterations_poisson: iterationsPoisson, dt, BFECC, resolution, isBounce });
-    sim.resize();
-    webgl.start();
+      const sim = webgl.output!.simulation;
+      Object.assign(sim.options, { mouse_force: mouseForce, cursor_size: cursorSize, isViscous, viscous, iterations_viscous: iterationsViscous, iterations_poisson: iterationsPoisson, dt, BFECC, resolution, isBounce });
+      sim.resize();
+      webgl.start();
 
-    const io = new IntersectionObserver(entries => {
-      const visible = entries[0].isIntersecting && entries[0].intersectionRatio > 0;
-      isVisibleRef.current = visible;
-      if (!webglRef.current) return;
-      if (visible && !document.hidden) webglRef.current.start(); else webglRef.current.pause();
-    }, { threshold: [0, 0.01, 0.1] });
-    io.observe(container); intersectionObserverRef.current = io;
+      const io = new IntersectionObserver(entries => {
+        const visible = entries[0].isIntersecting && entries[0].intersectionRatio > 0;
+        isVisibleRef.current = visible;
+        if (!webglRef.current) return;
+        if (visible && !document.hidden) webglRef.current.start(); else webglRef.current.pause();
+      }, { threshold: [0, 0.01, 0.1] });
+      io.observe(container); intersectionObserverRef.current = io;
 
-    const ro = new ResizeObserver(() => {
-      if (!webglRef.current) return;
-      if (resizeRafRef.current) cancelAnimationFrame(resizeRafRef.current);
-      resizeRafRef.current = requestAnimationFrame(() => { if (webglRef.current) webglRef.current.resize(); });
-    });
-    ro.observe(container); resizeObserverRef.current = ro;
+      const ro = new ResizeObserver(() => {
+        if (!webglRef.current) return;
+        if (resizeRafRef.current) cancelAnimationFrame(resizeRafRef.current);
+        resizeRafRef.current = requestAnimationFrame(() => { if (webglRef.current) webglRef.current.resize(); });
+      });
+      ro.observe(container); resizeObserverRef.current = ro;
+    } catch (error) {
+      console.error("Failed to initialize WebGL liquid background background:", error);
+    }
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
