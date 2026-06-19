@@ -1,0 +1,397 @@
+/*!*****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[15].oneOf[10].use[3]!./src/app/globals.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,wght@1,400;1,600&display=swap');
+
+/* ============================================
+   CSS RESET & ROOT
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --radius: 1rem;
+  --font-sans: 'Poppins', system-ui, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+}
+
+html, body {
+  min-height: 100vh;
+  width: 100%;
+  font-size: 14px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: rgba(17,24,39,1);
+  background: #f9fafb;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ============================================
+   BACKGROUND OVERLAY
+   ============================================ */
+.video-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================
+   LIQUID GLASS — LIGHT
+   ============================================ */
+.liquid-glass {
+  position: relative;
+  background: rgba(255, 255, 255, 0.75);
+  background-blend-mode: normal;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
+}
+
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1.4px;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.2) 80%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================
+   LIQUID GLASS — STRONG
+   ============================================ */
+.liquid-glass-strong {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  background-blend-mode: normal;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
+}
+
+.liquid-glass-strong::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1.4px;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.4) 20%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.4) 80%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================
+   TYPOGRAPHY HELPERS
+   ============================================ */
+.theme-text-primary   { color: rgba(17, 24, 39, 1); }
+.theme-text-secondary { color: rgba(17, 24, 39, 0.80); }
+.theme-text-muted     { color: rgba(17, 24, 39, 0.60); }
+.theme-text-faint     { color: rgba(17, 24, 39, 0.50); }
+
+.font-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* ============================================
+   INTERACTIVE
+   ============================================ */
+.hover-scale {
+  transition: opacity 0.2s ease;
+}
+.hover-scale:hover {
+  /* removed transform zoom based on user request */
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.app-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[15].oneOf[5].use[3]!./src/components/Navbar.module.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+.Navbar_header__vG7Lu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
+}
+
+@media (min-width: 1024px) {
+  .Navbar_header__vG7Lu {
+    /* Optional content constraint adjustments can go here */
+  }
+}
+
+.Navbar_nav__A66_N {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.Navbar_headerTransparent__993xZ {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+
+/* Logo */
+.Navbar_logo__UM0Ax {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+}
+
+.Navbar_logoImg__CyrkP {
+  border-radius: 0.375rem;
+  object-fit: contain;
+}
+
+.Navbar_logoText__ZgrAJ {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: rgba(17, 24, 39, 1);
+  white-space: nowrap;
+}
+
+/* Center Links */
+.Navbar_links__lFeE5 {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .Navbar_links__lFeE5 {
+    display: none;
+  }
+}
+
+.Navbar_link__9Nm3x {
+  font-size: 0.875rem;
+  color: rgba(17, 24, 39, 0.8);
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.Navbar_link__9Nm3x:hover,
+.Navbar_linkActive__zye8w {
+  color: rgba(17, 24, 39, 1);
+}
+
+.Navbar_navIndicator__xaZu1 {
+  position: absolute;
+  inset: -0.35rem -0.85rem;
+  background: rgba(17, 24, 39, 0.05);
+  border-radius: 9999px;
+  z-index: 0;
+}
+
+/* Right Actions */
+.Navbar_actions__1ikpw {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.Navbar_iconBtn__Q6If2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background: transparent;
+  border: none;
+  color: rgba(17, 24, 39, 0.8);
+  cursor: pointer;
+}
+
+.Navbar_iconBtn__Q6If2:hover {
+  color: rgba(17, 24, 39, 1);
+}
+
+.Navbar_mobileMenuBtn__0ocnn {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .Navbar_mobileMenuBtn__0ocnn {
+    display: flex;
+  }
+}
+
+/* Mobile Menu Overlay */
+.Navbar_mobileMenu__g3FB_ {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(17, 24, 39, 0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.Navbar_mobileLinks__S13mC {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+  gap: 1.25rem;
+}
+
+.Navbar_mobileLink__qh5Fz {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: rgba(17, 24, 39, 0.7);
+  transition: color 0.2s ease;
+  text-decoration: none;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(17, 24, 39, 0.05);
+}
+
+.Navbar_mobileLink__qh5Fz:last-child {
+  border-bottom: none;
+}
+
+.Navbar_mobileLink__qh5Fz:hover,
+.Navbar_mobileLinkActive__Q3_On {
+  color: rgba(17, 24, 39, 1);
+  font-weight: 600;
+}
+
+.Navbar_loginBtn__0l_JL {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.6rem 1.4rem; /* Slightly smaller than hero ctaBtn for navbar */
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(17, 24, 39,1);
+  letter-spacing: -0.01em;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+
+.Navbar_mobileLoginBtn__G2cXz {
+  margin-top: 1rem;
+  width: 100%;
+  text-align: center;
+  padding: 0.875rem;
+  font-size: 1rem;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[15].oneOf[10].use[3]!./src/components/LiquidEther.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+.liquid-ether-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+

@@ -1,0 +1,17 @@
+{
+  "/api/faculties/route": "app/api/faculties/route.js",
+  "/api/courses/route": "app/api/courses/route.js",
+  "/api/attendance/route": "app/api/attendance/route.js",
+  "/api/students/route": "app/api/students/route.js",
+  "/api/staff-attendance/route": "app/api/staff-attendance/route.js",
+  "/api/student-daily-attendance/route": "app/api/student-daily-attendance/route.js",
+  "/api/lecture-plans/route": "app/api/lecture-plans/route.js",
+  "/api/notices/route": "app/api/notices/route.js",
+  "/api/admins/route": "app/api/admins/route.js",
+  "/api/branches/route": "app/api/branches/route.js",
+  "/login/page": "app/login/page.js",
+  "/super-admin/page": "app/super-admin/page.js",
+  "/super-admin/reports/page": "app/super-admin/reports/page.js",
+  "/super-admin/settings/page": "app/super-admin/settings/page.js",
+  "/super-admin/team/page": "app/super-admin/team/page.js"
+}

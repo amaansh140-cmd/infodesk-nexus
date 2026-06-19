@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id                 String  @id @default(uuid())
+  code               String  @unique
+  title              String
+  category           String
+  duration           String
+  status             String  // "Active" | "Draft" | "Archived"
+  description        String? @db.Text
+  selectedByBranches Json?   // Storing string[] as JSON
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model FacultyUser {
+  id               String  @id @default(uuid())
+  name             String
+  email            String  @unique
+  username         String  @unique
+  password         String
+  phone            String
+  department       String
+  status           String  // "Active" | "Inactive"
+  assignedCourses  Json    // string[]
+  assignedBranches Json    // string[]
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Student {
+  id       String  @id @default(uuid())
+  rollNo   String  @unique
+  name     String
+  email    String  @unique
+  username String  @unique
+  password String
+  batch    String
+  branch   String
+  status   String  // "Active" | "Inactive"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StaffAttendanceRecord {
+  id             String  @id @default(uuid())
+  staffId        String
+  date           String
+  clockInTime    String?
+  clockOutTime   String?
+  clockInBranch  String?
+  clockOutBranch String?
+  status         String  // "present" | "absent" | "late" | "ongoing"
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model AttendanceRecord {
+  id        String  @id @default(uuid())
+  studentId String
+  courseId  String
+  date      String
+  status    String  // "present" | "absent" | "late"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StudentDailyAttendanceRecord {
+  id             String  @id @default(uuid())
+  studentId      String
+  date           String
+  clockInTime    String?
+  clockOutTime   String?
+  clockInBranch  String?
+  clockOutBranch String?
+  status         String  // "present" | "absent" | "late" | "ongoing"
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model LecturePlan {
+  id                 String  @id @default(uuid())
+  courseId           String
+  facultyId          String
+  topic              String
+  date               String
+  time               String
+  batch              String
+  learningObjectives String  @db.Text
+  status             String  // "Pending" | "Delivered" | "Rescheduled"
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Notice {
+  id             String  @id @default(uuid())
+  title          String
+  content        String  @db.Text
+  type           String
+  author         String
+  date           String
+  targetBranches Json    // string[]
+  targetRoles    Json    // string[]
+  pinned         Boolean @default(false)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model AdminUser {
+  id        String  @id @default(uuid())
+  name      String
+  email     String  @unique
+  username  String  @unique
+  password  String
+  role      String  // "superadmin" | "subadmin"
+  branch    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Branch {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  admin     String?
+  students  Int     @default(0)
+  status    String  // "Active" | "Inactive"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

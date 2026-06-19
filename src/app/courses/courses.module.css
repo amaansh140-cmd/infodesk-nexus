@@ -191,21 +191,6 @@
   color: rgba(17, 24, 39,0.45);
 }
 
-.priceTag {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  padding: 0.4rem 0.875rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.95);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: #111827;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(17, 24, 39, 0.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
 .cardAction {
   width: 100%;
   padding: 1.25rem 1.5rem;
@@ -233,31 +218,6 @@
   color: #111827;
 }
 
-.cartButton {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1rem;
-  border-radius: 0.875rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background: #111827 !important;
-  color: white !important;
-  border: none;
-}
-
-.alreadyInCart {
-  background: rgba(17, 24, 39, 0.1) !important;
-  color: rgba(17, 24, 39, 0.4) !important;
-  cursor: default;
-}
-
-.enrollBtn {
-  display: none; /* Replaced by actionRow */
-}
-
 @media (max-width: 1100px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -265,10 +225,16 @@
 }
 
 @media (max-width: 700px) {
+  .page {
+    padding: 2rem 1rem 2rem 1rem;
+  }
   .grid {
     grid-template-columns: 1fr;
     max-width: 400px;
     margin: 0 auto;
+  }
+  .card {
+    padding: 2rem 1rem 1.5rem 1rem;
   }
 }
 

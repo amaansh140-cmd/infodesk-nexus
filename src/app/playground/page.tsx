@@ -169,7 +169,7 @@ export default function PlaygroundPage() {
     setIsMentorTyping(true);
 
     try {
-      const systemPrompt = `You are Nexus AI Mentor, a highly advanced programming assistant running inside the Infodesk Nexus Multi-Language Playground IDE.
+      const systemPrompt = `You are Nexus AI Mentor, a highly advanced programming assistant running inside the Infodesk Computer Education Multi-Language Playground IDE.
 The user is currently writing code in ${LANGUAGE_CONFIG[selectedLang].label}.
 Here is their exact current Editor Code:
 \`\`\`${LANGUAGE_CONFIG[selectedLang].language}

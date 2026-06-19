@@ -375,6 +375,14 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+  .page {
+    padding: 5rem 1rem 2rem 1rem;
+  }
+
+  .hero {
+    padding: 1.5rem;
+  }
+
   .contentGrid {
     grid-template-columns: 1fr;
   }

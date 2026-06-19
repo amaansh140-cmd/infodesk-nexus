@@ -102,7 +102,7 @@ export default function ContactPage() {
       `*Email:* ${form.email}\n` +
       `*Course:* ${form.course}\n` +
       `*Branch:* ${modal.branch.name} (${modal.branch.number})\n\n` +
-      `_Submitted via Infodesk Nexus website_`;
+      `_Submitted via Infodesk Computer Education website_`;
     const whatsappUrl = `https://wa.me/${modal.branch.whatsapp}?text=${encodeURIComponent(message)}`;
 
     // Try to save to Firestore (non-blocking — won't stop WhatsApp redirect)

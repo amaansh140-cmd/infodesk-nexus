@@ -19,6 +19,7 @@ html, body {
   min-height: 100vh;
   width: 100%;
   font-size: 14px;
+  overflow-x: hidden;
 }
 
 body {
@@ -157,10 +158,10 @@ img {
    INTERACTIVE
    ============================================ */
 .hover-scale {
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 .hover-scale:hover {
-  transform: scale(1.05);
+  /* removed transform zoom based on user request */
 }
 
 /* ============================================

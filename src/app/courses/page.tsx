@@ -3,14 +3,12 @@
 import React, { useState } from 'react';
 import { 
   Search, BookOpen, Clock, ChevronDown, ChevronUp,
-  Database, Cloud, Globe, ShieldCheck, BarChart3, Workflow, Sparkles, Zap,
-  ShoppingBag
+  Database, Cloud, Globe, ShieldCheck, BarChart3, Workflow, Sparkles, Zap
 } from 'lucide-react';
 import styles from './courses.module.css';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCart } from '@/context/CartContext';
 
 import { courses } from '@/data/courses';
 
@@ -27,7 +25,6 @@ const CourseIcons: Record<string, any> = {
 
 export default function CoursesPage() {
   const [expandedCourse, setExpandedCourse] = useState<number | null>(null);
-  const { addToCart, cart } = useCart();
 
   const toggleSyllabus = (id: number) => {
     setExpandedCourse(expandedCourse === id ? null : id);
@@ -64,7 +61,6 @@ export default function CoursesPage() {
       {/* Course grid */}
       <div className={styles.grid}>
         {courses.map((course, index) => {
-          const isInCart = cart.some(c => c.id === course.id);
           
           return (
             <motion.article 
@@ -93,7 +89,6 @@ export default function CoursesPage() {
                     ) : null;
                   })()}
                 </div>
-                <div className={styles.priceTag}>₹{course.price.toLocaleString('en-IN')}</div>
               </div>
 
               <div className={styles.cardContent}>
@@ -139,14 +134,6 @@ export default function CoursesPage() {
                   <Link href={`/courses/${course.id}`} className={styles.learnMoreLink}>
                     View Details
                   </Link>
-                  <button 
-                    className={`liquid-glass ${styles.cartButton} ${isInCart ? styles.alreadyInCart : ''}`}
-                    onClick={() => addToCart(course)}
-                    disabled={isInCart}
-                  >
-                    <ShoppingBag size={14} />
-                    <span>{isInCart ? 'In Bag' : 'Add'}</span>
-                  </button>
                 </div>
               </div>
             </motion.article>

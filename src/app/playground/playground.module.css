@@ -393,35 +393,35 @@
 }
 
 /* Prism overrides */
-:global(.token.comment),
-:global(.token.prolog),
-:global(.token.doctype),
-:global(.token.cdata) {
+.terminalOutput :global(.token.comment),
+.terminalOutput :global(.token.prolog),
+.terminalOutput :global(.token.doctype),
+.terminalOutput :global(.token.cdata) {
   color: rgba(17, 24, 39, 0.4);
   font-style: italic;
 }
-:global(.token.punctuation) { color: rgba(17, 24, 39, 0.6); }
-:global(.token.namespace) { opacity: .7; }
-:global(.token.property),
-:global(.token.tag),
-:global(.token.boolean),
-:global(.token.number),
-:global(.token.constant),
-:global(.token.symbol),
-:global(.token.deleted) { color: #ec4899; }
-:global(.token.selector),
-:global(.token.attr-name),
-:global(.token.string),
-:global(.token.char),
-:global(.token.builtin),
-:global(.token.inserted) { color: #10b981; }
-:global(.token.operator),
-:global(.token.entity),
-:global(.token.url),
-:global(.language-css .token.string),
-:global(.style .token.string) { color: #8b5cf6; }
-:global(.token.atrule),
-:global(.token.attr-value),
-:global(.token.keyword) { color: #8b5cf6; font-weight: 500; }
-:global(.token.function),
-:global(.token.class-name) { color: #3b82f6; }
+.terminalOutput :global(.token.punctuation) { color: rgba(17, 24, 39, 0.6); }
+.terminalOutput :global(.token.namespace) { opacity: .7; }
+.terminalOutput :global(.token.property),
+.terminalOutput :global(.token.tag),
+.terminalOutput :global(.token.boolean),
+.terminalOutput :global(.token.number),
+.terminalOutput :global(.token.constant),
+.terminalOutput :global(.token.symbol),
+.terminalOutput :global(.token.deleted) { color: #ec4899; }
+.terminalOutput :global(.token.selector),
+.terminalOutput :global(.token.attr-name),
+.terminalOutput :global(.token.string),
+.terminalOutput :global(.token.char),
+.terminalOutput :global(.token.builtin),
+.terminalOutput :global(.token.inserted) { color: #10b981; }
+.terminalOutput :global(.token.operator),
+.terminalOutput :global(.token.entity),
+.terminalOutput :global(.token.url),
+.terminalOutput :global(.language-css .token.string),
+.terminalOutput :global(.style .token.string) { color: #8b5cf6; }
+.terminalOutput :global(.token.atrule),
+.terminalOutput :global(.token.attr-value),
+.terminalOutput :global(.token.keyword) { color: #8b5cf6; font-weight: 500; }
+.terminalOutput :global(.token.function),
+.terminalOutput :global(.token.class-name) { color: #3b82f6; }
