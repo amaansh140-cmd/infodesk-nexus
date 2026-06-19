@@ -52,7 +52,8 @@ export default function FacultyManagementPage() {
       phone: newFaculty.phone || '+91 00000 00000',
       department: newFaculty.department,
       status: newFaculty.status,
-      assignedCourses: []
+      assignedCourses: [],
+      assignedBranches: user?.branch ? [user.branch] : []
     });
     
     setShowAddModal(false);

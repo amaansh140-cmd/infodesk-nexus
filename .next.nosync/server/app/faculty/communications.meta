@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/faculty/layout,_N_T_/faculty/communications/layout,_N_T_/faculty/communications/page,_N_T_/faculty/communications"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/faculty/communications/__PAGE__",
+    "/faculty/communications",
+    "/faculty",
+    "/_index",
+    "/_head"
+  ]
+}

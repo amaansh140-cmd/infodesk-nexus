@@ -59,7 +59,7 @@ export default function FacultyAttendance() {
         }
 
         for (const branchName of assignedBranches) {
-          const coords = BRANCHES[branchName];
+          const coords = BRANCHES[branchName as keyof typeof BRANCHES];
           if (coords) {
             const distance = getDistanceInMeters(latitude, longitude, coords.lat, coords.lon);
             if (distance < minDistance) {

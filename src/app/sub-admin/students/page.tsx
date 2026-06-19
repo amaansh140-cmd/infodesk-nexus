@@ -42,7 +42,7 @@ export default function StudentManagementPage() {
   const filteredData = branchStudents.filter(record => {
     const matchesSearch = record.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           record.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCourse = filterCourse === 'All' || record.course === filterCourse;
+    const matchesCourse = filterCourse === 'All' || (record as any).course === filterCourse;
     const matchesStatus = filterStatus === 'All' || record.status === filterStatus;
     return matchesSearch && matchesCourse && matchesStatus;
   });

@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/super-admin/layout,_N_T_/super-admin/attendance/layout,_N_T_/super-admin/attendance/page,_N_T_/super-admin/attendance"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/super-admin/attendance/__PAGE__",
+    "/super-admin/attendance",
+    "/super-admin",
+    "/_index",
+    "/_head"
+  ]
+}

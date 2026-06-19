@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/sub-admin/layout,_N_T_/sub-admin/communications/layout,_N_T_/sub-admin/communications/page,_N_T_/sub-admin/communications"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/sub-admin/communications/__PAGE__",
+    "/sub-admin/communications",
+    "/sub-admin",
+    "/_index",
+    "/_head"
+  ]
+}
