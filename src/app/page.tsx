@@ -1,306 +1,198 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { 
-  Users, CheckCircle2, XCircle, Clock, 
-  Search, Filter, Download, MoreVertical,
-  Calendar as CalendarIcon, MapPin
+  Play, BookOpen, Award, Database, Sparkles, 
+  ShieldCheck, GraduationCap, Clock, Zap 
 } from 'lucide-react';
-import styles from '../super-admin.module.css';
+import styles from './home.module.css';
+import { motion } from 'framer-motion';
 
-export default function AttendanceManager() {
-  const [attendanceData, setAttendanceData] = useState<any[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterBranch, setFilterBranch] = useState('All');
-  const [filterRole, setFilterRole] = useState('All');
-  const [isLoading, setIsLoading] = useState(true);
+const CourseIcons: Record<string, any> = {
+  Database,
+  Sparkles
+};
 
-  React.useEffect(() => {
-    fetch('/api/staff-attendance')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) setAttendanceData(data);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.error('Failed to fetch attendance:', err);
-        setIsLoading(false);
-      });
-  }, []);
+const activeCoures = [
+  { title: 'Data Science', progress: 68, icon: 'Database', color: '#6366f1' },
+  { title: 'Prompt Engineering', progress: 42, icon: 'Sparkles', color: '#10b981' },
+];
 
-  // Calculate top stats
-  const totalRecords = attendanceData.length;
-  const presentCount = attendanceData.filter(d => d.status === 'Present' || d.status === 'Late').length;
-  const absentCount = attendanceData.filter(d => d.status === 'Absent').length;
-  const leaveCount = attendanceData.filter(d => d.status === 'On Leave').length;
-  const attendanceRate = totalRecords > 0 ? Math.round((presentCount / totalRecords) * 100) : 0;
+const benefitsData = [
+  { title: 'Certified', icon: ShieldCheck, color: '#10b981' },
+  { title: 'Experienced Faculty', icon: GraduationCap, color: '#6366f1' },
+  { title: 'Lifetime Access', icon: Clock, color: '#f59e0b' },
+];
 
-  // Filter Data
-  const filteredData = attendanceData.filter(record => {
-    const matchesSearch = record.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          (record.staffId && record.staffId.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesBranch = filterBranch === 'All' || record.branch === filterBranch;
-    const matchesRole = filterRole === 'All' || record.role === filterRole;
-    return matchesSearch && matchesBranch && matchesRole;
-  });
-
-  const handleStatusChange = async (id: string, newStatus: string) => {
-    let newTime = '--:--';
-    
-    setAttendanceData(prevData => prevData.map(record => {
-      if (record.id === id) {
-        newTime = record.time;
-        if ((newStatus === 'Present' || newStatus === 'Late') && (record.status === 'Absent' || record.status === 'On Leave')) {
-          newTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } else if (newStatus === 'Absent' || newStatus === 'On Leave') {
-          newTime = '--:--';
-        }
-        return { ...record, status: newStatus, time: newTime };
-      }
-      return record;
-    }));
-
-    try {
-      const dbStatus = newStatus === 'Present' ? 'present' : 
-                       newStatus === 'Absent' ? 'absent' : 
-                       newStatus === 'Late' ? 'late' : 'on leave';
-      
-      await fetch('/api/staff-attendance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id,
-          status: dbStatus,
-        })
-      });
-    } catch (error) {
-      console.error('Failed to update status', error);
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch(status) {
-      case 'Present': return <span style={{ padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.8rem', fontWeight: 600, color: '#10b981' }}>Present</span>;
-      case 'Absent': return <span style={{ padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.8rem', fontWeight: 600, color: '#ef4444' }}>Absent</span>;
-      case 'Late': return <span style={{ padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.8rem', fontWeight: 600, color: '#f59e0b' }}>Late</span>;
-      case 'On Leave': return <span style={{ padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.8rem', fontWeight: 600, color: '#6b7280' }}>On Leave</span>;
-      default: return null;
-    }
-  };
-
+export default function HomePage() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <div className={styles.pageHeader}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <h1 className={styles.pageTitle}>Attendance Manager</h1>
-            <p className={styles.pageSubtitle}>Monitor real-time attendance across all branches</p>
-          </div>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1.2rem', borderRadius: '0.75rem', border: '1px solid rgba(17,24,39,0.1)', background: 'white', fontWeight: 500, fontSize: '0.9rem', cursor: 'pointer' }}>
-              <Download size={16} /> Export Report
-            </button>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1.2rem', borderRadius: '0.75rem', border: 'none', background: '#111827', color: 'white', fontWeight: 500, fontSize: '0.9rem', cursor: 'pointer' }}>
-              <CheckCircle2 size={16} /> Mark Attendance
-            </button>
-          </div>
+    <section className={styles.hero}>
+      {/* ─── Left Panel ─── */}
+      <motion.div 
+        className={styles.leftPanel}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <div className={styles.heroContent}>
+          {/* Eyebrow */}
+          <motion.p 
+            className={`${styles.eyebrow} theme-text-muted`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            <span className={styles.dot} />
+            Next-Gen Learning Platform
+          </motion.p>
+
+          {/* Headline */}
+          <motion.h1 
+            className={styles.headline}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            Mastering&nbsp;the<br />
+            <em className={`font-serif ${styles.headlineItalic}`}>future</em> of&nbsp;learning
+          </motion.h1>
+
+          {/* Sub */}
+          <motion.p 
+            className={`${styles.subtext} theme-text-muted`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            Unlock world-class courses crafted by industry experts. Learn at your own pace, earn recognised certifications.
+          </motion.p>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.7 }}
+          >
+            <Link href="/courses" className={`liquid-glass-strong hover-scale ${styles.ctaBtn}`}>
+              <Play size={16} fill="white" />
+              Browse Courses
+            </Link>
+          </motion.div>
+
+          {/* Quote */}
+          <motion.div 
+            className={styles.quoteBlock}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <span className={`${styles.quoteLabel} theme-text-faint`}>LIFELONG LEARNING</span>
+            <blockquote className={`${styles.quote} theme-text-muted`}>
+              "Once you stop learning, you start dying."
+              <cite className={styles.cite}>— Albert Einstein</cite>
+            </blockquote>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Top Stats */}
-      <div className={styles.statsGrid} style={{ marginBottom: '2rem' }}>
-        <div className="liquid-glass" style={{ padding: '1.5rem', borderRadius: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ padding: '0.75rem', background: 'rgba(59,130,246,0.1)', color: '#3b82f6', borderRadius: '1rem' }}>
-              <Users size={24} />
-            </div>
-            <div>
-              <div style={{ color: 'rgba(17,24,39,0.5)', fontSize: '0.875rem', fontWeight: 500 }}>Overall Rate</div>
-              <div style={{ color: '#111827', fontSize: '1.5rem', fontWeight: 700 }}>{attendanceRate}%</div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="liquid-glass" style={{ padding: '1.5rem', borderRadius: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ padding: '0.75rem', background: 'rgba(16,185,129,0.1)', color: '#10b981', borderRadius: '1rem' }}>
-              <CheckCircle2 size={24} />
-            </div>
-            <div>
-              <div style={{ color: 'rgba(17,24,39,0.5)', fontSize: '0.875rem', fontWeight: 500 }}>Present Today</div>
-              <div style={{ color: '#111827', fontSize: '1.5rem', fontWeight: 700 }}>{presentCount}</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="liquid-glass" style={{ padding: '1.5rem', borderRadius: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ padding: '0.75rem', background: 'rgba(239,68,68,0.1)', color: '#ef4444', borderRadius: '1rem' }}>
-              <XCircle size={24} />
-            </div>
-            <div>
-              <div style={{ color: 'rgba(17,24,39,0.5)', fontSize: '0.875rem', fontWeight: 500 }}>Absent Today</div>
-              <div style={{ color: '#111827', fontSize: '1.5rem', fontWeight: 700 }}>{absentCount}</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="liquid-glass" style={{ padding: '1.5rem', borderRadius: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ padding: '0.75rem', background: 'rgba(245,158,11,0.1)', color: '#f59e0b', borderRadius: '1rem' }}>
-              <Clock size={24} />
-            </div>
-            <div>
-              <div style={{ color: 'rgba(17,24,39,0.5)', fontSize: '0.875rem', fontWeight: 500 }}>On Leave</div>
-              <div style={{ color: '#111827', fontSize: '1.5rem', fontWeight: 700 }}>{leaveCount}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Table Area */}
-      <div className="liquid-glass" style={{ borderRadius: '1.25rem', overflow: 'hidden' }}>
-        
-        {/* Filters Header */}
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid rgba(17,24,39,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem', flex: 1, minWidth: '250px' }}>
-            <Search size={18} color="rgba(17,24,39,0.4)" />
-            <input 
-              type="text" 
-              placeholder="Search by name or ID..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ border: 'none', background: 'transparent', outline: 'none', width: '100%', fontSize: '0.9rem' }}
-            />
+      {/* ─── Right Panel ─── */}
+      <motion.div 
+        className={styles.rightPanel}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
+        <motion.div 
+          className={`liquid-glass-strong ${styles.rightCard}`}
+          animate={{ y: [0, -15, 0] }}
+          transition={{
+            y: {
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }
+          }}
+        >
+          <div className={styles.cardHeader}>
+            <BookOpen size={16} className={styles.cardHeaderIcon} />
+            <span className={styles.cardHeaderTitle}>Trending Courses</span>
+            <span className={`${styles.badge} liquid-glass theme-text-faint`}>Popular now</span>
           </div>
 
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem' }}>
-              <CalendarIcon size={16} color="rgba(17,24,39,0.5)" />
-              <span style={{ fontSize: '0.9rem', color: '#111827', fontWeight: 500 }}>Today</span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem' }}>
-              <MapPin size={16} color="rgba(17,24,39,0.5)" />
-              <select 
-                value={filterBranch}
-                onChange={(e) => setFilterBranch(e.target.value)}
-                style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '0.9rem', color: '#111827', fontWeight: 500, cursor: 'pointer' }}
+          <div className={styles.courseList}>
+            {activeCoures.map((c, index) => (
+              <motion.div 
+                key={c.title} 
+                className={`liquid-glass ${styles.courseItem}`}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 + index * 0.1 }}
+                whileHover={{ scale: 1.02 }}
               >
-                <option value="All">All Branches</option>
-                <option value="Shashtri Nagar">Shashtri Nagar</option>
-                <option value="Jogeshwari">Jogeshwari</option>
-                <option value="Jawahar Nagar">Jawahar Nagar</option>
-                <option value="Behram Baug">Behram Baug</option>
-              </select>
-            </div>
+                <div className={styles.courseIcon}>
+                  {(() => {
+                    const Icon = CourseIcons[c.icon];
+                    return Icon ? <Icon size={20} color={c.color} strokeWidth={2.5} /> : null;
+                  })()}
+                </div>
+                <div className={styles.courseInfo}>
+                  <p className={styles.courseTitle}>{c.title}</p>
+                  <div className={styles.progressTrack}>
+                    <div
+                      className={styles.progressFill}
+                      style={{ width: `${c.progress}%` }}
+                    />
+                  </div>
+                  <p className={`${styles.progressLabel} theme-text-faint`}>{c.progress}% complete</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem' }}>
-              <Filter size={16} color="rgba(17,24,39,0.5)" />
-              <select 
-                value={filterRole}
-                onChange={(e) => setFilterRole(e.target.value)}
-                style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '0.9rem', color: '#111827', fontWeight: 500, cursor: 'pointer' }}
-              >
-                <option value="All">All Roles</option>
-                <option value="Faculty">Faculty</option>
-                <option value="Sub Admin">Sub Admin</option>
-              </select>
+          {/* Benefits */}
+          <div className={styles.certSection}>
+            <div className={styles.cardHeader}>
+              <Zap size={16} className={styles.cardHeaderIcon} />
+              <span className={styles.cardHeaderTitle}>Benefits</span>
+            </div>
+            <div className={styles.certGrid}>
+              {benefitsData.map((benefit, index) => (
+                <motion.div 
+                  key={benefit.title} 
+                  className={`liquid-glass ${styles.certBadge} hover-scale`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9 + index * 0.1 }}
+                >
+                  <benefit.icon size={20} className={styles.certIcon} color={benefit.color} />
+                  <span className={`${styles.certLabel} theme-text-muted`}>{benefit.title}</span>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Data Table */}
-        <div style={{ width: '100%', overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid rgba(17,24,39,0.05)', color: 'rgba(17,24,39,0.5)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Member Info</th>
-                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Role</th>
-                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Branch</th>
-                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Time</th>
-                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Status</th>
-                <th style={{ padding: '1rem 1.5rem', fontWeight: 600, textAlign: 'right' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <tr>
-                  <td colSpan={6} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
-                    Loading attendance data...
-                  </td>
-                </tr>
-              ) : filteredData.length === 0 ? (
-                <tr>
-                  <td colSpan={6} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
-                    No records found matching your filters.
-                  </td>
-                </tr>
-              ) : (
-                filteredData.map((record, index) => (
-                  <tr key={index} style={{ borderBottom: index === filteredData.length - 1 ? 'none' : '1px solid rgba(17,24,39,0.03)', transition: 'background 0.2s', cursor: 'pointer', transform: 'none' }} className="hover-scale">
-                    <td style={{ padding: '1rem 1.5rem' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontWeight: 600, color: '#111827' }}>{record.name}</span>
-                        <span style={{ fontSize: '0.8rem', color: 'rgba(17,24,39,0.5)' }}>{record.staffId || record.id}</span>
-                      </div>
-                    </td>
-                    <td style={{ padding: '1rem 1.5rem' }}>
-                      <span style={{ fontSize: '0.9rem', color: '#111827', fontWeight: 500 }}>{record.role}</span>
-                    </td>
-                    <td style={{ padding: '1rem 1.5rem' }}>
-                      <span style={{ fontSize: '0.9rem', color: 'rgba(17,24,39,0.7)' }}>{record.branch}</span>
-                    </td>
-                    <td style={{ padding: '1rem 1.5rem' }}>
-                      <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>{record.time}</span>
-                    </td>
-                    <td style={{ padding: '1rem 1.5rem' }}>
-                      <select
-                        value={record.status}
-                        onChange={(e) => handleStatusChange(record.id, e.target.value)}
-                        style={{ 
-                          padding: '0.25rem 0.5rem', 
-                          borderRadius: '99px', 
-                          fontSize: '0.8rem', 
-                          fontWeight: 600, 
-                          border: '1px solid transparent',
-                          outline: 'none',
-                          cursor: 'pointer',
-                          appearance: 'none',
-                          textAlign: 'center',
-                          background: record.status === 'Present' ? 'rgba(16,185,129,0.1)' : 
-                                      record.status === 'Absent' ? 'rgba(239,68,68,0.1)' : 
-                                      record.status === 'Late' ? 'rgba(245,158,11,0.1)' : 'rgba(156,163,175,0.1)',
-                          color: record.status === 'Present' ? '#10b981' : 
-                                record.status === 'Absent' ? '#ef4444' : 
-                                record.status === 'Late' ? '#f59e0b' : '#6b7280'
-                        }}
-                      >
-                        <option value="Present">Present</option>
-                        <option value="Absent">Absent</option>
-                        <option value="Late">Late</option>
-                        <option value="On Leave">On Leave</option>
-                      </select>
-                    </td>
-                    <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                      <button style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(17,24,39,0.4)' }}>
-                        <MoreVertical size={18} />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-
-      </div>
-    </motion.div>
+          {/* Course Preview Thumbnail */}
+          <motion.div 
+            className={`liquid-glass ${styles.previewCard}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+          >
+            <div className={styles.previewThumb}>
+              <div className={styles.playOverlay}>
+                <div className={`liquid-glass-strong ${styles.playCircle} hover-scale`}>
+                  <Play size={20} fill="white" />
+                </div>
+              </div>
+              <div className={styles.previewGradient} />
+            </div>
+            <div className={styles.previewInfo}>
+              <p className={styles.previewTitle}>Data Science</p>
+              <p className={`${styles.previewMeta} theme-text-faint`}>Lecture 12 · Trees &amp; Graphs</p>
+            </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </section>
   );
 }
