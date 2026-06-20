@@ -9,9 +9,6 @@ import {
 } from 'lucide-react';
 import styles from '../super-admin.module.css';
 
-// Initial Simulated Attendance Data
-const initialAttendanceData: any[] = [];
-
 export default function AttendanceManager() {
   const [attendanceData, setAttendanceData] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
