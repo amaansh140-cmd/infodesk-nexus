@@ -13,10 +13,27 @@ import styles from '../super-admin.module.css';
 const initialAttendanceData: any[] = [];
 
 export default function AttendanceManager() {
-  const [attendanceData, setAttendanceData] = useState(initialAttendanceData);
+  const [attendanceData, setAttendanceData] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterBranch, setFilterBranch] = useState('All');
   const [filterRole, setFilterRole] = useState('All');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchAttendance = async () => {
+    try {
+      const res = await fetch('/api/staff-attendance');
+      const data = await res.json();
+      setAttendanceData(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch attendance', error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAttendance();
+  }, []);
 
   // Calculate top stats
   const totalRecords = attendanceData.length;
@@ -28,26 +45,55 @@ export default function AttendanceManager() {
   // Filter Data
   const filteredData = attendanceData.filter(record => {
     const matchesSearch = record.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          record.id.toLowerCase().includes(searchTerm.toLowerCase());
+                          (record.staffId && record.staffId.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesBranch = filterBranch === 'All' || record.branch === filterBranch;
     const matchesRole = filterRole === 'All' || record.role === filterRole;
     return matchesSearch && matchesBranch && matchesRole;
   });
 
-  const handleStatusChange = (id: string, newStatus: string) => {
+  const handleStatusChange = async (staffId: string, recordId: string | null, newStatusDisplay: string) => {
+    // Map display status to DB status
+    let dbStatus = 'absent';
+    if (newStatusDisplay === 'Present') dbStatus = 'present';
+    else if (newStatusDisplay === 'Late') dbStatus = 'late';
+    else if (newStatusDisplay === 'On Leave') dbStatus = 'on leave';
+
+    // Optimistic UI update
     setAttendanceData(prevData => prevData.map(record => {
-      if (record.id === id) {
+      if (record.staffId === staffId) {
         let newTime = record.time;
-        // Update time if marked present/late for realism
-        if ((newStatus === 'Present' || newStatus === 'Late') && (record.status === 'Absent' || record.status === 'On Leave')) {
+        if ((newStatusDisplay === 'Present' || newStatusDisplay === 'Late') && (record.status === 'Absent' || record.status === 'On Leave')) {
           newTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } else if (newStatus === 'Absent' || newStatus === 'On Leave') {
+        } else if (newStatusDisplay === 'Absent' || newStatusDisplay === 'On Leave') {
           newTime = '--:--';
         }
-        return { ...record, status: newStatus, time: newTime };
+        return { ...record, status: newStatusDisplay, time: newTime };
       }
       return record;
     }));
+
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      await fetch('/api/staff-attendance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: recordId, // Will be null if it's a new record for today
+          staffId,
+          date: today,
+          status: dbStatus,
+          clockInTime: dbStatus === 'present' || dbStatus === 'late' ? timeStr : null,
+          clockInBranch: 'Global' // Just a default branch for now
+        })
+      });
+      // Optionally refetch here to ensure we get the new record ID back if we just created one
+      fetchAttendance();
+    } catch (error) {
+      console.error('Failed to update status', error);
+      // We could revert the optimistic update here if needed
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -206,7 +252,7 @@ export default function AttendanceManager() {
                   <td style={{ padding: '1rem 1.5rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <span style={{ fontWeight: 600, color: '#111827' }}>{record.name}</span>
-                      <span style={{ fontSize: '0.8rem', color: 'rgba(17,24,39,0.5)' }}>{record.id}</span>
+                      <span style={{ fontSize: '0.8rem', color: 'rgba(17,24,39,0.5)' }}>{record.staffId}</span>
                     </div>
                   </td>
                   <td style={{ padding: '1rem 1.5rem' }}>
@@ -221,7 +267,7 @@ export default function AttendanceManager() {
                   <td style={{ padding: '1rem 1.5rem' }}>
                     <select
                       value={record.status}
-                      onChange={(e) => handleStatusChange(record.id, e.target.value)}
+                      onChange={(e) => handleStatusChange(record.staffId, record.id, e.target.value)}
                       style={{ 
                         padding: '0.25rem 0.5rem', 
                         borderRadius: '99px', 

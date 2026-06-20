@@ -3,43 +3,53 @@ import prisma from '@/lib/prisma';
 
 export async function GET() {
   try {
-    const records = await prisma.staffAttendanceRecord.findMany({
-      orderBy: { createdAt: 'desc' }
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Get all today's records
+    const todayRecords = await prisma.staffAttendanceRecord.findMany({
+      where: { date: today }
     });
 
     const faculties = await prisma.facultyUser.findMany();
     const admins = await prisma.adminUser.findMany();
 
-    const formattedRecords = records.map(record => {
-      let name = 'Unknown';
-      let role = 'Unknown';
-      let branch = record.clockInBranch || 'Unknown';
+    const allStaff = [
+      ...faculties.map(f => ({ 
+        id: f.id, 
+        name: f.name, 
+        role: 'Faculty', 
+        // Need to parse assignedBranches if we want to show a specific branch, 
+        // but for now we can fallback to 'Global' or the first branch if it exists.
+        branch: 'Global' 
+      })),
+      ...admins.map(a => ({ 
+        id: a.id, 
+        name: a.name, 
+        role: a.role === 'superadmin' ? 'Super Admin' : 'Sub Admin', 
+        branch: a.branch || 'Global' 
+      }))
+    ];
 
-      const faculty = faculties.find(f => f.id === record.staffId);
-      if (faculty) {
-        name = faculty.name;
-        role = 'Faculty';
-      } else {
-        const admin = admins.find(a => a.id === record.staffId);
-        if (admin) {
-          name = admin.name;
-          role = admin.role === 'superadmin' ? 'Super Admin' : 'Sub Admin';
-          if (!record.clockInBranch && admin.branch) branch = admin.branch;
-        }
+    const formattedRecords = allStaff.map(staff => {
+      const record = todayRecords.find(r => r.staffId === staff.id);
+      
+      let statusDisplay = 'Absent';
+      if (record) {
+        if (record.status === 'present' || record.status === 'ongoing') statusDisplay = 'Present';
+        else if (record.status === 'absent') statusDisplay = 'Absent';
+        else if (record.status === 'late') statusDisplay = 'Late';
+        else if (record.status === 'on leave') statusDisplay = 'On Leave';
       }
 
       return {
-        id: record.id,
-        staffId: record.staffId,
-        name,
-        role,
-        branch,
-        date: record.date,
-        time: record.clockInTime || '--:--',
-        status: record.status === 'present' ? 'Present' : 
-                record.status === 'absent' ? 'Absent' : 
-                record.status === 'late' ? 'Late' : 
-                record.status === 'ongoing' ? 'Present' : 'On Leave',
+        id: record?.id || null, // null if no record exists yet for today
+        staffId: staff.id,
+        name: staff.name,
+        role: staff.role,
+        branch: record?.clockInBranch || staff.branch,
+        date: today,
+        time: record?.clockInTime || '--:--',
+        status: statusDisplay,
       };
     });
 
