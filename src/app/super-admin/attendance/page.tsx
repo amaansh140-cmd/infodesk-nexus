@@ -9,14 +9,25 @@ import {
 } from 'lucide-react';
 import styles from '../super-admin.module.css';
 
-// Initial Simulated Attendance Data
-const initialAttendanceData: any[] = [];
-
 export default function AttendanceManager() {
-  const [attendanceData, setAttendanceData] = useState(initialAttendanceData);
+  const [attendanceData, setAttendanceData] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterBranch, setFilterBranch] = useState('All');
   const [filterRole, setFilterRole] = useState('All');
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    fetch('/api/staff-attendance')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) setAttendanceData(data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch attendance:', err);
+        setIsLoading(false);
+      });
+  }, []);
 
   // Calculate top stats
   const totalRecords = attendanceData.length;
@@ -28,17 +39,18 @@ export default function AttendanceManager() {
   // Filter Data
   const filteredData = attendanceData.filter(record => {
     const matchesSearch = record.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          record.id.toLowerCase().includes(searchTerm.toLowerCase());
+                          (record.staffId && record.staffId.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesBranch = filterBranch === 'All' || record.branch === filterBranch;
     const matchesRole = filterRole === 'All' || record.role === filterRole;
     return matchesSearch && matchesBranch && matchesRole;
   });
 
-  const handleStatusChange = (id: string, newStatus: string) => {
+  const handleStatusChange = async (id: string, newStatus: string) => {
+    let newTime = '--:--';
+    
     setAttendanceData(prevData => prevData.map(record => {
       if (record.id === id) {
-        let newTime = record.time;
-        // Update time if marked present/late for realism
+        newTime = record.time;
         if ((newStatus === 'Present' || newStatus === 'Late') && (record.status === 'Absent' || record.status === 'On Leave')) {
           newTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         } else if (newStatus === 'Absent' || newStatus === 'On Leave') {
@@ -48,6 +60,23 @@ export default function AttendanceManager() {
       }
       return record;
     }));
+
+    try {
+      const dbStatus = newStatus === 'Present' ? 'present' : 
+                       newStatus === 'Absent' ? 'absent' : 
+                       newStatus === 'Late' ? 'late' : 'on leave';
+      
+      await fetch('/api/staff-attendance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id,
+          status: dbStatus,
+        })
+      });
+    } catch (error) {
+      console.error('Failed to update status', error);
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -201,65 +230,71 @@ export default function AttendanceManager() {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((record, index) => (
-                <tr key={index} style={{ borderBottom: index === filteredData.length - 1 ? 'none' : '1px solid rgba(17,24,39,0.03)', transition: 'background 0.2s', cursor: 'pointer', transform: 'none' }} className="hover-scale">
-                  <td style={{ padding: '1rem 1.5rem' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontWeight: 600, color: '#111827' }}>{record.name}</span>
-                      <span style={{ fontSize: '0.8rem', color: 'rgba(17,24,39,0.5)' }}>{record.id}</span>
-                    </div>
-                  </td>
-                  <td style={{ padding: '1rem 1.5rem' }}>
-                    <span style={{ fontSize: '0.9rem', color: '#111827', fontWeight: 500 }}>{record.role}</span>
-                  </td>
-                  <td style={{ padding: '1rem 1.5rem' }}>
-                    <span style={{ fontSize: '0.9rem', color: 'rgba(17,24,39,0.7)' }}>{record.branch}</span>
-                  </td>
-                  <td style={{ padding: '1rem 1.5rem' }}>
-                    <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>{record.time}</span>
-                  </td>
-                  <td style={{ padding: '1rem 1.5rem' }}>
-                    <select
-                      value={record.status}
-                      onChange={(e) => handleStatusChange(record.id, e.target.value)}
-                      style={{ 
-                        padding: '0.25rem 0.5rem', 
-                        borderRadius: '99px', 
-                        fontSize: '0.8rem', 
-                        fontWeight: 600, 
-                        border: '1px solid transparent',
-                        outline: 'none',
-                        cursor: 'pointer',
-                        appearance: 'none',
-                        textAlign: 'center',
-                        background: record.status === 'Present' ? 'rgba(16,185,129,0.1)' : 
-                                    record.status === 'Absent' ? 'rgba(239,68,68,0.1)' : 
-                                    record.status === 'Late' ? 'rgba(245,158,11,0.1)' : 'rgba(156,163,175,0.1)',
-                        color: record.status === 'Present' ? '#10b981' : 
-                               record.status === 'Absent' ? '#ef4444' : 
-                               record.status === 'Late' ? '#f59e0b' : '#6b7280'
-                      }}
-                    >
-                      <option value="Present">Present</option>
-                      <option value="Absent">Absent</option>
-                      <option value="Late">Late</option>
-                      <option value="On Leave">On Leave</option>
-                    </select>
-                  </td>
-                  <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                    <button style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(17,24,39,0.4)' }}>
-                      <MoreVertical size={18} />
-                    </button>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={6} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                    Loading attendance data...
                   </td>
                 </tr>
-              ))}
-              
-              {filteredData.length === 0 && (
+              ) : filteredData.length === 0 ? (
                 <tr>
                   <td colSpan={6} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
                     No records found matching your filters.
                   </td>
                 </tr>
+              ) : (
+                filteredData.map((record, index) => (
+                  <tr key={index} style={{ borderBottom: index === filteredData.length - 1 ? 'none' : '1px solid rgba(17,24,39,0.03)', transition: 'background 0.2s', cursor: 'pointer', transform: 'none' }} className="hover-scale">
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span style={{ fontWeight: 600, color: '#111827' }}>{record.name}</span>
+                        <span style={{ fontSize: '0.8rem', color: 'rgba(17,24,39,0.5)' }}>{record.staffId || record.id}</span>
+                      </div>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <span style={{ fontSize: '0.9rem', color: '#111827', fontWeight: 500 }}>{record.role}</span>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <span style={{ fontSize: '0.9rem', color: 'rgba(17,24,39,0.7)' }}>{record.branch}</span>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>{record.time}</span>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <select
+                        value={record.status}
+                        onChange={(e) => handleStatusChange(record.id, e.target.value)}
+                        style={{ 
+                          padding: '0.25rem 0.5rem', 
+                          borderRadius: '99px', 
+                          fontSize: '0.8rem', 
+                          fontWeight: 600, 
+                          border: '1px solid transparent',
+                          outline: 'none',
+                          cursor: 'pointer',
+                          appearance: 'none',
+                          textAlign: 'center',
+                          background: record.status === 'Present' ? 'rgba(16,185,129,0.1)' : 
+                                      record.status === 'Absent' ? 'rgba(239,68,68,0.1)' : 
+                                      record.status === 'Late' ? 'rgba(245,158,11,0.1)' : 'rgba(156,163,175,0.1)',
+                          color: record.status === 'Present' ? '#10b981' : 
+                                record.status === 'Absent' ? '#ef4444' : 
+                                record.status === 'Late' ? '#f59e0b' : '#6b7280'
+                        }}
+                      >
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                        <option value="Late">Late</option>
+                        <option value="On Leave">On Leave</option>
+                      </select>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
+                      <button style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(17,24,39,0.4)' }}>
+                        <MoreVertical size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
