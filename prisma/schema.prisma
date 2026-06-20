@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = ("mysql://u600893894_infodesk_user:Infodesk%401411@82.25.121.169:3306/u600893894_infodesk_db")
+  url      = "mysql://u600893894_infodesk_user:Infodesk%401411@82.25.121.169:3306/u600893894_infodesk_db"
 }
 
 model Course {
