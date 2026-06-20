@@ -33,3 +33,44 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Failed to create faculty' }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const data = await request.json();
+    const { id, ...updateData } = data;
+    
+    if (!id) {
+      return NextResponse.json({ error: 'Faculty ID is required' }, { status: 400 });
+    }
+
+    const updatedFaculty = await prisma.facultyUser.update({
+      where: { id },
+      data: updateData
+    });
+    
+    return NextResponse.json(updatedFaculty);
+  } catch (error) {
+    console.error('Error updating faculty:', error);
+    return NextResponse.json({ error: 'Failed to update faculty' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ error: 'Faculty ID is required' }, { status: 400 });
+    }
+
+    await prisma.facultyUser.delete({
+      where: { id }
+    });
+    
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting faculty:', error);
+    return NextResponse.json({ error: 'Failed to delete faculty' }, { status: 500 });
+  }
+}

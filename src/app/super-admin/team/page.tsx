@@ -1,62 +1,142 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, UserPlus, Filter, Upload, Edit2, Trash2, X, Save } from 'lucide-react';
 import styles from '../super-admin.module.css';
-import { useDatabase } from '../../../context/DatabaseContext';
 
 export default function TeamPage() {
-  const { faculties, students, admins, addFaculty, addStudent, addAdmin } = useDatabase();
+  const [unifiedUsers, setUnifiedUsers] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [editingUser, setEditingUser] = useState<any>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newUser, setNewUser] = useState({ name: '', username: '', password: '', role: 'Student', branch: 'Global', status: 'Active' });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const unifiedUsers = [
-    ...admins.map(a => ({ id: a.id, name: a.name, role: a.role === 'superadmin' ? 'Super Admin' : 'Sub Admin', branch: a.branch || 'Global', status: 'Active' })),
-    ...faculties.map(f => ({ id: f.id, name: f.name, role: 'Faculty', branch: f.department || 'Global', status: f.status })),
-    ...students.map(s => ({ id: s.id, name: s.name, role: 'Student', branch: s.branch, status: s.status }))
-  ];
+  const fetchUsers = async () => {
+    try {
+      const [adminsRes, facultiesRes, studentsRes] = await Promise.all([
+        fetch('/api/admins'),
+        fetch('/api/faculties'),
+        fetch('/api/students')
+      ]);
+
+      const admins = await adminsRes.json();
+      const faculties = await facultiesRes.json();
+      const students = await studentsRes.json();
+
+      const combined = [
+        ...(Array.isArray(admins) ? admins : []).map((a: any) => ({ id: a.id, name: a.name, role: a.role === 'superadmin' ? 'Super Admin' : 'Sub Admin', branch: a.branch || 'Global', status: 'Active' })),
+        ...(Array.isArray(faculties) ? faculties : []).map((f: any) => ({ id: f.id, name: f.name, role: 'Faculty', branch: f.department || 'Global', status: f.status })),
+        ...(Array.isArray(students) ? students : []).map((s: any) => ({ id: s.id, name: s.name, role: 'Student', branch: s.branch, status: s.status }))
+      ];
+      setUnifiedUsers(combined);
+      setIsLoading(false);
+    } catch (err) {
+      console.error('Failed to fetch users', err);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const filteredUsers = unifiedUsers.filter(u => 
     u.name.toLowerCase().includes(search.toLowerCase()) || 
     u.role.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleSave = () => {
-    // Requires update API
-    setEditingUser(null);
+  const handleSave = async () => {
+    if (!editingUser) return;
+    try {
+      let endpoint = '';
+      if (editingUser.role.includes('Admin')) endpoint = '/api/admins';
+      else if (editingUser.role === 'Faculty') endpoint = '/api/faculties';
+      else if (editingUser.role === 'Student') endpoint = '/api/students';
+
+      await fetch(endpoint, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editingUser.id,
+          name: editingUser.name,
+          role: editingUser.role === 'Sub Admin' ? 'subadmin' : editingUser.role === 'Super Admin' ? 'superadmin' : undefined,
+          department: editingUser.role === 'Faculty' ? editingUser.branch : undefined,
+          branch: editingUser.role !== 'Faculty' ? editingUser.branch : undefined,
+          status: editingUser.status
+        })
+      });
+      setEditingUser(null);
+      fetchUsers();
+    } catch (error) {
+      console.error('Update failed:', error);
+      alert('Failed to update user');
+    }
+  };
+
+  const handleDelete = async (id: string, role: string) => {
+    if (!confirm('Are you sure you want to delete this user?')) return;
+    try {
+      let endpoint = '';
+      if (role.includes('Admin')) endpoint = '/api/admins';
+      else if (role === 'Faculty') endpoint = '/api/faculties';
+      else if (role === 'Student') endpoint = '/api/students';
+
+      await fetch(`${endpoint}?id=${id}`, {
+        method: 'DELETE',
+      });
+      fetchUsers();
+    } catch (error) {
+      console.error('Delete failed:', error);
+      alert('Failed to delete user');
+    }
   };
 
   const handleAddUser = async () => {
     if (!newUser.name) return;
-    if (newUser.role === 'Admin') {
-      await addAdmin({
+    try {
+      let endpoint = '';
+      let bodyData: any = {
         name: newUser.name,
-        email: `${newUser.name.split(' ').join('.').toLowerCase()}@infodesk.edu`,
         username: newUser.username,
         password: newUser.password,
-        role: 'subadmin',
-        branch: newUser.branch
+        status: newUser.status,
+      };
+
+      if (newUser.role === 'Admin') {
+        endpoint = '/api/admins';
+        bodyData.email = `${newUser.username}@infodesk.edu`;
+        bodyData.role = 'subadmin';
+        bodyData.branch = newUser.branch;
+      } else if (newUser.role === 'Faculty') {
+        endpoint = '/api/faculties';
+        bodyData.email = `${newUser.username}@infodesk.edu`;
+        bodyData.phone = '0000000000';
+        bodyData.department = newUser.branch;
+        bodyData.assignedCourses = [];
+        bodyData.assignedBranches = [newUser.branch];
+      } else if (newUser.role === 'Student') {
+        endpoint = '/api/students';
+        bodyData.email = `${newUser.username}@student.infodesk.edu`;
+        bodyData.rollNo = `STU-${Date.now().toString().slice(-4)}`;
+        bodyData.batch = 'Batch 2024';
+        bodyData.branch = newUser.branch;
+      }
+
+      await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData)
       });
-    } else if (newUser.role === 'Faculty') {
-      await addFaculty({
-        id: '', name: newUser.name, email: `${newUser.name.split(' ').join('.').toLowerCase()}@infodesk.edu`,
-        username: newUser.username, password: newUser.password,
-        phone: '0000000000', department: newUser.branch, status: newUser.status as any,
-        assignedCourses: [], assignedBranches: [newUser.branch]
-      });
-    } else if (newUser.role === 'Student') {
-      await addStudent({
-        id: '', rollNo: `STU-${Date.now().toString().slice(-4)}`, name: newUser.name,
-        email: `${newUser.name.split(' ').join('.').toLowerCase()}@student.infodesk.edu`,
-        username: newUser.username, password: newUser.password,
-        batch: 'Batch 2024', branch: newUser.branch, status: newUser.status as any
-      });
+      
+      setIsAddModalOpen(false);
+      setNewUser({ name: '', username: '', password: '', role: 'Student', branch: 'Global', status: 'Active' });
+      fetchUsers();
+    } catch (error) {
+      console.error('Add user failed:', error);
+      alert('Failed to add user');
     }
-    setIsAddModalOpen(false);
-    setNewUser({ name: '', username: '', password: '', role: 'Student', branch: 'Global', status: 'Active' });
   };
 
   return (
@@ -117,26 +197,40 @@ export default function TeamPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map((u, i) => (
-                <tr key={i} className={styles.tableRow}>
-                  <td><input type="checkbox" /></td>
-                  <td style={{ fontWeight: 500 }}>{u.id.split('-')[0] + '-' + u.id.slice(-4)}</td>
-                  <td>{u.name}</td>
-                  <td>{u.role}</td>
-                  <td>{u.branch}</td>
-                  <td>
-                    <span className={`${styles.statusBadge} ${u.status === 'Active' ? styles.statusActive : styles.statusInactive}`}>
-                      {u.status}
-                    </span>
-                  </td>
-                  <td>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      <button className={styles.actionBtn} aria-label="Edit" onClick={() => setEditingUser(u)}><Edit2 size={16} /></button>
-                      <button className={styles.actionBtn} aria-label="Delete"><Trash2 size={16} /></button>
-                    </div>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={7} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                    Loading team directory...
                   </td>
                 </tr>
-              ))}
+              ) : filteredUsers.length === 0 ? (
+                <tr>
+                  <td colSpan={7} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                    No members found.
+                  </td>
+                </tr>
+              ) : (
+                filteredUsers.map((u, i) => (
+                  <tr key={i} className={styles.tableRow}>
+                    <td><input type="checkbox" /></td>
+                    <td style={{ fontWeight: 500 }}>{u.id.split('-')[0] + '-' + u.id.slice(-4)}</td>
+                    <td>{u.name}</td>
+                    <td>{u.role}</td>
+                    <td>{u.branch}</td>
+                    <td>
+                      <span className={`${styles.statusBadge} ${u.status === 'Active' ? styles.statusActive : styles.statusInactive}`}>
+                        {u.status}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button className={styles.actionBtn} aria-label="Edit" onClick={() => setEditingUser(u)}><Edit2 size={16} /></button>
+                        <button className={styles.actionBtn} aria-label="Delete" onClick={() => handleDelete(u.id, u.role)}><Trash2 size={16} /></button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -161,12 +255,8 @@ export default function TeamPage() {
               <input type="text" className={styles.input} value={editingUser.name} onChange={(e) => setEditingUser({...editingUser, name: e.target.value})} />
             </div>
             <div className={styles.formGroup}>
-              <label className={styles.label}>Role</label>
-              <select className={styles.input} value={editingUser.role} onChange={(e) => setEditingUser({...editingUser, role: e.target.value})}>
-                <option value="Admin">Admin</option>
-                <option value="Faculty">Faculty</option>
-                <option value="Student">Student</option>
-              </select>
+              <label className={styles.label}>Role (Read-only)</label>
+              <input type="text" className={styles.input} value={editingUser.role} disabled style={{ background: 'rgba(17,24,39,0.05)', opacity: 0.7 }} />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Branch</label>
