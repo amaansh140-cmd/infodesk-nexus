@@ -25,14 +25,14 @@
     "react-dom": "19.2.3",
     "react-simple-code-editor": "^0.14.1",
     "recharts": "^3.8.1",
-    "three": "^0.183.2"
+    "three": "^0.183.2",
+    "prisma": "^6.19.3"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/prismjs": "^1.26.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "prisma": "^6.19.3",
     "typescript": "^5"
   }
 }
