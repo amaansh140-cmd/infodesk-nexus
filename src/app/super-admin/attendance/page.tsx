@@ -18,7 +18,7 @@ export default function AttendanceManager() {
 
   const fetchAttendance = async () => {
     try {
-      const res = await fetch('/api/staff-attendance');
+      const res = await fetch('/api/staff-attendance', { cache: 'no-store' });
       const data = await res.json();
       if (Array.isArray(data)) {
         setAttendanceData(data);
@@ -72,7 +72,7 @@ export default function AttendanceManager() {
     }));
 
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toLocaleDateString('en-CA');
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
       await fetch('/api/staff-attendance', {

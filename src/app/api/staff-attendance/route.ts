@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
-    const today = new Date().toISOString().split('T')[0];
+    // Use local timezone for date (YYYY-MM-DD)
+    const today = new Date().toLocaleDateString('en-CA');
     
     // Get all today's records
     const todayRecords = await prisma.staffAttendanceRecord.findMany({
