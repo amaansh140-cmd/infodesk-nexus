@@ -412,17 +412,6 @@
 }
 
 @media (max-width: 768px) {
-  .super-admin_layout__rrPrj {
-    flex-direction: column;
-  }
-  .super-admin_sidebar__vWFNs {
-    width: 100%;
-    padding: 1rem;
-  }
-  .super-admin_nav__5ZyWK {
-    flex-direction: row;
-    overflow-x: auto;
-  }
   .super-admin_statsGrid__DqSBY {
     grid-template-columns: 1fr;
   }

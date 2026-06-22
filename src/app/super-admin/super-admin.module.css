@@ -409,17 +409,6 @@
 }
 
 @media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-    padding: 1rem;
-  }
-  .nav {
-    flex-direction: row;
-    overflow-x: auto;
-  }
   .statsGrid {
     grid-template-columns: 1fr;
   }
