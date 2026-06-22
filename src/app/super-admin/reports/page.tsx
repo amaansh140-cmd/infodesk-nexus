@@ -82,7 +82,7 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+      <div className={styles.reportsGrid} style={{ display: 'grid', gap: '1.5rem', marginBottom: '2rem' }}>
         <div className={`liquid-glass-strong ${styles.chartContainer}`}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
             <PieChart size={20} className="theme-text-muted" />
