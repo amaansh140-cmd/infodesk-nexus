@@ -1,3 +1,5 @@
 {
-  "/super-admin/team/page": "app/super-admin/team/page.js"
+  "/api/staff-attendance/route": "app/api/staff-attendance/route.js",
+  "/super-admin/team/page": "app/super-admin/team/page.js",
+  "/super-admin/attendance/page": "app/super-admin/attendance/page.js"
 }

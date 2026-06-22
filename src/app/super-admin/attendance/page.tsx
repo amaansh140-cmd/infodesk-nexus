@@ -14,11 +14,12 @@ export default function AttendanceManager() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterBranch, setFilterBranch] = useState('All');
   const [filterRole, setFilterRole] = useState('All');
+  const [selectedDate, setSelectedDate] = useState(() => new Date().toLocaleDateString('en-CA'));
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchAttendance = async () => {
     try {
-      const res = await fetch('/api/staff-attendance', { cache: 'no-store' });
+      const res = await fetch(`/api/staff-attendance?date=${selectedDate}`, { cache: 'no-store' });
       const data = await res.json();
       if (Array.isArray(data)) {
         setAttendanceData(data);
@@ -32,7 +33,7 @@ export default function AttendanceManager() {
 
   useEffect(() => {
     fetchAttendance();
-  }, []);
+  }, [selectedDate]);
 
   // Calculate top stats
   const totalRecords = attendanceData.length;
@@ -49,6 +50,36 @@ export default function AttendanceManager() {
     const matchesRole = filterRole === 'All' || record.role === filterRole;
     return matchesSearch && matchesBranch && matchesRole;
   });
+
+  const exportCSV = () => {
+    if (filteredData.length === 0) return;
+    
+    const headers = ['Date', 'Name', 'Role', 'Branch', 'Status', 'Time'];
+    const csvRows = [headers.join(',')];
+
+    filteredData.forEach(row => {
+      const values = [
+        row.date,
+        `"${row.name}"`,
+        row.role,
+        row.branch,
+        row.status,
+        row.time
+      ];
+      csvRows.push(values.join(','));
+    });
+
+    const csvString = csvRows.join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Attendance_Report_${selectedDate}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const handleStatusChange = async (staffId: string, recordId: string | null, newStatusDisplay: string) => {
     // Map display status to DB status
@@ -72,7 +103,7 @@ export default function AttendanceManager() {
     }));
 
     try {
-      const today = new Date().toLocaleDateString('en-CA');
+      const today = selectedDate;
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
       await fetch('/api/staff-attendance', {
@@ -118,7 +149,7 @@ export default function AttendanceManager() {
             <p className={styles.pageSubtitle}>Monitor real-time attendance across all branches</p>
           </div>
           <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1.2rem', borderRadius: '0.75rem', border: '1px solid rgba(17,24,39,0.1)', background: 'white', fontWeight: 500, fontSize: '0.9rem', cursor: 'pointer' }}>
+            <button onClick={exportCSV} disabled={filteredData.length === 0} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1.2rem', borderRadius: '0.75rem', border: '1px solid rgba(17,24,39,0.1)', background: 'white', fontWeight: 500, fontSize: '0.9rem', cursor: filteredData.length === 0 ? 'not-allowed' : 'pointer', opacity: filteredData.length === 0 ? 0.6 : 1 }}>
               <Download size={16} /> Export Report
             </button>
             <button style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1.2rem', borderRadius: '0.75rem', border: 'none', background: '#111827', color: 'white', fontWeight: 500, fontSize: '0.9rem', cursor: 'pointer' }}>
@@ -199,7 +230,12 @@ export default function AttendanceManager() {
           <div style={{ display: 'flex', gap: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem' }}>
               <CalendarIcon size={16} color="rgba(17,24,39,0.5)" />
-              <span style={{ fontSize: '0.9rem', color: '#111827', fontWeight: 500 }}>Today</span>
+              <input 
+                type="date" 
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '0.9rem', color: '#111827', fontWeight: 500, fontFamily: 'inherit' }}
+              />
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem' }}>

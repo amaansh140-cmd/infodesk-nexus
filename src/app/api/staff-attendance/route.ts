@@ -3,14 +3,17 @@ import prisma from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // Use local timezone for date (YYYY-MM-DD)
-    const today = new Date().toLocaleDateString('en-CA');
+    const { searchParams } = new URL(request.url);
+    const dateParam = searchParams.get('date');
     
-    // Get all today's records
+    // Use provided date or fallback to today
+    const targetDate = dateParam || new Date().toLocaleDateString('en-CA');
+    
+    // Get all records for the target date
     const todayRecords = await prisma.staffAttendanceRecord.findMany({
-      where: { date: today }
+      where: { date: targetDate }
     });
 
     const faculties = await prisma.facultyUser.findMany();
@@ -50,7 +53,7 @@ export async function GET() {
         name: staff.name,
         role: staff.role,
         branch: record?.clockInBranch || staff.branch,
-        date: today,
+        date: targetDate,
         time: record?.clockInTime || '--:--',
         status: statusDisplay,
       };
