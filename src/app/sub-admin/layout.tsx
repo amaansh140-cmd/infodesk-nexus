@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { 
   LayoutDashboard, Users, BookOpen, GraduationCap, 
   CalendarCheck, Clock, BarChart3, Settings, 
-  LogOut, Megaphone, ShieldAlert, Building 
+  LogOut, Megaphone, ShieldAlert, Building, Menu, X 
 } from 'lucide-react';
 // Reusing super admin styles for consistency
 import styles from '../super-admin/super-admin.module.css';
@@ -16,14 +16,24 @@ export default function SubAdminLayout({ children }: { children: React.ReactNode
   const pathname = usePathname();
   const { logout, user } = useAuth();
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const branchName = user?.branch || 'YOUR';
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
   const handleLogout = () => {
     logout();
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const navItems = [
@@ -44,8 +54,21 @@ export default function SubAdminLayout({ children }: { children: React.ReactNode
 
   return (
     <div className={styles.layout}>
+      {/* Mobile Top Header */}
+      <div className={styles.mobileHeader}>
+        <div className={styles.logoText}>Infodesk</div>
+        <button onClick={toggleMobileMenu} className={styles.mobileMenuBtn}>
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className={styles.mobileOverlay} onClick={toggleMobileMenu}></div>
+      )}
+
       {/* Fixed Sidebar */}
-      <aside className={styles.sidebar}>
+      <aside className={`${styles.sidebar} ${isMobileMenuOpen ? styles.sidebarOpen : ''}`}>
         <div className={styles.logoArea}>
           <div className={styles.logoIcon}>N</div>
           <div>
