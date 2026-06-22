@@ -72,3 +72,71 @@
        height and width.
 [68:23:06.689] Server  LOG     ○ Compiling /api/staff-attendance/yearly ...
 [68:28:58.654] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[68:37:37.262] Browser ERROR   ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector "table" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   table {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+[68:37:37.980] Server  ERROR   ⨯ ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector "table" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   table {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+[68:38:06.044] Server  ERROR   ⨯ ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector ":global(table)" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   :global(table) {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+[68:38:06.182] Browser ERROR   ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector "table" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   table {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+[68:38:06.182] Browser ERROR   ./src/app/super-admin/super-admin.module.css
+CssSyntax error: Selector "table" is not pure (pure selectors must contain at least one local class or id) (517:3)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   table {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+-- inner error --
+CssSyntax error: Selector "table" is not pure (pure selectors must contain at least one local class or id) (517:3)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   table {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+Generated code for /Users/amaanshaikh/Library/Mobile Documents/com~apple~CloudDocs/Antigravity/Infodesk/infodesk-nexus/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[5].use[2]!/Users/amaanshaikh/Library/Mobile Documents/com~apple~CloudDocs/Antigravity/Infodesk/infodesk-nexus/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[15].oneOf[5].use[3]!/Users/amaanshaikh/Library/Mobile Documents/com~apple~CloudDocs/Antigravity/Infodesk/infodesk-nexus/src/app/super-admin/super-admin.module.css
+
+Import trace for requested module:
+./src/app/super-admin/super-admin.module.css
+./src/app/super-admin/layout.tsx
+[68:38:06.182] Browser ERROR   ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector ":global(table)" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   :global(table) {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
