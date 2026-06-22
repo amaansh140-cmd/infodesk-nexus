@@ -1,6 +1,3 @@
 {
-  "/api/admins/route": "app/api/admins/route.js",
-  "/api/faculties/route": "app/api/faculties/route.js",
-  "/api/students/route": "app/api/students/route.js",
   "/super-admin/team/page": "app/super-admin/team/page.js"
 }
