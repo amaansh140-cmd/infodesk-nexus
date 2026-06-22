@@ -30,13 +30,13 @@ export function getDistanceInMeters(lat1: number, lon1: number, lat2: number, lo
 export const GEOFENCE_RADIUS_METERS = 150;
 
 export const BRANCHES = {
-  'Jogeshwari West': {
+  'Jogeshwari': {
     lat: 19.135569624786484,
     lon: 72.84702300437982,
   },
-  'Goregaon West': {
-    lat: 19.168518845120833,
-    lon: 72.83392284423743,
+  'Shashtri Nagar': {
+    lat: 19.16844790707337,
+    lon: 72.83391211536731,
   },
   'Jawahar Nagar': {
     lat: 19.161729145840933,
