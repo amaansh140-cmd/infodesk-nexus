@@ -514,7 +514,7 @@
   }
 
   /* Make tables responsive */
-  :global(table) {
+  .layout :global(table) {
     min-width: 600px;
   }
 }

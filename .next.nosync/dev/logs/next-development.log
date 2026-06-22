@@ -140,3 +140,40 @@ Syntax error: Selector ":global(table)" is not pure (pure selectors must contain
       |   ^
   518 |     min-width: 600px;
   519 |   }
+[68:42:28.234] Server  LOG     ○ Compiling /_error ...
+[68:42:54.328] Server  ERROR   ⨯ ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector ":global(table)" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   :global(table) {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+[68:46:42.988] Server  ERROR   ⨯ ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector ":global(table)" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   :global(table) {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+[68:46:51.259] Server  ERROR   ⨯ ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector ":global(table)" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   :global(table) {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
+[68:46:51.650] Server  ERROR   ⨯ ./src/app/super-admin/super-admin.module.css:517:3
+Syntax error: Selector ":global(table)" is not pure (pure selectors must contain at least one local class or id)
+
+  515 | 
+  516 |   /* Make tables responsive */
+> 517 |   :global(table) {
+      |   ^
+  518 |     min-width: 600px;
+  519 |   }
