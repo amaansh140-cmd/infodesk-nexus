@@ -8,7 +8,7 @@ import { useDatabase } from '../../context/DatabaseContext';
 
 export default function FacultyDashboard() {
   const { user } = useAuth();
-  const { students, lecturePlans, courses, notices } = useDatabase();
+  const { students, lecturePlans, courses, notices, faculties } = useDatabase();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -17,8 +17,9 @@ export default function FacultyDashboard() {
 
   if (!mounted) return null;
 
-  const assignedBranches = user?.assignedBranches || [];
-  const assignedCourses = user?.assignedCourses || [];
+  const currentFaculty = faculties.find(f => f.id === user?.id) || faculties.find(f => f.email === user?.email);
+  const assignedBranches = currentFaculty?.assignedBranches || [];
+  const assignedCourses = currentFaculty?.assignedCourses || [];
 
   // Calculate total students assigned based on branch
   const assignedStudents = students.filter(s => assignedBranches.includes(s.branch));
