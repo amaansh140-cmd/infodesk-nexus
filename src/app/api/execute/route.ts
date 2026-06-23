@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+export const dynamic = "force-dynamic";
+
 const COMPILER_MAP: Record<string, string> = {
   python: 'cpython-head',
   cpp: 'gcc-13.2.0',
