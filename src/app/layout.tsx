@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "Advanced multi-tenant e-learning management system",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: Readonly<{
