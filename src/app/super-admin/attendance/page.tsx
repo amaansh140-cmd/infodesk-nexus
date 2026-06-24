@@ -276,6 +276,7 @@ export default function AttendanceManager() {
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Member Info</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Role</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Branch</th>
+                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Date</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Time</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Status</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600, textAlign: 'right' }}>Actions</th>
@@ -284,13 +285,13 @@ export default function AttendanceManager() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                  <td colSpan={7} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
                     Loading attendance data...
                   </td>
                 </tr>
               ) : filteredData.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                  <td colSpan={7} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
                     No records found matching your filters.
                   </td>
                 </tr>
@@ -308,6 +309,9 @@ export default function AttendanceManager() {
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>
                       <span style={{ fontSize: '0.9rem', color: 'rgba(17,24,39,0.7)' }}>{record.branch}</span>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>{record.date}</span>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>
                       <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>{record.time}</span>
