@@ -9,7 +9,7 @@ import styles from '../../super-admin/super-admin.module.css';
 
 export default function FacultyAttendance() {
   const { user } = useAuth();
-  const { staffAttendance, logStaffAttendance, faculties } = useDatabase();
+  const { staffAttendance, logStaffAttendance, faculties, admins } = useDatabase();
   
   // Geofence states
   const [geoStatus, setGeoStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -44,8 +44,15 @@ export default function FacultyAttendance() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        const currentUser = faculties.find(f => f.id === user?.id);
-        const assignedBranches = currentUser?.assignedBranches || [];
+        const currentFaculty = faculties.find(f => f.id === user?.id);
+        const currentAdmin = admins.find(a => a.id === user?.id);
+        
+        let assignedBranches: string[] = [];
+        if (currentFaculty) {
+          assignedBranches = currentFaculty.assignedBranches || [];
+        } else if (currentAdmin && currentAdmin.branch) {
+          assignedBranches = [currentAdmin.branch];
+        }
         
         let minDistance = Infinity;
         let isWithinGeofence = false;
@@ -58,7 +65,13 @@ export default function FacultyAttendance() {
           return;
         }
 
-        for (const branchName of assignedBranches) {
+        // If 'Global', they can clock in from ANY branch
+        let branchesToCheck = assignedBranches;
+        if (assignedBranches.includes('Global')) {
+          branchesToCheck = Object.keys(BRANCHES);
+        }
+
+        for (const branchName of branchesToCheck) {
           const coords = BRANCHES[branchName as keyof typeof BRANCHES];
           if (coords) {
             const distance = getDistanceInMeters(latitude, longitude, coords.lat, coords.lon);
