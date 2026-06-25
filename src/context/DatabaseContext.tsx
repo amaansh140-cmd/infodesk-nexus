@@ -301,7 +301,7 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
   const logStaffAttendance = async (record: Partial<StaffAttendanceRecord>) => {
     if (!record.staffId || !record.date) return;
     
-    let existing;
+    let existing: StaffAttendanceRecord | undefined;
     if (record.id) {
        existing = staffAttendance.find(r => r.id === record.id);
     } else if (record.clockOutTime) {
