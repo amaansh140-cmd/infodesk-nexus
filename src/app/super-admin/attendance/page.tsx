@@ -59,13 +59,14 @@ export default function AttendanceManager() {
     const csvRows = [headers.join(',')];
 
     filteredData.forEach(row => {
+      const sessionStr = row.sessions?.map((s: any) => `${s.in} to ${s.out}`).join(' | ') || '';
       const values = [
         row.date,
         `"${row.name}"`,
         row.role,
         row.branch,
         row.status,
-        row.time
+        `"${sessionStr}"`
       ];
       csvRows.push(values.join(','));
     });
@@ -90,13 +91,7 @@ export default function AttendanceManager() {
 
     setAttendanceData(prevData => prevData.map(record => {
       if (record.staffId === staffId) {
-        let newTime = record.time;
-        if ((newStatusDisplay === 'Present' || newStatusDisplay === 'Late') && (record.status === 'Absent' || record.status === 'On Leave')) {
-          newTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } else if (newStatusDisplay === 'Absent' || newStatusDisplay === 'On Leave') {
-          newTime = '--:--';
-        }
-        return { ...record, status: newStatusDisplay, time: newTime };
+        return { ...record, status: newStatusDisplay };
       }
       return record;
     }));
@@ -335,32 +330,34 @@ export default function AttendanceManager() {
                       <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>{record.date}</span>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>
-                      <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>
-                        {(() => {
-                          const t = record.time;
-                          if (!t || t === '--:--') return '--:--';
-                          if (t.includes('T')) {
-                            try {
-                              return new Date(t).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-                            } catch (e) { return t; }
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                        {record.sessions?.length > 0 ? record.sessions.map((session: any, idx: number) => {
+                          let t = session.in;
+                          if (t !== '--:--' && t.includes('T')) {
+                            try { t = new Date(t).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); } catch (e) {}
                           }
-                          return t;
-                        })()}
-                      </span>
+                          return (
+                            <span key={idx} style={{ fontSize: '0.85rem', color: '#111827', fontFamily: 'monospace', background: 'rgba(17,24,39,0.03)', padding: '0.25rem 0.5rem', borderRadius: '0.25rem' }}>
+                              {t}
+                            </span>
+                          );
+                        }) : <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>--:--</span>}
+                      </div>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>
-                      <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>
-                        {(() => {
-                          const t = record.outTime;
-                          if (!t || t === '--:--') return '--:--';
-                          if (t.includes('T')) {
-                            try {
-                              return new Date(t).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-                            } catch (e) { return t; }
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                        {record.sessions?.length > 0 ? record.sessions.map((session: any, idx: number) => {
+                          let t = session.out;
+                          if (t !== '--:--' && t.includes('T')) {
+                            try { t = new Date(t).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); } catch (e) {}
                           }
-                          return t;
-                        })()}
-                      </span>
+                          return (
+                            <span key={idx} style={{ fontSize: '0.85rem', color: '#111827', fontFamily: 'monospace', background: 'rgba(17,24,39,0.03)', padding: '0.25rem 0.5rem', borderRadius: '0.25rem' }}>
+                              {t}
+                            </span>
+                          );
+                        }) : <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>--:--</span>}
+                      </div>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

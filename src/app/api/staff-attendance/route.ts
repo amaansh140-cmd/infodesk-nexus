@@ -39,25 +39,39 @@ export async function GET(request: Request) {
     ];
 
     const formattedRecords = allStaff.map(staff => {
-      const record = todayRecords.find(r => r.staffId === staff.id);
+      const staffRecords = todayRecords
+        .filter(r => r.staffId === staff.id)
+        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
       
       let statusDisplay = 'Absent';
-      if (record) {
-        if (record.status === 'present' || record.status === 'ongoing') statusDisplay = 'Present';
-        else if (record.status === 'absent') statusDisplay = 'Absent';
-        else if (record.status === 'late') statusDisplay = 'Late';
-        else if (record.status === 'on leave') statusDisplay = 'On Leave';
+      if (staffRecords.length > 0) {
+        const hasOngoing = staffRecords.some(r => r.status === 'ongoing');
+        if (hasOngoing) statusDisplay = 'Present';
+        else {
+          const lastRec = staffRecords[staffRecords.length - 1];
+          if (lastRec.status === 'present' || lastRec.status === 'ongoing') statusDisplay = 'Present';
+          else if (lastRec.status === 'late') statusDisplay = 'Late';
+          else if (lastRec.status === 'on leave') statusDisplay = 'On Leave';
+        }
       }
 
+      // Latest record used for basic fields like branch if needed
+      const lastRecord = staffRecords.length > 0 ? staffRecords[staffRecords.length - 1] : null;
+
+      const sessions = staffRecords.map(r => ({
+        id: r.id,
+        in: r.clockInTime || '--:--',
+        out: r.clockOutTime || '--:--'
+      }));
+
       return {
-        id: record?.id || null, // null if no record exists yet for today
+        id: lastRecord?.id || null, // null if no record exists yet for today
         staffId: staff.id,
         name: staff.name,
         role: staff.role,
-        branch: record?.clockInBranch || staff.branch,
+        branch: lastRecord?.clockInBranch || staff.branch,
         date: targetDate,
-        time: record?.clockInTime || '--:--',
-        outTime: record?.clockOutTime || '--:--',
+        sessions: sessions, // Array of { id, in, out }
         status: statusDisplay,
         displayId: staff.displayId,
         deviceVerificationCode: staff.deviceVerificationCode || null,

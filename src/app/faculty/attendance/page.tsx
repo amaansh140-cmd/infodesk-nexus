@@ -21,10 +21,10 @@ export default function FacultyAttendance() {
   const myRecords = staffAttendance.filter(r => r.staffId === user?.id).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   
   const todayString = new Date().toISOString().split('T')[0];
-  const todayRecord = myRecords.find(r => r.date === todayString);
+  const todayRecords = myRecords.filter(r => r.date === todayString);
+  const openShift = todayRecords.find(r => !r.clockOutTime);
 
-  const isClockedIn = !!todayRecord?.clockInTime;
-  const isClockedOut = !!todayRecord?.clockOutTime;
+  const isClockedIn = !!openShift;
 
   // Real-time clock update
   useEffect(() => {
@@ -145,12 +145,20 @@ export default function FacultyAttendance() {
   };
 
   const getElapsedTime = () => {
-    if (!todayRecord?.clockInTime) return '0h 0m';
-    const end = todayRecord.clockOutTime ? new Date(todayRecord.clockOutTime) : currentTime;
-    const start = new Date(todayRecord.clockInTime);
-    const diffMs = end.getTime() - start.getTime();
-    const hours = Math.floor(diffMs / (1000 * 60 * 60));
-    const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    if (todayRecords.length === 0) return '0h 0m';
+    
+    let totalMs = 0;
+    
+    todayRecords.forEach(record => {
+      if (record.clockInTime) {
+        const start = new Date(record.clockInTime).getTime();
+        const end = record.clockOutTime ? new Date(record.clockOutTime).getTime() : currentTime.getTime();
+        totalMs += (end - start);
+      }
+    });
+
+    const hours = Math.floor(totalMs / (1000 * 60 * 60));
+    const mins = Math.floor((totalMs % (1000 * 60 * 60)) / (1000 * 60));
     return `${hours}h ${mins}m`;
   };
 
@@ -211,7 +219,7 @@ export default function FacultyAttendance() {
               >
                 <Clock size={20} /> IN
               </button>
-            ) : !isClockedOut ? (
+            ) : (
               <button 
                 onClick={handleClockOut}
                 className={styles.primaryBtn}
@@ -219,21 +227,19 @@ export default function FacultyAttendance() {
               >
                 <CheckCircle2 size={20} /> OUT
               </button>
-            ) : (
-              <div style={{ flex: 1, padding: '1rem', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', borderRadius: '0.5rem', fontWeight: 600, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
-                <CheckCircle2 size={20} /> Shift Completed
-              </div>
             )}
           </div>
 
-          {isClockedIn && (
+          {todayRecords.length > 0 && (
             <div style={{ marginTop: '2rem', background: '#f9fafb', padding: '1rem', borderRadius: '0.5rem', width: '100%', maxWidth: '300px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>Clocked In:</span>
-                <span style={{ fontWeight: 500, color: '#111827' }}>{formatTime(todayRecord?.clockInTime!)}</span>
+                <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>Current Status:</span>
+                <span style={{ fontWeight: 500, color: isClockedIn ? '#10b981' : '#6b7280' }}>
+                  {isClockedIn ? 'Clocked In' : 'Clocked Out'}
+                </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>Elapsed Time:</span>
+                <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>Total Elapsed Time:</span>
                 <span style={{ fontWeight: 600, color: '#3b82f6' }}>{getElapsedTime()}</span>
               </div>
             </div>

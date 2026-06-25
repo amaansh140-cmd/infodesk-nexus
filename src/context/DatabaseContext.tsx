@@ -300,7 +300,13 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
 
   const logStaffAttendance = async (record: Partial<StaffAttendanceRecord>) => {
     if (!record.staffId || !record.date) return;
-    const existing = staffAttendance.find(r => r.staffId === record.staffId && r.date === record.date);
+    
+    let existing;
+    if (record.id) {
+       existing = staffAttendance.find(r => r.id === record.id);
+    } else if (record.clockOutTime) {
+       existing = staffAttendance.find(r => r.staffId === record.staffId && r.date === record.date && !r.clockOutTime);
+    }
     
     const payload = { ...record, id: existing?.id };
     const res = await fetch('/api/staff-attendance', { method: 'POST', body: JSON.stringify(payload) });
