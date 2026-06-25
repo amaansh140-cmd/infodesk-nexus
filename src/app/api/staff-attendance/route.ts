@@ -55,6 +55,7 @@ export async function GET(request: Request) {
         branch: record?.clockInBranch || staff.branch,
         date: targetDate,
         time: record?.clockInTime || '--:--',
+        outTime: record?.clockOutTime || '--:--',
         status: statusDisplay,
       };
     });

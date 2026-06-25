@@ -277,7 +277,8 @@ export default function AttendanceManager() {
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Role</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Branch</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Date</th>
-                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Time</th>
+                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>In Time</th>
+                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Out Time</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Status</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600, textAlign: 'right' }}>Actions</th>
               </tr>
@@ -285,13 +286,13 @@ export default function AttendanceManager() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                  <td colSpan={8} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
                     Loading attendance data...
                   </td>
                 </tr>
               ) : filteredData.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                  <td colSpan={8} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
                     No records found matching your filters.
                   </td>
                 </tr>
@@ -314,7 +315,32 @@ export default function AttendanceManager() {
                       <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>{record.date}</span>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>
-                      <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>{record.time}</span>
+                      <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>
+                        {(() => {
+                          const t = record.time;
+                          if (!t || t === '--:--') return '--:--';
+                          if (t.includes('T')) {
+                            try {
+                              return new Date(t).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+                            } catch (e) { return t; }
+                          }
+                          return t;
+                        })()}
+                      </span>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>
+                        {(() => {
+                          const t = record.outTime;
+                          if (!t || t === '--:--') return '--:--';
+                          if (t.includes('T')) {
+                            try {
+                              return new Date(t).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+                            } catch (e) { return t; }
+                          }
+                          return t;
+                        })()}
+                      </span>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>
                       <select
