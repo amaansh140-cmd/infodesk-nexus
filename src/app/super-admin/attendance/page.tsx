@@ -302,7 +302,7 @@ export default function AttendanceManager() {
                     <td style={{ padding: '1rem 1.5rem' }}>
                       <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <span style={{ fontWeight: 600, color: '#111827' }}>{record.name}</span>
-                        <span style={{ fontSize: '0.8rem', color: 'rgba(17,24,39,0.5)' }}>{record.staffId || record.id}</span>
+                        <span style={{ fontSize: '0.8rem', color: '#3b82f6' }}>{record.displayId || record.staffId || record.id}</span>
                       </div>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>

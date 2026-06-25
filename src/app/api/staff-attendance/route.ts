@@ -20,19 +20,19 @@ export async function GET(request: Request) {
     const admins = await prisma.adminUser.findMany();
 
     const allStaff = [
-      ...faculties.map(f => ({ 
-        id: f.id, 
-        name: f.name, 
-        role: 'Faculty', 
-        // Need to parse assignedBranches if we want to show a specific branch, 
-        // but for now we can fallback to 'Global' or the first branch if it exists.
-        branch: 'Global' 
-      })),
-      ...admins.map(a => ({ 
+      ...admins.map((a, i) => ({ 
         id: a.id, 
         name: a.name, 
         role: a.role === 'superadmin' ? 'Super Admin' : 'Sub Admin', 
-        branch: a.branch || 'Global' 
+        branch: a.branch || 'Global',
+        displayId: `Info${i + 1}`
+      })),
+      ...faculties.map((f, i) => ({ 
+        id: f.id, 
+        name: f.name, 
+        role: 'Faculty', 
+        branch: 'Global',
+        displayId: `Info${admins.length + i + 1}`
       }))
     ];
 
@@ -57,6 +57,7 @@ export async function GET(request: Request) {
         time: record?.clockInTime || '--:--',
         outTime: record?.clockOutTime || '--:--',
         status: statusDisplay,
+        displayId: staff.displayId,
       };
     });
 

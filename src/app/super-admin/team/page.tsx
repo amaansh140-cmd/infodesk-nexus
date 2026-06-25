@@ -30,7 +30,14 @@ export default function TeamPage() {
         ...(Array.isArray(faculties) ? faculties : []).map((f: any) => ({ id: f.id, name: f.name, role: 'Faculty', branch: f.department || 'Global', status: f.status })),
         ...(Array.isArray(students) ? students : []).map((s: any) => ({ id: s.id, name: s.name, role: 'Student', branch: s.branch, status: s.status }))
       ];
-      setUnifiedUsers(combined);
+      
+      // Assign sequential Info IDs
+      const withDisplayIds = combined.map((u, index) => ({
+        ...u,
+        displayId: `Info${index + 1}`
+      }));
+      
+      setUnifiedUsers(withDisplayIds);
       setIsLoading(false);
     } catch (err) {
       console.error('Failed to fetch users', err);
@@ -213,7 +220,7 @@ export default function TeamPage() {
                 filteredUsers.map((u, i) => (
                   <tr key={i} className={styles.tableRow}>
                     <td><input type="checkbox" /></td>
-                    <td style={{ fontWeight: 500 }}>{u.id.split('-')[0] + '-' + u.id.slice(-4)}</td>
+                    <td style={{ fontWeight: 500, color: '#3b82f6' }}>{u.displayId}</td>
                     <td>{u.name}</td>
                     <td>{u.role}</td>
                     <td>{u.branch}</td>
