@@ -507,3 +507,67 @@
     min-width: 600px;
   }
 }
+
+/* Added for Faculty/Student Attendance Pages */
+.pageContainer {
+  flex: 1;
+  padding: 1.5rem 2.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(17, 24, 39, 0.05);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.cardHeader {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(17, 24, 39, 0.05);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.grid2Cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fw500 {
+  font-weight: 500;
+  color: #111827;
+}
+
+@media (max-width: 1024px) {
+  .pageContainer {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 1rem;
+  }
+  .grid2Cols {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}

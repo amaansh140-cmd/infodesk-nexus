@@ -241,8 +241,8 @@ export default function AttendanceManager() {
             />
           </div>
 
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem' }}>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem', flex: 1, minWidth: '150px' }}>
               <CalendarIcon size={16} color="rgba(17,24,39,0.5)" />
               <input 
                 type="date" 
@@ -252,7 +252,7 @@ export default function AttendanceManager() {
               />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem', flex: 1, minWidth: '150px' }}>
               <MapPin size={16} color="rgba(17,24,39,0.5)" />
               <select 
                 value={filterBranch}
@@ -267,7 +267,7 @@ export default function AttendanceManager() {
               </select>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem', flex: 1, minWidth: '150px' }}>
               <Filter size={16} color="rgba(17,24,39,0.5)" />
               <select 
                 value={filterRole}
