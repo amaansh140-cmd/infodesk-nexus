@@ -51,24 +51,38 @@ export default function StudentAttendance() {
           return;
         }
 
-        const coords = BRANCHES[branchName as keyof typeof BRANCHES];
-        if (!coords) {
-          setGeoStatus('error');
-          setGeoErrorMsg(`Coordinates for branch ${branchName} not found.`);
-          return;
+        let branchesToCheck = [branchName];
+        if (branchName === 'Global') {
+          branchesToCheck = Object.keys(BRANCHES);
         }
 
-        const distance = getDistanceInMeters(latitude, longitude, coords.lat, coords.lon);
-        
-        if (distance <= GEOFENCE_RADIUS_METERS) {
+        let minDistance = Infinity;
+        let isWithinGeofence = false;
+        let closestBranch: string | null = null;
+
+        for (const bName of branchesToCheck) {
+          const coords = BRANCHES[bName as keyof typeof BRANCHES];
+          if (coords) {
+            const distance = getDistanceInMeters(latitude, longitude, coords.lat, coords.lon);
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestBranch = bName;
+            }
+            if (distance <= GEOFENCE_RADIUS_METERS) {
+              isWithinGeofence = true;
+            }
+          }
+        }
+
+        if (isWithinGeofence && closestBranch) {
           setGeoStatus('success');
           setGeoErrorMsg('');
-          setActiveBranch(branchName);
+          setActiveBranch(closestBranch);
           if (callback) callback();
         } else {
           setGeoStatus('error');
           setActiveBranch(null);
-          setGeoErrorMsg(`You are ${Math.round(distance)} meters away from ${branchName}. Must be within ${GEOFENCE_RADIUS_METERS} meters.`);
+          setGeoErrorMsg(`You are ${Math.round(minDistance)} meters away from nearest branch. Must be within ${GEOFENCE_RADIUS_METERS} meters.`);
         }
       },
       (error) => {

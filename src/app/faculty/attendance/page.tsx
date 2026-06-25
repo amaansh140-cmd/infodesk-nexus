@@ -9,7 +9,7 @@ import styles from '../../super-admin/super-admin.module.css';
 
 export default function FacultyAttendance() {
   const { user } = useAuth();
-  const { staffAttendance, logStaffAttendance, faculties, admins } = useDatabase();
+  const { staffAttendance, logStaffAttendance, faculties } = useDatabase();
   
   // Geofence states
   const [geoStatus, setGeoStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -44,31 +44,22 @@ export default function FacultyAttendance() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        const currentFaculty = faculties.find(f => f.id === user?.id);
-        const currentAdmin = admins.find(a => a.id === user?.id);
-        
-        let assignedBranches: string[] = [];
-        if (currentFaculty) {
-          assignedBranches = currentFaculty.assignedBranches || [];
-        } else if (currentAdmin && currentAdmin.branch) {
-          assignedBranches = [currentAdmin.branch];
+        const currentUser = faculties.find(f => f.id === user?.id);
+        const assignedBranches = currentUser?.assignedBranches || [];
+        let branchesToCheck = assignedBranches;
+        if (assignedBranches.includes('Global')) {
+          branchesToCheck = Object.keys(BRANCHES);
         }
-        
+
         let minDistance = Infinity;
         let isWithinGeofence = false;
 
         let closestBranch: string | null = null;
 
-        if (assignedBranches.length === 0) {
+        if (branchesToCheck.length === 0) {
           setGeoStatus('error');
           setGeoErrorMsg('You are not assigned to any branch.');
           return;
-        }
-
-        // If 'Global', they can clock in from ANY branch
-        let branchesToCheck = assignedBranches;
-        if (assignedBranches.includes('Global')) {
-          branchesToCheck = Object.keys(BRANCHES);
         }
 
         for (const branchName of branchesToCheck) {
@@ -93,7 +84,7 @@ export default function FacultyAttendance() {
         } else {
           setGeoStatus('error');
           setActiveBranch(null);
-          setGeoErrorMsg(`You are ${Math.round(minDistance)} meters away from your nearest branch. Must be within ${GEOFENCE_RADIUS_METERS} meters.`);
+          setGeoErrorMsg(`You are ${Math.round(minDistance)} meters away from nearest branch. Must be within ${GEOFENCE_RADIUS_METERS} meters.`);
         }
       },
       (error) => {
