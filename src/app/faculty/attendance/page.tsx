@@ -9,7 +9,7 @@ import styles from '../../super-admin/super-admin.module.css';
 
 export default function FacultyAttendance() {
   const { user } = useAuth();
-  const { staffAttendance, logStaffAttendance, faculties } = useDatabase();
+  const { staffAttendance, logStaffAttendance, faculties, admins } = useDatabase();
   
   // Geofence states
   const [geoStatus, setGeoStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -45,7 +45,15 @@ export default function FacultyAttendance() {
       (position) => {
         const { latitude, longitude } = position.coords;
         const currentUser = faculties.find(f => f.id === user?.id);
-        const assignedBranches = currentUser?.assignedBranches || [];
+        const adminUser = admins.find(a => a.id === user?.id);
+        
+        let assignedBranches: string[] = [];
+        if (currentUser) {
+          assignedBranches = currentUser.assignedBranches || [];
+        } else if (adminUser) {
+          assignedBranches = [adminUser.branch || 'Global'];
+        }
+
         let branchesToCheck = assignedBranches;
         if (assignedBranches.includes('Global')) {
           branchesToCheck = Object.keys(BRANCHES);
