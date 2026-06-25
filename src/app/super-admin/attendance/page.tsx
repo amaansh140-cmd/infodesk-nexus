@@ -16,6 +16,7 @@ export default function AttendanceManager() {
   const [filterRole, setFilterRole] = useState('All');
   const [selectedDate, setSelectedDate] = useState(() => new Date().toLocaleDateString('en-CA'));
   const [isLoading, setIsLoading] = useState(true);
+  const [generatingCodeFor, setGeneratingCodeFor] = useState<string | null>(null);
 
   const fetchAttendance = async () => {
     try {
@@ -82,13 +83,11 @@ export default function AttendanceManager() {
   };
 
   const handleStatusChange = async (staffId: string, recordId: string | null, newStatusDisplay: string) => {
-    // Map display status to DB status
     let dbStatus = 'absent';
     if (newStatusDisplay === 'Present') dbStatus = 'present';
     else if (newStatusDisplay === 'Late') dbStatus = 'late';
     else if (newStatusDisplay === 'On Leave') dbStatus = 'on leave';
 
-    // Optimistic UI update
     setAttendanceData(prevData => prevData.map(record => {
       if (record.staffId === staffId) {
         let newTime = record.time;
@@ -110,19 +109,39 @@ export default function AttendanceManager() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          id: recordId, // Will be null if it's a new record for today
+          id: recordId, 
           staffId,
           date: today,
           status: dbStatus,
           clockInTime: dbStatus === 'present' || dbStatus === 'late' ? timeStr : null,
-          clockInBranch: 'Global' // Just a default branch for now
+          clockInBranch: 'Global'
         })
       });
-      // Optionally refetch here to ensure we get the new record ID back if we just created one
       fetchAttendance();
     } catch (error) {
       console.error('Failed to update status', error);
-      // We could revert the optimistic update here if needed
+      alert('Failed to update status. Please try again.');
+    }
+  };
+
+  const handleGenerateCode = async (staffId: string, role: string) => {
+    try {
+      setGeneratingCodeFor(staffId);
+      const res = await fetch('/api/device-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: staffId, role })
+      });
+      if (res.ok) {
+        await fetchAttendance();
+      } else {
+        alert('Failed to generate code.');
+      }
+    } catch (error) {
+      console.error('Failed to generate code:', error);
+      alert('Failed to generate code.');
+    } finally {
+      setGeneratingCodeFor(null);
     }
   };
 
@@ -279,6 +298,7 @@ export default function AttendanceManager() {
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Date</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>In Time</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Out Time</th>
+                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Device Code</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Status</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600, textAlign: 'right' }}>Actions</th>
               </tr>
@@ -286,13 +306,13 @@ export default function AttendanceManager() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={8} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                  <td colSpan={9} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
                     Loading attendance data...
                   </td>
                 </tr>
               ) : filteredData.length === 0 ? (
                 <tr>
-                  <td colSpan={8} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
+                  <td colSpan={9} style={{ padding: '3rem', textAlign: 'center', color: 'rgba(17,24,39,0.4)' }}>
                     No records found matching your filters.
                   </td>
                 </tr>
@@ -341,6 +361,24 @@ export default function AttendanceManager() {
                           return t;
                         })()}
                       </span>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        {record.deviceVerificationCode ? (
+                          <span style={{ fontWeight: 600, color: '#10b981', fontFamily: 'monospace', fontSize: '1.1rem', letterSpacing: '0.1em' }}>
+                            {record.deviceVerificationCode}
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => handleGenerateCode(record.staffId, record.role)}
+                            disabled={generatingCodeFor === record.staffId}
+                            className={styles.primaryBtn}
+                            style={{ padding: '0.25rem 0.75rem', fontSize: '0.75rem', background: '#3b82f6', opacity: generatingCodeFor === record.staffId ? 0.7 : 1 }}
+                          >
+                            {generatingCodeFor === record.staffId ? '...' : 'Generate'}
+                          </button>
+                        )}
+                      </div>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>
                       <select

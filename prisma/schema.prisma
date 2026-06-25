@@ -32,6 +32,8 @@ model FacultyUser {
   status           String  // "Active" | "Inactive"
   assignedCourses  Json    // string[]
   assignedBranches Json    // string[]
+  deviceIdentifier String?
+  deviceVerificationCode String?
 
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
@@ -129,6 +131,8 @@ model AdminUser {
   password  String
   role      String  // "superadmin" | "subadmin"
   branch    String?
+  deviceIdentifier String?
+  deviceVerificationCode String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

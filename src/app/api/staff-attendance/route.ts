@@ -25,14 +25,16 @@ export async function GET(request: Request) {
         name: a.name, 
         role: a.role === 'superadmin' ? 'Super Admin' : 'Sub Admin', 
         branch: a.branch || 'Global',
-        displayId: `Info${i + 1}`
+        displayId: `Info${i + 1}`,
+        deviceVerificationCode: a.deviceVerificationCode
       })),
       ...faculties.map((f, i) => ({ 
         id: f.id, 
         name: f.name, 
         role: 'Faculty', 
         branch: 'Global',
-        displayId: `Info${admins.length + i + 1}`
+        displayId: `Info${admins.length + i + 1}`,
+        deviceVerificationCode: f.deviceVerificationCode
       }))
     ];
 
@@ -58,6 +60,7 @@ export async function GET(request: Request) {
         outTime: record?.clockOutTime || '--:--',
         status: statusDisplay,
         displayId: staff.displayId,
+        deviceVerificationCode: staff.deviceVerificationCode || null,
       };
     });
 
