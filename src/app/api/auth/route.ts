@@ -13,11 +13,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ id: 'SA-1', name: 'Superadmin', role: 'superadmin' });
     }
 
-    // Sub Admin Hardcoded (bypasses device verification)
-    if (identifier === 'amaansh2120' && password === 'Amaansh2120') {
-      return NextResponse.json({ id: 'SUB-1', name: 'Mr Amaan Shaikh', role: 'subadmin', branch: 'Shashtri Nagar' });
-    }
-
     // Check Admin Table
     let admin = await prisma.adminUser.findFirst({
       where: {
