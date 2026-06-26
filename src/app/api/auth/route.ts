@@ -1,7 +1,22 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import bcrypt from 'bcryptjs';
+import { signToken } from '@/lib/jwt';
+import { cookies } from 'next/headers';
 
 export const dynamic = "force-dynamic";
+
+async function createSession(userPayload: any) {
+  const token = await signToken(userPayload);
+  const cookieStore = await cookies();
+  cookieStore.set('nexus_session', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 24 // 24 hours
+  });
+}
 
 export async function POST(request: Request) {
   try {
@@ -10,7 +25,9 @@ export async function POST(request: Request) {
 
     // Super Admin Hardcoded (bypasses device verification)
     if (identifier === 'Superadmin' && password === 'Admin@Super@Info') {
-      return NextResponse.json({ id: 'SA-1', name: 'Superadmin', role: 'superadmin' });
+      const userPayload = { id: 'SA-1', name: 'Superadmin', role: 'superadmin' };
+      await createSession(userPayload);
+      return NextResponse.json(userPayload);
     }
 
     // Check Admin Table
@@ -20,7 +37,7 @@ export async function POST(request: Request) {
       }
     });
 
-    if (admin && admin.password === password) {
+    if (admin && await bcrypt.compare(password, admin.password)) {
       if (!admin.deviceIdentifier) {
         // First time login - register device
         await prisma.adminUser.update({
@@ -39,7 +56,9 @@ export async function POST(request: Request) {
           return NextResponse.json({ error: 'device_verification_required', message: 'This device is not recognized. Please enter the verification code from the Super Admin.' }, { status: 403 });
         }
       }
-      return NextResponse.json({ id: admin.id, name: admin.name, role: admin.role, branch: admin.branch });
+      const userPayload = { id: admin.id, name: admin.name, role: admin.role, branch: admin.branch };
+      await createSession(userPayload);
+      return NextResponse.json(userPayload);
     }
 
     // Check Faculty Table
@@ -49,7 +68,7 @@ export async function POST(request: Request) {
       }
     });
 
-    if (faculty && faculty.password === password) {
+    if (faculty && await bcrypt.compare(password, faculty.password)) {
       if (!faculty.deviceIdentifier) {
         // First time login - register device
         await prisma.facultyUser.update({
@@ -68,7 +87,9 @@ export async function POST(request: Request) {
           return NextResponse.json({ error: 'device_verification_required', message: 'This device is not recognized. Please enter the verification code from the Super Admin.' }, { status: 403 });
         }
       }
-      return NextResponse.json({ id: faculty.id, name: faculty.name, role: 'faculty' });
+      const userPayload = { id: faculty.id, name: faculty.name, role: 'faculty' };
+      await createSession(userPayload);
+      return NextResponse.json(userPayload);
     }
 
     // Check Student Table
@@ -78,12 +99,15 @@ export async function POST(request: Request) {
       }
     });
 
-    if (student && student.password === password) {
-      return NextResponse.json({ id: student.id, name: student.name, role: 'student', branch: student.branch });
+    if (student && await bcrypt.compare(password, student.password)) {
+      const userPayload = { id: student.id, name: student.name, role: 'student', branch: student.branch };
+      await createSession(userPayload);
+      return NextResponse.json(userPayload);
     }
 
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   } catch (error) {
+    console.error('Auth error:', error);
     return NextResponse.json({ error: 'Authentication failed' }, { status: 500 });
   }
 }

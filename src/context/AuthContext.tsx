@@ -47,9 +47,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('nexus_user', JSON.stringify(newUser));
   };
 
-  const logout = () => {
+  const logout = async () => {
     setUser(null);
     localStorage.removeItem('nexus_user');
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (e) {
+      console.error('Logout error:', e);
+    }
     router.push('/login');
   };
 

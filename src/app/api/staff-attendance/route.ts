@@ -19,6 +19,9 @@ export async function GET(request: Request) {
     const faculties = await prisma.facultyUser.findMany();
     const admins = await prisma.adminUser.findMany();
 
+    const userRole = request.headers.get('x-user-role');
+    const isAdmin = userRole === 'superadmin' || userRole === 'subadmin';
+
     const allStaff = [
       ...admins.map((a, i) => ({ 
         id: a.id, 
@@ -26,7 +29,7 @@ export async function GET(request: Request) {
         role: a.role === 'superadmin' ? 'Super Admin' : 'Sub Admin', 
         branch: a.branch || 'Global',
         displayId: `Info${i + 1}`,
-        deviceVerificationCode: a.deviceVerificationCode
+        deviceVerificationCode: isAdmin ? a.deviceVerificationCode : null
       })),
       ...faculties.map((f, i) => ({ 
         id: f.id, 
@@ -34,7 +37,7 @@ export async function GET(request: Request) {
         role: 'Faculty', 
         branch: 'Global',
         displayId: `Info${admins.length + i + 1}`,
-        deviceVerificationCode: f.deviceVerificationCode
+        deviceVerificationCode: isAdmin ? f.deviceVerificationCode : null
       }))
     ];
 
