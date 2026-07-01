@@ -20,7 +20,7 @@ export default function AttendanceManager() {
 
   const fetchAttendance = async () => {
     try {
-      const res = await fetch(`/api/staff-attendance?date=${selectedDate}`, { cache: 'no-store' });
+      const res = await fetch(`/api/staff-attendance?startDate=${startDate}&endDate=${endDate}`, { cache: 'no-store' });
       const data = await res.json();
       if (Array.isArray(data)) {
         setAttendanceData(data);
@@ -55,18 +55,20 @@ export default function AttendanceManager() {
   const exportCSV = () => {
     if (filteredData.length === 0) return;
     
-    const headers = ['Date', 'Name', 'Role', 'Branch', 'Status', 'Time'];
+    const headers = ['Date', 'Name', 'Role', 'Branch', 'Status', 'Time', 'Device'];
     const csvRows = [headers.join(',')];
 
     filteredData.forEach(row => {
       const sessionStr = row.sessions?.map((s: any) => `${s.in} to ${s.out}`).join(' | ') || '';
+      const deviceStr = row.sessions?.map((s: any) => s.device || 'Unknown').join(' | ') || 'Unknown';
       const values = [
         row.date,
         `"${row.name}"`,
         row.role,
         row.branch,
         row.status,
-        `"${sessionStr}"`
+        `"${sessionStr}"`,
+        `"${deviceStr}"`
       ];
       csvRows.push(values.join(','));
     });
@@ -77,27 +79,26 @@ export default function AttendanceManager() {
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = `Attendance_Report_${selectedDate}.csv`;
+    link.download = `Attendance_Report_${startDate}_to_${endDate}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const handleStatusChange = async (staffId: string, recordId: string | null, newStatusDisplay: string) => {
+  const handleStatusChange = async (staffId: string, recordId: string | null, newStatusDisplay: string, date: string) => {
     let dbStatus = 'absent';
     if (newStatusDisplay === 'Present') dbStatus = 'present';
     else if (newStatusDisplay === 'Late') dbStatus = 'late';
     else if (newStatusDisplay === 'On Leave') dbStatus = 'on leave';
 
     setAttendanceData(prevData => prevData.map(record => {
-      if (record.staffId === staffId) {
+      if (record.staffId === staffId && record.date === date) {
         return { ...record, status: newStatusDisplay };
       }
       return record;
     }));
 
     try {
-      const today = selectedDate;
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
       await fetch('/api/staff-attendance', {
@@ -106,7 +107,7 @@ export default function AttendanceManager() {
         body: JSON.stringify({
           id: recordId, 
           staffId,
-          date: today,
+          date: date,
           status: dbStatus,
           clockInTime: dbStatus === 'present' || dbStatus === 'late' ? timeStr : null,
           clockInBranch: 'Global'
@@ -193,7 +194,7 @@ export default function AttendanceManager() {
               <CheckCircle2 size={24} />
             </div>
             <div>
-              <div style={{ color: 'rgba(17,24,39,0.5)', fontSize: '0.875rem', fontWeight: 500 }}>Present Today</div>
+              <div style={{ color: 'rgba(17,24,39,0.5)', fontSize: '0.875rem', fontWeight: 500 }}>Present (Selected)</div>
               <div style={{ color: '#111827', fontSize: '1.5rem', fontWeight: 700 }}>{presentCount}</div>
             </div>
           </div>
@@ -205,7 +206,7 @@ export default function AttendanceManager() {
               <XCircle size={24} />
             </div>
             <div>
-              <div style={{ color: 'rgba(17,24,39,0.5)', fontSize: '0.875rem', fontWeight: 500 }}>Absent Today</div>
+              <div style={{ color: 'rgba(17,24,39,0.5)', fontSize: '0.875rem', fontWeight: 500 }}>Absent (Selected)</div>
               <div style={{ color: '#111827', fontSize: '1.5rem', fontWeight: 700 }}>{absentCount}</div>
             </div>
           </div>
@@ -243,11 +244,21 @@ export default function AttendanceManager() {
 
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem', flex: 1, minWidth: '150px' }}>
-              <CalendarIcon size={16} color="rgba(17,24,39,0.5)" />
+              <span style={{fontSize: '0.8rem', color: 'gray'}}>From:</span>
               <input 
                 type="date" 
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '0.9rem', color: '#111827', fontWeight: 500, fontFamily: 'inherit' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(17,24,39,0.03)', padding: '0.5rem 1rem', borderRadius: '0.75rem', flex: 1, minWidth: '150px' }}>
+              <span style={{fontSize: '0.8rem', color: 'gray'}}>To:</span>
+              <input 
+                type="date" 
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
                 style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '0.9rem', color: '#111827', fontWeight: 500, fontFamily: 'inherit' }}
               />
             </div>
@@ -293,6 +304,7 @@ export default function AttendanceManager() {
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Date</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>In Time</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Out Time</th>
+                <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Device</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Device Code</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600 }}>Status</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600, textAlign: 'right' }}>Actions</th>
@@ -357,6 +369,15 @@ export default function AttendanceManager() {
                             </span>
                           );
                         }) : <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'monospace' }}>--:--</span>}
+                      </div>
+                    </td>
+                    <td style={{ padding: '1rem 1.5rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                        {record.sessions?.length > 0 ? record.sessions.map((session: any, idx: number) => (
+                          <span key={idx} style={{ fontSize: '0.85rem', color: '#6b7280', background: 'rgba(17,24,39,0.03)', padding: '0.25rem 0.5rem', borderRadius: '0.25rem' }}>
+                            {session.device || 'Unknown'}
+                          </span>
+                        )) : <span style={{ fontSize: '0.9rem', color: '#6b7280' }}>--</span>}
                       </div>
                     </td>
                     <td style={{ padding: '1rem 1.5rem' }}>

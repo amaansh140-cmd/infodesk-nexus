@@ -34,6 +34,7 @@ model FacultyUser {
   assignedBranches Json    // string[]
   deviceIdentifier String?
   deviceVerificationCode String?
+  deviceModel      String?
 
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
@@ -63,6 +64,7 @@ model StaffAttendanceRecord {
   clockInBranch  String?
   clockOutBranch String?
   status         String  // "present" | "absent" | "late" | "ongoing"
+  deviceModel    String?
 
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -133,6 +135,7 @@ model AdminUser {
   branch    String?
   deviceIdentifier String?
   deviceVerificationCode String?
+  deviceModel      String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

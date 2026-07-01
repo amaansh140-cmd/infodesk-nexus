@@ -103,6 +103,18 @@ export default function FacultyAttendance() {
     );
   };
 
+  const getDeviceModel = () => {
+    if (typeof navigator === 'undefined') return 'Unknown';
+    const ua = navigator.userAgent;
+    if (/iPhone/i.test(ua)) return 'iPhone';
+    if (/iPad/i.test(ua)) return 'iPad';
+    if (/Android/i.test(ua)) return 'Android Device';
+    if (/Mac OS X/i.test(ua)) return 'Mac OS';
+    if (/Windows/i.test(ua)) return 'Windows PC';
+    if (/Linux/i.test(ua)) return 'Linux';
+    return 'Unknown Device';
+  };
+
   const handleClockIn = () => {
     if (geoStatus !== 'success') {
       verifyLocation(() => {
@@ -121,6 +133,7 @@ export default function FacultyAttendance() {
       date: todayString,
       clockInTime: now.toISOString(),
       clockInBranch: activeBranch || undefined,
+      deviceModel: getDeviceModel(),
       status: 'ongoing'
     });
   };

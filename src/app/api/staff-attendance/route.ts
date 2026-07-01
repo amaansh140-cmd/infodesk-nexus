@@ -6,14 +6,16 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const dateParam = searchParams.get('date');
+    const startDate = searchParams.get('startDate') || searchParams.get('date') || new Date().toLocaleDateString('en-CA');
+    const endDate = searchParams.get('endDate') || searchParams.get('date') || new Date().toLocaleDateString('en-CA');
     
-    // Use provided date or fallback to today
-    const targetDate = dateParam || new Date().toLocaleDateString('en-CA');
-    
-    // Get all records for the target date
-    const todayRecords = await prisma.staffAttendanceRecord.findMany({
-      where: { date: targetDate }
+    const records = await prisma.staffAttendanceRecord.findMany({
+      where: { 
+        date: {
+          gte: startDate,
+          lte: endDate
+        }
+      }
     });
 
     const faculties = await prisma.facultyUser.findMany();
@@ -41,44 +43,53 @@ export async function GET(request: Request) {
       }))
     ];
 
-    const formattedRecords = allStaff.map(staff => {
-      const staffRecords = todayRecords
-        .filter(r => r.staffId === staff.id)
-        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-      
-      let statusDisplay = 'Absent';
-      if (staffRecords.length > 0) {
-        const hasOngoing = staffRecords.some(r => r.status === 'ongoing');
-        if (hasOngoing) statusDisplay = 'Present';
-        else {
-          const lastRec = staffRecords[staffRecords.length - 1];
-          if (lastRec.status === 'present' || lastRec.status === 'ongoing') statusDisplay = 'Present';
-          else if (lastRec.status === 'late') statusDisplay = 'Late';
-          else if (lastRec.status === 'on leave') statusDisplay = 'On Leave';
+    // Find all unique dates in the records, plus the startDate/endDate range
+    const dates = new Set<string>();
+    records.forEach(r => dates.add(r.date));
+    if (dates.size === 0) dates.add(startDate); // Ensure at least one date is rendered if empty
+
+    const formattedRecords: any[] = [];
+
+    Array.from(dates).sort((a, b) => new Date(b).getTime() - new Date(a).getTime()).forEach(targetDate => {
+      allStaff.forEach(staff => {
+        const staffRecords = records
+          .filter(r => r.staffId === staff.id && r.date === targetDate)
+          .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        
+        let statusDisplay = 'Absent';
+        if (staffRecords.length > 0) {
+          const hasOngoing = staffRecords.some(r => r.status === 'ongoing');
+          if (hasOngoing) statusDisplay = 'Present';
+          else {
+            const lastRec = staffRecords[staffRecords.length - 1];
+            if (lastRec.status === 'present' || lastRec.status === 'ongoing') statusDisplay = 'Present';
+            else if (lastRec.status === 'late') statusDisplay = 'Late';
+            else if (lastRec.status === 'on leave') statusDisplay = 'On Leave';
+          }
         }
-      }
 
-      // Latest record used for basic fields like branch if needed
-      const lastRecord = staffRecords.length > 0 ? staffRecords[staffRecords.length - 1] : null;
+        const lastRecord = staffRecords.length > 0 ? staffRecords[staffRecords.length - 1] : null;
 
-      const sessions = staffRecords.map(r => ({
-        id: r.id,
-        in: r.clockInTime || '--:--',
-        out: r.clockOutTime || '--:--'
-      }));
+        const sessions = staffRecords.map(r => ({
+          id: r.id,
+          in: r.clockInTime || '--:--',
+          out: r.clockOutTime || '--:--',
+          device: r.deviceModel || null
+        }));
 
-      return {
-        id: lastRecord?.id || null, // null if no record exists yet for today
-        staffId: staff.id,
-        name: staff.name,
-        role: staff.role,
-        branch: lastRecord?.clockInBranch || staff.branch,
-        date: targetDate,
-        sessions: sessions, // Array of { id, in, out }
-        status: statusDisplay,
-        displayId: staff.displayId,
-        deviceVerificationCode: staff.deviceVerificationCode || null,
-      };
+        formattedRecords.push({
+          id: lastRecord?.id || null,
+          staffId: staff.id,
+          name: staff.name,
+          role: staff.role,
+          branch: lastRecord?.clockInBranch || staff.branch,
+          date: targetDate,
+          sessions: sessions,
+          status: statusDisplay,
+          displayId: staff.displayId,
+          deviceVerificationCode: staff.deviceVerificationCode || null,
+        });
+      });
     });
 
     return NextResponse.json(formattedRecords);
@@ -111,6 +122,7 @@ export async function POST(request: Request) {
         clockInTime: data.clockInTime,
         clockInBranch: data.clockInBranch,
         status: data.status,
+        deviceModel: data.deviceModel,
       }
     });
     return NextResponse.json(record);

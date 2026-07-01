@@ -52,6 +52,7 @@ export interface StaffAttendanceRecord {
   clockOutTime: string | null;
   clockInBranch?: string;
   clockOutBranch?: string;
+  deviceModel?: string;
   status: 'present' | 'absent' | 'late' | 'ongoing';
 }
 
