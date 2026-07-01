@@ -14,7 +14,8 @@ export default function AttendanceManager() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterBranch, setFilterBranch] = useState('All');
   const [filterRole, setFilterRole] = useState('All');
-  const [selectedDate, setSelectedDate] = useState(() => new Date().toLocaleDateString('en-CA'));
+  const [startDate, setStartDate] = useState(() => new Date().toLocaleDateString('en-CA'));
+  const [endDate, setEndDate] = useState(() => new Date().toLocaleDateString('en-CA'));
   const [isLoading, setIsLoading] = useState(true);
   const [generatingCodeFor, setGeneratingCodeFor] = useState<string | null>(null);
 
@@ -34,7 +35,7 @@ export default function AttendanceManager() {
 
   useEffect(() => {
     fetchAttendance();
-  }, [selectedDate]);
+  }, [startDate, endDate]);
 
   // Calculate top stats
   const totalRecords = attendanceData.length;
