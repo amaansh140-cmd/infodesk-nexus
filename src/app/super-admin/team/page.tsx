@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, UserPlus, Filter, Upload, Edit2, Trash2, X, Save } from 'lucide-react';
+import { Search, UserPlus, Filter, Upload, Edit2, Trash2, X, Save, LogIn } from 'lucide-react';
 import styles from '../super-admin.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 export default function TeamPage() {
   const [unifiedUsers, setUnifiedUsers] = useState<any[]>([]);
@@ -12,6 +13,7 @@ export default function TeamPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newUser, setNewUser] = useState({ name: '', username: '', password: '', role: 'Student', branch: 'Global', status: 'Active' });
   const [isLoading, setIsLoading] = useState(true);
+  const { login } = useAuth();
 
   const fetchUsers = async () => {
     try {
@@ -97,6 +99,29 @@ export default function TeamPage() {
     } catch (error) {
       console.error('Delete failed:', error);
       alert('Failed to delete user');
+    }
+  };
+
+  const handleImpersonate = async (targetId: string, targetRole: string) => {
+    if (!confirm(`Are you sure you want to login as this ${targetRole}? You will be logged out of your Super Admin account.`)) return;
+    try {
+      const res = await fetch('/api/auth/impersonate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ targetId, targetRole })
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        login(payload);
+        if (payload.role === 'student') window.location.href = '/student';
+        else if (payload.role === 'faculty') window.location.href = '/faculty';
+        else if (payload.role === 'subadmin') window.location.href = '/admin';
+      } else {
+        alert('Failed to login as user');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error impersonating user');
     }
   };
 
@@ -231,6 +256,7 @@ export default function TeamPage() {
                     </td>
                     <td>
                       <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button className={styles.actionBtn} aria-label="Login As" title="Login as this user" onClick={() => handleImpersonate(u.id, u.role)}><LogIn size={16} /></button>
                         <button className={styles.actionBtn} aria-label="Edit" onClick={() => setEditingUser(u)}><Edit2 size={16} /></button>
                         <button className={styles.actionBtn} aria-label="Delete" onClick={() => handleDelete(u.id, u.role)}><Trash2 size={16} /></button>
                       </div>
