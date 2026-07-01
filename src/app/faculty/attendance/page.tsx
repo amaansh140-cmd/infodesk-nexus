@@ -49,7 +49,9 @@ export default function FacultyAttendance() {
         
         let assignedBranches: string[] = [];
         if (currentUser) {
-          assignedBranches = currentUser.assignedBranches || [];
+          assignedBranches = currentUser.assignedBranches && currentUser.assignedBranches.length > 0 
+            ? currentUser.assignedBranches 
+            : ['Global'];
         } else if (adminUser) {
           assignedBranches = [adminUser.branch || 'Global'];
         }
