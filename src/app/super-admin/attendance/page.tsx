@@ -402,7 +402,7 @@ export default function AttendanceManager() {
                     <td style={{ padding: '1rem 1.5rem' }}>
                       <select
                         value={record.status}
-                        onChange={(e) => handleStatusChange(record.staffId, record.id, e.target.value)}
+                        onChange={(e) => handleStatusChange(record.staffId, record.id, e.target.value, record.date)}
                         style={{ 
                           padding: '0.25rem 0.5rem', 
                           borderRadius: '99px', 
