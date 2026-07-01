@@ -48,12 +48,14 @@ export default function FacultyAttendance() {
         const adminUser = admins.find(a => a.id === user?.id);
         
         let assignedBranches: string[] = [];
-        if (currentUser) {
-          assignedBranches = currentUser.assignedBranches && currentUser.assignedBranches.length > 0 
-            ? currentUser.assignedBranches 
-            : ['Global'];
-        } else if (adminUser) {
-          assignedBranches = [adminUser.branch || 'Global'];
+        if (user?.role === 'faculty') {
+          if (currentUser && currentUser.assignedBranches && currentUser.assignedBranches.length > 0) {
+            assignedBranches = currentUser.assignedBranches;
+          } else {
+            assignedBranches = ['Global'];
+          }
+        } else if (user?.role === 'superadmin' || user?.role === 'subadmin') {
+          assignedBranches = [adminUser?.branch || 'Global'];
         }
 
         let branchesToCheck = assignedBranches;
