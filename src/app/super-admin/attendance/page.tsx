@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Users, CheckCircle2, XCircle, Clock, 
-  Search, Filter, Download, MoreVertical,
+  Search, Filter, Download, Edit2, Trash2, X, Save,
   Calendar as CalendarIcon, MapPin
 } from 'lucide-react';
 import styles from '../super-admin.module.css';
