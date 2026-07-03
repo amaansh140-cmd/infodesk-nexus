@@ -107,7 +107,8 @@ export async function POST(request: Request) {
       const updated = await prisma.staffAttendanceRecord.update({
         where: { id: data.id },
         data: {
-          clockOutTime: data.clockOutTime,
+          clockInTime: data.clockInTime !== undefined ? data.clockInTime : undefined,
+          clockOutTime: data.clockOutTime !== undefined ? data.clockOutTime : undefined,
           clockOutBranch: data.clockOutBranch,
           status: data.status,
         }
@@ -128,5 +129,23 @@ export async function POST(request: Request) {
     return NextResponse.json(record);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create/update staff attendance record' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    
+    if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+
+    await prisma.staffAttendanceRecord.delete({
+      where: { id }
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Failed to delete attendance record:', error);
+    return NextResponse.json({ error: 'Failed to delete record' }, { status: 500 });
   }
 }

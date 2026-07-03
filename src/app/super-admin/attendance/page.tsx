@@ -19,6 +19,11 @@ export default function AttendanceManager() {
   const [isLoading, setIsLoading] = useState(true);
   const [generatingCodeFor, setGeneratingCodeFor] = useState<string | null>(null);
 
+  // Manage times modal state
+  const [managingRecord, setManagingRecord] = useState<any>(null);
+  const [editSessions, setEditSessions] = useState<any[]>([]);
+  const [isSavingSessions, setIsSavingSessions] = useState(false);
+
   const fetchAttendance = async () => {
     try {
       const res = await fetch(`/api/staff-attendance?startDate=${startDate}&endDate=${endDate}`, { cache: 'no-store' });
@@ -139,6 +144,59 @@ export default function AttendanceManager() {
       alert('Failed to generate code.');
     } finally {
       setGeneratingCodeFor(null);
+    }
+  };
+
+  const handleManageTimes = (record: any) => {
+    setManagingRecord(record);
+    setEditSessions(record.sessions.map((s: any) => ({ ...s })));
+  };
+
+  const handleAddSessionRow = () => {
+    setEditSessions([...editSessions, { id: null, in: '--:--', out: '--:--', device: 'Manual Override' }]);
+  };
+
+  const handleDeleteSession = async (sessionId: string, index: number) => {
+    if (!confirm('Are you sure you want to delete this session?')) return;
+    try {
+      await fetch(`/api/staff-attendance?id=${sessionId}`, { method: 'DELETE' });
+      const newS = [...editSessions];
+      newS.splice(index, 1);
+      setEditSessions(newS);
+      fetchAttendance();
+    } catch (e) {
+      alert('Failed to delete session');
+    }
+  };
+
+  const handleSaveSessions = async () => {
+    setIsSavingSessions(true);
+    try {
+      for (const session of editSessions) {
+        const payload: any = {
+          staffId: managingRecord.staffId,
+          date: managingRecord.date,
+          clockInTime: session.in !== '--:--' ? session.in : null,
+          clockOutTime: session.out !== '--:--' ? session.out : null,
+          clockInBranch: 'Global',
+          status: managingRecord.status === 'Absent' ? 'Present' : managingRecord.status,
+          deviceModel: session.device
+        };
+        if (session.id) {
+          payload.id = session.id;
+        }
+        await fetch('/api/staff-attendance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+      setManagingRecord(null);
+      await fetchAttendance();
+    } catch (error) {
+      alert('Error saving sessions');
+    } finally {
+      setIsSavingSessions(false);
     }
   };
 
@@ -428,8 +486,12 @@ export default function AttendanceManager() {
                       </select>
                     </td>
                     <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                      <button style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(17,24,39,0.4)' }}>
-                        <MoreVertical size={18} />
+                      <button 
+                        onClick={() => handleManageTimes(record)}
+                        className={styles.actionBtn} 
+                        title="Manage Times"
+                      >
+                        <Edit2 size={16} />
                       </button>
                     </td>
                   </tr>
@@ -440,6 +502,101 @@ export default function AttendanceManager() {
         </div>
 
       </div>
+
+      {/* Manage Times Modal */}
+      {managingRecord && (
+        <div className={styles.modalOverlay}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className={styles.modalContent}
+            style={{ maxWidth: '600px' }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#111827' }}>
+                Manage Times: {managingRecord.name}
+              </h2>
+              <button onClick={() => setManagingRecord(null)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(17,24,39,0.5)' }}>
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div style={{ marginBottom: '1rem', color: 'gray', fontSize: '0.9rem' }}>
+              Date: <strong>{managingRecord.date}</strong> | Role: {managingRecord.role}
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+              {editSessions.map((session, index) => (
+                <div key={session.id || index} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', background: 'rgba(17,24,39,0.02)', padding: '1rem', borderRadius: '0.75rem' }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '0.75rem', color: 'gray', display: 'block', marginBottom: '0.25rem' }}>In Time</label>
+                    <input 
+                      type="text" 
+                      value={session.in} 
+                      onChange={(e) => {
+                        const newS = [...editSessions];
+                        newS[index].in = e.target.value;
+                        setEditSessions(newS);
+                      }}
+                      placeholder="e.g. 09:00 AM"
+                      style={{ width: '100%', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid #e5e7eb' }} 
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '0.75rem', color: 'gray', display: 'block', marginBottom: '0.25rem' }}>Out Time</label>
+                    <input 
+                      type="text" 
+                      value={session.out} 
+                      onChange={(e) => {
+                        const newS = [...editSessions];
+                        newS[index].out = e.target.value;
+                        setEditSessions(newS);
+                      }}
+                      placeholder="e.g. 05:00 PM"
+                      style={{ width: '100%', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid #e5e7eb' }} 
+                    />
+                  </div>
+                  {session.id && (
+                    <button 
+                      title="Delete Session"
+                      onClick={() => handleDeleteSession(session.id, index)}
+                      style={{ padding: '0.5rem', background: '#fee2e2', color: '#ef4444', border: 'none', borderRadius: '0.5rem', cursor: 'pointer', marginTop: '1.25rem' }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  )}
+                </div>
+              ))}
+              
+              <button 
+                onClick={handleAddSessionRow}
+                style={{ alignSelf: 'flex-start', fontSize: '0.85rem', padding: '0.5rem 1rem', background: 'rgba(59,130,246,0.1)', color: '#3b82f6', border: 'none', borderRadius: '0.5rem', cursor: 'pointer', fontWeight: 500 }}
+              >
+                + Add Manual Session
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', paddingTop: '1rem', borderTop: '1px solid rgba(17,24,39,0.05)' }}>
+              <button
+                onClick={() => setManagingRecord(null)}
+                style={{ padding: '0.6rem 1.2rem', borderRadius: '0.75rem', border: '1px solid rgba(17,24,39,0.1)', background: 'white', color: '#111827', fontWeight: 500, cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveSessions}
+                disabled={isSavingSessions}
+                className={styles.primaryBtn}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', opacity: isSavingSessions ? 0.7 : 1 }}
+              >
+                <Save size={16} />
+                {isSavingSessions ? 'Saving...' : 'Save Changes'}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
     </motion.div>
   );
 }
