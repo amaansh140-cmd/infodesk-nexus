@@ -149,7 +149,7 @@ export default function AttendanceManager() {
 
   const handleManageTimes = (record: any) => {
     setManagingRecord(record);
-    setEditSessions(record.sessions.map((s: any) => ({ ...s })));
+    setEditSessions(Array.isArray(record.sessions) ? record.sessions.map((s: any) => ({ ...s })) : []);
   };
 
   const handleAddSessionRow = () => {
