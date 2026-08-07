@@ -34,6 +34,7 @@ export default function FacultyManagementPage() {
       userBranch.toLowerCase().includes(b.toLowerCase())
     ));
     
+    const matchesStatus = filterStatus === 'All' || record.status === filterStatus;
     return matchesSearch && matchesDept && matchesStatus && matchesBranch;
   });
 
