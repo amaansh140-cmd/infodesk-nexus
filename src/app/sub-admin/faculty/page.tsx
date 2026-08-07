@@ -28,9 +28,10 @@ export default function FacultyManagementPage() {
                           record.id.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDept = filterDepartment === 'All' || record.department === filterDepartment;
     // Check if the user is a sub-admin and if the faculty belongs to their branch
-    const matchesBranch = user?.role === 'superadmin' || (user?.branch && record.assignedBranches?.some((b: string) => 
-      b.toLowerCase().includes(user.branch.toLowerCase()) || 
-      user.branch.toLowerCase().includes(b.toLowerCase())
+    const userBranch = user?.branch || '';
+    const matchesBranch = user?.role === 'superadmin' || (userBranch && record.assignedBranches?.some((b: string) => 
+      b.toLowerCase().includes(userBranch.toLowerCase()) || 
+      userBranch.toLowerCase().includes(b.toLowerCase())
     ));
     
     return matchesSearch && matchesDept && matchesStatus && matchesBranch;
