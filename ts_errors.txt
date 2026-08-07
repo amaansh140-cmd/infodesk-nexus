@@ -1,0 +1,6 @@
+error TS6053: File '/Users/amaanshaikh/Library/Mobile Documents/com~apple~CloudDocs/Antigravity/Infodesk/infodesk-nexus/.next/types/routes.d 2.ts' not found.
+  The file is in the program because:
+    Matched by include pattern '.next/types/**/*.ts' in '/Users/amaanshaikh/Library/Mobile Documents/com~apple~CloudDocs/Antigravity/Infodesk/infodesk-nexus/tsconfig.json'
+error TS6053: File '/Users/amaanshaikh/Library/Mobile Documents/com~apple~CloudDocs/Antigravity/Infodesk/infodesk-nexus/.next/types/validator 2.ts' not found.
+  The file is in the program because:
+    Matched by include pattern '.next/types/**/*.ts' in '/Users/amaanshaikh/Library/Mobile Documents/com~apple~CloudDocs/Antigravity/Infodesk/infodesk-nexus/tsconfig.json'

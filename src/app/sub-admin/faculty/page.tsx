@@ -27,8 +27,13 @@ export default function FacultyManagementPage() {
     const matchesSearch = record.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           record.id.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDept = filterDepartment === 'All' || record.department === filterDepartment;
-    const matchesStatus = filterStatus === 'All' || record.status === filterStatus;
-    return matchesSearch && matchesDept && matchesStatus;
+    // Check if the user is a sub-admin and if the faculty belongs to their branch
+    const matchesBranch = user?.role === 'superadmin' || (user?.branch && record.assignedBranches?.some((b: string) => 
+      b.toLowerCase().includes(user.branch.toLowerCase()) || 
+      user.branch.toLowerCase().includes(b.toLowerCase())
+    ));
+    
+    return matchesSearch && matchesDept && matchesStatus && matchesBranch;
   });
 
   const getStatusBadge = (status: string) => {

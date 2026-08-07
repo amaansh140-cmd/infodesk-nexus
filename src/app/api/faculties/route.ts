@@ -34,7 +34,7 @@ export async function POST(request: Request) {
         department: data.department,
         status: data.status,
         assignedCourses: data.assignedCourses || [],
-        assignedBranches: data.department === 'Global' ? ['Global'] : [data.department, 'Global'],
+        assignedBranches: data.assignedBranches || [],
       }
     });
     const { password, ...safeFaculty } = faculty;
@@ -57,9 +57,7 @@ export async function PUT(request: Request) {
       updateData.password = await bcrypt.hash(updateData.password, 10);
     }
 
-    if (updateData.department) {
-      updateData.assignedBranches = updateData.department === 'Global' ? ['Global'] : [updateData.department, 'Global'];
-    }
+
 
     const updatedFaculty = await prisma.facultyUser.update({
       where: { id },

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Search, UserPlus, Filter, Upload, Edit2, Trash2, X, Save, LogIn } from 'lucide-react';
 import styles from '../super-admin.module.css';
 import { useAuth } from '@/context/AuthContext';
+import { useDatabase } from '@/context/DatabaseContext';
 
 export default function TeamPage() {
   const [unifiedUsers, setUnifiedUsers] = useState<any[]>([]);
@@ -14,6 +15,7 @@ export default function TeamPage() {
   const [newUser, setNewUser] = useState({ name: '', username: '', password: '', role: 'Student', branch: 'Global', status: 'Active' });
   const [isLoading, setIsLoading] = useState(true);
   const { login } = useAuth();
+  const { branches } = useDatabase();
 
   const fetchUsers = async () => {
     try {
@@ -295,10 +297,9 @@ export default function TeamPage() {
               <label className={styles.label}>Branch</label>
               <select className={styles.input} value={editingUser.branch} onChange={(e) => setEditingUser({...editingUser, branch: e.target.value})}>
                 <option value="Global">Global</option>
-                <option value="Shashtri Nagar">Shashtri Nagar</option>
-                <option value="Jawahar Nagar">Jawahar Nagar</option>
-                <option value="Jogeshwari">Jogeshwari</option>
-                <option value="Behram Baug">Behram Baug</option>
+                {branches.map(b => (
+                  <option key={b.id} value={b.name}>{b.name}</option>
+                ))}
               </select>
             </div>
             <div className={styles.formGroup}>
@@ -354,10 +355,9 @@ export default function TeamPage() {
               <label className={styles.label}>Branch</label>
               <select className={styles.input} value={newUser.branch} onChange={(e) => setNewUser({...newUser, branch: e.target.value})}>
                 <option value="Global">Global</option>
-                <option value="Shashtri Nagar">Shashtri Nagar</option>
-                <option value="Jawahar Nagar">Jawahar Nagar</option>
-                <option value="Jogeshwari">Jogeshwari</option>
-                <option value="Behram Baug">Behram Baug</option>
+                {branches.map(b => (
+                  <option key={b.id} value={b.name}>{b.name}</option>
+                ))}
               </select>
             </div>
             <div className={styles.formGroup}>
