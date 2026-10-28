@@ -39,7 +39,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem('nexus_user');
       }
     }
-    setIsLoading(false);
+
+    // Synchronize session with server cookie
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.user) {
+          setUser(data.user);
+          localStorage.setItem('nexus_user', JSON.stringify(data.user));
+        } else {
+          // If server reports no active session, clear local user
+          setUser(null);
+          localStorage.removeItem('nexus_user');
+        }
+      })
+      .catch(e => {
+        console.warn('Could not verify server session', e);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const login = (newUser: User) => {

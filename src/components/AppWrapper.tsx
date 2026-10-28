@@ -24,18 +24,20 @@ export default function AppWrapper({ children }: { children: React.ReactNode }) 
     if (isPortalRoute && !user) {
       router.push('/login');
     } else if (user) {
-      // Basic role protection
-      if (pathname?.startsWith('/super-admin') && user.role !== 'superadmin') {
-        router.push(`/${user.role === 'subadmin' ? 'sub-admin' : user.role}`);
-      }
-      if (pathname?.startsWith('/sub-admin') && user.role !== 'subadmin') {
-        router.push(`/${user.role === 'superadmin' ? 'super-admin' : user.role}`);
-      }
-      if (pathname?.startsWith('/faculty') && user.role !== 'faculty') {
-        router.push(`/${user.role === 'superadmin' ? 'super-admin' : user.role === 'subadmin' ? 'sub-admin' : 'student'}`);
-      }
-      if (pathname?.startsWith('/student') && user.role !== 'student') {
-        router.push(`/${user.role === 'superadmin' ? 'super-admin' : user.role === 'subadmin' ? 'sub-admin' : 'faculty'}`);
+      // Basic role protection (Superadmin has global access)
+      if (user.role !== 'superadmin') {
+        if (pathname?.startsWith('/super-admin')) {
+          router.push(`/${user.role === 'subadmin' ? 'sub-admin' : user.role}`);
+        }
+        if (pathname?.startsWith('/sub-admin') && user.role !== 'subadmin') {
+          router.push(`/${user.role}`);
+        }
+        if (pathname?.startsWith('/faculty') && user.role !== 'faculty') {
+          router.push(`/${user.role === 'subadmin' ? 'sub-admin' : 'student'}`);
+        }
+        if (pathname?.startsWith('/student') && user.role !== 'student') {
+          router.push(`/${user.role === 'subadmin' ? 'sub-admin' : 'faculty'}`);
+        }
       }
     }
   }, [isLoading, user, pathname, isPortalRoute, router]);

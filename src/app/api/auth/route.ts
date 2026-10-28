@@ -11,10 +11,10 @@ async function createSession(userPayload: any) {
   const cookieStore = await cookies();
   cookieStore.set('nexus_session', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24 // 24 hours
+    maxAge: 60 * 60 * 24 * 30 // 30 days
   });
 }
 

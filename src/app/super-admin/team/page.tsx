@@ -117,7 +117,7 @@ export default function TeamPage() {
         login(payload);
         if (payload.role === 'student') window.location.href = '/student';
         else if (payload.role === 'faculty') window.location.href = '/faculty';
-        else if (payload.role === 'subadmin') window.location.href = '/admin';
+        else if (payload.role === 'subadmin') window.location.href = '/sub-admin';
       } else {
         alert('Failed to login as user');
       }

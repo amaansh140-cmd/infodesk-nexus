@@ -63,13 +63,13 @@ export default function LoginPage() {
       const userData = await res.json();
       login(userData);
       
-      // Redirect based on role
+      // Redirect based on role with full window navigation for fresh session cookie
       switch (userData.role) {
-        case 'superadmin': router.push('/super-admin'); break;
-        case 'subadmin': router.push('/sub-admin'); break;
-        case 'faculty': router.push('/faculty'); break;
-        case 'student': router.push('/student'); break;
-        default: router.push('/login');
+        case 'superadmin': window.location.href = '/super-admin'; break;
+        case 'subadmin': window.location.href = '/sub-admin'; break;
+        case 'faculty': window.location.href = '/faculty'; break;
+        case 'student': window.location.href = '/student'; break;
+        default: window.location.href = '/login'; break;
       }
     } catch (err) {
       setError('An error occurred during login. Please try again.');
