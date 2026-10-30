@@ -17,7 +17,6 @@ import {
   Lock,
 } from 'lucide-react';
 import Button from '../components/Button';
-import TerminalCard from '../components/TerminalCard';
 import ScrollReveal from '../components/ScrollReveal';
 import GradientASCII from '../components/GradientASCII';
 
@@ -148,61 +147,57 @@ export default function Home() {
           />
         </div>
 
-        {/* Hero Content centered inside max-w-content */}
-        <div className="relative z-10 w-full max-w-content mx-auto px-4 sm:px-6 my-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center pointer-events-none">
-            {/* Left Column: Hero Text */}
-            <div className="lg:col-span-7 min-w-0 space-y-6 text-left pointer-events-auto">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-white/90">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Govt. Recognized • ISO 9001:2015 Certified Board</span>
-              </div>
+        {/* Hero Content centered in the middle of the screen */}
+        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 my-auto text-center flex flex-col items-center justify-center space-y-6 sm:space-y-8 pointer-events-auto">
+          {/* Accreditation badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-white/90 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Govt. Recognized • ISO 9001:2015 Certified Board</span>
+          </div>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.08] break-words">
-                Learn the skills<br className="sm:hidden" /> Mumbai's tech teams<br className="sm:hidden" /> hire for.
-              </h1>
-              <p className="text-white/80 text-base sm:text-lg sm:text-[19px] leading-relaxed max-w-xl">
-                Industry-led courses in data, digital marketing, web development, design and accounting, taught in small batches at four Mumbai branches.
-              </p>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
-                <Button to="/courses" size="lg" variant="primary" className="!bg-[#2448c9] hover:!bg-[#1e3fd8] text-white">
-                  Explore courses
-                </Button>
-                <Button to="/contact" size="lg" variant="ghost" className="!text-white !border-white/30 hover:!bg-white/10">
-                  Book a free demo
-                </Button>
-              </div>
+          {/* Centered H1 Headline */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.06] max-w-4xl mx-auto break-words">
+            Learn the skills Mumbai's tech teams hire for.
+          </h1>
 
-              {/* Interactive ASCII Shape Switcher */}
-              <div className="pt-2 flex flex-wrap items-center gap-2 text-xs">
-                <span className="text-white/70 font-medium flex items-center gap-1.5 mr-1">
-                  <Sparkles size={14} className="text-sky-400" />
-                  <span>ASCII Mode:</span>
-                </span>
-                {['horizon', 'pinch', 'rise', 'eclipse'].map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => setAsciiShape(s)}
-                    className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 capitalize cursor-pointer ${
-                      asciiShape === s
-                        ? 'bg-sky-500 text-white shadow-md shadow-sky-500/30'
-                        : 'bg-white/10 text-white/80 hover:bg-white/20'
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-                <span className="hidden sm:inline text-[11px] text-white/60 italic ml-1">
-                  (Move mouse or click to ripple)
-                </span>
-              </div>
-            </div>
+          {/* Centered Subtitle */}
+          <p className="text-white/80 text-base sm:text-xl leading-relaxed max-w-2xl mx-auto">
+            Industry-led courses in data, digital marketing, web development, design and accounting, taught in small batches at four Mumbai branches.
+          </p>
 
-            {/* Right Column: 3D Terminal Card */}
-            <div className="lg:col-span-5 flex justify-center pointer-events-auto">
-              <TerminalCard />
-            </div>
+          {/* Centered CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Button to="/courses" size="lg" variant="primary" className="!bg-[#2448c9] hover:!bg-[#1e3fd8] text-white px-8 py-3.5 shadow-lg shadow-blue-600/30">
+              Explore courses
+            </Button>
+            <Button to="/contact" size="lg" variant="ghost" className="!text-white !border-white/30 hover:!bg-white/10 px-8 py-3.5 backdrop-blur-sm">
+              Book a free demo
+            </Button>
+          </div>
+
+          {/* Centered Interactive ASCII Shape Switcher */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
+            <span className="text-white/70 font-medium flex items-center gap-1.5 mr-1">
+              <Sparkles size={14} className="text-sky-400" />
+              <span>ASCII Mode:</span>
+            </span>
+            {['horizon', 'pinch', 'rise', 'eclipse'].map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setAsciiShape(s)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 capitalize cursor-pointer ${
+                  asciiShape === s
+                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/40 scale-105'
+                    : 'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white'
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+            <span className="hidden sm:inline text-[11px] text-white/60 italic ml-2">
+              (Move cursor or click to ripple)
+            </span>
           </div>
         </div>
       </section>
