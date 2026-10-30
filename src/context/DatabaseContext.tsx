@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 // Data Models
 export interface Course {
@@ -150,6 +151,7 @@ interface DatabaseContextType {
 const DatabaseContext = createContext<DatabaseContextType | undefined>(undefined);
 
 export function DatabaseProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
   const [faculties, setFaculties] = useState<FacultyUser[]>([]);
   const [admins, setAdmins] = useState<AdminUser[]>([]);
@@ -162,38 +164,72 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // 1. Fetch public data immediately (fast & zero 401s for visitors)
   useEffect(() => {
-    const fetchAll = async () => {
+    const fetchPublicData = async () => {
       try {
-        const [
-          coursesRes, facultiesRes, studentsRes, 
-          attendanceRes, dailyRes, staffRes, 
-          lectureRes, noticesRes, adminsRes, branchesRes
-        ] = await Promise.all([
-          fetch('/api/courses'), fetch('/api/faculties'), fetch('/api/students'),
-          fetch('/api/attendance'), fetch('/api/student-daily-attendance'), fetch('/api/staff-attendance'),
-          fetch('/api/lecture-plans'), fetch('/api/notices'), fetch('/api/admins'), fetch('/api/branches')
+        const [coursesRes, branchesRes, noticesRes] = await Promise.all([
+          fetch('/api/courses'),
+          fetch('/api/branches'),
+          fetch('/api/notices')
         ]);
 
         if (coursesRes.ok) setCourses(await coursesRes.json());
+        if (branchesRes.ok) setBranches(await branchesRes.json());
+        if (noticesRes.ok) setNotices(await noticesRes.json());
+      } catch (err) {
+        console.error('Failed to load public data', err);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+
+    fetchPublicData();
+  }, []);
+
+  // 2. Fetch authenticated portal data only when user is logged in
+  useEffect(() => {
+    if (!user) {
+      setFaculties([]);
+      setStudents([]);
+      setAttendance([]);
+      setStudentDailyAttendance([]);
+      setStaffAttendance([]);
+      setLecturePlans([]);
+      setAdmins([]);
+      return;
+    }
+
+    const fetchProtectedData = async () => {
+      try {
+        const [
+          facultiesRes, studentsRes, 
+          attendanceRes, dailyRes, staffRes, 
+          lectureRes, adminsRes
+        ] = await Promise.all([
+          fetch('/api/faculties'),
+          fetch('/api/students'),
+          fetch('/api/attendance'),
+          fetch('/api/student-daily-attendance'),
+          fetch('/api/staff-attendance'),
+          fetch('/api/lecture-plans'),
+          fetch('/api/admins')
+        ]);
+
         if (facultiesRes.ok) setFaculties(await facultiesRes.json());
         if (studentsRes.ok) setStudents(await studentsRes.json());
         if (attendanceRes.ok) setAttendance(await attendanceRes.json());
         if (dailyRes.ok) setStudentDailyAttendance(await dailyRes.json());
         if (staffRes.ok) setStaffAttendance(await staffRes.json());
         if (lectureRes.ok) setLecturePlans(await lectureRes.json());
-        if (noticesRes.ok) setNotices(await noticesRes.json());
         if (adminsRes.ok) setAdmins(await adminsRes.json());
-        if (branchesRes.ok) setBranches(await branchesRes.json());
-
       } catch (err) {
-        console.error('Failed to fetch data from database', err);
-      } finally {
-        setIsLoaded(true);
+        console.error('Failed to load portal data', err);
       }
     };
-    fetchAll();
-  }, []);
+
+    fetchProtectedData();
+  }, [user]);
 
   const addCourse = async (course: Course) => {
     const res = await fetch('/api/courses', { method: 'POST', body: JSON.stringify(course) });

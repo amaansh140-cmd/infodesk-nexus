@@ -278,7 +278,7 @@ export default function TeamPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className={`liquid-glass-strong ${styles.chartContainer}`}
-            style={{ width: '100%', maxWidth: '400px', margin: '0 1rem', padding: '2rem' }}
+            style={{ width: '100%', maxWidth: '400px', maxHeight: '90dvh', overflowY: 'auto', margin: '0 1rem', padding: '1.5rem' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h3 className={styles.sectionTitle} style={{ margin: 0 }}>Edit Team Member</h3>
@@ -324,7 +324,7 @@ export default function TeamPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className={`liquid-glass-strong ${styles.chartContainer}`}
-            style={{ width: '100%', maxWidth: '400px', margin: '0 1rem', padding: '2rem' }}
+            style={{ width: '100%', maxWidth: '400px', maxHeight: '90dvh', overflowY: 'auto', margin: '0 1rem', padding: '1.5rem' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h3 className={styles.sectionTitle} style={{ margin: 0 }}>Add New Team Member</h3>

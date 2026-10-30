@@ -451,10 +451,18 @@
 @media (max-width: 1024px) {
   .sidebar {
     position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: min(85vw, 280px);
     transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 50;
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1);
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.15);
   }
 
   .sidebarOpen {
@@ -471,40 +479,114 @@
 
   .layout {
     flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chartsRow, .chartsRowReverse {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .content {
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.75rem;
   }
   
+  .header {
+    padding: 0 1rem;
+    height: 60px;
+  }
+
+  .pageTitle {
+    font-size: 1.1rem;
+  }
+
   .pageHeader {
     flex-direction: column;
     align-items: flex-start !important;
     gap: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   .pageHeader > div {
     flex-direction: column;
     align-items: flex-start !important;
-    gap: 1rem;
+    gap: 0.75rem;
     width: 100%;
   }
 
-  .pageHeader button {
+  .pageHeader button,
+  .pageHeader a {
     width: 100%;
     justify-content: center;
   }
 
-  /* Specific fix for reports grid */
+  /* Specific fix for reports grid and stats */
   .reportsGrid, .statsGrid {
     grid-template-columns: 1fr !important;
+    gap: 0.75rem;
+  }
+
+  .statCard {
+    padding: 1rem;
+  }
+
+  .statValue {
+    font-size: 1.6rem;
+  }
+
+  .tableCard {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 1rem;
+  }
+
+  .tableHeaderRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .tableSearch {
+    width: 100%;
+    max-width: 100%;
   }
 
   /* Make tables responsive */
   .layout :global(table) {
     min-width: 600px;
+  }
+
+  .chartContainer {
+    padding: 1rem 0.75rem;
+    border-radius: 1rem;
+  }
+}
+
+/* Responsive Modal Box */
+.modalBox {
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  max-height: 90dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+}
+
+@media (max-width: 480px) {
+  .modalBox {
+    margin: 0.5rem;
+    padding: 1.25rem 1rem;
   }
 }
 

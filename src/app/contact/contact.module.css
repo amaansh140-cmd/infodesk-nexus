@@ -581,7 +581,8 @@
   }
 
   .card:nth-child(1),
-  .card:nth-child(2) {
+  .card:nth-child(2),
+  .card:nth-child(4) {
     grid-column: span 1;
     grid-row: span 1;
   }
@@ -593,17 +594,39 @@
 }
 
 @media (max-width: 600px) {
+  .page {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero {
+    padding: 0 1rem 2.5rem;
+  }
+
+  .title {
+    font-size: clamp(1.85rem, 6vw, 2.5rem);
+  }
+
   .grid {
     grid-template-columns: 1fr;
-    max-width: 500px;
+    max-width: 100%;
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .card:nth-child(1),
+  .card:nth-child(2),
+  .card:nth-child(3),
+  .card:nth-child(4) {
+    grid-column: span 1 !important;
   }
 
   .card:nth-child(1) .mapWrap,
   .card:nth-child(2) .mapWrap {
-    height: 200px;
+    height: 180px;
   }
 
   .ctaInner {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
   }
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import ConditionalNavbar from '@/components/ConditionalNavbar';
 import AppWrapper from '@/components/AppWrapper';
@@ -7,6 +7,13 @@ import { Providers } from "./Providers";
 export const metadata: Metadata = {
   title: "Infodesk Computer Education | E-Learning Portal",
   description: "Advanced multi-tenant e-learning management system",
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#f9fafb',
 };
 
 export const dynamic = 'force-dynamic';

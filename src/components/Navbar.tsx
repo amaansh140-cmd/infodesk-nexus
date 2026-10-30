@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LayoutDashboard } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/context/AuthContext';
 import styles from './Navbar.module.css';
 import MainLogo from './logo.png';
 
@@ -17,6 +18,7 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -36,15 +38,14 @@ export default function Navbar() {
     ? `${styles.header} ${styles.headerTransparent}` 
     : styles.header;
 
+  const authTargetHref = user
+    ? (user.role === 'superadmin' ? '/super-admin' : user.role === 'subadmin' ? '/sub-admin' : `/${user.role}`)
+    : '/login';
+  const authTargetLabel = user ? 'Dashboard' : 'Login';
+
   return (
     <>
-      <motion.header 
-      key={pathname}
-      initial={{ opacity: 0.5, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className={headerClass}
-    >
+      <header className={headerClass}>
       <nav className={styles.nav}>
         {/* Logo */}
         <Link href="/" className={styles.logo}>
@@ -52,7 +53,7 @@ export default function Navbar() {
             src={MainLogo.src}
             alt="Infodesk Logo"
             className={styles.logoImg}
-            style={{ height: '40px', width: 'auto' }}
+            style={{ height: '36px', width: 'auto' }}
           />
         </Link>
 
@@ -75,12 +76,14 @@ export default function Navbar() {
         </div>
 
         <div className={styles.actions}>
-          <Link href="/login" className={`liquid-glass-strong hover-scale ${styles.loginBtn}`}>
-            Login
+          <Link href={authTargetHref} className={`liquid-glass-strong hover-scale ${styles.loginBtn}`}>
+            {user && <LayoutDashboard size={14} style={{ marginRight: '0.25rem' }} />}
+            {authTargetLabel}
           </Link>
           <button 
             className={`liquid-glass ${styles.iconBtn} hover-scale ${styles.mobileMenuBtn}`} 
-            aria-label="Menu"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -92,10 +95,10 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15 }}
             className={styles.mobileMenu}
           >
             <div className={styles.mobileLinks}>
@@ -113,17 +116,18 @@ export default function Navbar() {
                 );
               })}
               <Link
-                href="/login"
+                href={authTargetHref}
                 className={`liquid-glass-strong hover-scale ${styles.loginBtn} ${styles.mobileLoginBtn}`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Login
+                {user && <LayoutDashboard size={16} style={{ marginRight: '0.4rem', verticalAlign: 'middle' }} />}
+                {authTargetLabel}
               </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      </motion.header>
+      </header>
     </>
   );
 }

@@ -10,7 +10,8 @@
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
-    padding: 2rem 1rem;
+    padding: 1rem 0.5rem;
+    gap: 1.5rem;
   }
 }
 
@@ -26,7 +27,7 @@
 @media (max-width: 768px) {
   .leftPanel {
     width: 100%;
-    padding: 1rem;
+    padding: 0.5rem;
   }
 }
 
@@ -57,9 +58,9 @@
 }
 
 .headline {
-  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-size: clamp(2.1rem, 6.5vw, 4.25rem);
   font-weight: 500;
-  line-height: 1.08;
+  line-height: 1.1;
   letter-spacing: -0.03em;
   color: rgba(17, 24, 39,1);
 }
@@ -144,6 +145,14 @@
   flex-direction: column;
   gap: 1.25rem;
   transform: translateZ(0);
+}
+
+@media (max-width: 600px) {
+  .rightCard {
+    border-radius: 1.75rem;
+    padding: 1.25rem;
+    gap: 1rem;
+  }
 }
 
 .cardHeader {
@@ -239,6 +248,15 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .certGrid {
+    gap: 0.35rem;
+  }
+  .certBadge {
+    padding: 0.5rem 0.25rem !important;
+  }
 }
 
 .certBadge {

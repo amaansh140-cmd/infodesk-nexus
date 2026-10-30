@@ -109,7 +109,7 @@ export default function BranchesPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className={`liquid-glass-strong ${styles.chartContainer}`}
-            style={{ width: '100%', maxWidth: '400px', margin: '0 1rem', padding: '2rem' }}
+            style={{ width: '100%', maxWidth: '400px', maxHeight: '90dvh', overflowY: 'auto', margin: '0 0.75rem', padding: '1.5rem' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h3 className={styles.sectionTitle} style={{ margin: 0 }}>Edit Branch</h3>
@@ -150,8 +150,8 @@ export default function BranchesPage() {
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             style={{
-              background: 'white', borderRadius: '1.25rem', width: '100%', maxWidth: '500px',
-              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', overflow: 'hidden'
+              background: 'white', borderRadius: '1.25rem', width: '100%', maxWidth: '500px', maxHeight: '90dvh', overflowY: 'auto', margin: '0.75rem',
+              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
             }}
           >
             <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid rgba(17,24,39,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -266,8 +266,8 @@ export default function BranchesPage() {
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             style={{
-              background: 'white', borderRadius: '1.25rem', width: '100%', maxWidth: '400px',
-              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', overflow: 'hidden'
+              background: 'white', borderRadius: '1.25rem', width: '100%', maxWidth: '400px', maxHeight: '90dvh', overflowY: 'auto', margin: '0.75rem',
+              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
             }}
           >
             <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid rgba(17,24,39,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

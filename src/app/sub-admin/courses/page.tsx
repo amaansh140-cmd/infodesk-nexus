@@ -65,7 +65,7 @@ export default function CoursesManagementPage() {
 
       {showSelectModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="liquid-glass-strong" style={{ width: '90%', maxWidth: '600px', padding: '2rem', borderRadius: '1rem' }}>
+          <div className="liquid-glass-strong" style={{ width: '92%', maxWidth: '600px', maxHeight: '90dvh', overflowY: 'auto', padding: '1.5rem', borderRadius: '1rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h2 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Global Course Catalog</h2>
               <button onClick={() => setShowSelectModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={20} /></button>

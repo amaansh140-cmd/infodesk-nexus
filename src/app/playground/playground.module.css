@@ -96,6 +96,43 @@
 @media (max-width: 1024px) {
   .workspace {
     flex-direction: column;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0.75rem 0.75rem 1.5rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .titleGroup {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .actions button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .editorPane {
+    min-height: 320px;
+  }
+
+  .terminalPane {
+    min-height: 220px;
   }
 }
 
