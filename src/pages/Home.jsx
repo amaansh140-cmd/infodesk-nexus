@@ -129,72 +129,54 @@ export default function Home() {
   return (
     <div className="space-y-24 sm:space-y-32 w-full overflow-x-hidden">
       {/* ─── HERO SECTION ─── */}
-      <section className="relative pt-8 sm:pt-16 pb-12 overflow-x-clip w-full">
-        {/* Interactive WebGL ASCII Gradient Background */}
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-auto select-none opacity-50">
-          <GradientASCII
-            colors={['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8']}
-            shape={asciiShape}
-            characters=" =+xX0S8#@"
-            cellSize={18}
-            density={0.8}
-            glyphOpacity={0.85}
-            glow={0.25}
-            flow={0.5}
-            speed={shouldReduceMotion ? 0 : 1}
-            mouseInteraction={true}
-            clickEffect="wave"
-            intro={true}
-          />
-        </div>
-
-        {/* Two large blurred drifting orbs */}
-        {!shouldReduceMotion && (
-          <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-            <motion.div
-              animate={{
-                x: [0, 30, 0],
-                y: [0, -20, 0],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -top-24 -left-24 w-80 sm:w-96 h-80 sm:h-96 bg-soft/30 rounded-full blur-3xl pointer-events-none"
-            />
-            <motion.div
-              animate={{
-                x: [0, -30, 0],
-                y: [0, 30, 0],
-                scale: [1, 1.15, 1],
-              }}
-              transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-              className="absolute top-1/2 -right-24 w-80 sm:w-[30rem] h-80 sm:h-[30rem] bg-soft/20 rounded-full blur-3xl pointer-events-none"
+      <section className="relative mx-auto max-w-content px-4 sm:px-6 pt-4 pb-8">
+        <div className="relative rounded-band overflow-hidden bg-[#0a122e] text-white shadow-2xl border border-white/10 px-6 sm:px-12 py-12 sm:py-16">
+          {/* React Bits GradientASCII WebGL canvas */}
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-auto select-none">
+            <GradientASCII
+              colors={['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8']}
+              shape={asciiShape}
+              characters=" =+xX0S8#@"
+              cellSize={18}
+              density={0.8}
+              glyphOpacity={0.9}
+              glow={0.35}
+              flow={0.6}
+              speed={shouldReduceMotion ? 0 : 1}
+              mouseInteraction={true}
+              clickEffect="wave"
+              intro={true}
             />
           </div>
-        )}
 
-        <div className="w-full max-w-content mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          {/* Hero Content on top of ASCII canvas */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center pointer-events-none">
             {/* Left Column: Hero Text */}
-            <div className="lg:col-span-7 min-w-0 space-y-6 text-left">
-              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-deep tracking-tight leading-[1.08] break-words">
+            <div className="lg:col-span-7 min-w-0 space-y-6 text-left pointer-events-auto">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-white/90">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Govt. Recognized • ISO 9001:2015 Certified Board</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.08] break-words">
                 Learn the skills<br className="sm:hidden" /> Mumbai's tech teams<br className="sm:hidden" /> hire for.
               </h1>
-              <p className="text-muted text-base sm:text-lg sm:text-[19px] leading-relaxed max-w-xl">
+              <p className="text-white/80 text-base sm:text-lg sm:text-[19px] leading-relaxed max-w-xl">
                 Industry-led courses in data, digital marketing, web development, design and accounting, taught in small batches at four Mumbai branches.
               </p>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
-                <Button to="/courses" size="lg" variant="primary">
+                <Button to="/courses" size="lg" variant="primary" className="!bg-[#2448c9] hover:!bg-[#1e3fd8] text-white">
                   Explore courses
                 </Button>
-                <Button to="/contact" size="lg" variant="ghost">
+                <Button to="/contact" size="lg" variant="ghost" className="!text-white !border-white/30 hover:!bg-white/10">
                   Book a free demo
                 </Button>
               </div>
 
               {/* Interactive ASCII Shape Switcher */}
               <div className="pt-2 flex flex-wrap items-center gap-2 text-xs">
-                <span className="text-muted font-medium flex items-center gap-1.5 mr-1">
-                  <Sparkles size={14} className="text-primary" />
+                <span className="text-white/70 font-medium flex items-center gap-1.5 mr-1">
+                  <Sparkles size={14} className="text-sky-400" />
                   <span>ASCII Mode:</span>
                 </span>
                 {['horizon', 'pinch', 'rise', 'eclipse'].map((s) => (
@@ -204,27 +186,21 @@ export default function Home() {
                     onClick={() => setAsciiShape(s)}
                     className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 capitalize cursor-pointer ${
                       asciiShape === s
-                        ? 'bg-primary text-white shadow-sm'
-                        : 'bg-soft/80 text-deep hover:bg-soft'
+                        ? 'bg-sky-500 text-white shadow-md shadow-sky-500/30'
+                        : 'bg-white/10 text-white/80 hover:bg-white/20'
                     }`}
                   >
                     {s}
                   </button>
                 ))}
-                <span className="hidden sm:inline text-[11px] text-muted italic ml-1">
+                <span className="hidden sm:inline text-[11px] text-white/60 italic ml-1">
                   (Move mouse or click to ripple)
                 </span>
-              </div>
-
-              {/* Quick accreditation badge */}
-              <div className="pt-2 flex items-center gap-3 text-xs text-muted font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-                <span>Govt. Recognized • ISO 9001:2015 Certified Board</span>
               </div>
             </div>
 
             {/* Right Column: 3D Terminal Card */}
-            <div className="lg:col-span-5 flex justify-center">
+            <div className="lg:col-span-5 flex justify-center pointer-events-auto">
               <TerminalCard />
             </div>
           </div>
