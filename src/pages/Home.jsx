@@ -19,6 +19,7 @@ import {
 import Button from '../components/Button';
 import TerminalCard from '../components/TerminalCard';
 import ScrollReveal from '../components/ScrollReveal';
+import GradientASCII from '../components/GradientASCII';
 
 const recognitionBadges = [
   { name: 'Govt. Recognized', desc: 'Authorized vocational board' },
@@ -123,11 +124,30 @@ const tools = [
 
 export default function Home() {
   const shouldReduceMotion = useReducedMotion();
+  const [asciiShape, setAsciiShape] = React.useState('horizon');
 
   return (
     <div className="space-y-24 sm:space-y-32 w-full overflow-x-hidden">
       {/* ─── HERO SECTION ─── */}
       <section className="relative pt-8 sm:pt-16 pb-12 overflow-x-clip w-full">
+        {/* Interactive WebGL ASCII Gradient Background */}
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-auto select-none opacity-50">
+          <GradientASCII
+            colors={['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8']}
+            shape={asciiShape}
+            characters=" =+xX0S8#@"
+            cellSize={18}
+            density={0.8}
+            glyphOpacity={0.85}
+            glow={0.25}
+            flow={0.5}
+            speed={shouldReduceMotion ? 0 : 1}
+            mouseInteraction={true}
+            clickEffect="wave"
+            intro={true}
+          />
+        </div>
+
         {/* Two large blurred drifting orbs */}
         {!shouldReduceMotion && (
           <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
@@ -138,7 +158,7 @@ export default function Home() {
                 scale: [1, 1.1, 1],
               }}
               transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -top-24 -left-24 w-80 sm:w-96 h-80 sm:h-96 bg-soft/50 rounded-full blur-3xl pointer-events-none"
+              className="absolute -top-24 -left-24 w-80 sm:w-96 h-80 sm:h-96 bg-soft/30 rounded-full blur-3xl pointer-events-none"
             />
             <motion.div
               animate={{
@@ -147,7 +167,7 @@ export default function Home() {
                 scale: [1, 1.15, 1],
               }}
               transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-              className="absolute top-1/2 -right-24 w-80 sm:w-[30rem] h-80 sm:h-[30rem] bg-soft/40 rounded-full blur-3xl pointer-events-none"
+              className="absolute top-1/2 -right-24 w-80 sm:w-[30rem] h-80 sm:h-[30rem] bg-soft/20 rounded-full blur-3xl pointer-events-none"
             />
           </div>
         )}
@@ -171,8 +191,33 @@ export default function Home() {
                 </Button>
               </div>
 
+              {/* Interactive ASCII Shape Switcher */}
+              <div className="pt-2 flex flex-wrap items-center gap-2 text-xs">
+                <span className="text-muted font-medium flex items-center gap-1.5 mr-1">
+                  <Sparkles size={14} className="text-primary" />
+                  <span>ASCII Mode:</span>
+                </span>
+                {['horizon', 'pinch', 'rise', 'eclipse'].map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setAsciiShape(s)}
+                    className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 capitalize cursor-pointer ${
+                      asciiShape === s
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'bg-soft/80 text-deep hover:bg-soft'
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+                <span className="hidden sm:inline text-[11px] text-muted italic ml-1">
+                  (Move mouse or click to ripple)
+                </span>
+              </div>
+
               {/* Quick accreditation badge */}
-              <div className="pt-4 flex items-center gap-3 text-xs text-muted font-medium">
+              <div className="pt-2 flex items-center gap-3 text-xs text-muted font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
                 <span>Govt. Recognized • ISO 9001:2015 Certified Board</span>
               </div>
