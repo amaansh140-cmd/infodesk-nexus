@@ -82,10 +82,13 @@ export default function Placements() {
       {/* ─── 100% JOB ASSISTANCE SECTION ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-8 sm:p-12 shadow-card">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="glass-panel rounded-panel p-8 sm:p-12 shadow-signature relative overflow-hidden">
+            {/* Ambient specular corner */}
+            <div className="absolute top-0 right-0 w-80 h-80 bg-soft/50 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
               <div className="lg:col-span-8 space-y-4">
-                <span className="inline-block text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                <span className="inline-block text-xs font-bold px-3 py-1 rounded-full bg-emerald-100/90 text-emerald-800 border border-emerald-300/80 shadow-sm">
                   Verified Brochure Commitment
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-bold text-deep">
@@ -119,7 +122,7 @@ export default function Placements() {
               </div>
 
               {/* Quick Call to Action */}
-              <div className="lg:col-span-4 bg-background p-6 rounded-2xl border border-line/70 text-center space-y-3">
+              <div className="lg:col-span-4 bg-white/70 backdrop-blur-md p-6 rounded-2xl border border-white/90 shadow-sm text-center space-y-3">
                 <Briefcase size={32} className="mx-auto text-primary" />
                 <h4 className="font-bold text-deep text-base">Hiring for your team?</h4>
                 <p className="text-xs text-muted leading-relaxed">
@@ -150,13 +153,13 @@ export default function Placements() {
             {partnerList.map((partner) => (
               <div
                 key={partner.name}
-                className="bg-surface border border-line/80 rounded-2xl p-4 flex flex-col items-center justify-center shadow-sm hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 group h-28"
+                className="glass-card rounded-2xl p-4 flex flex-col items-center justify-center group h-28 cursor-default"
                 title={partner.name}
               >
                 <img
                   src={`/assets/partners/${partner.file}`}
                   alt={`${partner.name} Logo`}
-                  className="max-h-14 max-w-[85%] object-contain filter group-hover:scale-105 transition-transform duration-300"
+                  className="max-h-14 max-w-[85%] object-contain filter group-hover:scale-110 transition-transform duration-300"
                   loading="lazy"
                 />
               </div>
@@ -182,10 +185,13 @@ export default function Placements() {
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto relative bg-surface border border-line/80 rounded-panel p-8 sm:p-12 shadow-card">
-            <Quote className="text-primary/20 absolute top-6 left-6" size={48} />
+          <div className="max-w-3xl mx-auto relative glass-panel rounded-panel p-8 sm:p-12 shadow-signature overflow-hidden">
+            {/* Specular glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-soft/50 rounded-full blur-2xl pointer-events-none" />
 
-            <div className="relative min-h-[200px] flex flex-col justify-between">
+            <Quote className="text-primary/15 absolute top-6 left-6" size={56} />
+
+            <div className="relative min-h-[200px] flex flex-col justify-between z-10">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTestimonial.id}

@@ -117,7 +117,7 @@ export default function Gallery() {
       {/* ─── FILTER TABS & MASONRY GRID ─── */}
       <section className="max-w-content mx-auto px-6">
         {/* Filter Tabs */}
-        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-12">
+        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-12 p-1.5 rounded-full bg-white/40 backdrop-blur-md border border-white/60 w-fit mx-auto max-w-full">
           {galleryCategories.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -125,18 +125,18 @@ export default function Gallery() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`relative px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                className={`relative px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 cursor-pointer select-none ${
                   isActive
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'bg-surface text-deep/80 border border-line/80 hover:bg-soft/40'
+                    ? 'text-white shadow-signature'
+                    : 'text-deep/80 hover:text-deep hover:bg-white/60'
                 }`}
               >
-                <span>{cat}</span>
+                <span className="relative z-10">{cat}</span>
                 {isActive && (
                   <motion.div
                     layoutId="galleryFilterBubble"
-                    className="absolute inset-0 rounded-full bg-primary -z-10"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    className="absolute inset-0 rounded-full bg-primary -z-10 shadow-signature"
+                    transition={{ type: 'spring', stiffness: 420, damping: 32 }}
                   />
                 )}
               </button>
@@ -147,8 +147,8 @@ export default function Gallery() {
         {/* Gallery Content */}
         {filteredItems.length === 0 && activeCategory === 'Our new institute' ? (
           // Tasteful "Photos coming soon" empty state for new institute space
-          <div className="max-w-md mx-auto text-center py-20 px-6 bg-surface border border-line/80 rounded-panel shadow-card space-y-4">
-            <div className="w-16 h-16 rounded-full bg-soft text-primary mx-auto flex items-center justify-center">
+          <div className="max-w-md mx-auto text-center py-20 px-6 glass-panel rounded-panel shadow-signature space-y-4 relative overflow-hidden">
+            <div className="w-16 h-16 rounded-full bg-soft/80 border border-white/80 text-primary mx-auto flex items-center justify-center shadow-sm">
               <Camera size={28} />
             </div>
             <h3 className="text-2xl font-bold text-deep">Photos coming soon.</h3>
@@ -180,7 +180,7 @@ export default function Gallery() {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.3 }}
                   onClick={() => setSelectedImage(item)}
-                  className="bg-surface border border-line/80 rounded-2xl overflow-hidden shadow-card hover:shadow-hover hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col"
+                  className="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col"
                 >
                   <div className="h-60 overflow-hidden bg-background relative">
                     <img
@@ -190,7 +190,7 @@ export default function Gallery() {
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-deep/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="p-2 rounded-full bg-white/90 text-deep shadow-lg">
+                      <span className="p-2.5 rounded-full bg-white/90 backdrop-blur-md text-deep shadow-lg group-hover:scale-110 transition-transform">
                         <ExternalLink size={18} />
                       </span>
                     </div>

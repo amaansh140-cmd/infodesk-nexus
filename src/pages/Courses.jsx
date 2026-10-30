@@ -36,9 +36,12 @@ export default function Courses() {
 
   return (
     <div className="space-y-16">
-      {/* ─── PAGE HEADER (SOFT BLUE TINT) ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-20">
-        <div className="max-w-content mx-auto px-6 text-center max-w-3xl">
+      {/* ─── PAGE HEADER (GLASS SOFT BLUE TINT) ─── */}
+      <section className="relative bg-soft/40 backdrop-blur-md border-b border-white/60 py-16 sm:py-20 overflow-hidden">
+        {/* Specular ambient orb */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-bright/15 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-content mx-auto px-6 text-center max-w-3xl relative z-10">
           <h1 className="text-[clamp(36px,5vw,60px)] font-bold text-deep tracking-tight">
             Courses for every career path.
           </h1>
@@ -51,7 +54,7 @@ export default function Courses() {
       {/* ─── FILTER CHIPS & COURSES GRID ─── */}
       <section className="max-w-content mx-auto px-6">
         {/* Filter Chips Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-10">
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-10 p-1.5 rounded-full bg-white/40 backdrop-blur-md border border-white/60 w-fit max-w-full">
           {courseCategories.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -59,18 +62,18 @@ export default function Courses() {
                 key={cat}
                 type="button"
                 onClick={() => handleCategoryChange(cat)}
-                className={`relative px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                className={`relative px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 cursor-pointer select-none ${
                   isActive
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'bg-surface text-deep/80 border border-line/80 hover:bg-soft/40 hover:text-deep'
+                    ? 'text-white shadow-signature'
+                    : 'text-deep/80 hover:text-deep hover:bg-white/60'
                 }`}
               >
-                <span>{cat}</span>
+                <span className="relative z-10">{cat}</span>
                 {isActive && (
                   <motion.div
                     layoutId="activeFilterBubble"
-                    className="absolute inset-0 rounded-full bg-primary -z-10"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    className="absolute inset-0 rounded-full bg-primary -z-10 shadow-signature"
+                    transition={{ type: 'spring', stiffness: 420, damping: 32 }}
                   />
                 )}
               </button>
@@ -107,8 +110,11 @@ export default function Courses() {
       {/* ─── CUSTOM TRACK BANNER ─── */}
       <section className="max-w-content mx-auto px-6 pt-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-8 sm:p-12 shadow-card flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-2 text-center md:text-left">
+          <div className="glass-panel rounded-panel p-8 sm:p-12 shadow-signature flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            {/* Soft inner glow */}
+            <div className="absolute top-0 right-0 w-80 h-80 bg-soft/60 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="space-y-2 text-center md:text-left relative z-10">
               <h3 className="text-2xl sm:text-3xl font-bold text-deep">
                 Want a mix of tracks?
               </h3>
@@ -116,7 +122,7 @@ export default function Courses() {
                 We can customize modules across programming, analytics, and creative tools to suit your educational and career goals.
               </p>
             </div>
-            <Button to="/contact" size="lg" variant="primary" className="shrink-0">
+            <Button to="/contact" size="lg" variant="primary" className="shrink-0 relative z-10">
               Plan my course
             </Button>
           </div>

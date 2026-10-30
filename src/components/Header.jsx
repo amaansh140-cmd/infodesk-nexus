@@ -35,8 +35,8 @@ export default function Header() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         isScrolled
-          ? 'bg-background/90 backdrop-blur-md border-b border-line/80 shadow-sm py-3'
-          : 'bg-background/60 backdrop-blur-sm border-b border-transparent py-4'
+          ? 'bg-white/80 backdrop-blur-xl border-b border-white/70 shadow-[0_8px_30px_rgba(19,38,111,0.06)] py-3'
+          : 'bg-white/45 backdrop-blur-md border-b border-white/40 py-4'
       }`}
     >
       <div className="w-full max-w-content mx-auto px-4 sm:px-6 flex items-center justify-between">
@@ -45,34 +45,34 @@ export default function Header() {
           <img
             src="/assets/logo.png"
             alt="Infodesk Computer Education - Start IT Here"
-            className="h-8 sm:h-10 w-auto max-w-[150px] sm:max-w-none object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+            className="h-8 sm:h-10 w-auto max-w-[150px] sm:max-w-none object-contain transition-transform duration-300 group-hover:scale-[1.03]"
             width="180"
             height="40"
           />
         </Link>
 
         {/* Desktop Nav (>= 860px) */}
-        <nav className="hidden nav:flex items-center gap-7" aria-label="Main Navigation">
+        <nav className="hidden nav:flex items-center gap-2 bg-white/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/60 shadow-sm" aria-label="Main Navigation">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               end={item.path === '/'}
               className={({ isActive }) =>
-                `relative text-[15px] font-medium transition-colors py-1 ${
-                  isActive ? 'text-primary font-semibold' : 'text-ink/80 hover:text-primary'
+                `relative px-3.5 py-1.5 rounded-full text-[15px] font-medium transition-all duration-200 select-none ${
+                  isActive ? 'text-primary font-semibold' : 'text-ink/80 hover:text-primary hover:bg-white/60'
                 }`
               }
             >
               {({ isActive }) => (
                 <>
-                  <span>{item.label}</span>
-                  {/* Active blue indicator */}
+                  <span className="relative z-10">{item.label}</span>
+                  {/* Frosted active pill */}
                   {isActive && (
                     <motion.div
-                      layoutId="activeNavIndicator"
-                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      layoutId="activeNavPill"
+                      className="absolute inset-0 bg-soft/75 border border-white/90 rounded-full shadow-sm"
+                      transition={{ type: 'spring', stiffness: 420, damping: 32 }}
                     />
                   )}
                 </>
@@ -92,7 +92,7 @@ export default function Header() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="nav:hidden p-2 rounded-full text-ink hover:bg-soft/60 focus:outline-none"
+          className="nav:hidden p-2 rounded-full text-ink hover:bg-soft/70 active:scale-95 transition-all focus:outline-none"
           aria-expanded={mobileMenuOpen}
           aria-label="Toggle navigation menu"
         >
@@ -104,11 +104,11 @@ export default function Header() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.2, 0.7, 0.2, 1] }}
-            className="nav:hidden overflow-hidden bg-surface/98 border-b border-line/80 px-6 pt-3 pb-6 shadow-xl"
+            initial={{ opacity: 0, height: 0, y: -10 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -10 }}
+            transition={{ duration: 0.28, ease: [0.2, 0.7, 0.2, 1] }}
+            className="nav:hidden overflow-hidden bg-white/95 backdrop-blur-2xl border-b border-white/80 px-6 pt-3 pb-6 shadow-2xl"
           >
             <nav className="flex flex-col gap-2 pt-2">
               {navItems.map((item) => (
@@ -117,9 +117,9 @@ export default function Header() {
                   to={item.path}
                   end={item.path === '/'}
                   className={({ isActive }) =>
-                    `px-4 py-3 rounded-xl text-base font-medium flex items-center justify-between ${
+                    `px-4 py-3 rounded-2xl text-base font-medium flex items-center justify-between transition-all duration-200 ${
                       isActive
-                        ? 'bg-soft text-primary font-semibold'
+                        ? 'bg-soft/80 text-primary font-semibold shadow-sm border border-white/60'
                         : 'text-ink/85 hover:bg-soft/40'
                     }`
                   }
@@ -128,7 +128,7 @@ export default function Header() {
                   <ArrowUpRight size={16} className="text-muted" />
                 </NavLink>
               ))}
-              <div className="pt-3 mt-1 border-t border-line/50">
+              <div className="pt-3 mt-1 border-t border-line/40">
                 <Button to="/contact" size="md" variant="primary" className="w-full">
                   Book a free demo
                 </Button>

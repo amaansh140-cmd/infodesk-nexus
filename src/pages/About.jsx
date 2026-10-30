@@ -138,16 +138,19 @@ export default function About() {
             {steps.map((step) => (
               <div
                 key={step.num}
-                className="bg-surface border border-line/80 rounded-card p-6 shadow-card hover:border-primary/40 transition-colors relative flex flex-col justify-between"
+                className="glass-card rounded-card p-6 relative flex flex-col justify-between group overflow-hidden"
               >
-                <div>
-                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center mb-5 shadow-signature">
+                {/* Frosted corner reflection */}
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/30 to-transparent rounded-full blur-xl pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity" />
+
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center mb-5 shadow-signature group-hover:scale-105 transition-transform">
                     {step.num}
                   </div>
                   <h3 className="text-xl font-bold text-deep mb-2">{step.title}</h3>
                   <p className="text-muted text-sm leading-relaxed">{step.desc}</p>
                 </div>
-                <div className="pt-4 mt-4 border-t border-line/40 text-xs font-semibold text-primary">
+                <div className="pt-4 mt-4 border-t border-line/40 text-xs font-semibold text-primary relative z-10">
                   Step {step.num} of 4
                 </div>
               </div>
@@ -159,8 +162,8 @@ export default function About() {
       {/* ─── RECOGNITION & CERTIFICATION ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-8 sm:p-12 shadow-card">
-            <div className="max-w-2xl mb-8">
+          <div className="glass-panel rounded-panel p-8 sm:p-12 shadow-card relative overflow-hidden">
+            <div className="max-w-2xl mb-8 relative z-10">
               <h2 className="text-2xl sm:text-3xl font-bold text-deep">
                 Recognized and certified standards.
               </h2>
@@ -169,8 +172,8 @@ export default function About() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="p-5 rounded-2xl bg-background border border-line/70">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+              <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-white/80 hover:border-bright/40 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-300">
                 <ShieldCheck className="text-primary mb-3" size={28} />
                 <h4 className="font-bold text-deep text-base">Govt. Recognized</h4>
                 <p className="text-muted text-xs sm:text-sm mt-1 leading-relaxed">
@@ -178,7 +181,7 @@ export default function About() {
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-background border border-line/70">
+              <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-white/80 hover:border-bright/40 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-300">
                 <CheckCircle className="text-primary mb-3" size={28} />
                 <h4 className="font-bold text-deep text-base">ISO 9001:2015 Certified Board</h4>
                 <p className="text-muted text-xs sm:text-sm mt-1 leading-relaxed">
@@ -186,7 +189,7 @@ export default function About() {
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-background border border-line/70">
+              <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-white/80 hover:border-bright/40 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-300">
                 <Award className="text-primary mb-3" size={28} />
                 <h4 className="font-bold text-deep text-base">Skill India &amp; MSME</h4>
                 <p className="text-muted text-xs sm:text-sm mt-1 leading-relaxed">
@@ -201,9 +204,12 @@ export default function About() {
       {/* ─── AWARD BY ASHNEER GROVER ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="bg-[#101f5c] text-white rounded-band p-8 sm:p-14 shadow-signature">
-            <div className="max-w-3xl mb-10 space-y-3">
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white/90 border border-white/20">
+          <div className="glass-dark text-white rounded-band p-8 sm:p-14 shadow-signature relative overflow-hidden">
+            {/* Luminous glow */}
+            <div className="absolute top-0 right-1/3 w-96 h-96 bg-bright/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="max-w-3xl mb-10 space-y-3 relative z-10">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 border border-white/20">
                 National Honor
               </span>
               <h2 className="text-[clamp(30px,4.2vw,48px)] font-bold text-white tracking-tight">
@@ -306,10 +312,13 @@ export default function About() {
                     caption: `Recipient: ${cert.recipient} • Issued by ${cert.issuer}`,
                   })
                 }
-                className="bg-surface border border-line/80 rounded-card p-5 shadow-card hover:shadow-hover hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col justify-between"
+                className="glass-card rounded-card p-5 cursor-pointer group flex flex-col justify-between relative overflow-hidden"
               >
-                <div>
-                  <div className="rounded-xl overflow-hidden border border-line/60 bg-background mb-4 h-48 flex items-center justify-center p-2">
+                {/* Frosted glow */}
+                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-white/30 to-transparent rounded-full blur-xl pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity" />
+
+                <div className="relative z-10">
+                  <div className="rounded-2xl overflow-hidden border border-white/80 bg-white/60 mb-4 h-48 flex items-center justify-center p-2.5 shadow-sm">
                     <img
                       src={cert.image}
                       alt={cert.title}
@@ -327,9 +336,9 @@ export default function About() {
                   <p className="text-xs text-muted mt-2 leading-relaxed">{cert.desc}</p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-line/50 flex items-center justify-between text-xs font-semibold text-primary">
+                <div className="pt-4 mt-4 border-t border-line/40 flex items-center justify-between text-xs font-semibold text-primary relative z-10">
                   <span>View certificate</span>
-                  <ExternalLink size={13} />
+                  <ExternalLink size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </div>
               </div>
             ))}
