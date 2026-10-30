@@ -149,8 +149,8 @@ export default function Home() {
 
   return (
     <div className="space-y-24 sm:space-y-32 w-full overflow-x-hidden">
-      {/* ─── FULL-SCREEN HERO SECTION ─── */}
-      <section className="relative w-full min-h-[calc(100vh-76px)] min-h-[calc(100dvh-76px)] flex items-center justify-center bg-[#0a122e] text-white overflow-hidden py-10 sm:py-16">
+      {/* ─── FULL-SCREEN HERO SECTION (SPANS BEHIND HEADER) ─── */}
+      <section className="relative w-full h-screen min-h-[640px] min-h-[100dvh] flex items-center justify-center bg-[#0a122e] text-white overflow-hidden pt-16 sm:pt-20 pb-8 sm:pb-12">
         {/* React Bits GradientASCII WebGL canvas filling entire screen width & height */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-auto select-none">
           <GradientASCII
