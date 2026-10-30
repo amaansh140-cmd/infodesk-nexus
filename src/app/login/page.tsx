@@ -1,172 +1,189 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Lock, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../../context/AuthContext';
-import styles from './login.module.css';
+import { Lock, User, Shield, GraduationCap, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { login } = useAuth();
-  const [identifier, setIdentifier] = useState('');
+  const [role, setRole] = useState<'student' | 'faculty' | 'admin'>('student');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [deviceId, setDeviceId] = useState('');
-  const [needsVerification, setNeedsVerification] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
-  // Initialize or fetch device ID
-  React.useEffect(() => {
-    let storedDeviceId = localStorage.getItem('infodesk_device_id');
-    if (!storedDeviceId) {
-      storedDeviceId = crypto.randomUUID();
-      localStorage.setItem('infodesk_device_id', storedDeviceId);
-    }
-    setDeviceId(storedDeviceId);
-  }, []);
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    
-    const cleanId = identifier.trim();
-    const cleanPass = password.trim();
-
-    try {
-      const payload: any = { identifier: cleanId, password: cleanPass, deviceId };
-      if (needsVerification) {
-        payload.verificationCode = verificationCode.trim();
-      }
-
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        
-        if (res.status === 403 && errorData.error === 'device_verification_required') {
-          setNeedsVerification(true);
-          setError(errorData.message);
-          return;
-        }
-
-        setError(errorData.error || 'Invalid username or password.');
-        return;
-      }
-
-      const userData = await res.json();
-      login(userData);
-      
-      // Redirect based on role with full window navigation for fresh session cookie
-      switch (userData.role) {
-        case 'superadmin': window.location.href = '/super-admin'; break;
-        case 'subadmin': window.location.href = '/sub-admin'; break;
-        case 'faculty': window.location.href = '/faculty'; break;
-        case 'student': window.location.href = '/student'; break;
-        default: window.location.href = '/login'; break;
-      }
-    } catch (err) {
-      setError('An error occurred during login. Please try again.');
-    }
+    setLoading(true);
+    // Visual feedback for login in the fresh starter project
+    setTimeout(() => {
+      setLoading(false);
+      setMessage(`Logged in successfully as ${role.toUpperCase()} (${username || 'User'})`);
+    }, 600);
   };
 
   return (
-    <div className={styles.page}>
-      <motion.div 
-        className={`liquid-glass-strong ${styles.loginCard}`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <div className={styles.header}>
-          <h1 className={styles.title}>Welcome Back</h1>
-          <p className={styles.subtitle}>Enter your details to access your account.</p>
+    <div style={{
+      minHeight: 'calc(100dvh - var(--nav-height) - 100px)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '3rem 1.5rem',
+    }}>
+      <div className="glass-card" style={{
+        width: '100%',
+        maxWidth: '440px',
+        padding: '2.5rem',
+        borderRadius: '1.25rem',
+      }}>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <Image
+            src="/logo.png"
+            alt="Infodesk"
+            width={120}
+            height={32}
+            style={{ objectFit: 'contain', height: '32px', width: 'auto', margin: '0 auto 1.25rem' }}
+          />
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.35rem' }}>
+            Portal Sign In
+          </h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
+            Access course materials, attendance, and student records
+          </p>
         </div>
 
-        {error && (
-          <div style={{ color: '#ef4444', fontSize: '0.875rem', background: 'rgba(239, 68, 68, 0.1)', padding: '0.75rem', borderRadius: '0.5rem', textAlign: 'center', marginBottom: '1rem' }}>
-            {error}
+        {/* Role Tabs */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr',
+          gap: '0.35rem',
+          padding: '0.35rem',
+          borderRadius: '0.75rem',
+          background: 'var(--bg-primary)',
+          border: '1px solid var(--border-subtle)',
+          marginBottom: '1.75rem',
+        }}>
+          {(['student', 'faculty', 'admin'] as const).map((r) => (
+            <button
+              key={r}
+              type="button"
+              onClick={() => { setRole(r); setMessage(null); }}
+              style={{
+                padding: '0.55rem',
+                borderRadius: '0.5rem',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                textTransform: 'capitalize',
+                transition: 'all 0.2s',
+                background: role === r ? 'var(--brand-primary)' : 'transparent',
+                color: role === r ? '#ffffff' : 'var(--text-muted)',
+              }}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+
+        {message && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.75rem 1rem',
+            borderRadius: '0.5rem',
+            background: 'rgba(16, 185, 129, 0.15)',
+            border: '1px solid rgba(16, 185, 129, 0.3)',
+            color: '#34d399',
+            fontSize: '0.88rem',
+            marginBottom: '1.25rem',
+          }}>
+            <CheckCircle2 size={16} />
+            <span>{message}</span>
           </div>
         )}
 
-
-
-        <form onSubmit={handleLogin} className={styles.form}>
-          {!needsVerification ? (
-            <>
-              <div className={styles.inputGroup}>
-                <label htmlFor="identifier" className={styles.label}>Email Address or Username</label>
-                <div className={styles.inputWrap}>
-                  <Mail size={18} className={styles.icon} />
-                  <input
-                    id="identifier"
-                    type="text"
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    placeholder="you@example.com or username"
-                    className={styles.input}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className={styles.inputGroup}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <label htmlFor="password" className={styles.label}>Password</label>
-                  <Link href="/login" className={styles.link} style={{ fontSize: '0.75rem', fontWeight: 500, color: 'rgba(17, 24, 39, 0.6)' }}>
-                    Forgot password?
-                  </Link>
-                </div>
-                <div className={styles.inputWrap}>
-                  <Lock size={18} className={styles.icon} />
-                  <input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className={styles.input}
-                    required
-                  />
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className={styles.inputGroup}>
-              <label htmlFor="verificationCode" className={styles.label}>Device Verification Code</label>
-              <div className={styles.inputWrap}>
-                <Lock size={18} className={styles.icon} />
-                <input
-                  id="verificationCode"
-                  type="text"
-                  value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value)}
-                  placeholder="Enter 6-digit code from Super Admin"
-                  className={styles.input}
-                  required
-                />
-              </div>
+        {/* Form */}
+        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
+              {role === 'student' ? 'Student Roll No / Username' : 'Username / Email'}
+            </label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="text"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder={role === 'student' ? 'e.g. INF-2026-042' : 'Enter username'}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem 0.75rem 2.5rem',
+                  borderRadius: '0.5rem',
+                  background: 'rgba(15, 23, 42, 0.8)',
+                  border: '1px solid var(--border-subtle)',
+                  color: '#ffffff',
+                  outline: 'none',
+                  fontSize: '0.95rem',
+                }}
+              />
+              <User size={16} color="var(--text-faint)" style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)' }} />
             </div>
-          )}
+          </div>
 
-          <button type="submit" className={styles.submitBtn}>
-            {needsVerification ? 'Verify Device' : 'Sign In'} <ArrowRight size={18} />
+          <div>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
+              Password
+            </label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem 0.75rem 2.5rem',
+                  borderRadius: '0.5rem',
+                  background: 'rgba(15, 23, 42, 0.8)',
+                  border: '1px solid var(--border-subtle)',
+                  color: '#ffffff',
+                  outline: 'none',
+                  fontSize: '0.95rem',
+                }}
+              />
+              <Lock size={16} color="var(--text-faint)" style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)' }} />
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.82rem' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', cursor: 'pointer' }}>
+              <input type="checkbox" style={{ accentColor: 'var(--brand-primary)' }} />
+              Remember me
+            </label>
+            <Link href="/contact" style={{ color: 'var(--brand-primary)', textDecoration: 'none' }}>
+              Forgot password?
+            </Link>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn-primary"
+            style={{ width: '100%', padding: '0.85rem', fontSize: '0.95rem', marginTop: '0.5rem' }}
+          >
+            {loading ? 'Authenticating...' : `Sign in as ${role}`} <ArrowRight size={16} />
           </button>
         </form>
 
-        <div className={styles.footer}>
-          Don't have an account?{' '}
-          <Link href="/login" className={styles.link}>
-            Sign up
+        <div style={{ textAlign: 'center', marginTop: '1.75rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+          Don&apos;t have a student account yet?{' '}
+          <Link href="/admissions" style={{ color: 'var(--brand-primary)', fontWeight: 600 }}>
+            Apply for Admission
           </Link>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

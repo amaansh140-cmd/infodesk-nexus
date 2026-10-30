@@ -1,362 +1,307 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Phone, Mail, Navigation, ExternalLink, Play, X, CheckCircle2, User, BookOpen, ChevronDown } from 'lucide-react';
-import Link from 'next/link';
-import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import styles from './contact.module.css';
-
-const branches = [
-  {
-    number: 'Branch 01',
-    name: 'Goregaon West — Shashtri Nagar',
-    area: 'Shop No. 10, Aum Heights, Rohini CHS, Behind Bangur Nagar Metro Station, Shashtri Nagar',
-    city: 'Goregaon West, Mumbai — 400104',
-    phone: '+91 97694 45334',
-    email: 'info@infodeskcompedu.com',
-    whatsapp: '919769445334',
-    mapQuery: 'Infodesk+Computer+Education+Shastri+Nagar+Goregaon+West+Mumbai',
-    mapsLink: 'https://maps.google.com/maps?q=Infodesk+Computer+Education+Shastri+Nagar+Goregaon+West+Mumbai',
-  },
-  {
-    number: 'Branch 02',
-    name: 'Jogeshwari West — SV Road',
-    area: 'Near S.V. Road, Sabri Masjid, Jogeshwari West',
-    city: 'Mumbai, Maharashtra',
-    phone: '+91 86527 78432',
-    email: 'info@infodeskcompedu.com',
-    whatsapp: '918652778432',
-    mapQuery: 'Infodesk+Computer+Education+SV+Road+Jogeshwari+West+Mumbai',
-    mapsLink: 'https://maps.google.com/maps?q=Infodesk+Computer+Education+SV+Road+Jogeshwari+West+Mumbai',
-  },
-  {
-    number: 'Branch 03',
-    name: 'Goregaon West — Jawahar Nagar',
-    area: 'Jawahar Nagar, Goregaon West',
-    city: 'Mumbai, Maharashtra',
-    phone: '+91 97694 45334',
-    email: 'info@infodeskcompedu.com',
-    whatsapp: '919769445334',
-    mapQuery: 'Infodesk+Computer+Education+Jawahar+Nagar+Goregaon+West+Mumbai',
-    mapsLink: 'https://maps.google.com/maps?q=Infodesk+Computer+Education+Jawahar+Nagar+Goregaon+West+Mumbai',
-  },
-  {
-    number: 'Branch 04',
-    name: 'Jogeshwari West — Behram Baug',
-    area: 'Behram Baug, Jogeshwari West',
-    city: 'Mumbai, Maharashtra',
-    phone: '+91 93727 99843',
-    email: 'info@infodeskcompedu.com',
-    whatsapp: '919372799843',
-    mapQuery: 'Infodesk+Computer+Education+Behram+Baug+Jogeshwari+West+Mumbai',
-    mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.5!2d72.8497!3d19.1415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b6b9dd3c0000%3A0x9452514b2978c772!2sInfodesk%20Computer%20Education%20Behram%20Baug!5e0!3m2!1sen!2sin!4v1',
-    mapsLink: 'https://share.google/85jcfozuVfa18Xr14',
-  },
-];
-
-const courseOptions = [
-  'Data Science', 'Advanced Python', 'Prompt Engineering', 'Digital Marketing',
-  'Full Stack Development', 'Core Java', 'Tally & Excel', 'DCA Diploma',
-  'Graphics Design', 'C / C++', 'Other',
-];
-
-const cardVariants: any = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
-interface ModalState {
-  open: boolean;
-  branch: typeof branches[0] | null;
-}
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Clock, Send, CheckCircle2 } from 'lucide-react';
 
 export default function ContactPage() {
-  const [modal, setModal] = useState<ModalState>({ open: false, branch: null });
-  const [form, setForm] = useState({ name: '', phone: '', email: '', course: '' });
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    course: 'Full Stack Web Development',
+    message: '',
+  });
 
-  const openModal = (branch: typeof branches[0]) => {
-    setForm({ name: '', phone: '', email: '', course: '' });
-    setSuccess(false);
-    setModal({ open: true, branch });
-  };
-
-  const closeModal = () => setModal({ open: false, branch: null });
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!modal.branch) return;
-    setSubmitting(true);
-
-    // Build WhatsApp message first
-    const message =
-      `🎓 *New Enrollment Request*\n\n` +
-      `*Name:* ${form.name}\n` +
-      `*Phone:* ${form.phone}\n` +
-      `*Email:* ${form.email}\n` +
-      `*Course:* ${form.course}\n` +
-      `*Branch:* ${modal.branch.name} (${modal.branch.number})\n\n` +
-      `_Submitted via Infodesk Computer Education website_`;
-    const whatsappUrl = `https://wa.me/${modal.branch.whatsapp}?text=${encodeURIComponent(message)}`;
-
-    // Try to save to Firestore (non-blocking — won't stop WhatsApp redirect)
-    try {
-      await addDoc(collection(db, 'enrollmentRequests'), {
-        ...form,
-        branch: modal.branch.name,
-        branchNumber: modal.branch.number,
-        submittedAt: serverTimestamp(),
-        status: 'pending',
-      });
-    } catch (err) {
-      console.warn('Firestore write failed (check security rules):', err);
-    }
-
-    // Always open WhatsApp and show success
-    window.open(whatsappUrl, '_blank');
-    setSuccess(true);
-    setSubmitting(false);
+    // Simulate inquiry submission
+    setSubmitted(true);
   };
 
   return (
-    <div className={styles.page}>
-      {/* ---- Hero ---- */}
-      <motion.div
-        className={styles.hero}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className={styles.eyebrow}><MapPin size={12} /> Our Locations</div>
-        <h1 className={styles.title}>
-          Find Your Nearest <br />
-          <span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Infodesk</span> Centre
-        </h1>
-        <p className={styles.subtitle}>
-          With four conveniently located branches across Mumbai, quality education is always close to home.
-        </p>
-      </motion.div>
+    <div style={{ padding: '4rem 0 6rem' }}>
+      <div className="container">
+        {/* Header */}
+        <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 3.5rem' }}>
+          <h1 style={{
+            fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
+            fontWeight: 800,
+            letterSpacing: '-0.02em',
+            marginBottom: '1rem',
+          }}>
+            Get in Touch with Us
+          </h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.6 }}>
+            Have questions regarding course curricula, batch schedules, fees, or certifications? Our counselors are here to help.
+          </p>
+        </div>
 
-      {/* ---- Branch Cards ---- */}
-      <div className={styles.grid}>
-        {branches.map((branch, i) => (
-          <motion.div
-            key={branch.number}
-            className={`liquid-glass ${styles.card}`}
-            custom={i}
-            initial="hidden"
-            animate="visible"
-            variants={cardVariants}
-          >
-            <div className={styles.mapWrap}>
-              <iframe
-                title={branch.name}
-                src={(branch as any).mapEmbed ?? `https://maps.google.com/maps?q=${branch.mapQuery}&output=embed`}
-                className={styles.mapFrame}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-              <a href={branch.mapsLink} target="_blank" rel="noopener noreferrer" className={styles.mapOverlayBtn}>
-                <ExternalLink size={14} /> Open in Maps
-              </a>
+        {/* Content Layout: Contact Info & Form */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '3rem',
+          alignItems: 'start',
+        }}>
+          {/* Left Column: Direct Info Cards */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="glass-card" style={{ padding: '2rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff', marginBottom: '1.5rem' }}>
+                Campus Contact Details
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '0.5rem',
+                    background: 'rgba(59, 130, 246, 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--brand-primary)',
+                    flexShrink: 0,
+                  }}>
+                    <MapPin size={20} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: '#ffffff' }}>Main Campus</h4>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5, marginTop: '0.2rem' }}>
+                      Infodesk Computer Education Centre, Station Road, Mumbai, Maharashtra, India
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '0.5rem',
+                    background: 'rgba(59, 130, 246, 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--brand-primary)',
+                    flexShrink: 0,
+                  }}>
+                    <Phone size={20} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: '#ffffff' }}>Call Counselor</h4>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.1rem' }}>
+                      +91 98765 43210 / +91 91234 56789
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '0.5rem',
+                    background: 'rgba(59, 130, 246, 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--brand-primary)',
+                    flexShrink: 0,
+                  }}>
+                    <Mail size={20} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: '#ffffff' }}>Email Inquiries</h4>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.1rem' }}>
+                      admissions@infodesk.edu
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '0.5rem',
+                    background: 'rgba(59, 130, 246, 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--brand-primary)',
+                    flexShrink: 0,
+                  }}>
+                    <Clock size={20} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: '#ffffff' }}>Campus Hours</h4>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.1rem' }}>
+                      Mon - Sat: 8:00 AM – 8:00 PM (Sunday Closed)
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
 
-            <div className={styles.cardBody}>
-              <div className={styles.cardHeader}>
-                <div className={styles.iconWrap}><MapPin size={20} /></div>
+          {/* Right Column: Inquiry Form */}
+          <div className="glass-card" style={{ padding: '2.5rem' }}>
+            <h3 style={{ fontSize: '1.35rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.5rem' }}>
+              Send an Inquiry
+            </h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', marginBottom: '2rem' }}>
+              Fill out this quick form and an academic advisor will get back to you within 24 hours.
+            </p>
+
+            {submitted ? (
+              <div style={{
+                textAlign: 'center',
+                padding: '3rem 1rem',
+                background: 'rgba(16, 185, 129, 0.1)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                borderRadius: '1rem',
+              }}>
+                <CheckCircle2 size={48} color="#10b981" style={{ margin: '0 auto 1rem' }} />
+                <h4 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.5rem' }}>
+                  Thank you, {formData.name}!
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', maxWidth: '400px', margin: '0 auto' }}>
+                  Your inquiry for <strong>{formData.course}</strong> has been received. Our team will contact you shortly.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 <div>
-                  <div className={styles.cardNumber}>{branch.number}</div>
-                  <div className={styles.cardName}>{branch.name}</div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Enter your name"
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '0.5rem',
+                      background: 'rgba(15, 23, 42, 0.8)',
+                      border: '1px solid var(--border-subtle)',
+                      color: '#ffffff',
+                      outline: 'none',
+                      fontSize: '0.95rem',
+                    }}
+                  />
                 </div>
-              </div>
 
-              <div className={styles.divider} />
-
-              <div className={styles.infoList}>
-                <div className={styles.infoRow}>
-                  <Navigation size={14} className={styles.infoIcon} />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                   <div>
-                    <div className={styles.infoLabel}>Address</div>
-                    <div className={styles.infoText}>{branch.area}<br />{branch.city}</div>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="you@example.com"
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem 1rem',
+                        borderRadius: '0.5rem',
+                        background: 'rgba(15, 23, 42, 0.8)',
+                        border: '1px solid var(--border-subtle)',
+                        color: '#ffffff',
+                        outline: 'none',
+                        fontSize: '0.95rem',
+                      }}
+                    />
                   </div>
-                </div>
-                <div className={styles.infoRow}>
-                  <Phone size={14} className={styles.infoIcon} />
+
                   <div>
-                    <div className={styles.infoLabel}>Phone</div>
-                    <a href={`tel:${branch.phone.replace(/\s/g, '')}`} className={styles.infoText}>{branch.phone}</a>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
+                      Phone / WhatsApp *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="+91 98765 43210"
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem 1rem',
+                        borderRadius: '0.5rem',
+                        background: 'rgba(15, 23, 42, 0.8)',
+                        border: '1px solid var(--border-subtle)',
+                        color: '#ffffff',
+                        outline: 'none',
+                        fontSize: '0.95rem',
+                      }}
+                    />
                   </div>
                 </div>
-                <div className={styles.infoRow}>
-                  <Mail size={14} className={styles.infoIcon} />
-                  <div>
-                    <div className={styles.infoLabel}>Email</div>
-                    <a href={`mailto:${branch.email}`} className={styles.infoText}>{branch.email}</a>
-                  </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
+                    Program of Interest
+                  </label>
+                  <select
+                    value={formData.course}
+                    onChange={(e) => setFormData({ ...formData, course: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '0.5rem',
+                      background: 'rgba(15, 23, 42, 0.8)',
+                      border: '1px solid var(--border-subtle)',
+                      color: '#ffffff',
+                      outline: 'none',
+                      fontSize: '0.95rem',
+                    }}
+                  >
+                    <option value="Full Stack Web Development">Full Stack Web Development</option>
+                    <option value="Python, AI & Data Science">Python, AI &amp; Data Science</option>
+                    <option value="Cyber Security">Cyber Security</option>
+                    <option value="Graphic & UI/UX Design">Graphic &amp; UI/UX Design</option>
+                    <option value="Data Analytics & Excel">Data Analytics &amp; Excel</option>
+                    <option value="Cloud Computing & DevOps">Cloud Computing &amp; DevOps</option>
+                  </select>
                 </div>
-              </div>
 
-              <button
-                onClick={() => openModal(branch)}
-                className={`liquid-glass-strong hover-scale ${styles.enrollBtn}`}
-              >
-                <Play size={14} fill="currentColor" />
-                Enroll Now
-              </button>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
+                    Questions / Message
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Tell us about your background or ask any question..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '0.5rem',
+                      background: 'rgba(15, 23, 42, 0.8)',
+                      border: '1px solid var(--border-subtle)',
+                      color: '#ffffff',
+                      outline: 'none',
+                      fontSize: '0.95rem',
+                      resize: 'vertical',
+                    }}
+                  />
+                </div>
 
-
-
-      {/* ---- Enrollment Modal ---- */}
-      <AnimatePresence>
-        {modal.open && (
-          <motion.div
-            className={styles.modalOverlay}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeModal}
-          >
-            {/* Modal Panel */}
-            <motion.div
-              className={`liquid-glass-strong ${styles.modal}`}
-              initial={{ opacity: 0, scale: 0.92, y: 24 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.92, y: 24 }}
-              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-              onClick={e => e.stopPropagation()}
-            >
-              {/* Close */}
-              <button className={styles.modalClose} onClick={closeModal}>
-                <X size={18} />
-              </button>
-
-              {!success ? (
-                <>
-                  {/* Header */}
-                  <div className={styles.modalHeader}>
-                    <div className={styles.modalIconWrap}>
-                      <BookOpen size={22} />
-                    </div>
-                    <div>
-                      <p className={styles.modalBranchTag}>{modal.branch?.number}</p>
-                      <h2 className={styles.modalTitle}>Enroll at {modal.branch?.name}</h2>
-                      <p className={styles.modalSub}>Fill in your details and we'll get back to you within 24 hours.</p>
-                    </div>
-                  </div>
-
-                  <div className={styles.modalDivider} />
-
-                  {/* Form */}
-                  <form onSubmit={handleSubmit} className={styles.form}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Full Name</label>
-                      <div className={styles.inputWrap}>
-                        <User size={15} className={styles.inputIcon} />
-                        <input
-                          type="text"
-                          placeholder="John Doe"
-                          className={styles.input}
-                          value={form.name}
-                          onChange={e => setForm({ ...form, name: e.target.value })}
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className={styles.formRow}>
-                      <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Phone Number</label>
-                        <div className={styles.inputWrap}>
-                          <Phone size={15} className={styles.inputIcon} />
-                          <input
-                            type="tel"
-                            placeholder="+91 98765 43210"
-                            className={styles.input}
-                            value={form.phone}
-                            onChange={e => setForm({ ...form, phone: e.target.value })}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Email Address</label>
-                        <div className={styles.inputWrap}>
-                          <Mail size={15} className={styles.inputIcon} />
-                          <input
-                            type="email"
-                            placeholder="you@example.com"
-                            className={styles.input}
-                            value={form.email}
-                            onChange={e => setForm({ ...form, email: e.target.value })}
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Course of Interest</label>
-                      <div className={styles.inputWrap}>
-                        <BookOpen size={15} className={styles.inputIcon} />
-                        <select
-                          className={styles.input}
-                          value={form.course}
-                          onChange={e => setForm({ ...form, course: e.target.value })}
-                          required
-                        >
-                          <option value="" disabled>Select a course...</option>
-                          {courseOptions.map(c => (
-                            <option key={c} value={c}>{c}</option>
-                          ))}
-                        </select>
-                        <ChevronDown size={15} className={styles.selectChevron} />
-                      </div>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className={styles.submitBtn}
-                    >
-                      {submitting ? 'Submitting...' : 'Submit Enrollment Request'}
-                    </button>
-                  </form>
-                </>
-              ) : (
-                /* Success State */
-                <motion.div
-                  className={styles.successState}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4 }}
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  style={{ width: '100%', padding: '0.9rem', fontSize: '1rem', marginTop: '0.5rem' }}
                 >
-                  <div className={styles.successIcon}>
-                    <CheckCircle2 size={48} />
-                  </div>
-                  <h2 className={styles.successTitle}>Request Submitted!</h2>
-                  <p className={styles.successSub}>
-                    Thank you, <strong>{form.name}</strong>! We've received your enrollment request for <strong>{modal.branch?.name}</strong>. Our team will contact you at <strong>{form.phone}</strong> within 24 hours.
-                  </p>
-                  <button className={styles.submitBtn} onClick={closeModal}>
-                    Close
-                  </button>
-                </motion.div>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  Submit Inquiry <Send size={16} />
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

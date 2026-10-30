@@ -1,22 +1,19 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import ConditionalNavbar from '@/components/ConditionalNavbar';
-import AppWrapper from '@/components/AppWrapper';
-import { Providers } from "./Providers";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: "Infodesk Computer Education | E-Learning Portal",
-  description: "Advanced multi-tenant e-learning management system",
+  title: 'Infodesk Computer Education | Next-Gen Learning',
+  description: 'Premier computer training institute offering certified courses in Full Stack Web Development, Python, AI, Data Science, and Graphic Design.',
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#f9fafb',
+  themeColor: '#0a0e17',
 };
-
-export const dynamic = 'force-dynamic';
 
 export default function RootLayout({
   children,
@@ -25,12 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning>
-        <Providers>
-          <AppWrapper>
-            {children}
-          </AppWrapper>
-        </Providers>
+      <body style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}>
+        <Navbar />
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

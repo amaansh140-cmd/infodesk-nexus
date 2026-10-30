@@ -1,133 +1,164 @@
 'use client';
 
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import { Menu, X, LayoutDashboard } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '@/context/AuthContext';
-import styles from './Navbar.module.css';
-import MainLogo from './logo.png';
+import Image from 'next/image';
+import { Menu, X, ArrowRight, Sparkles } from 'lucide-react';
 
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/courses', label: 'Courses' },
-  { href: '/playground', label: 'Playground' },
-  { href: '/contact', label: 'Contact' },
+const navItems = [
+  { label: 'Courses', href: '/courses' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Admissions', href: '/admissions' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
-  const { user } = useAuth();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // Close mobile menu on route change
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const isHomePage = pathname === '/';
-  const headerClass = isHomePage && !isScrolled 
-    ? `${styles.header} ${styles.headerTransparent}` 
-    : styles.header;
-
-  const authTargetHref = user
-    ? (user.role === 'superadmin' ? '/super-admin' : user.role === 'subadmin' ? '/sub-admin' : `/${user.role}`)
-    : '/login';
-  const authTargetLabel = user ? 'Dashboard' : 'Login';
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
-      <header className={headerClass}>
-      <nav className={styles.nav}>
-        {/* Logo */}
-        <Link href="/" className={styles.logo}>
-          <img
-            src={MainLogo.src}
+    <header style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      width: '100%',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
+      background: 'rgba(10, 14, 23, 0.75)',
+      borderBottom: '1px solid var(--border-subtle)',
+    }}>
+      <div className="container" style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: 'var(--nav-height)',
+      }}>
+        {/* Brand Logo */}
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <Image
+            src="/logo.png"
             alt="Infodesk Logo"
-            className={styles.logoImg}
-            style={{ height: '36px', width: 'auto' }}
+            width={140}
+            height={36}
+            style={{ objectFit: 'contain', height: '36px', width: 'auto' }}
+            priority
           />
         </Link>
 
+        {/* Desktop Navigation Links */}
+        <nav style={{
+          display: 'none',
+          alignItems: 'center',
+          gap: '2rem',
+        }} className="desktop-nav">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              style={{
+                fontSize: '0.92rem',
+                fontWeight: 500,
+                color: 'var(--text-muted)',
+                transition: 'color 0.2s ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
 
-        {/* Center Links */}
-        <div className={styles.links}>
-          {navLinks.map(({ href, label }) => {
-            const isActive = pathname === href;
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`${styles.link} ${isActive ? styles.linkActive : ''}`}
-                style={{ position: 'relative' }}
-              >
-                <span style={{ position: 'relative', zIndex: 1 }}>{label}</span>
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className={styles.actions}>
-          <Link href={authTargetHref} className={`liquid-glass-strong hover-scale ${styles.loginBtn}`}>
-            {user && <LayoutDashboard size={14} style={{ marginRight: '0.25rem' }} />}
-            {authTargetLabel}
+        {/* Desktop Action CTA */}
+        <div style={{ display: 'none', alignItems: 'center', gap: '1rem' }} className="desktop-actions">
+          <Link href="/login" className="btn-secondary" style={{ padding: '0.55rem 1.25rem', fontSize: '0.88rem' }}>
+            Portal Login
           </Link>
-          <button 
-            className={`liquid-glass ${styles.iconBtn} hover-scale ${styles.mobileMenuBtn}`} 
-            aria-label="Toggle navigation menu"
-            aria-expanded={isMobileMenuOpen}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
+          <Link href="/courses" className="btn-primary" style={{ padding: '0.55rem 1.25rem', fontSize: '0.88rem' }}>
+            Explore <ArrowRight size={14} />
+          </Link>
         </div>
-      </nav>
 
-      {/* Mobile Menu Backdrop & Container */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.15 }}
-            className={styles.mobileMenu}
-          >
-            <div className={styles.mobileLinks}>
-              {navLinks.map(({ href, label }) => {
-                const isActive = pathname === href;
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    className={`${styles.mobileLink} ${isActive ? styles.mobileLinkActive : ''}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {label}
-                  </Link>
-                );
-              })}
-              <Link
-                href={authTargetHref}
-                className={`liquid-glass-strong hover-scale ${styles.loginBtn} ${styles.mobileLoginBtn}`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {user && <LayoutDashboard size={16} style={{ marginRight: '0.4rem', verticalAlign: 'middle' }} />}
-                {authTargetLabel}
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      </header>
-    </>
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle navigation"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '40px',
+            height: '40px',
+            borderRadius: '0.5rem',
+            border: '1px solid var(--border-subtle)',
+            color: 'var(--text-main)',
+            background: 'var(--bg-surface-elevated)',
+          }}
+          className="mobile-toggle"
+        >
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isOpen && (
+        <div style={{
+          borderTop: '1px solid var(--border-subtle)',
+          background: 'rgba(10, 14, 23, 0.95)',
+          backdropFilter: 'blur(20px)',
+          padding: '1.25rem 1.5rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+        }}>
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={() => setIsOpen(false)}
+              style={{
+                fontSize: '1rem',
+                fontWeight: 500,
+                color: 'var(--text-main)',
+                padding: '0.5rem 0',
+              }}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
+            <Link
+              href="/login"
+              onClick={() => setIsOpen(false)}
+              className="btn-secondary"
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              Portal Login
+            </Link>
+            <Link
+              href="/courses"
+              onClick={() => setIsOpen(false)}
+              className="btn-primary"
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              Explore Courses
+            </Link>
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        @media (min-width: 768px) {
+          :global(.desktop-nav) {
+            display: flex !important;
+          }
+          :global(.desktop-actions) {
+            display: flex !important;
+          }
+          :global(.mobile-toggle) {
+            display: none !important;
+          }
+        }
+      `}</style>
+    </header>
   );
 }
