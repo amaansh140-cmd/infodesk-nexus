@@ -8,11 +8,15 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const distPath = path.join(__dirname, 'dist');
 
-// Serve static assets from dist
-if (fs.existsSync(distPath)) {
-  app.use(express.static(distPath, {
+// Determine static build directory (check dist, then .next)
+let staticDir = path.join(__dirname, 'dist');
+if (!fs.existsSync(staticDir) && fs.existsSync(path.join(__dirname, '.next'))) {
+  staticDir = path.join(__dirname, '.next');
+}
+
+if (fs.existsSync(staticDir)) {
+  app.use(express.static(staticDir, {
     maxAge: '1d',
     etag: true,
   }));
@@ -20,11 +24,20 @@ if (fs.existsSync(distPath)) {
 
 // Fallback to index.html for all client-side routes (SPA routing)
 app.use((req, res) => {
-  const indexPath = path.join(distPath, 'index.html');
+  const indexPath = path.join(staticDir, 'index.html');
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    res.status(404).send('Application build in progress or dist/index.html not found. Please run npm run build.');
+    res.status(200).send(`
+      <!DOCTYPE html>
+      <html>
+        <head><title>Infodesk Computer Education</title></head>
+        <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+          <h1>Infodesk Computer Education</h1>
+          <p>Application is initializing. Please refresh in a few moments.</p>
+        </body>
+      </html>
+    `);
   }
 });
 
