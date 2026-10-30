@@ -189,7 +189,7 @@ export default function Home() {
       {/* ─── RECOGNITION STRIP ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="glass-panel rounded-panel p-6 sm:p-8 shadow-card relative overflow-hidden">
+          <div className="bg-surface border border-line/80 rounded-panel p-6 sm:p-8 shadow-card">
             <p className="text-center text-xs font-semibold uppercase tracking-wider text-muted mb-6">
               Recognized and certified for vocational excellence
             </p>
@@ -197,7 +197,7 @@ export default function Home() {
               {recognitionBadges.map((item) => (
                 <div
                   key={item.name}
-                  className="p-3 text-center rounded-2xl bg-white/60 backdrop-blur-sm border border-white/80 hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-300"
+                  className="p-3 text-center rounded-xl bg-background border border-line/60 hover:border-primary/40 transition-colors"
                 >
                   <p className="text-sm font-bold text-deep">{item.name}</p>
                   <p className="text-xs text-muted mt-0.5">{item.desc}</p>
@@ -236,14 +236,11 @@ export default function Home() {
                 <Link
                   key={cat.title}
                   to={cat.link}
-                  className="glass-card rounded-card p-6 flex flex-col justify-between group relative overflow-hidden"
+                  className="bg-surface border border-line/80 rounded-card p-6 flex flex-col justify-between shadow-card hover:shadow-hover hover:-translate-y-1 transition-all duration-300 group"
                 >
-                  {/* Frosted specular corner */}
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/30 to-transparent rounded-full blur-xl pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity" />
-
-                  <div className="relative z-10">
+                  <div>
                     <div
-                      className={`w-12 h-12 rounded-2xl ${cat.color} flex items-center justify-center mb-5 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:rotate-1`}
+                      className={`w-12 h-12 rounded-2xl ${cat.color} flex items-center justify-center mb-5 transition-transform group-hover:scale-105`}
                     >
                       <Icon size={24} />
                     </div>
@@ -254,9 +251,9 @@ export default function Home() {
                       {cat.desc}
                     </p>
                   </div>
-                  <div className="pt-5 mt-5 border-t border-line/40 flex items-center justify-between text-xs font-semibold text-primary relative z-10">
+                  <div className="pt-5 mt-5 border-t border-line/40 flex items-center justify-between text-xs font-semibold text-primary">
                     <span>Browse track</span>
-                    <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-200" />
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </Link>
               );
@@ -283,9 +280,9 @@ export default function Home() {
               return (
                 <div
                   key={item.title}
-                  className="glass-card rounded-card p-6 group"
+                  className="bg-surface border border-line/80 rounded-card p-6 shadow-card hover:border-primary/40 transition-colors"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-soft/80 border border-white/80 text-primary flex items-center justify-center mb-4 shadow-sm group-hover:scale-105 transition-transform">
+                  <div className="w-10 h-10 rounded-xl bg-soft text-primary flex items-center justify-center mb-4">
                     <Icon size={20} />
                   </div>
                   <h3 className="text-lg font-bold text-deep">{item.title}</h3>
@@ -300,13 +297,10 @@ export default function Home() {
       {/* ─── AWARD HIGHLIGHT ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="glass-dark text-white rounded-band p-8 sm:p-12 shadow-signature overflow-hidden relative">
-            {/* Ambient specular light inside dark glass */}
-            <div className="absolute top-0 right-1/4 w-96 h-96 bg-bright/20 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          <div className="bg-[#101f5c] text-white rounded-band p-8 sm:p-12 shadow-signature overflow-hidden relative">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
-                <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 border border-white/20">
+                <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white/90 border border-white/20">
                   National Recognition
                 </span>
                 <h2 className="text-[clamp(28px,3.8vw,44px)] font-bold text-white tracking-tight leading-tight">
@@ -324,19 +318,19 @@ export default function Home() {
 
               {/* Award Photos */}
               <div className="lg:col-span-5 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl overflow-hidden border border-white/20 shadow-lg group">
+                <div className="rounded-2xl overflow-hidden border border-white/20 shadow-lg">
                   <img
                     src="/assets/awards/ashneer-award-main.jpg"
                     alt="Ashneer Grover presenting India's Best Institute award to Infodesk Computer Education"
-                    className="w-full h-44 sm:h-52 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-44 sm:h-52 object-cover object-center hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden border border-white/20 shadow-lg group">
+                <div className="rounded-2xl overflow-hidden border border-white/20 shadow-lg">
                   <img
                     src="/assets/awards/ashneer-award-1.jpg"
                     alt="Infodesk team on stage at national award ceremony"
-                    className="w-full h-44 sm:h-52 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-44 sm:h-52 object-cover object-center hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
                 </div>
@@ -347,18 +341,18 @@ export default function Home() {
       </section>
 
       {/* ─── TOOL MARQUEE ─── */}
-      <section className="w-full max-w-full overflow-hidden py-5 border-y border-white/60 bg-white/40 backdrop-blur-md">
+      <section className="w-full max-w-full overflow-hidden py-4 border-y border-line/60 bg-surface">
         <div className="max-w-content mx-auto px-4 sm:px-6 mb-3 text-center">
           <p className="text-xs uppercase font-semibold tracking-wider text-muted">
             Industry tools and technologies taught in our labs
           </p>
         </div>
         <div className="relative w-full max-w-full overflow-hidden flex [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
-          <div className="flex gap-4 sm:gap-6 py-2 whitespace-nowrap animate-marquee hover:[animation-play-state:paused]">
+          <div className="flex gap-8 py-3 whitespace-nowrap animate-marquee hover:[animation-play-state:paused]">
             {[...tools, ...tools, ...tools].map((tool, i) => (
               <span
                 key={`${tool}-${i}`}
-                className="glass-pill text-sm font-semibold text-deep px-4 py-1.5 rounded-full inline-block shadow-sm hover:scale-105 transition-transform cursor-default"
+                className="text-base font-semibold text-deep/80 px-4 py-1.5 rounded-full bg-background border border-line/80 inline-block shadow-sm"
               >
                 {tool}
               </span>
@@ -370,17 +364,14 @@ export default function Home() {
       {/* ─── TRY A FREE DEMO BANNER ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="glass-dark rounded-band p-8 sm:p-14 text-center text-white space-y-6 shadow-signature relative overflow-hidden">
-            {/* Luminous glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-bright/10 via-transparent to-primary/20 pointer-events-none" />
-
-            <h2 className="text-[clamp(30px,4.2vw,48px)] font-bold text-white tracking-tight relative z-10">
+          <div className="bg-deep rounded-band p-8 sm:p-14 text-center text-white space-y-6 shadow-signature relative overflow-hidden">
+            <h2 className="text-[clamp(30px,4.2vw,48px)] font-bold text-white tracking-tight">
               Try a free demo class.
             </h2>
-            <p className="text-white/80 text-base sm:text-lg max-w-xl mx-auto leading-relaxed relative z-10">
+            <p className="text-white/80 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
               Experience our teaching firsthand before enrolling. Visit any of our four Mumbai branches or attend a preview session with our faculty.
             </p>
-            <div className="pt-2 relative z-10">
+            <div className="pt-2">
               <Button to="/contact" size="lg" variant="white">
                 Book your demo
               </Button>

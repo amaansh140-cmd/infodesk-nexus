@@ -140,11 +140,8 @@ export default function CourseDetail() {
 
           {/* Right Column: Sticky Enrollment Sidebar (4 cols) */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
-            <div className="glass-panel rounded-panel p-6 sm:p-7 shadow-signature space-y-6 relative overflow-hidden">
-              {/* Specular corner highlight */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/40 to-transparent rounded-full blur-2xl pointer-events-none" />
-
-              <div className="relative z-10">
+            <div className="bg-surface border border-line/80 rounded-panel p-6 sm:p-7 shadow-card space-y-6">
+              <div>
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted">
                   Course Overview
                 </span>
@@ -152,7 +149,7 @@ export default function CourseDetail() {
               </div>
 
               {/* Specs */}
-              <div className="space-y-3 py-3 border-y border-line/50 text-sm relative z-10">
+              <div className="space-y-3 py-3 border-y border-line/60 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-muted">Duration</span>
                   <span className="font-semibold text-deep">{course.duration}</span>

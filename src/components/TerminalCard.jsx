@@ -84,13 +84,11 @@ export default function TerminalCard() {
   return (
     <div className="w-full max-w-full sm:max-w-md md:max-w-lg mx-auto md:[perspective:1200px]">
       <motion.div
-        className="w-full glass-dark rounded-panel p-4 sm:p-7 shadow-2xl text-left select-none transition-all duration-500 ease-out md:[transform:rotateY(-6deg)_rotateX(4deg)] md:hover:[transform:rotateY(0deg)_rotateX(0deg)_scale(1.02)] relative overflow-hidden group"
+        className="w-full bg-[#0d1847] border border-[#23357d] rounded-panel p-4 sm:p-7 shadow-2xl text-left select-none transition-transform duration-500 ease-out md:[transform:rotateY(-6deg)_rotateX(4deg)] md:hover:[transform:rotateY(0deg)_rotateX(0deg)_scale(1.02)]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }}
       >
-        {/* Specular glass reflection */}
-        <div className="absolute -top-16 -left-16 w-56 h-56 bg-gradient-to-br from-white/15 via-white/5 to-transparent rounded-full blur-xl pointer-events-none" />
         {/* Top Header Bar */}
         <div className="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-white/10">
           <div className="flex items-center gap-2">

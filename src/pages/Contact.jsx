@@ -78,15 +78,12 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* ─── ENQUIRY FORM (DEEP BLUE GLASS PANEL WITH FLOATING LABELS) ─── */}
+      {/* ─── ENQUIRY FORM (DEEP BLUE PANEL WITH FLOATING LABELS) ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="max-w-3xl mx-auto glass-dark text-white rounded-band p-8 sm:p-14 shadow-signature relative overflow-hidden">
-            {/* Ambient specular light */}
-            <div className="absolute top-0 right-1/4 w-96 h-96 bg-bright/20 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="mb-8 space-y-2 relative z-10">
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 border border-white/20">
+          <div className="max-w-3xl mx-auto bg-deep text-white rounded-band p-8 sm:p-14 shadow-signature">
+            <div className="mb-8 space-y-2">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white/90 border border-white/20">
                 Direct Counseling
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -98,7 +95,7 @@ export default function Contact() {
             </div>
 
             {isSubmitted ? (
-              <div className="p-6 rounded-2xl bg-emerald-950/80 backdrop-blur-md border border-emerald-500/50 text-emerald-100 flex items-start gap-4 animate-in fade-in relative z-10">
+              <div className="p-6 rounded-2xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-100 flex items-start gap-4 animate-in fade-in">
                 <CheckCircle2 size={24} className="text-emerald-400 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <h4 className="font-bold text-white text-base">Enquiry Sent Successfully!</h4>
@@ -116,14 +113,14 @@ export default function Contact() {
                         course: 'Data Science',
                       });
                     }}
-                    className="text-xs text-white underline mt-2 inline-block font-semibold cursor-pointer"
+                    className="text-xs text-white underline mt-2 inline-block font-semibold"
                   >
                     Send another inquiry
                   </button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6 relative z-10" noValidate>
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                 {/* Name field */}
                 <div className="relative">
                   <input
@@ -132,9 +129,9 @@ export default function Contact() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder=" "
-                    className={`block w-full px-4 pt-6 pb-2 text-base text-white bg-white/10 backdrop-blur-md border ${
+                    className={`block w-full px-4 pt-6 pb-2 text-base text-white bg-white/10 border ${
                       formErrors.name ? 'border-rose-400' : 'border-white/20'
-                    } rounded-xl focus:border-bright focus:bg-white/15 focus:outline-none focus:ring-2 focus:ring-bright/30 transition-all peer`}
+                    } rounded-xl focus:border-bright focus:outline-none focus:ring-1 focus:ring-bright peer`}
                   />
                   <label
                     htmlFor="name"
@@ -157,9 +154,9 @@ export default function Contact() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder=" "
-                    className={`block w-full px-4 pt-6 pb-2 text-base text-white bg-white/10 backdrop-blur-md border ${
+                    className={`block w-full px-4 pt-6 pb-2 text-base text-white bg-white/10 border ${
                       formErrors.phone ? 'border-rose-400' : 'border-white/20'
-                    } rounded-xl focus:border-bright focus:bg-white/15 focus:outline-none focus:ring-2 focus:ring-bright/30 transition-all peer`}
+                    } rounded-xl focus:border-bright focus:outline-none focus:ring-1 focus:ring-bright peer`}
                   />
                   <label
                     htmlFor="phone"
@@ -247,23 +244,20 @@ export default function Contact() {
               return (
                 <div
                   key={branch.id}
-                  className="glass-card rounded-panel p-7 flex flex-col justify-between group relative overflow-hidden"
+                  className="bg-surface border border-line/80 rounded-panel p-7 shadow-card flex flex-col justify-between hover:border-primary/40 transition-colors"
                 >
-                  {/* Subtle specular gleam */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/30 to-transparent rounded-full blur-2xl pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity" />
-
-                  <div className="space-y-3 relative z-10">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="glass-pill text-xs font-bold px-2.5 py-0.5 rounded-full text-primary">
+                      <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-soft text-primary">
                         {branch.locality}
                       </span>
-                      <span className="text-xs text-muted font-medium flex items-center gap-1 bg-white/40 px-2 py-0.5 rounded-full border border-white/60">
+                      <span className="text-xs text-muted font-medium flex items-center gap-1">
                         <Clock size={12} />
                         <span>Mon–Sat 8AM–9PM</span>
                       </span>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-deep group-hover:text-primary transition-colors">{branch.name}</h3>
+                    <h3 className="text-2xl font-bold text-deep">{branch.name}</h3>
 
                     {/* Address Placeholder */}
                     <p className="text-xs text-muted leading-relaxed flex items-start gap-1.5 pt-1">
@@ -278,10 +272,10 @@ export default function Contact() {
                   </div>
 
                   {/* Contact Action Buttons */}
-                  <div className="pt-6 mt-6 border-t border-line/40 grid grid-cols-2 gap-3 relative z-10">
+                  <div className="pt-6 mt-6 border-t border-line/60 grid grid-cols-2 gap-3">
                     <a
                       href={`tel:${branch.primaryPhoneRaw}`}
-                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs font-bold text-deep bg-white/70 backdrop-blur-sm border border-white/90 hover:border-primary/50 hover:text-primary hover:bg-white transition-all shadow-sm"
+                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs font-bold text-deep bg-background border border-line hover:border-primary hover:text-primary transition-colors"
                     >
                       <Phone size={14} />
                       <span>Call {branch.primaryPhone}</span>
@@ -290,7 +284,7 @@ export default function Contact() {
                       href={`https://wa.me/${branch.primaryPhoneRaw}?text=${branchWhatsAppMsg}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs font-bold text-white bg-[#25D366] hover:bg-[#20ba59] shadow-sm hover:shadow-md transition-all active:scale-95"
+                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs font-bold text-white bg-[#25D366] hover:bg-[#20ba59] shadow-sm transition-colors"
                     >
                       <MessageCircle size={14} className="fill-white" />
                       <span>WhatsApp</span>
@@ -306,11 +300,8 @@ export default function Contact() {
       {/* ─── HEAD OFFICE & INSTITUTIONAL CONTACT ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="glass-panel rounded-panel p-8 sm:p-10 shadow-signature relative overflow-hidden">
-            {/* Ambient specular corner */}
-            <div className="absolute top-0 right-0 w-80 h-80 bg-soft/50 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 items-center relative z-10">
+          <div className="bg-surface border border-line/80 rounded-panel p-8 sm:p-10 shadow-card">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-8 space-y-3">
                 <div className="flex items-center gap-2">
                   <Building size={20} className="text-primary" />
