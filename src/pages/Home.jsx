@@ -123,7 +123,29 @@ const tools = [
 
 export default function Home() {
   const shouldReduceMotion = useReducedMotion();
-  const [asciiShape, setAsciiShape] = React.useState('horizon');
+
+  const heroContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.14,
+        delayChildren: 0.15,
+      },
+    },
+  };
+
+  const heroItemVariants = {
+    hidden: shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 28 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.75,
+        ease: [0.2, 0.7, 0.2, 1],
+      },
+    },
+  };
 
   return (
     <div className="space-y-24 sm:space-y-32 w-full overflow-x-hidden">
@@ -133,7 +155,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-auto select-none">
           <GradientASCII
             colors={['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8']}
-            shape={asciiShape}
+            shape="horizon"
             characters=" =+xX0S8#@"
             cellSize={18}
             density={0.8}
@@ -147,59 +169,61 @@ export default function Home() {
           />
         </div>
 
-        {/* Hero Content centered in the middle of the screen */}
-        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 my-auto text-center flex flex-col items-center justify-center space-y-6 sm:space-y-8 pointer-events-auto">
+        {/* Hero Content centered in the middle of the screen with smooth fade-up */}
+        <motion.div
+          variants={heroContainerVariants}
+          initial="hidden"
+          animate="visible"
+          className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 my-auto text-center flex flex-col items-center justify-center space-y-6 sm:space-y-8 pointer-events-auto"
+        >
           {/* Accreditation badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-white/90 shadow-sm">
+          <motion.div
+            variants={heroItemVariants}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-white/90 shadow-sm"
+          >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span>Govt. Recognized • ISO 9001:2015 Certified Board</span>
-          </div>
+          </motion.div>
 
           {/* Centered H1 Headline */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.06] max-w-4xl mx-auto break-words">
+          <motion.h1
+            variants={heroItemVariants}
+            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.06] max-w-4xl mx-auto break-words"
+          >
             Learn the skills Mumbai's tech teams hire for.
-          </h1>
+          </motion.h1>
 
           {/* Centered Subtitle */}
-          <p className="text-white/80 text-base sm:text-xl leading-relaxed max-w-2xl mx-auto">
+          <motion.p
+            variants={heroItemVariants}
+            className="text-white/80 text-base sm:text-xl leading-relaxed max-w-2xl mx-auto"
+          >
             Industry-led courses in data, digital marketing, web development, design and accounting, taught in small batches at four Mumbai branches.
-          </p>
+          </motion.p>
 
           {/* Centered CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <Button to="/courses" size="lg" variant="primary" className="!bg-[#2448c9] hover:!bg-[#1e3fd8] text-white px-8 py-3.5 shadow-lg shadow-blue-600/30">
+          <motion.div
+            variants={heroItemVariants}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2"
+          >
+            <Button
+              to="/courses"
+              size="lg"
+              variant="primary"
+              className="!bg-[#2448c9] hover:!bg-[#1e3fd8] text-white px-8 py-3.5 shadow-lg shadow-blue-600/30"
+            >
               Explore courses
             </Button>
-            <Button to="/contact" size="lg" variant="ghost" className="!text-white !border-white/30 hover:!bg-white/10 px-8 py-3.5 backdrop-blur-sm">
+            <Button
+              to="/contact"
+              size="lg"
+              variant="ghost"
+              className="!text-white !border-white/30 hover:!bg-white/10 px-8 py-3.5 backdrop-blur-sm"
+            >
               Book a free demo
             </Button>
-          </div>
-
-          {/* Centered Interactive ASCII Shape Switcher */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
-            <span className="text-white/70 font-medium flex items-center gap-1.5 mr-1">
-              <Sparkles size={14} className="text-sky-400" />
-              <span>ASCII Mode:</span>
-            </span>
-            {['horizon', 'pinch', 'rise', 'eclipse'].map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setAsciiShape(s)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 capitalize cursor-pointer ${
-                  asciiShape === s
-                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/40 scale-105'
-                    : 'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white'
-                }`}
-              >
-                {s}
-              </button>
-            ))}
-            <span className="hidden sm:inline text-[11px] text-white/60 italic ml-2">
-              (Move cursor or click to ripple)
-            </span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* ─── RECOGNITION STRIP ─── */}
