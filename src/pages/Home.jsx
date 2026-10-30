@@ -128,29 +128,29 @@ export default function Home() {
 
   return (
     <div className="space-y-24 sm:space-y-32 w-full overflow-x-hidden">
-      {/* ─── HERO SECTION ─── */}
-      <section className="relative mx-auto max-w-content px-4 sm:px-6 pt-4 pb-8">
-        <div className="relative rounded-band overflow-hidden bg-[#0a122e] text-white shadow-2xl border border-white/10 px-6 sm:px-12 py-12 sm:py-16">
-          {/* React Bits GradientASCII WebGL canvas */}
-          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-auto select-none">
-            <GradientASCII
-              colors={['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8']}
-              shape={asciiShape}
-              characters=" =+xX0S8#@"
-              cellSize={18}
-              density={0.8}
-              glyphOpacity={0.9}
-              glow={0.35}
-              flow={0.6}
-              speed={shouldReduceMotion ? 0 : 1}
-              mouseInteraction={true}
-              clickEffect="wave"
-              intro={true}
-            />
-          </div>
+      {/* ─── FULL-SCREEN HERO SECTION ─── */}
+      <section className="relative w-full min-h-[calc(100vh-76px)] min-h-[calc(100dvh-76px)] flex items-center justify-center bg-[#0a122e] text-white overflow-hidden py-10 sm:py-16">
+        {/* React Bits GradientASCII WebGL canvas filling entire screen width & height */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-auto select-none">
+          <GradientASCII
+            colors={['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8']}
+            shape={asciiShape}
+            characters=" =+xX0S8#@"
+            cellSize={18}
+            density={0.8}
+            glyphOpacity={0.9}
+            glow={0.35}
+            flow={0.6}
+            speed={shouldReduceMotion ? 0 : 1}
+            mouseInteraction={true}
+            clickEffect="wave"
+            intro={true}
+          />
+        </div>
 
-          {/* Hero Content on top of ASCII canvas */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center pointer-events-none">
+        {/* Hero Content centered inside max-w-content */}
+        <div className="relative z-10 w-full max-w-content mx-auto px-4 sm:px-6 my-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center pointer-events-none">
             {/* Left Column: Hero Text */}
             <div className="lg:col-span-7 min-w-0 space-y-6 text-left pointer-events-auto">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-white/90">
