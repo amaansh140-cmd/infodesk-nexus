@@ -1,7 +1,72 @@
 import React, { useState } from 'react';
-import { Camera, ExternalLink, ImageOff } from 'lucide-react';
+import { Camera, ExternalLink, Sparkles, Move3d } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lightbox from '../components/Lightbox';
+import CircularCarousel from '../components/CircularCarousel';
+
+// Curated 3D circular carousel items from brochure highlights
+const defaultCircularItems = [
+  {
+    src: '/assets/awards/ashneer-award-main.jpg',
+    alt: 'Honored with India’s Best Institute Award by Ashneer Grover',
+    title: 'India’s Best Institute Award',
+    subtitle: 'Honored by Ashneer Grover'
+  },
+  {
+    src: '/assets/seminars/seminar-1.jpg',
+    alt: 'Interactive campus IT workshop in Mumbai',
+    title: 'College IT Workshop',
+    subtitle: 'Hands-on Programming Labs'
+  },
+  {
+    src: '/assets/certificates/microsoft-powerbi.jpg',
+    alt: 'Microsoft Certified Power BI Data Analyst Associate',
+    title: 'Microsoft Certified',
+    subtitle: 'Power BI Data Analyst'
+  },
+  {
+    src: '/assets/seminars/seminar-audience.jpg',
+    alt: 'Auditorium keynote session with hundreds of students',
+    title: 'Campus Keynote',
+    subtitle: 'Mumbai College Tech Orientation'
+  },
+  {
+    src: '/assets/awards/ashneer-award-1.jpg',
+    alt: 'National award ceremony stage recognition',
+    title: 'Award Ceremony Stage',
+    subtitle: 'Excellence in IT Education'
+  },
+  {
+    src: '/assets/certificates/snowflake-snowpro.jpg',
+    alt: 'Snowflake SnowPro Core Certification',
+    title: 'Snowflake Certified',
+    subtitle: 'SnowPro Core Credential'
+  },
+  {
+    src: '/assets/seminars/seminar-2.jpg',
+    alt: 'Technical career guidance seminar',
+    title: 'Tech Mentorship',
+    subtitle: 'Industry-Led Guidance'
+  },
+  {
+    src: '/assets/certificates/alteryx-designer.jpg',
+    alt: 'Alteryx Designer Core Certification',
+    title: 'Alteryx Core Certified',
+    subtitle: 'Data Analytics Credential'
+  },
+  {
+    src: '/assets/awards/ashneer-award-3.jpg',
+    alt: 'Milestone trophy celebration',
+    title: 'Excellence Trophy',
+    subtitle: 'Milestone Celebration'
+  },
+  {
+    src: '/assets/seminars/seminar-3.jpg',
+    alt: 'Data & cloud orientation session',
+    title: 'Cloud & Data Lab',
+    subtitle: 'Practical Tool Demos'
+  }
+];
 
 // Gallery dataset categorised by filters
 const staticGalleryItems = [
@@ -76,6 +141,7 @@ const staticGalleryItems = [
 ];
 
 const galleryCategories = [
+  'All photos',
   'Our new institute',
   'Seminars',
   'Award',
@@ -83,8 +149,9 @@ const galleryCategories = [
 ];
 
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState('Our new institute');
+  const [activeCategory, setActiveCategory] = useState('All photos');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [carouselPreset, setCarouselPreset] = useState('cylinder');
 
   // Dynamic lookup for new institute images:
   // Using Vite glob import so any photos copied to /public/assets/gallery/institute/ or src/assets/gallery/institute are automatically picked up!
@@ -98,7 +165,22 @@ export default function Gallery() {
   }));
 
   const allItems = [...dynamicInstitutePhotos, ...staticGalleryItems];
-  const filteredItems = allItems.filter((item) => item.category === activeCategory);
+  const filteredItems = activeCategory === 'All photos'
+    ? allItems
+    : allItems.filter((item) => item.category === activeCategory);
+
+  // Dynamic carousel items: include new institute photos if uploaded, otherwise use default brochure highlights
+  const carouselItems = dynamicInstitutePhotos.length > 0
+    ? [
+        ...dynamicInstitutePhotos.map((p) => ({
+          src: p.image,
+          alt: p.title,
+          title: p.title,
+          subtitle: p.desc
+        })),
+        ...defaultCircularItems
+      ]
+    : defaultCircularItems;
 
   return (
     <div className="space-y-16">
@@ -114,34 +196,116 @@ export default function Gallery() {
         </div>
       </section>
 
+      {/* ─── 3D CIRCULAR CAROUSEL SHOWCASE ─── */}
+      <section className="max-w-content mx-auto px-6">
+        <div className="bg-surface border border-line/80 rounded-panel p-6 sm:p-10 shadow-card relative overflow-hidden">
+          {/* Subtle background dot texture */}
+          <div className="absolute inset-0 bg-grid-dots pointer-events-none opacity-40" />
+
+          {/* Carousel Header & Controls */}
+          <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-primary text-xs font-semibold mb-2.5">
+                <Sparkles size={13} />
+                <span>3D Gallery View</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-deep">
+                Moments in motion.
+              </h2>
+              <p className="text-muted text-sm sm:text-base mt-1">
+                Drag, scroll, or flick the ring to explore. Click any photograph to view in full resolution.
+              </p>
+            </div>
+
+            {/* Shape Preset Switcher */}
+            <div className="flex items-center gap-1.5 bg-background p-1.5 rounded-full border border-line/70 shadow-sm self-start md:self-auto">
+              <span className="text-xs font-semibold text-muted px-2.5 hidden sm:inline-flex items-center gap-1">
+                <Move3d size={13} />
+                <span>Shape:</span>
+              </span>
+              {[
+                { key: 'cylinder', label: 'Cylinder' },
+                { key: 'orbit', label: 'Orbit' },
+                { key: 'wheel', label: 'Wheel' }
+              ].map((preset) => (
+                <button
+                  key={preset.key}
+                  type="button"
+                  onClick={() => setCarouselPreset(preset.key)}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    carouselPreset === preset.key
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'text-muted hover:text-deep hover:bg-soft/50'
+                  }`}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Circular Carousel Viewport */}
+          <div className="relative w-full h-[480px] sm:h-[560px] rounded-2xl overflow-hidden bg-background/50 border border-line/50">
+            <CircularCarousel
+              items={carouselItems}
+              preset={carouselPreset}
+              intro="rise"
+              cardWidth={230}
+              aspectRatio={1.15}
+              speed={13}
+              fadeColor="#fdfcf9"
+              captions
+              onItemClick={(item) =>
+                setSelectedImage({
+                  image: item.src,
+                  title: item.title,
+                  desc: item.subtitle || item.alt
+                })
+              }
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ─── FILTER TABS & MASONRY GRID ─── */}
       <section className="max-w-content mx-auto px-6">
-        {/* Filter Tabs */}
-        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-12">
-          {galleryCategories.map((cat) => {
-            const isActive = activeCategory === cat;
-            return (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setActiveCategory(cat)}
-                className={`relative px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'bg-surface text-deep/80 border border-line/80 hover:bg-soft/40'
-                }`}
-              >
-                <span>{cat}</span>
-                {isActive && (
-                  <motion.div
-                    layoutId="galleryFilterBubble"
-                    className="absolute inset-0 rounded-full bg-primary -z-10"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                  />
-                )}
-              </button>
-            );
-          })}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <h3 className="text-2xl font-bold text-deep">
+              Photo collection.
+            </h3>
+            <p className="text-sm text-muted mt-1">
+              Filter by category or explore all photos.
+            </p>
+          </div>
+
+          {/* Filter Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+            {galleryCategories.map((cat) => {
+              const isActive = activeCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  className={`relative px-4 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'bg-surface text-deep/80 border border-line/80 hover:bg-soft/40'
+                  }`}
+                >
+                  <span>{cat}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="galleryFilterBubble"
+                      className="absolute inset-0 rounded-full bg-primary -z-10"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Gallery Content */}
@@ -159,7 +323,7 @@ export default function Gallery() {
               <button
                 type="button"
                 onClick={() => setActiveCategory('Seminars')}
-                className="text-xs font-semibold text-primary hover:underline"
+                className="text-xs font-semibold text-primary hover:underline cursor-pointer"
               >
                 Explore college seminars while you wait →
               </button>
