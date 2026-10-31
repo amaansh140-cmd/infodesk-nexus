@@ -9,6 +9,11 @@ import {
   CheckCircle2,
   Calendar,
   Layers,
+  ChevronRight,
+  Sparkles,
+  ShieldCheck,
+  Briefcase,
+  Terminal,
 } from 'lucide-react';
 import { courses } from '../data/courses';
 import ModuleAccordion from '../components/ModuleAccordion';
@@ -33,40 +38,50 @@ export default function CourseDetail() {
     .slice(0, 3);
 
   const whatsappMessage = encodeURIComponent(
-    `Hello Infodesk Computer Education, I am interested in the ${course.title} (${course.duration}) course. Could you share batch details and book a demo class?`
+    `Hello Infodesk Computer Education, I am interested in the ${course.title} (${course.duration}) course. Could you share batch timings, fee details, and book a free demo session?`
   );
 
   return (
     <div className="space-y-16">
       {/* ─── COURSE HEADER (SOFT BLUE TINT) ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-12 sm:py-16">
-        <div className="max-w-content mx-auto px-6">
-          <Link
-            to="/courses"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline mb-6"
-          >
-            <ArrowLeft size={16} />
-            <span>Back to all courses</span>
-          </Link>
+      <section className="bg-soft/60 border-b border-line/60 py-12 sm:py-16 relative overflow-hidden bg-grid-dots">
+        <div className="max-w-content mx-auto px-6 relative z-10">
+          {/* Breadcrumb Navigation */}
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-muted mb-6 flex-wrap">
+            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+            <ChevronRight size={12} />
+            <Link to="/courses" className="hover:text-primary transition-colors">Courses</Link>
+            <ChevronRight size={12} />
+            <Link
+              to={`/courses?category=${encodeURIComponent(course.category)}`}
+              className="hover:text-primary transition-colors"
+            >
+              {course.category}
+            </Link>
+            <ChevronRight size={12} />
+            <span className="font-semibold text-deep truncate max-w-[200px] sm:max-w-none">
+              {course.title}
+            </span>
+          </nav>
 
           <div className="max-w-3xl space-y-4">
             {/* Badges */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-primary text-white">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-primary text-white shadow-sm">
                 <Award size={13} />
                 <span>{course.level}</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-surface border border-line text-deep">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-surface border border-line text-deep shadow-sm">
                 <Clock size={13} className="text-primary" />
                 <span>{course.duration}</span>
               </span>
-              <span className="text-xs font-medium px-3 py-1 rounded-full bg-background text-muted">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-background border border-line/70 text-muted">
                 {course.category}
               </span>
             </div>
 
             {/* Course Title */}
-            <h1 className="text-[clamp(36px,5vw,56px)] font-bold text-deep tracking-tight">
+            <h1 className="text-[clamp(36px,5vw,56px)] font-bold text-deep tracking-tight leading-[1.1]">
               {course.title}
             </h1>
 
@@ -74,6 +89,18 @@ export default function CourseDetail() {
             <p className="text-muted text-base sm:text-lg leading-relaxed">
               {course.summary}
             </p>
+
+            {/* Key Value Prop Strip */}
+            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-medium text-deep">
+              <span className="flex items-center gap-1.5 bg-surface px-3 py-1.5 rounded-full border border-line/70 shadow-sm">
+                <ShieldCheck size={14} className="text-emerald-500" />
+                <span>Govt. Recognized Certification</span>
+              </span>
+              <span className="flex items-center gap-1.5 bg-surface px-3 py-1.5 rounded-full border border-line/70 shadow-sm">
+                <Briefcase size={14} className="text-primary" />
+                <span>100% Job Placement Assistance</span>
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -83,6 +110,29 @@ export default function CourseDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           {/* Left Column: Syllabus Breakdown (8 cols) */}
           <div className="lg:col-span-8 space-y-8">
+            {/* Tools Covered Strip */}
+            {course.tools && course.tools.length > 0 && (
+              <div className="bg-surface border border-line/80 rounded-panel p-6 shadow-sm space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-muted flex items-center gap-1.5">
+                    <Terminal size={15} className="text-primary" />
+                    <span>Tools & Technologies Mastered in this Track</span>
+                  </h3>
+                  <span className="text-xs text-muted font-mono">{course.tools.length} technologies</span>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {course.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="px-3 py-1.5 rounded-full bg-background border border-line text-sm font-semibold text-deep shadow-sm hover:border-primary/40 transition-colors"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-deep mb-2">
                 Detailed syllabus.
@@ -95,7 +145,7 @@ export default function CourseDetail() {
             {/* Semester Tabs for Semester-Based Courses */}
             {course.semesters && (
               <div className="space-y-6">
-                <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-line/60">
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-line/60 no-scrollbar">
                   {course.semesters.map((sem, sIdx) => {
                     const isActive = activeSemIndex === sIdx;
                     return (
@@ -103,10 +153,10 @@ export default function CourseDetail() {
                         key={sem.number}
                         type="button"
                         onClick={() => setActiveSemIndex(sIdx)}
-                        className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors whitespace-nowrap ${
+                        className={`px-4 py-2.5 text-sm font-bold rounded-xl transition-all whitespace-nowrap cursor-pointer ${
                           isActive
                             ? 'bg-deep text-white shadow-sm'
-                            : 'bg-surface text-muted hover:text-deep border border-line/60'
+                            : 'bg-surface text-muted hover:text-deep border border-line/70'
                         }`}
                       >
                         <span>Sem {sem.number}: {sem.title}</span>
@@ -142,7 +192,7 @@ export default function CourseDetail() {
           <aside className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
             <div className="bg-surface border border-line/80 rounded-panel p-6 sm:p-7 shadow-card space-y-6">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-muted">
+                <span className="text-xs font-bold uppercase tracking-wider text-muted">
                   Course Overview
                 </span>
                 <p className="text-xl font-bold text-deep mt-1">{course.title}</p>
@@ -186,7 +236,7 @@ export default function CourseDetail() {
                   href="/assets/Infodesk_Computer_Education.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-soft/40 transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-soft/40 transition-colors border border-line/50"
                 >
                   <FileDown size={15} />
                   <span>Download official brochure (PDF)</span>
@@ -194,14 +244,18 @@ export default function CourseDetail() {
               </div>
 
               {/* Trust bullets */}
-              <div className="pt-2 border-t border-line/40 text-xs text-muted space-y-1.5">
-                <p className="flex items-center gap-1.5">
-                  <CheckCircle2 size={13} className="text-emerald-500" />
+              <div className="pt-2 border-t border-line/40 text-xs text-muted space-y-2">
+                <p className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
                   <span>Flexible morning, evening &amp; weekend timings</span>
                 </p>
-                <p className="flex items-center gap-1.5">
-                  <CheckCircle2 size={13} className="text-emerald-500" />
+                <p className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
                   <span>Extra practice lab hours with mentor guidance</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
+                  <span>Personalized 1-on-1 doubt clearing sessions</span>
                 </p>
               </div>
             </div>

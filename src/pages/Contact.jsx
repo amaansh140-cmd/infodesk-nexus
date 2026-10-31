@@ -10,11 +10,20 @@ import {
   Building,
   Mail,
   Globe,
+  Calendar,
+  Sparkles,
 } from 'lucide-react';
 import { branches, headOffice } from '../data/branches';
 import { courses } from '../data/courses';
 import Button from '../components/Button';
 import ScrollReveal from '../components/ScrollReveal';
+
+const timeSlots = [
+  { id: 'morning', label: 'Morning (8am–12pm)' },
+  { id: 'afternoon', label: 'Afternoon (12pm–4pm)' },
+  { id: 'evening', label: 'Evening (4pm–8pm)' },
+  { id: 'weekend', label: 'Weekend Batches' },
+];
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -22,12 +31,13 @@ export default function Contact() {
     phone: '',
     branch: 'goregaon-west',
     course: 'Data Science',
+    slot: 'Morning (8am–12pm)',
   });
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Central submission handler (can easily swap with EmailJS / Formspree later)
+  // Central submission handler
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = {};
@@ -54,7 +64,7 @@ export default function Contact() {
     const destinationPhone = targetBranch.primaryPhoneRaw;
 
     const prefilledText = encodeURIComponent(
-      `Hello Infodesk Computer Education (${targetBranch.name} branch),\nMy name is ${formData.name}.\nI would like to inquire about the ${formData.course} course and book a free demo session.\nMy phone number is ${formData.phone}.`
+      `Hello Infodesk Computer Education (${targetBranch.name} branch),\nMy name is ${formData.name}.\nI would like to inquire about the ${formData.course} course (${formData.slot}) and book a free demo session.\nMy phone number is ${formData.phone}.`
     );
 
     // Deep link to WhatsApp
@@ -67,8 +77,12 @@ export default function Contact() {
   return (
     <div className="space-y-24 sm:space-y-32">
       {/* ─── HEADER ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-24">
-        <div className="max-w-content mx-auto px-6 text-center max-w-3xl">
+      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-24 relative overflow-hidden bg-grid-dots">
+        <div className="max-w-content mx-auto px-6 text-center max-w-3xl relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-line/80 text-xs font-semibold text-deep mb-4 shadow-sm">
+            <Sparkles size={13} className="text-primary" />
+            <span>Admissions & Counseling Desk</span>
+          </div>
           <h1 className="text-[clamp(36px,5.2vw,64px)] font-bold text-deep tracking-tight">
             Let's find the right course for you.
           </h1>
@@ -81,8 +95,10 @@ export default function Contact() {
       {/* ─── ENQUIRY FORM (DEEP BLUE PANEL WITH FLOATING LABELS) ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="max-w-3xl mx-auto bg-deep text-white rounded-band p-8 sm:p-14 shadow-signature">
-            <div className="mb-8 space-y-2">
+          <div className="max-w-3xl mx-auto bg-deep text-white rounded-band p-8 sm:p-14 shadow-signature relative overflow-hidden">
+            <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-bright/15 blur-3xl pointer-events-none" />
+
+            <div className="mb-8 space-y-2 relative z-10">
               <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white/90 border border-white/20">
                 Direct Counseling
               </span>
@@ -111,6 +127,7 @@ export default function Contact() {
                         phone: '',
                         branch: 'goregaon-west',
                         course: 'Data Science',
+                        slot: 'Morning (8am–12pm)',
                       });
                     }}
                     className="text-xs text-white underline mt-2 inline-block font-semibold"
@@ -120,7 +137,7 @@ export default function Contact() {
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+              <form onSubmit={handleSubmit} className="space-y-6 relative z-10" noValidate>
                 {/* Name field */}
                 <div className="relative">
                   <input
@@ -182,7 +199,7 @@ export default function Contact() {
                       id="branch"
                       value={formData.branch}
                       onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#18296e] border border-white/20 rounded-xl text-white text-sm focus:border-bright focus:outline-none focus:ring-1 focus:ring-bright"
+                      className="w-full px-4 py-3 bg-[#18296e] border border-white/20 rounded-xl text-white text-sm focus:border-bright focus:outline-none focus:ring-1 focus:ring-bright cursor-pointer"
                     >
                       {branches.map((b) => (
                         <option key={b.id} value={b.id} className="bg-deep text-white">
@@ -201,7 +218,7 @@ export default function Contact() {
                       id="course"
                       value={formData.course}
                       onChange={(e) => setFormData({ ...formData, course: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#18296e] border border-white/20 rounded-xl text-white text-sm focus:border-bright focus:outline-none focus:ring-1 focus:ring-bright"
+                      className="w-full px-4 py-3 bg-[#18296e] border border-white/20 rounded-xl text-white text-sm focus:border-bright focus:outline-none focus:ring-1 focus:ring-bright cursor-pointer"
                     >
                       {courses.map((c) => (
                         <option key={c.slug} value={c.title} className="bg-deep text-white">
@@ -212,6 +229,32 @@ export default function Contact() {
                         Customised course
                       </option>
                     </select>
+                  </div>
+                </div>
+
+                {/* Preferred Batch Timing Pills */}
+                <div className="space-y-2">
+                  <label className="block text-xs font-semibold text-white/80">
+                    Preferred batch timing
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {timeSlots.map((slot) => {
+                      const isSelected = formData.slot === slot.label;
+                      return (
+                        <button
+                          key={slot.id}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, slot: slot.label })}
+                          className={`px-3 py-2 rounded-xl text-xs font-medium transition-all text-center cursor-pointer ${
+                            isSelected
+                              ? 'bg-bright text-white font-bold border border-white/40 shadow-sm'
+                              : 'bg-white/10 text-white/70 hover:bg-white/15 border border-white/10'
+                          }`}
+                        >
+                          {slot.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -259,36 +302,31 @@ export default function Contact() {
 
                     <h3 className="text-2xl font-bold text-deep">{branch.name}</h3>
 
-                    {/* Address Placeholder */}
-                    <p className="text-xs text-muted leading-relaxed flex items-start gap-1.5 pt-1">
-                      <MapPin size={14} className="text-primary mt-0.5 shrink-0" />
+                    <p className="text-sm text-muted leading-relaxed flex items-start gap-2">
+                      <MapPin size={16} className="text-primary mt-1 shrink-0" />
                       <span>{branch.address}</span>
-                    </p>
-
-                    {/* Google Maps Link Placeholder */}
-                    <p className="text-xs text-primary font-medium pl-5">
-                      <span>{branch.mapsUrl}</span>
                     </p>
                   </div>
 
-                  {/* Contact Action Buttons */}
-                  <div className="pt-6 mt-6 border-t border-line/60 grid grid-cols-2 gap-3">
-                    <a
-                      href={`tel:${branch.primaryPhoneRaw}`}
-                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs font-bold text-deep bg-background border border-line hover:border-primary hover:text-primary transition-colors"
-                    >
-                      <Phone size={14} />
-                      <span>Call {branch.primaryPhone}</span>
-                    </a>
-                    <a
-                      href={`https://wa.me/${branch.primaryPhoneRaw}?text=${branchWhatsAppMsg}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs font-bold text-white bg-[#25D366] hover:bg-[#20ba59] shadow-sm transition-colors"
-                    >
-                      <MessageCircle size={14} className="fill-white" />
-                      <span>WhatsApp</span>
-                    </a>
+                  <div className="pt-6 mt-6 border-t border-line/50 space-y-3">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                      <a
+                        href={`tel:${branch.primaryPhoneRaw}`}
+                        className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-soft/70 hover:bg-soft text-primary font-bold text-xs transition-colors"
+                      >
+                        <Phone size={14} />
+                        <span>Call {branch.primaryPhone}</span>
+                      </a>
+                      <a
+                        href={`https://wa.me/${branch.primaryPhoneRaw}?text=${branchWhatsAppMsg}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#1e8343] font-bold text-xs transition-colors"
+                      >
+                        <MessageCircle size={14} />
+                        <span>WhatsApp Branch</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               );
@@ -297,48 +335,30 @@ export default function Contact() {
         </ScrollReveal>
       </section>
 
-      {/* ─── HEAD OFFICE & INSTITUTIONAL CONTACT ─── */}
+      {/* ─── HEAD OFFICE & VERIFIED DIRECTORY ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-8 sm:p-10 shadow-card">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 items-center">
-              <div className="lg:col-span-8 space-y-3">
-                <div className="flex items-center gap-2">
-                  <Building size={20} className="text-primary" />
-                  <h3 className="text-xl font-bold text-deep">{headOffice.title}</h3>
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
-                    {headOffice.tag}
-                  </span>
-                </div>
-                <p className="text-sm text-ink/85 leading-relaxed">
-                  {headOffice.address}
-                </p>
-                <div className="flex flex-wrap items-center gap-5 pt-2 text-xs text-muted font-medium">
-                  <span className="flex items-center gap-1.5">
-                    <Phone size={13} className="text-primary" />
-                    <span>{headOffice.phone}</span>
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Mail size={13} className="text-primary" />
-                    <span>{headOffice.email}</span>
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Globe size={13} className="text-primary" />
-                    <span>{headOffice.website}</span>
-                  </span>
-                </div>
+          <div className="bg-surface border border-line/80 rounded-panel p-8 shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <Building size={18} className="text-primary" />
+                <h4 className="font-bold text-deep text-lg">{headOffice.name}</h4>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded bg-soft text-primary">
+                  {headOffice.designation}
+                </span>
               </div>
-
-              <div className="lg:col-span-4 flex justify-start md:justify-end">
-                <Button
-                  href={`tel:${headOffice.phoneRaw}`}
-                  size="md"
-                  variant="primary"
-                  icon={<Phone size={15} />}
-                >
-                  Call Head Office
-                </Button>
-              </div>
+              <p className="text-xs sm:text-sm text-muted">
+                Official Vocational Training Board: Registered and accredited across Greater Mumbai.
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <a
+                href={`tel:${headOffice.phoneRaw}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-deep text-white text-xs font-bold hover:bg-primary transition-colors shadow-sm"
+              >
+                <Phone size={14} />
+                <span>Call Head Office</span>
+              </a>
             </div>
           </div>
         </ScrollReveal>
