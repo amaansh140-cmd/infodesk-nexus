@@ -1,98 +1,76 @@
 import React from 'react';
 import DomeGallery from '../components/DomeGallery';
 
-// Showcase images for the 3D Circular Dome Gallery
-const domeShowcaseImages = [
-  // Awards & National Recognition
+// Authentic photos extracted directly from Infodesk Computer Education Goregaon West
+// Source: Google My Business listing (https://share.google/ssKquZbGJletMAdZs)
+export const gmbGalleryImages = [
   {
-    src: '/assets/awards/ashneer-award-main.jpg',
-    alt: "India's Best Institute Award Honored by Ashneer Grover",
+    src: '/assets/gmb/gmb-1.jpg',
+    alt: 'Infodesk Goregaon West - Modern Computer Lab & Training Workstations',
   },
   {
-    src: '/assets/awards/ashneer-award-1.jpg',
-    alt: "Ashneer Grover presenting the national trophy to Infodesk",
+    src: '/assets/gmb/gmb-2.jpg',
+    alt: 'Infodesk Goregaon West - 360 View of Practical IT Classroom',
   },
   {
-    src: '/assets/awards/ashneer-award-3.jpg',
-    alt: "Infodesk faculty team celebrating national award win",
-  },
-
-  // College Seminars & Campus Workshops
-  {
-    src: '/assets/seminars/seminar-1.jpg',
-    alt: "Interactive college IT workshop in Mumbai",
+    src: '/assets/gmb/gmb-3.jpg',
+    alt: 'Infodesk Goregaon West - High-Performance Student Workstation Setup',
   },
   {
-    src: '/assets/seminars/seminar-2.jpg',
-    alt: "Technical guidance seminar on full stack & programming stacks",
+    src: '/assets/gmb/gmb-4.jpg',
+    alt: 'Infodesk Goregaon West - Branch Reception & Student Counseling Desk',
   },
   {
-    src: '/assets/seminars/seminar-3.jpg',
-    alt: "Data science and analytics orientation for students",
+    src: '/assets/gmb/gmb-5.jpg',
+    alt: 'Infodesk Goregaon West - Institute Entrance & Exterior Signage',
   },
   {
-    src: '/assets/seminars/seminar-audience.jpg',
-    alt: "Packed auditorium at campus tech guidance session",
-  },
-
-  // Global Industry Certifications
-  {
-    src: '/assets/certificates/microsoft-powerbi.jpg',
-    alt: "Microsoft Certified: Power BI Data Analyst Associate",
+    src: '/assets/gmb/gmb-6.jpg',
+    alt: 'Infodesk Goregaon West - Dedicated Practice Terminal & Lab Environment',
   },
   {
-    src: '/assets/certificates/snowflake-snowpro.jpg',
-    alt: "Snowflake SnowPro Core Certification",
+    src: '/assets/gmb/gmb-7.jpg',
+    alt: 'Infodesk Goregaon West - Small Batch Interactive Classroom',
   },
   {
-    src: '/assets/certificates/alteryx-designer.jpg',
-    alt: "Alteryx Designer Core Certified Professional",
+    src: '/assets/gmb/gmb-8.jpg',
+    alt: 'Infodesk Goregaon West - Hands-On Programming & Data Science Station',
   },
   {
-    src: '/assets/certificates/alteryx-server.jpg',
-    alt: "Alteryx Server Administration Certified",
+    src: '/assets/gmb/gmb-9.jpg',
+    alt: 'Infodesk Goregaon West - Digital Marketing & Accounting Lab Facility',
   },
   {
-    src: '/assets/certificates/google-digital-garage.jpg',
-    alt: "Google Digital Garage: Fundamentals of Digital Marketing",
-  },
-
-  // Alumni & Placements
-  {
-    src: '/assets/testimonials/faiza-kachwala.jpg',
-    alt: "Faiza Kachwala - Placement Graduate",
+    src: '/assets/gmb/gmb-10.jpg',
+    alt: 'Infodesk Goregaon West - Faculty Guidance & Mentor Desk',
   },
   {
-    src: '/assets/testimonials/sonu-sharma.jpg',
-    alt: "Sonu Sharma - Digital Marketing Graduate",
+    src: '/assets/gmb/gmb-11.jpg',
+    alt: 'Infodesk Goregaon West - Classroom Whiteboard & Presentation Area',
   },
   {
-    src: '/assets/testimonials/rehan-shaikh.jpg',
-    alt: "Rehan Shaikh - Full Stack Developer",
+    src: '/assets/gmb/gmb-12.jpg',
+    alt: 'Infodesk Goregaon West - Individual Practice Stations & Software Tools',
   },
   {
-    src: '/assets/testimonials/komal-kamble.jpg',
-    alt: "Komal Kamble - Data Analyst Graduate",
+    src: '/assets/gmb/gmb-13.jpg',
+    alt: 'Infodesk Goregaon West - Professional Learning Environment & Amenities',
+  },
+  {
+    src: '/assets/gmb/gmb-14.jpg',
+    alt: 'Infodesk Goregaon West - Student Discussion & Project Collaboration Space',
+  },
+  {
+    src: '/assets/gmb/gmb-15.jpg',
+    alt: 'Infodesk Goregaon West - Evening & Weekend Batch Computer Lab',
   },
 ];
 
 export default function Gallery() {
-  // Dynamic lookup for new institute images if any photos are added
-  const instituteImagesGlob = import.meta.glob('/public/assets/gallery/institute/*.{png,jpg,jpeg,webp}', { eager: true });
-  const dynamicInstitutePhotos = Object.keys(instituteImagesGlob).map((key) => ({
-    src: key.replace('/public', ''),
-    alt: 'Infodesk Institute Space',
-  }));
-
-  const allDomeImages = [
-    ...dynamicInstitutePhotos,
-    ...domeShowcaseImages,
-  ];
-
   return (
     <div className="w-full h-[calc(100vh-76px)] min-h-[500px] relative overflow-hidden bg-[#0c163b]">
       <DomeGallery
-        images={allDomeImages}
+        images={gmbGalleryImages}
         fit={0.62}
         minRadius={480}
         padFactor={0.16}
