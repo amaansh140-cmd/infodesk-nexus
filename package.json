@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && mkdir -p .next && cp -r dist/* .next/",
+    "build": "vite build && mkdir -p .next && cp -r dist/* .next/ && (cp dist/.htaccess .next/ 2>/dev/null || true)",
     "start": "node server.js",
     "preview": "vite preview"
   },
