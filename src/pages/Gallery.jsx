@@ -1,71 +1,82 @@
 import React, { useState } from 'react';
-import { Camera, ExternalLink, Sparkles, Move3d } from 'lucide-react';
+import { Camera, ExternalLink, Move3d, Sparkles, Compass } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lightbox from '../components/Lightbox';
-import CircularCarousel from '../components/CircularCarousel';
+import DomeGallery from '../components/DomeGallery';
 
-// Curated 3D circular carousel items from brochure highlights
-const defaultCircularItems = [
+// Showcase images for the 3D Circular Dome Gallery
+const domeShowcaseImages = [
+  // Awards & National Recognition
   {
     src: '/assets/awards/ashneer-award-main.jpg',
-    alt: 'Honored with India’s Best Institute Award by Ashneer Grover',
-    title: 'India’s Best Institute Award',
-    subtitle: 'Honored by Ashneer Grover'
-  },
-  {
-    src: '/assets/seminars/seminar-1.jpg',
-    alt: 'Interactive campus IT workshop in Mumbai',
-    title: 'College IT Workshop',
-    subtitle: 'Hands-on Programming Labs'
-  },
-  {
-    src: '/assets/certificates/microsoft-powerbi.jpg',
-    alt: 'Microsoft Certified Power BI Data Analyst Associate',
-    title: 'Microsoft Certified',
-    subtitle: 'Power BI Data Analyst'
-  },
-  {
-    src: '/assets/seminars/seminar-audience.jpg',
-    alt: 'Auditorium keynote session with hundreds of students',
-    title: 'Campus Keynote',
-    subtitle: 'Mumbai College Tech Orientation'
+    alt: "India's Best Institute Award Honored by Ashneer Grover",
   },
   {
     src: '/assets/awards/ashneer-award-1.jpg',
-    alt: 'National award ceremony stage recognition',
-    title: 'Award Ceremony Stage',
-    subtitle: 'Excellence in IT Education'
-  },
-  {
-    src: '/assets/certificates/snowflake-snowpro.jpg',
-    alt: 'Snowflake SnowPro Core Certification',
-    title: 'Snowflake Certified',
-    subtitle: 'SnowPro Core Credential'
-  },
-  {
-    src: '/assets/seminars/seminar-2.jpg',
-    alt: 'Technical career guidance seminar',
-    title: 'Tech Mentorship',
-    subtitle: 'Industry-Led Guidance'
-  },
-  {
-    src: '/assets/certificates/alteryx-designer.jpg',
-    alt: 'Alteryx Designer Core Certification',
-    title: 'Alteryx Core Certified',
-    subtitle: 'Data Analytics Credential'
+    alt: "Ashneer Grover presenting the national trophy to Infodesk",
   },
   {
     src: '/assets/awards/ashneer-award-3.jpg',
-    alt: 'Milestone trophy celebration',
-    title: 'Excellence Trophy',
-    subtitle: 'Milestone Celebration'
+    alt: "Infodesk faculty team celebrating national award win",
+  },
+
+  // College Seminars & Campus Workshops
+  {
+    src: '/assets/seminars/seminar-1.jpg',
+    alt: "Interactive college IT workshop in Mumbai",
+  },
+  {
+    src: '/assets/seminars/seminar-2.jpg',
+    alt: "Technical guidance seminar on full stack & programming stacks",
   },
   {
     src: '/assets/seminars/seminar-3.jpg',
-    alt: 'Data & cloud orientation session',
-    title: 'Cloud & Data Lab',
-    subtitle: 'Practical Tool Demos'
-  }
+    alt: "Data science and analytics orientation for students",
+  },
+  {
+    src: '/assets/seminars/seminar-audience.jpg',
+    alt: "Packed auditorium at campus tech guidance session",
+  },
+
+  // Global Industry Certifications
+  {
+    src: '/assets/certificates/microsoft-powerbi.jpg',
+    alt: "Microsoft Certified: Power BI Data Analyst Associate",
+  },
+  {
+    src: '/assets/certificates/snowflake-snowpro.jpg',
+    alt: "Snowflake SnowPro Core Certification",
+  },
+  {
+    src: '/assets/certificates/alteryx-designer.jpg',
+    alt: "Alteryx Designer Core Certified Professional",
+  },
+  {
+    src: '/assets/certificates/alteryx-server.jpg',
+    alt: "Alteryx Server Administration Certified",
+  },
+  {
+    src: '/assets/certificates/google-digital-garage.jpg',
+    alt: "Google Digital Garage: Fundamentals of Digital Marketing",
+  },
+
+  // Alumni & Placements
+  {
+    src: '/assets/testimonials/faiza-kachwala.jpg',
+    alt: "Faiza Kachwala - Placement Graduate",
+  },
+  {
+    src: '/assets/testimonials/sonu-sharma.jpg',
+    alt: "Sonu Sharma - Digital Marketing Graduate",
+  },
+  {
+    src: '/assets/testimonials/rehan-shaikh.jpg',
+    alt: "Rehan Shaikh - Full Stack Developer",
+  },
+  {
+    src: '/assets/testimonials/komal-kamble.jpg',
+    alt: "Komal Kamble - Data Analyst Graduate",
+  },
 ];
 
 // Gallery dataset categorised by filters
@@ -141,7 +152,6 @@ const staticGalleryItems = [
 ];
 
 const galleryCategories = [
-  'All photos',
   'Our new institute',
   'Seminars',
   'Award',
@@ -149,9 +159,8 @@ const galleryCategories = [
 ];
 
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState('All photos');
+  const [activeCategory, setActiveCategory] = useState('Our new institute');
   const [selectedImage, setSelectedImage] = useState(null);
-  const [carouselPreset, setCarouselPreset] = useState('cylinder');
 
   // Dynamic lookup for new institute images:
   // Using Vite glob import so any photos copied to /public/assets/gallery/institute/ or src/assets/gallery/institute are automatically picked up!
@@ -165,147 +174,116 @@ export default function Gallery() {
   }));
 
   const allItems = [...dynamicInstitutePhotos, ...staticGalleryItems];
-  const filteredItems = activeCategory === 'All photos'
-    ? allItems
-    : allItems.filter((item) => item.category === activeCategory);
+  const filteredItems = allItems.filter((item) => item.category === activeCategory);
 
-  // Dynamic carousel items: include new institute photos if uploaded, otherwise use default brochure highlights
-  const carouselItems = dynamicInstitutePhotos.length > 0
-    ? [
-        ...dynamicInstitutePhotos.map((p) => ({
-          src: p.image,
-          alt: p.title,
-          title: p.title,
-          subtitle: p.desc
-        })),
-        ...defaultCircularItems
-      ]
-    : defaultCircularItems;
+  // Combined images for the 3D Circular Dome Gallery
+  const allDomeImages = [
+    ...dynamicInstitutePhotos.map((p) => ({ src: p.image, alt: p.title })),
+    ...domeShowcaseImages,
+  ];
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-16 pb-12">
       {/* ─── HEADER ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-24">
+      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-20">
         <div className="max-w-content mx-auto px-6 text-center max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-line/80 text-xs font-semibold text-primary mb-3">
+            <Sparkles size={13} className="text-primary" />
+            <span>Campus Memories & Recognitions</span>
+          </div>
           <h1 className="text-[clamp(36px,5vw,60px)] font-bold text-deep tracking-tight">
             Campus life and milestones.
           </h1>
           <p className="text-muted text-lg mt-4 leading-relaxed max-w-2xl mx-auto">
-            A visual glimpse into our awards, campus workshops, events, and modern Mumbai learning spaces.
+            A visual glimpse into our national awards, college workshops, industry certifications, and Mumbai training spaces.
           </p>
         </div>
       </section>
 
-      {/* ─── 3D CIRCULAR CAROUSEL SHOWCASE ─── */}
+      {/* ─── 3D CIRCULAR DOME GALLERY SHOWCASE ─── */}
       <section className="max-w-content mx-auto px-6">
-        <div className="bg-surface border border-line/80 rounded-panel p-6 sm:p-10 shadow-card relative overflow-hidden">
-          {/* Subtle background dot texture */}
-          <div className="absolute inset-0 bg-grid-dots pointer-events-none opacity-40" />
-
-          {/* Carousel Header & Controls */}
-          <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div className="bg-surface border border-line/80 rounded-panel p-6 sm:p-8 shadow-card">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-line/50">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-primary text-xs font-semibold mb-2.5">
-                <Sparkles size={13} />
-                <span>3D Gallery View</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-primary text-xs font-semibold mb-2">
+                <Move3d size={13} className="text-primary" />
+                <span>Interactive 360° Circular Dome</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-deep">
-                Moments in motion.
+              <h2 className="text-2xl sm:text-3xl font-bold text-deep tracking-tight">
+                Explore in 360 degrees.
               </h2>
-              <p className="text-muted text-sm sm:text-base mt-1">
-                Drag, scroll, or flick the ring to explore. Click any photograph to view in full resolution.
+              <p className="text-muted text-sm mt-1 max-w-xl">
+                Drag anywhere to rotate the spherical dome. Click any tile to expand and inspect the photograph.
               </p>
             </div>
 
-            {/* Shape Preset Switcher */}
-            <div className="flex items-center gap-1.5 bg-background p-1.5 rounded-full border border-line/70 shadow-sm self-start md:self-auto">
-              <span className="text-xs font-semibold text-muted px-2.5 hidden sm:inline-flex items-center gap-1">
-                <Move3d size={13} />
-                <span>Shape:</span>
-              </span>
-              {[
-                { key: 'cylinder', label: 'Cylinder' },
-                { key: 'orbit', label: 'Orbit' },
-                { key: 'wheel', label: 'Wheel' }
-              ].map((preset) => (
-                <button
-                  key={preset.key}
-                  type="button"
-                  onClick={() => setCarouselPreset(preset.key)}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                    carouselPreset === preset.key
-                      ? 'bg-primary text-white shadow-sm'
-                      : 'text-muted hover:text-deep hover:bg-soft/50'
-                  }`}
-                >
-                  {preset.label}
-                </button>
-              ))}
+            <div className="flex items-center gap-2.5 self-start md:self-auto bg-background px-4 py-2 rounded-full border border-line/70 text-xs text-muted font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Interactive 3D Sphere</span>
             </div>
           </div>
 
-          {/* Circular Carousel Viewport */}
-          <div className="relative w-full h-[480px] sm:h-[560px] rounded-2xl overflow-hidden bg-background/50 border border-line/50">
-            <CircularCarousel
-              items={carouselItems}
-              preset={carouselPreset}
-              intro="rise"
-              cardWidth={230}
-              aspectRatio={1.15}
-              speed={13}
-              fadeColor="#fdfcf9"
-              captions
-              onItemClick={(item) =>
-                setSelectedImage({
-                  image: item.src,
-                  title: item.title,
-                  desc: item.subtitle || item.alt
-                })
-              }
+          {/* Dome Container */}
+          <div className="relative w-full h-[500px] sm:h-[600px] lg:h-[640px] rounded-2xl overflow-hidden mt-6 border border-line/70 bg-[#0c163b] shadow-inner">
+            <DomeGallery
+              images={allDomeImages}
+              fit={0.55}
+              minRadius={420}
+              padFactor={0.16}
+              overlayBlurColor="#0c163b"
+              grayscale={false}
+              openedImageWidth="min(88vw, 480px)"
+              openedImageHeight="min(88vw, 480px)"
+              imageBorderRadius="14px"
+              openedImageBorderRadius="24px"
             />
+
+            {/* Instruction pill floating at bottom */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none z-10 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-xs font-medium tracking-wide flex items-center gap-2 shadow-lg">
+              <Compass size={13} className="animate-spin text-white/70" style={{ animationDuration: '6s' }} />
+              <span>Drag to rotate • Click any tile to enlarge</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── FILTER TABS & MASONRY GRID ─── */}
+      {/* ─── FILTER TABS & PHOTO ARCHIVE GRID ─── */}
       <section className="max-w-content mx-auto px-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <h3 className="text-2xl font-bold text-deep">
-              Photo collection.
-            </h3>
-            <p className="text-sm text-muted mt-1">
-              Filter by category or explore all photos.
-            </p>
-          </div>
+        <div className="text-center max-w-xl mx-auto mb-8">
+          <h3 className="text-2xl sm:text-3xl font-bold text-deep tracking-tight">
+            Browse by category.
+          </h3>
+          <p className="text-muted text-sm mt-1.5">
+            Filter our event captures, campus seminars, and institutional honors.
+          </p>
+        </div>
 
-          {/* Filter Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-            {galleryCategories.map((cat) => {
-              const isActive = activeCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setActiveCategory(cat)}
-                  className={`relative px-4 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
-                    isActive
-                      ? 'bg-primary text-white shadow-sm'
-                      : 'bg-surface text-deep/80 border border-line/80 hover:bg-soft/40'
-                  }`}
-                >
-                  <span>{cat}</span>
-                  {isActive && (
-                    <motion.div
-                      layoutId="galleryFilterBubble"
-                      className="absolute inset-0 rounded-full bg-primary -z-10"
-                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
+        {/* Filter Tabs */}
+        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-10">
+          {galleryCategories.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={`relative px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'bg-surface text-deep/80 border border-line/80 hover:bg-soft/40'
+                }`}
+              >
+                <span>{cat}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="galleryFilterBubble"
+                    className="absolute inset-0 rounded-full bg-primary -z-10"
+                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Gallery Content */}
@@ -323,7 +301,7 @@ export default function Gallery() {
               <button
                 type="button"
                 onClick={() => setActiveCategory('Seminars')}
-                className="text-xs font-semibold text-primary hover:underline cursor-pointer"
+                className="text-xs font-semibold text-primary hover:underline"
               >
                 Explore college seminars while you wait →
               </button>

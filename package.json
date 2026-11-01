@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && mkdir -p .next && cp -r dist/* .next/ && (cp dist/.htaccess .next/ 2>/dev/null || true)",
+    "build": "vite build && mkdir -p .next && cp -r dist/* .next/",
     "start": "node server.js",
     "preview": "vite preview"
   },
@@ -17,6 +17,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@use-gesture/react": "^10.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "express": "^5.3.0",
