@@ -148,12 +148,15 @@ export default function DomeGallery({
   const rotationRef = useRef({ x: 0, y: 0 });
   const startRotRef = useRef({ x: 0, y: 0 });
   const startPosRef = useRef(null);
-  const draggingRef = useRef(false);
-  const movedRef = useRef(false);
+
+  // Gesture state tracking
+  const isDraggingRef = useRef(false);
+  const dragMovedRef = useRef(false);
+  const lastDragEndTimeRef = useRef(0);
+
   const inertiaRAF = useRef(null);
   const openingRef = useRef(false);
   const openStartedAtRef = useRef(0);
-  const lastDragEndAt = useRef(0);
   const lastFrameTimeRef = useRef(performance.now());
 
   const scrollLockedRef = useRef(false);
@@ -291,12 +294,12 @@ export default function DomeGallery({
         vY *= frictionMul;
         if (Math.abs(vX) < stopThreshold && Math.abs(vY) < stopThreshold) {
           inertiaRAF.current = null;
-          lastDragEndAt.current = performance.now();
+          lastDragEndTimeRef.current = performance.now();
           return;
         }
         if (++frames > maxFrames) {
           inertiaRAF.current = null;
-          lastDragEndAt.current = performance.now();
+          lastDragEndTimeRef.current = performance.now();
           return;
         }
         const nextX = clamp(rotationRef.current.x - vY / 220, -maxVerticalRotationDeg, maxVerticalRotationDeg);
@@ -320,10 +323,10 @@ export default function DomeGallery({
       const delta = Math.min((time - lastFrameTimeRef.current) / 16.67, 2.5);
       lastFrameTimeRef.current = time;
 
-      const isDragging = draggingRef.current;
+      const isDragging = isDraggingRef.current;
       const isFocused = Boolean(focusedElRef.current) || rootRef.current?.getAttribute('data-enlarging') === 'true';
       const isInertia = Boolean(inertiaRAF.current);
-      const isCoolingDown = time - lastDragEndAt.current < autoRotateDelay;
+      const isCoolingDown = time - lastDragEndTimeRef.current < autoRotateDelay;
 
       if (!isDragging && !isFocused && !isInertia && !isCoolingDown) {
         const nextY = wrapAngleSigned(rotationRef.current.y + autoRotateSpeed * delta);
@@ -348,47 +351,60 @@ export default function DomeGallery({
         if (focusedElRef.current) return;
         stopInertia();
         const pos = getClientXY(event);
-        draggingRef.current = true;
-        movedRef.current = false;
+        isDraggingRef.current = true;
+        dragMovedRef.current = false;
         startRotRef.current = { ...rotationRef.current };
         startPosRef.current = pos;
       },
       onDrag: ({ event, last, velocity = [0, 0], direction = [0, 0], movement }) => {
-        if (focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
+        if (focusedElRef.current || !isDraggingRef.current || !startPosRef.current) return;
         const pos = getClientXY(event);
         const dxTotal = pos.x - startPosRef.current.x;
         const dyTotal = pos.y - startPosRef.current.y;
-        if (!movedRef.current) {
+
+        // Check if cursor moved beyond threshold
+        if (!dragMovedRef.current) {
           const dist2 = dxTotal * dxTotal + dyTotal * dyTotal;
-          if (dist2 > 12) movedRef.current = true;
+          if (dist2 > 36) {
+            dragMovedRef.current = true;
+          }
         }
-        const nextX = clamp(
-          startRotRef.current.x - dyTotal / dragSensitivity,
-          -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
-        );
-        const nextY = wrapAngleSigned(startRotRef.current.y + dxTotal / dragSensitivity);
-        if (rotationRef.current.x !== nextX || rotationRef.current.y !== nextY) {
-          rotationRef.current = { x: nextX, y: nextY };
-          applyTransform(nextX, nextY);
+
+        // Only rotate sphere if user has actually dragged
+        if (dragMovedRef.current) {
+          const nextX = clamp(
+            startRotRef.current.x - dyTotal / dragSensitivity,
+            -maxVerticalRotationDeg,
+            maxVerticalRotationDeg
+          );
+          const nextY = wrapAngleSigned(startRotRef.current.y + dxTotal / dragSensitivity);
+          if (rotationRef.current.x !== nextX || rotationRef.current.y !== nextY) {
+            rotationRef.current = { x: nextX, y: nextY };
+            applyTransform(nextX, nextY);
+          }
         }
+
         if (last) {
-          draggingRef.current = false;
-          let [vMagX, vMagY] = velocity;
-          const [dirX, dirY] = direction;
-          let vx = vMagX * dirX;
-          let vy = vMagY * dirY;
-          if (Math.abs(vx) < 0.001 && Math.abs(vy) < 0.001 && Array.isArray(movement)) {
-            const [mx, my] = movement;
-            vx = clamp((mx / dragSensitivity) * 0.02, -1.2, 1.2);
-            vy = clamp((my / dragSensitivity) * 0.02, -1.2, 1.2);
+          isDraggingRef.current = false;
+          if (dragMovedRef.current) {
+            lastDragEndTimeRef.current = performance.now();
+            let [vMagX, vMagY] = velocity;
+            const [dirX, dirY] = direction;
+            let vx = vMagX * dirX;
+            let vy = vMagY * dirY;
+            if (Math.abs(vx) < 0.001 && Math.abs(vy) < 0.001 && Array.isArray(movement)) {
+              const [mx, my] = movement;
+              vx = clamp((mx / dragSensitivity) * 0.02, -1.2, 1.2);
+              vy = clamp((my / dragSensitivity) * 0.02, -1.2, 1.2);
+            }
+            if (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005) {
+              startInertia(vx, vy);
+            }
           }
-          if (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005) {
-            startInertia(vx, vy);
-          } else {
-            lastDragEndAt.current = performance.now();
-          }
-          movedRef.current = false;
+          // Reset dragMovedRef on short delay so click event finishes processing
+          setTimeout(() => {
+            dragMovedRef.current = false;
+          }, 50);
         }
       }
     },
@@ -414,7 +430,7 @@ export default function DomeGallery({
       focusedElRef.current = null;
       rootRef.current?.removeAttribute('data-enlarging');
       openingRef.current = false;
-      lastDragEndAt.current = performance.now();
+      lastDragEndTimeRef.current = performance.now();
       unlockScroll();
       return;
     }
@@ -474,8 +490,8 @@ export default function DomeGallery({
               el.style.transition = '';
               el.style.opacity = '';
               openingRef.current = false;
-              lastDragEndAt.current = performance.now();
-              if (!draggingRef.current && rootRef.current?.getAttribute('data-enlarging') !== 'true')
+              lastDragEndTimeRef.current = performance.now();
+              if (!isDraggingRef.current && rootRef.current?.getAttribute('data-enlarging') !== 'true')
                 document.body.classList.remove('dg-scroll-lock');
             }, 300);
           });
@@ -528,7 +544,9 @@ export default function DomeGallery({
 
       void refDiv.offsetHeight;
 
-      const tileR = refDiv.getBoundingClientRect();
+      const measuredTileR = refDiv.getBoundingClientRect();
+      const fallbackTileR = el.getBoundingClientRect();
+      const tileR = (measuredTileR.width > 0 && measuredTileR.height > 0) ? measuredTileR : fallbackTileR;
       const mainR = mainRef.current?.getBoundingClientRect();
       const frameR = frameRef.current?.getBoundingClientRect();
 
@@ -616,23 +634,23 @@ export default function DomeGallery({
     [closeFocusedItem, enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, segments, unlockScroll]
   );
 
-  const onTileClick = useCallback(
+  const handleTileClick = useCallback(
     e => {
-      if (draggingRef.current) return;
-      if (movedRef.current) return;
-      if (performance.now() - lastDragEndAt.current < 80) return;
+      e.stopPropagation();
+      // If user was actively dragging the sphere, do not open
+      if (dragMovedRef.current) return;
+      if (performance.now() - lastDragEndTimeRef.current < 200) return;
       if (openingRef.current) return;
       openItemFromElement(e.currentTarget);
     },
     [openItemFromElement]
   );
 
-  const onTilePointerUp = useCallback(
+  const handleTilePointerUp = useCallback(
     e => {
       if (e.pointerType !== 'touch') return;
-      if (draggingRef.current) return;
-      if (movedRef.current) return;
-      if (performance.now() - lastDragEndAt.current < 80) return;
+      if (dragMovedRef.current) return;
+      if (performance.now() - lastDragEndTimeRef.current < 200) return;
       if (openingRef.current) return;
       openItemFromElement(e.currentTarget);
     },
@@ -682,8 +700,8 @@ export default function DomeGallery({
                   role="button"
                   tabIndex={0}
                   aria-label={it.alt || 'Open image'}
-                  onClick={onTileClick}
-                  onPointerUp={onTilePointerUp}
+                  onClick={handleTileClick}
+                  onPointerUp={handleTilePointerUp}
                 >
                   <img src={it.src} draggable={false} alt={it.alt} />
                 </div>
