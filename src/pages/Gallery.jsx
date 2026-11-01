@@ -90,18 +90,21 @@ export default function Gallery() {
   ];
 
   return (
-    <div className="w-full h-[calc(100vh-76px)] min-h-[640px] relative overflow-hidden bg-[#0c163b]">
+    <div className="w-full h-[calc(100vh-76px)] min-h-[500px] relative overflow-hidden bg-[#0c163b]">
       <DomeGallery
         images={allDomeImages}
-        fit={0.65}
+        fit={0.62}
         minRadius={480}
         padFactor={0.16}
         overlayBlurColor="#0c163b"
         grayscale={false}
+        autoRotate={true}
+        autoRotateSpeed={0.08}
+        autoRotateDelay={1200}
         openedImageWidth="min(88vw, 480px)"
         openedImageHeight="min(88vw, 480px)"
-        imageBorderRadius="16px"
-        openedImageBorderRadius="24px"
+        imageBorderRadius="18px"
+        openedImageBorderRadius="26px"
       />
     </div>
   );
