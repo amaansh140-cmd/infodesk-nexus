@@ -154,9 +154,8 @@ The following items are placeholders awaiting final details from the Infodesk ad
 | `[PLACEMENT_PROCESS_PLACEHOLDER]` | `src/pages/Placements.jsx` | 4-step placement pipeline (Resume & Portfolio, Mock Interviews, Campus Drives, Offer Letter). |
 | `[FOUNDING STORY, 80-120 words]` | `src/pages/About.jsx` | Authentic founding story (80–120 words). Replace placeholder in "Our story" section. |
 | `[PHOTO: Institute founding / campus moment]` | `src/pages/About.jsx` | Photo slot next to the founding story. |
-| `[CONFIRM title]` | `src/data/team.js` | Confirm official title for Kareem Shah (currently set to "Director"). |
 | `[CONFIRM the real Instagram or social handle]` | `src/data/team.js` | Confirm institute/founder handle for ProfileCards (currently set to "infodeskcompedu"). |
-| `[CONFIRM cut-out portraits]` | `src/data/team.js` | Transparent cut-out PNG portraits for `/public/assets/team/kareem-shah.png` and `/public/assets/team/amaan.png`. |
+| `[CONFIRM cut-out portraits]` | `src/data/team.js` | Transparent cut-out PNG portraits under `/public/assets/team/` for Kareem Shah, Amaan Shaikh, Ravi Sir, Javed Sir, and Hanif Shah. |
 
 ---
 

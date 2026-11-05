@@ -333,8 +333,8 @@ export default function About() {
               </p>
             </div>
 
-            {/* ProfileCard Grid (3 desktop, 2 tablet, 1 mobile) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 justify-items-center items-start">
+            {/* ProfileCard Grid: 3 on top row, 2 centered below on desktop; balanced wrapping on tablet & mobile */}
+            <div className="flex flex-wrap justify-center gap-5 items-start">
               {teamMembers.map((member) => (
                 <TeamMemberCard key={member.id} member={member} />
               ))}

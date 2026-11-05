@@ -14,17 +14,41 @@ export const teamMembers = [
   {
     id: 'kareem-shah',
     name: 'Kareem Shah',
-    title: 'Director', // [CONFIRM title]
-    avatarUrl: '/assets/team/kareem-shah.png', // [CONFIRM portrait photo]
-    handle: 'infodeskcompedu', // [CONFIRM the real Instagram or social handle]
+    title: 'Director & Founder',
+    avatarUrl: '/assets/team/kareem-shah.png',
+    handle: 'infodeskcompedu',
     status: 'Infodesk, Mumbai',
   },
   {
-    id: 'amaan',
-    name: 'Amaan',
-    title: 'Co-founder',
-    avatarUrl: '/assets/team/amaan.png', // [CONFIRM portrait photo]
-    handle: 'infodeskcompedu', // [CONFIRM the real Instagram or social handle]
+    id: 'amaan-shaikh',
+    name: 'Amaan Shaikh',
+    title: 'Co - Founder',
+    avatarUrl: '/assets/team/amaan-shaikh.png',
+    handle: 'infodeskcompedu',
+    status: 'Infodesk, Mumbai',
+  },
+  {
+    id: 'ravi-sir',
+    name: 'Ravi Sir',
+    title: 'CEO',
+    avatarUrl: '/assets/team/ravi-sir.png',
+    handle: 'infodeskcompedu',
+    status: 'Infodesk, Mumbai',
+  },
+  {
+    id: 'javed-sir',
+    name: 'Javed Sir',
+    title: 'Co - Founder',
+    avatarUrl: '/assets/team/javed-sir.png',
+    handle: 'infodeskcompedu',
+    status: 'Infodesk, Mumbai',
+  },
+  {
+    id: 'hanif-shah',
+    name: 'Hanif Shah',
+    title: 'Manager',
+    avatarUrl: '/assets/team/hanif-shah.png',
+    handle: 'infodeskcompedu',
     status: 'Infodesk, Mumbai',
   },
   /*
