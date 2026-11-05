@@ -7,7 +7,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@hugeicons/core-free-icons': fileURLToPath(new URL('./src/shims/hugeicons-core-free-icons.js', import.meta.url)),
     },
   },
   build: {
