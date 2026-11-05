@@ -1,0 +1,52 @@
+[
+  {
+    "category": "seminars",
+    "filename": "seminar-1.jpg",
+    "img": "/assets/gallery/seminars/seminar-1.jpg"
+  },
+  {
+    "category": "seminars",
+    "filename": "seminar-2.jpg",
+    "img": "/assets/gallery/seminars/seminar-2.jpg"
+  },
+  {
+    "category": "seminars",
+    "filename": "seminar-3.jpg",
+    "img": "/assets/gallery/seminars/seminar-3.jpg"
+  },
+  {
+    "category": "seminars",
+    "filename": "seminar-audience.jpg",
+    "img": "/assets/gallery/seminars/seminar-audience.jpg"
+  },
+  {
+    "category": "award",
+    "filename": "ashneer-award-1.jpg",
+    "img": "/assets/gallery/award/ashneer-award-1.jpg"
+  },
+  {
+    "category": "award",
+    "filename": "ashneer-award-3.jpg",
+    "img": "/assets/gallery/award/ashneer-award-3.jpg"
+  },
+  {
+    "category": "award",
+    "filename": "ashneer-award-main.jpg",
+    "img": "/assets/gallery/award/ashneer-award-main.jpg"
+  },
+  {
+    "category": "events",
+    "filename": "campus-coding-drive.jpg",
+    "img": "/assets/gallery/events/campus-coding-drive.jpg"
+  },
+  {
+    "category": "events",
+    "filename": "career-conclave.jpg",
+    "img": "/assets/gallery/events/career-conclave.jpg"
+  },
+  {
+    "category": "events",
+    "filename": "tech-orientation-event.jpg",
+    "img": "/assets/gallery/events/tech-orientation-event.jpg"
+  }
+]

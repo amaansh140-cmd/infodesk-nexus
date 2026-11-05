@@ -17,6 +17,7 @@ import {
 import { testimonials } from '../data/testimonials';
 import Button from '../components/Button';
 import ScrollReveal from '../components/ScrollReveal';
+import LogoLoop from '../components/LogoLoop';
 
 const partnerList = [
   { name: 'Airtel', file: 'airtel.png', category: 'Tech & Telecom' },
@@ -229,28 +230,49 @@ export default function Placements() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
-            {partnerList.map((partner) => (
-              <div
-                key={partner.name}
-                className="bg-surface border border-line/80 rounded-2xl p-4 flex flex-col items-center justify-center shadow-sm hover:shadow-card hover:-translate-y-1 hover:border-primary/30 transition-all duration-300 group h-28 relative overflow-hidden"
-                title={partner.name}
-              >
-                <img
-                  src={`/assets/partners/${partner.file}`}
-                  alt={`${partner.name} Logo`}
-                  className="max-h-12 max-w-[85%] object-contain filter group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-                <span className="text-[10px] text-muted opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-1.5 font-medium truncate max-w-[90%]">
-                  {partner.name}
-                </span>
-              </div>
-            ))}
-          </div>
+          {shouldReduceMotion ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
+              {partnerList.map((partner) => (
+                <div
+                  key={partner.name}
+                  className="bg-surface border border-line/80 rounded-2xl p-4 flex flex-col items-center justify-center shadow-sm h-28"
+                  title={partner.name}
+                >
+                  <img
+                    src={`/assets/partners/${partner.file}`}
+                    alt={`${partner.name} logo`}
+                    className="max-h-12 max-w-[85%] object-contain"
+                    loading="lazy"
+                  />
+                  <span className="text-[10px] text-muted font-medium truncate max-w-[90%] mt-1">
+                    {partner.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-surface border border-line/80 rounded-panel py-8 px-4 shadow-sm overflow-hidden">
+              <LogoLoop
+                logos={partnerList.map((p) => ({
+                  src: `/assets/partners/${p.file}`,
+                  alt: `${p.name} logo`,
+                  title: p.name,
+                }))}
+                ariaLabel="Placement partners"
+                speed={80}
+                direction="left"
+                logoHeight={40}
+                gap={56}
+                pauseOnHover={true}
+                fadeOut={true}
+                fadeOutWidth={0.12}
+                scaleOnHover={true}
+              />
+            </div>
+          )}
 
           {/* Mandatory Footnote */}
-          <p className="text-center text-xs text-muted mt-8">
+          <p className="text-center text-xs text-muted mt-6">
             All logos and trademarks are properties of their respective owners.
           </p>
         </ScrollReveal>

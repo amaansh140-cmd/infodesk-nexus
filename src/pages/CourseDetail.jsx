@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import {
   Clock,
@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { courses } from '../data/courses';
 import ModuleAccordion from '../components/ModuleAccordion';
+import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
 import Button from '../components/Button';
 import CourseCard from '../components/CourseCard';
 import ScrollReveal from '../components/ScrollReveal';
@@ -31,6 +32,21 @@ export default function CourseDetail() {
 
   // Active semester for multi-semester diploma courses
   const [activeSemIndex, setActiveSemIndex] = useState(0);
+
+  // Mobile detection for ScrollStack fallback to avoid pinning jank on small screens
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const isSemesterCourse = Boolean(
+    course.semesters &&
+    course.semesters.length > 0 &&
+    ['adse', 'adgwa', 'adat', 'dca'].includes(course.slug)
+  );
 
   // Related courses (same category, excluding current)
   const relatedCourses = courses
@@ -133,58 +149,142 @@ export default function CourseDetail() {
               </div>
             )}
 
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-deep mb-2">
-                Detailed syllabus.
-              </h2>
-              <p className="text-muted text-sm sm:text-base leading-relaxed">
-                Step-by-step topic breakdown verified against our official curriculum. Practical hands-on lab sessions accompany every topic.
-              </p>
-            </div>
-
-            {/* Semester Tabs for Semester-Based Courses */}
-            {course.semesters && (
+            {isSemesterCourse ? (
               <div className="space-y-6">
-                <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-line/60 no-scrollbar">
-                  {course.semesters.map((sem, sIdx) => {
-                    const isActive = activeSemIndex === sIdx;
-                    return (
-                      <button
-                        key={sem.number}
-                        type="button"
-                        onClick={() => setActiveSemIndex(sIdx)}
-                        className={`px-4 py-2.5 text-sm font-bold rounded-xl transition-all whitespace-nowrap cursor-pointer ${
-                          isActive
-                            ? 'bg-deep text-white shadow-sm'
-                            : 'bg-surface text-muted hover:text-deep border border-line/70'
-                        }`}
-                      >
-                        <span>Sem {sem.number}: {sem.title}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Active Semester Modules */}
                 <div>
-                  <h3 className="text-lg font-bold text-deep mb-3 flex items-center gap-2">
-                    <Layers size={18} className="text-primary" />
-                    <span>
-                      Semester {course.semesters[activeSemIndex].number}: {course.semesters[activeSemIndex].title}
-                    </span>
-                  </h3>
-                  <ModuleAccordion
-                    key={activeSemIndex}
-                    modules={course.semesters[activeSemIndex].modules}
-                    defaultOpenIndex={0}
-                  />
+                  <h2 className="text-2xl sm:text-3xl font-bold text-deep mb-2 tracking-tight">
+                    Your semester-by-semester roadmap
+                  </h2>
+                  <p className="text-muted text-sm sm:text-base leading-relaxed">
+                    Official curriculum roadmap from our brochure. Each semester advances your practical capabilities from core fundamentals to job-ready production skills.
+                  </p>
                 </div>
-              </div>
-            )}
 
-            {/* Standard Modular Courses */}
-            {course.modules && (
-              <ModuleAccordion modules={course.modules} defaultOpenIndex={0} />
+                {isMobile ? (
+                  // Mobile fallback: clean vertical stack to prevent sticky pinning jank on small screens
+                  <div className="space-y-4">
+                    {course.semesters.map((sem) => (
+                      <div
+                        key={sem.number}
+                        className="bg-surface rounded-[22px] border-[1.5px] border-line shadow-card p-6 space-y-4"
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <span className="text-xs font-bold text-primary uppercase tracking-wider">
+                              Semester {sem.number}
+                            </span>
+                            <h3 className="text-lg font-bold text-deep mt-0.5">
+                              {sem.title}
+                            </h3>
+                          </div>
+                          <span className="text-3xl font-extrabold text-primary/30 font-mono select-none">
+                            0{sem.number}
+                          </span>
+                        </div>
+
+                        <div className="space-y-3 pt-1">
+                          {sem.modules.map((mod, mIdx) => (
+                            <div key={mIdx} className="space-y-2">
+                              {mod.name && (
+                                <p className="text-xs font-semibold text-deep/90 flex items-center gap-1.5">
+                                  <Layers size={13} className="text-primary flex-shrink-0" />
+                                  <span>{mod.name}</span>
+                                </p>
+                              )}
+                              <div className="flex flex-wrap gap-1.5">
+                                {mod.topics.map((topic, tIdx) => (
+                                  <span
+                                    key={tIdx}
+                                    className="px-2.5 py-1 rounded-full bg-soft/75 border border-line/60 text-xs font-medium text-deep"
+                                  >
+                                    {topic}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  // Desktop & Tablet: 3D interactive ScrollStack pinning roadmap
+                  <div className="pt-2">
+                    <ScrollStack
+                      useWindowScroll={true}
+                      stackPosition="90px"
+                      itemDistance={100}
+                      itemStackDistance={24}
+                      baseScale={0.85}
+                      itemScale={0.03}
+                      dimAmount={0.15}
+                      blurAmount={0}
+                      smoothScroll={false}
+                    >
+                      {course.semesters.map((sem) => (
+                        <ScrollStackItem
+                          key={sem.number}
+                          itemClassName="!h-auto min-h-[220px] !bg-surface !rounded-[22px] !border-[1.5px] !border-line !shadow-card p-6 sm:p-8 flex flex-col justify-between"
+                        >
+                          <div className="space-y-4">
+                            <div className="flex items-start justify-between gap-4 border-b border-line/50 pb-3">
+                              <div>
+                                <span className="text-xs font-bold text-primary uppercase tracking-wider">
+                                  Semester {sem.number}
+                                </span>
+                                <h3 className="text-xl sm:text-2xl font-bold text-deep mt-0.5">
+                                  {sem.title}
+                                </h3>
+                              </div>
+                              <span className="text-4xl sm:text-5xl font-extrabold text-primary/30 font-mono select-none">
+                                0{sem.number}
+                              </span>
+                            </div>
+
+                            <div className="space-y-4 pt-1">
+                              {sem.modules.map((mod, mIdx) => (
+                                <div key={mIdx} className="space-y-2">
+                                  {mod.name && (
+                                    <p className="text-xs font-bold uppercase tracking-wider text-muted flex items-center gap-1.5">
+                                      <Layers size={13} className="text-primary flex-shrink-0" />
+                                      <span>{mod.name}</span>
+                                    </p>
+                                  )}
+                                  <div className="flex flex-wrap gap-2">
+                                    {mod.topics.map((topic, tIdx) => (
+                                      <span
+                                        key={tIdx}
+                                        className="px-3 py-1.5 rounded-full bg-soft/70 border border-line/70 text-xs font-medium text-deep"
+                                      >
+                                        {topic}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </ScrollStackItem>
+                      ))}
+                    </ScrollStack>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // Standard Modular Courses keep ModuleAccordion
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-deep mb-2">
+                    Detailed syllabus.
+                  </h2>
+                  <p className="text-muted text-sm sm:text-base leading-relaxed">
+                    Step-by-step topic breakdown verified against our official curriculum. Practical hands-on lab sessions accompany every topic.
+                  </p>
+                </div>
+                {course.modules && (
+                  <ModuleAccordion modules={course.modules} defaultOpenIndex={0} />
+                )}
+              </div>
             )}
           </div>
 

@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Lightbox from '../components/Lightbox';
+import Masonry from '../components/Masonry';
 
 const steps = [
   {
@@ -349,33 +350,29 @@ export default function About() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {collegeSeminars.map((item) => (
-              <div
-                key={item.id}
-                onClick={() =>
-                  setSelectedImage({
-                    image: item.image,
-                    title: item.title,
-                    caption: item.desc,
-                  })
-                }
-                className="bg-surface border border-line/80 rounded-2xl overflow-hidden shadow-card hover:shadow-hover hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
-              >
-                <div className="h-48 overflow-hidden bg-background">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-4">
-                  <h4 className="font-bold text-deep text-sm">{item.title}</h4>
-                  <p className="text-xs text-muted mt-1 leading-relaxed">{item.desc}</p>
-                </div>
-              </div>
-            ))}
+          <div className="w-full">
+            <Masonry
+              items={collegeSeminars.map((item) => ({
+                id: item.id,
+                img: item.image,
+                alt: item.title,
+                title: item.title,
+                description: item.desc,
+              }))}
+              columns="auto"
+              columnWidth={260}
+              gap={14}
+              radius={22}
+              animateFrom="bottom"
+              stagger={0.05}
+              blurToFocus={true}
+              revealOnScroll={true}
+              hoverEffect="zoom"
+              captions="hover"
+              lightbox={true}
+              parallax={0}
+              draggable={false}
+            />
           </div>
         </ScrollReveal>
       </section>

@@ -23,6 +23,7 @@ import {
 import Button from '../components/Button';
 import TerminalCard from '../components/TerminalCard';
 import ScrollReveal from '../components/ScrollReveal';
+import LogoLoop from '../components/LogoLoop';
 
 const recognitionBadges = [
   {
@@ -443,29 +444,54 @@ export default function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ─── TOOL MARQUEE ─── */}
-      <section className="w-full max-w-full overflow-hidden py-6 border-y border-line/60 bg-surface">
-        <div className="max-w-content mx-auto px-4 sm:px-6 mb-3 text-center">
+      {/* ─── TOOL MARQUEE (UPGRADED TO LOGOLOOP) ─── */}
+      <section className="w-full max-w-full overflow-hidden py-8 border-y border-line/60 bg-surface">
+        <div className="max-w-content mx-auto px-4 sm:px-6 mb-4 text-center">
           <p className="text-xs uppercase font-bold tracking-wider text-muted">
             Industry tools and technologies taught in our labs
           </p>
         </div>
-        <div className="relative w-full max-w-full overflow-hidden flex [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
-          <div className="flex gap-4 py-2 whitespace-nowrap animate-marquee hover:[animation-play-state:paused]">
-            {[...tools, ...tools, ...tools].map((tool, i) => (
+        {shouldReduceMotion ? (
+          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap justify-center gap-3">
+            {tools.map((tool) => (
               <span
-                key={`${tool.name}-${i}`}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-deep/90 px-4 py-2 rounded-full bg-background border border-line/80 shadow-sm hover:border-primary/40 transition-colors"
+                key={tool.name}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-deep px-4 py-2 rounded-full bg-soft border border-primary/20 shadow-sm"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
                 <span>{tool.name}</span>
-                <span className="text-[10px] text-muted font-normal bg-soft/50 px-1.5 py-0.5 rounded">
+                <span className="text-[10px] text-muted font-normal bg-white/60 px-1.5 py-0.5 rounded">
                   {tool.cat}
                 </span>
               </span>
             ))}
           </div>
-        </div>
+        ) : (
+          <div className="w-full max-w-full overflow-hidden py-1">
+            <LogoLoop
+              logos={tools}
+              ariaLabel="Industry tools and technologies"
+              speed={60}
+              direction="left"
+              gap={24}
+              pauseOnHover={true}
+              fadeOut={true}
+              fadeOutWidth={0.12}
+              renderItem={(item) => (
+                <span
+                  key={item.name}
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-deep px-4 py-2 rounded-full bg-soft border border-primary/25 shadow-sm transition-transform hover:scale-105 select-none"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
+                  <span>{item.name}</span>
+                  <span className="text-[10px] text-muted font-normal bg-white/70 px-1.5 py-0.5 rounded">
+                    {item.cat}
+                  </span>
+                </span>
+              )}
+            />
+          </div>
+        )}
       </section>
 
       {/* ─── TRY A FREE DEMO BANNER ─── */}

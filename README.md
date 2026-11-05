@@ -13,8 +13,8 @@ A modern, fast, multi-page marketing website for **Infodesk Computer Education**
 - **Framework:** React 19 + Vite 6
 - **Routing:** React Router 7 (`BrowserRouter`)
 - **Styling:** Tailwind CSS 3 with custom tokens
-- **Animations:** Framer Motion 12
-- **Icons:** Lucide React
+- **Animations:** Framer Motion 12 + React Bits (JS + CSS variant: ScrollStack, LogoLoop, Stepper, Masonry)
+- **Icons:** Hugeicons (`@hugeicons/react`, `@hugeicons/core-free-icons`) & Lucide React
 - **Typography:** Google Fonts (*Bricolage Grotesque* for headings, *Figtree* for body)
 - **Data Layer:** Pure decoupled JavaScript files in `src/data/` (no backend required)
 
@@ -66,13 +66,22 @@ infodesk-nexus/
 │   │   ├── Footer.jsx                 # Full footer with branches & copyright
 │   │   ├── Header.jsx                 # Sticky blur nav with mobile drawer
 │   │   ├── Lightbox.jsx               # Zoomable modal image viewer
+│   │   ├── LogoLoop.jsx               # React Bits infinite hardware-accelerated ticker
+│   │   ├── LogoLoop.css               # LogoLoop styles & fade masks
+│   │   ├── Masonry.jsx                # React Bits responsive photo masonry grid
+│   │   ├── Masonry.css                # Masonry layout & card styling
 │   │   ├── ModuleAccordion.jsx        # Smooth animated course syllabus accordion
 │   │   ├── PageTransition.jsx         # 18px slide up + fade transition
 │   │   ├── ScrollReveal.jsx           # Viewport entry animation
+│   │   ├── ScrollStack.jsx            # React Bits sticky stacked cards component
+│   │   ├── ScrollStack.css            # ScrollStack pinning & perspective styles
+│   │   ├── Stepper.jsx                # React Bits multi-step animated form
+│   │   ├── Stepper.css                # Stepper layout, buttons & progress bar
 │   │   └── TerminalCard.jsx           # 3D interactive CLI card with typing effect
 │   ├── data/
 │   │   ├── branches.js                # 4 Mumbai branches data
-│   │   ├── courses.js                 # 18 complete courses and syllabi
+│   │   ├── courses.js                 # 18 complete courses, syllabi & semester roadmaps
+│   │   ├── galleryManifest.json       # Auto-indexed gallery photo catalog
 │   │   └── testimonials.js            # 4 authentic student reviews
 │   └── pages/
 │       ├── Home.jsx                   # Hero, 3D CLI, awards, marquee, demo CTA
@@ -152,36 +161,41 @@ The following items are placeholders awaiting final details from the Infodesk ad
 | `[MAPS_LINK_PLACEHOLDER]` | `src/data/branches.js` | Google Maps location URLs for each branch. |
 | `[HEAD_OFFICE_NOTE]` | `src/data/branches.js` | Behram Baug is marked as Head Office in brochure header; Goregaon West is listed on certificates. Update if needed. |
 | `[PLACEMENT_PROCESS_PLACEHOLDER]` | `src/pages/Placements.jsx` | 4-step placement pipeline (Resume & Portfolio, Mock Interviews, Campus Drives, Offer Letter). |
+| `[GALLERY_CAPTIONS_PLACEHOLDER]` | `src/pages/Gallery.jsx` & `src/data/galleryManifest.json` | Authentic captions and descriptions for individual gallery images. |
+| `[OUR_NEW_INSTITUTE_PHOTOS]` | `public/assets/gallery/our-new-institute/` | Photos of the new campus / facility. When dropped in, they will automatically appear in the Gallery tab. |
+| `[CONTACT_FORM_BACKEND]` | `src/pages/Contact.jsx` | The interactive 3-step form currently routes validated enquiries to official WhatsApp (`919920108967`) with pre-filled parameters. To integrate email dispatch via Formspree or EmailJS, replace the `handleFinalSubmit` handler. |
 
 ---
 
-## ✅ Verified Brochure Claims (No Invented Content)
+## ⚡ React Bits Components Integration
 
-All claims and facts on the website have been extracted verbatim from `public/assets/Infodesk_Computer_Education.pdf`:
-
-1. **Govt. Recognized & ISO 9001:2015:** Certified vocational board registration.
-2. **India's Best Institute Award:** Honored by **Ashneer Grover** with authentic award ceremony photographs shown on the Home, About, and Gallery pages.
-3. **100% Job Assistance:** Explicitly stated in brochure page 19.
-4. **25 Corporate Placement Partners:** Extracted directly from brochure page 19:
-   - *Airtel, HDFC Bank, Tata, ICICI Bank, Wipro, Mahindra, Hero, Amul, Bajaj, Adani, ITC, Dream11, Tanishq, SBI, Max Life, Star Health, IDFC First Bank, D'damas, LIC, DMart, Godrej, Reliance, and more.*
-   - Footnote included stating logos are registered trademarks of their respective owners.
-5. **Kareem Shah's Global Certifications:**
-   - Microsoft Certified: Power BI Data Analyst Associate
-   - Snowflake SnowPro Core Certified
-   - Alteryx Server Certified Administrator
-   - Alteryx Designer Advanced Certified
-   - Google Digital Garage — The Fundamentals of Digital Marketing
-6. **College Seminars:** Real photos of seminars conducted in Mumbai colleges.
-7. **Student Testimonials:** Verbatim feedback and photos for **Rehan Shaikh**, **Komal Kamble**, **Faiza Kachwala**, and **Sonu Sharma**.
-8. **18 Complete Courses:** All modules, tools, and semester breakdowns formatted in clean sentence case with spelling mistakes corrected.
+The application integrates four components from **React Bits** (JS + CSS variant):
+1. **ScrollStack** (`/courses/:slug`):
+   - Renders "Your semester-by-semester roadmap" for 4 semester-based programs: **ADSE**, **ADGWA**, **ADAT**, and **DCA**.
+   - Features pinned stacked cards with 22px border radius, topic chips, and numeral markers.
+   - Gracefully falls back to a non-sticky vertical stack on mobile screens (< 768px). Modular courses retain `ModuleAccordion`.
+2. **LogoLoop**:
+   - **Placements Page (`/placements`)**: Infinite marquee showcasing 25 corporate recruitment partner logos with pause-on-hover, subtle scale effect, and side fade masks. Automatically renders an accessible static grid when `prefers-reduced-motion` is active.
+   - **Home Page (`/`)**: Highlighting 12 core industry tools (Python, Power BI, Tableau, SQL, Excel, Tally Prime, Photoshop, Premiere Pro, After Effects, Figma, WordPress, Java) as soft-blue interactive chips.
+3. **Stepper** (`/contact`):
+   - Interactive 3-step admission and demo booking flow inside the deep-blue card.
+   - Validates Indian 10-digit mobile numbers (`/^[6-9]\d{9}$/`), selects course options, and configures preferred branch and slot before opening WhatsApp with full details.
+4. **Masonry**:
+   - **Gallery Page (`/gallery`)**: Fluid photo layout supporting category filtering (**All**, **College seminars**, **Award ceremony**, **Campus events**, **Our new institute**). Includes a custom empty state when no photos are present in a category.
+   - **About Page (`/about`)**: Dynamic masonry grid showcasing college seminar sessions across Mumbai colleges.
 
 ---
 
 ## 📸 Adding New Photos to the Gallery
 
-The Gallery uses Vite's `import.meta.glob` to automatically discover and render institute photos:
-1. Drop your new photos into `public/assets/institute/` (e.g. `classroom-1.jpg`, `lab-2.jpg`).
-2. Refresh the website — the photos will automatically appear under the **Our new institute** tab with full lightbox support!
+The Gallery uses a pre-generated manifest (`src/data/galleryManifest.json`) and category folders under `public/assets/gallery/`:
+1. Drop new photos into the appropriate category folder:
+   - `public/assets/gallery/seminars/`
+   - `public/assets/gallery/award/`
+   - `public/assets/gallery/events/`
+   - `public/assets/gallery/our-new-institute/`
+2. Run `node scripts/index-gallery.cjs` (or update `src/data/galleryManifest.json`) to index new files.
+3. The photos will immediately appear with full lightbox and Masonry layout!
 
 ---
 
