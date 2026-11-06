@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Magnet from './Magnet';
+import ClickSpark from './ClickSpark';
+import { effectsConfig, isTouchDevice } from '../config/effects';
 
 export default function Button({
   children,
@@ -11,10 +14,12 @@ export default function Button({
   onClick,
   type = 'button',
   icon,
+  magnet = false,
+  spark = false,
   ...props
 }) {
   const baseClasses =
-    'inline-flex items-center justify-center font-medium rounded-full tracking-tight transition-all duration-300 btn-shine cursor-pointer select-none';
+    'inline-flex items-center justify-center font-medium rounded-full tracking-tight transition-all duration-300 btn-shine cursor-pointer select-none cursor-target';
 
   const sizeClasses = {
     sm: 'text-sm px-4 py-2 gap-1.5',
@@ -35,28 +40,50 @@ export default function Button({
 
   const combinedClasses = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
 
+  let content = null;
+
   if (to) {
-    return (
+    content = (
       <Link to={to} className={combinedClasses} onClick={onClick} {...props}>
         {icon && <span className="shrink-0">{icon}</span>}
         <span>{children}</span>
       </Link>
     );
-  }
-
-  if (href) {
-    return (
+  } else if (href) {
+    content = (
       <a href={href} className={combinedClasses} onClick={onClick} {...props}>
         {icon && <span className="shrink-0">{icon}</span>}
         <span>{children}</span>
       </a>
     );
+  } else {
+    content = (
+      <button type={type} className={combinedClasses} onClick={onClick} {...props}>
+        {icon && <span className="shrink-0">{icon}</span>}
+        <span>{children}</span>
+      </button>
+    );
   }
 
-  return (
-    <button type={type} className={combinedClasses} onClick={onClick} {...props}>
-      {icon && <span className="shrink-0">{icon}</span>}
-      <span>{children}</span>
-    </button>
-  );
+  // Wrap in ClickSpark if primary or explicit
+  const shouldSpark = (spark || variant === 'primary') && effectsConfig.clickSpark && !isTouchDevice;
+  if (shouldSpark) {
+    content = (
+      <ClickSpark sparkColor="#4a6df0" sparkSize={10} sparkCount={8} duration={400}>
+        {content}
+      </ClickSpark>
+    );
+  }
+
+  // Wrap in Magnet for primary CTAs on desktop
+  const shouldMagnet = (magnet || variant === 'primary') && effectsConfig.magnet && !isTouchDevice;
+  if (shouldMagnet) {
+    content = (
+      <Magnet padding={40} spring={{ stiffness: 150, damping: 15, mass: 0.1 }}>
+        {content}
+      </Magnet>
+    );
+  }
+
+  return content;
 }

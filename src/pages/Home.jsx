@@ -20,10 +20,28 @@ import {
   MapPin,
   ChevronRight,
 } from 'lucide-react';
+
 import Button from '../components/Button';
 import TerminalCard from '../components/TerminalCard';
 import ScrollReveal from '../components/ScrollReveal';
+import LazyMount from '../components/common/LazyMount';
+import { effectsConfig } from '../config/effects';
+
+// React Bits components for Home Page
+import GradientASCII from '../components/GradientASCII';
+import RotatingText from '../components/RotatingText';
+import StarBorder from '../components/StarBorder';
+import StickerPeel from '../components/StickerPeel';
+import CountUp from '../components/CountUp';
+import CardSwap, { Card } from '../components/CardSwap';
 import LogoLoop from '../components/LogoLoop';
+import SpotlightCard from '../components/SpotlightCard';
+import Stack from '../components/Stack';
+import ElectricBorder from '../components/ElectricBorder';
+
+import { branches } from '../data/branches';
+import { courses } from '../data/courses';
+import { testimonials } from '../data/testimonials';
 
 const recognitionBadges = [
   {
@@ -167,56 +185,114 @@ const tools = [
 export default function Home() {
   const shouldReduceMotion = useReducedMotion();
 
+  // Testimonial cards for React Bits Stack
+  const testimonialCards = testimonials.map((t) => (
+    <div
+      key={t.id}
+      className="w-full h-full bg-surface border border-line/80 rounded-card p-6 sm:p-7 flex flex-col justify-between shadow-card text-left select-none"
+    >
+      <div className="space-y-3">
+        <div className="flex items-center gap-1 text-amber-500">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} size={15} fill="currentColor" />
+          ))}
+        </div>
+        <p className="text-deep text-xs sm:text-sm sm:text-[14px] leading-relaxed line-clamp-4 italic">
+          "{t.quote}"
+        </p>
+      </div>
+      <div className="flex items-center gap-3 pt-3.5 border-t border-line/50">
+        <img
+          src={t.image}
+          alt={t.name}
+          className="w-10 h-10 rounded-full object-cover border border-line/80 shadow-sm"
+          loading="lazy"
+        />
+        <div className="min-w-0">
+          <p className="text-sm font-bold text-deep truncate">{t.name}</p>
+          <p className="text-xs text-muted truncate">Alumni · Brochure Verified</p>
+        </div>
+      </div>
+    </div>
+  ));
+
   return (
     <div className="space-y-24 sm:space-y-32 w-full overflow-x-hidden">
       {/* ─── HERO SECTION ─── */}
-      <section className="relative pt-8 sm:pt-16 pb-12 overflow-x-clip w-full bg-grid-dots">
-        {/* Two large blurred drifting orbs */}
-        {!shouldReduceMotion && (
-          <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-            <motion.div
-              animate={{
-                x: [0, 30, 0],
-                y: [0, -20, 0],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -top-24 -left-24 w-80 sm:w-96 h-80 sm:h-96 bg-soft/60 rounded-full blur-3xl pointer-events-none"
-            />
-            <motion.div
-              animate={{
-                x: [0, -30, 0],
-                y: [0, 30, 0],
-                scale: [1, 1.15, 1],
-              }}
-              transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-              className="absolute top-1/2 -right-24 w-80 sm:w-[30rem] h-80 sm:h-[30rem] bg-soft/50 rounded-full blur-3xl pointer-events-none"
-            />
+      <section className="relative pt-8 sm:pt-16 pb-12 overflow-x-clip w-full">
+        {/* Background GradientASCII mounted lazily */}
+        {effectsConfig.heroBackground && !shouldReduceMotion ? (
+          <div className="absolute inset-0 pointer-events-none opacity-25 sm:opacity-35 -z-10 overflow-hidden">
+            <LazyMount isCanvasOrWebGL={true} fallback={<div className="w-full h-full bg-grid-dots opacity-40" />}>
+              <GradientASCII
+                shape="horizon"
+                colors={['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8']}
+                characters=" =+xX0S8#@"
+                cellSize={18}
+                density={0.8}
+                speed={0.5}
+                glyphOpacity={0.4}
+                className="w-full h-full"
+              />
+            </LazyMount>
           </div>
+        ) : (
+          <div className="absolute inset-0 bg-grid-dots opacity-40 -z-10" />
         )}
 
         <div className="w-full max-w-content mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* Left Column: Hero Text */}
             <div className="lg:col-span-7 min-w-0 space-y-6 text-left">
-              {/* Trust Pill */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-line/90 shadow-sm text-xs font-semibold text-deep">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot inline-block" />
-                <span>Govt. Recognized • ISO 9001:2015 Certified Board</span>
+              {/* Trust Pill & Sticker */}
+              <div className="flex items-center gap-3">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-line/90 shadow-sm text-xs font-semibold text-deep">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot inline-block" />
+                  <span>Govt. Recognized · ISO 9001:2015 certified board</span>
+                </div>
               </div>
 
+              {/* Headline with RotatingText */}
               <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-deep tracking-tight leading-[1.08] break-words">
-                Learn the skills<br className="sm:hidden" /> Mumbai's tech teams<br className="sm:hidden" /> hire for.
+                Learn{' '}
+                {effectsConfig.rotatingText && !shouldReduceMotion ? (
+                  <RotatingText
+                    texts={['data', 'design', 'marketing', 'web', 'accounts']}
+                    mainClassName="inline-flex text-primary font-bold overflow-hidden"
+                    rotationInterval={2400}
+                    staggerDuration={0.03}
+                  />
+                ) : (
+                  <span className="text-primary">tech</span>
+                )}{' '}
+                <br className="sm:hidden" />
+                skills Mumbai's teams <br className="sm:hidden" /> hire for.
               </h1>
 
               <p className="text-muted text-base sm:text-lg sm:text-[19px] leading-relaxed max-w-xl">
                 Industry-led courses in data, digital marketing, web development, design and accounting, taught in small batches at four Mumbai branches.
               </p>
 
+              {/* CTA Buttons: primary with StarBorder & Magnet */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
-                <Button to="/courses" size="lg" variant="primary">
-                  Explore courses
-                </Button>
+                {effectsConfig.starBorder ? (
+                  <StarBorder
+                    as="div"
+                    color="#4a6df0"
+                    trailColor="#2448c9"
+                    radius={9999}
+                    theme="light"
+                    className="!p-0 !bg-transparent !border-0 inline-block rounded-full shadow-button"
+                  >
+                    <Button to="/courses" size="lg" variant="primary">
+                      Explore courses
+                    </Button>
+                  </StarBorder>
+                ) : (
+                  <Button to="/courses" size="lg" variant="primary">
+                    Explore courses
+                  </Button>
+                )}
                 <Button to="/contact" size="lg" variant="ghost">
                   Book a free demo
                 </Button>
@@ -235,9 +311,94 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: 3D Terminal Card */}
-            <div className="lg:col-span-5 flex justify-center">
+            {/* Right Column: 3D Terminal Card + StickerPeel */}
+            <div className="lg:col-span-5 flex justify-center relative">
               <TerminalCard />
+              {/* Corner StickerPeel for desktop */}
+              {effectsConfig.stickerPeel && (
+                <div className="absolute -top-6 -right-6 hidden sm:block w-28 h-28 pointer-events-auto z-20">
+                  <LazyMount
+                    isCanvasOrWebGL={true}
+                    fallback={
+                      <div className="w-24 h-24 rounded-full bg-surface/90 backdrop-blur border border-line/80 shadow-md p-1.5 hover:rotate-6 transition-transform flex items-center justify-center">
+                        <img
+                          src="/assets/recognition/sticker-peel-badge.png"
+                          alt="Govt. Recognized · ISO 9001:2015 certified board"
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    }
+                  >
+                    <StickerPeel
+                      imageSrc="/assets/recognition/sticker-peel-badge.png"
+                      width={100}
+                      peelDirection={45}
+                      peelBackHoverPct={35}
+                      peelBackActivePct={50}
+                      finish="gloss"
+                      draggable={false}
+                      className="cursor-pointer"
+                    />
+                  </LazyMount>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── NUMBERS STRIP (COUNTUP) ─── */}
+      <section className="bg-soft/70 border-y border-line/70 py-8 sm:py-10">
+        <div className="max-w-content mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
+            <div className="p-3">
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-deep font-display tracking-tight flex items-center justify-center">
+                {effectsConfig.countUp && !shouldReduceMotion ? (
+                  <CountUp to={branches.length} duration={1.6} />
+                ) : (
+                  branches.length
+                )}
+              </p>
+              <p className="text-xs sm:text-sm font-semibold text-muted mt-1.5">
+                Mumbai branches
+              </p>
+            </div>
+            <div className="p-3">
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary font-display tracking-tight flex items-center justify-center">
+                {effectsConfig.countUp && !shouldReduceMotion ? (
+                  <CountUp to={courses.length} duration={1.8} />
+                ) : (
+                  courses.length
+                )}
+                <span>+</span>
+              </p>
+              <p className="text-xs sm:text-sm font-semibold text-muted mt-1.5">
+                Industry courses
+              </p>
+            </div>
+            <div className="p-3">
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-deep font-display tracking-tight flex items-center justify-center">
+                {effectsConfig.countUp && !shouldReduceMotion ? (
+                  <CountUp to={100} duration={2} suffix="%" />
+                ) : (
+                  '100%'
+                )}
+              </p>
+              <p className="text-xs sm:text-sm font-semibold text-muted mt-1.5">
+                Job assistance
+              </p>
+            </div>
+            <div className="p-3">
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary font-display tracking-tight flex items-center justify-center">
+                {effectsConfig.countUp && !shouldReduceMotion ? (
+                  <CountUp to={6} duration={1.5} />
+                ) : (
+                  6
+                )}
+              </p>
+              <p className="text-xs sm:text-sm font-semibold text-muted mt-1.5">
+                Educational pillars
+              </p>
             </div>
           </div>
         </div>
@@ -277,71 +438,104 @@ export default function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ─── COURSE CATEGORIES ─── */}
+      {/* ─── PICK YOUR TRACK (CARDSWAP) ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-            <div>
-              <h2 className="text-[clamp(32px,4.4vw,52px)] font-bold text-deep">
-                Course categories.
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Left Column: Heading and info */}
+            <div className="lg:col-span-5 space-y-6 text-left">
+              <h2 className="text-[clamp(32px,4.4vw,52px)] font-bold text-deep tracking-tight leading-tight">
+                Pick your track.
               </h2>
-              <p className="text-muted text-base mt-2 max-w-lg">
-                Explore specialized technology tracks designed around real job requirements and practical toolkits.
+              <p className="text-muted text-base sm:text-lg leading-relaxed">
+                Explore specialized technology tracks designed around real job requirements, hands-on lab projects, and direct Mumbai recruitment drives.
               </p>
+              <div className="pt-2">
+                <Button to="/courses" size="lg" variant="primary">
+                  Explore courses
+                </Button>
+              </div>
             </div>
-            <Link
-              to="/courses"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-bright transition-colors self-start sm:self-auto"
-            >
-              <span>View all 18 courses</span>
-              <ArrowRight size={16} />
-            </Link>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categoryCards.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <Link
-                  key={cat.title}
-                  to={cat.link}
-                  className="relative bg-surface border border-line/80 rounded-card p-6 flex flex-col justify-between shadow-card hover:shadow-[0_20px_35px_-15px_rgba(36,72,201,0.2)] hover:-translate-y-1.5 transition-all duration-300 group overflow-hidden"
-                >
-                  {/* Subtle top accent */}
-                  <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <div
-                        className={`w-12 h-12 rounded-2xl ${cat.color} border flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm`}
+            {/* Right Column: CardSwap or Responsive Grid Fallback */}
+            <div className="lg:col-span-7 flex justify-center">
+              {effectsConfig.cardSwap && !shouldReduceMotion ? (
+                <div className="relative w-full max-w-[480px] h-[340px] sm:h-[380px] flex items-center justify-center">
+                  <CardSwap
+                    width={400}
+                    height={260}
+                    cardRadius={22}
+                    visibleCards={4}
+                    theme="light"
+                    autoplay={true}
+                    pauseOnHover={true}
+                    delay={3500}
+                    className="w-full h-full"
+                  >
+                    {categoryCards.map((cat) => {
+                      const Icon = cat.icon;
+                      return (
+                        <Card key={cat.title}>
+                          <div className="w-full h-full p-6 sm:p-7 flex flex-col justify-between bg-surface rounded-card border border-line/90 shadow-card text-left select-none">
+                            <div>
+                              <div className="flex items-center justify-between mb-4">
+                                <div
+                                  className={`w-11 h-11 rounded-xl ${cat.color} border flex items-center justify-center shadow-sm`}
+                                >
+                                  <Icon size={22} />
+                                </div>
+                                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-background border border-line/70 text-muted">
+                                  {cat.count}
+                                </span>
+                              </div>
+                              <h3 className="text-xl font-bold text-deep mb-2">{cat.title}</h3>
+                              <p className="text-xs sm:text-sm text-muted leading-relaxed line-clamp-3">
+                                {cat.desc}
+                              </p>
+                            </div>
+                            <div className="pt-4 border-t border-line/50 flex items-center justify-between text-xs font-semibold text-primary">
+                              <Link to={cat.link} className="hover:underline flex items-center gap-1">
+                                <span>Browse track</span>
+                                <ArrowRight size={14} />
+                              </Link>
+                            </div>
+                          </div>
+                        </Card>
+                      );
+                    })}
+                  </CardSwap>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                  {categoryCards.map((cat) => {
+                    const Icon = cat.icon;
+                    return (
+                      <Link
+                        key={cat.title}
+                        to={cat.link}
+                        className="bg-surface border border-line/80 rounded-card p-5 shadow-card hover:border-primary/40 transition-all flex flex-col justify-between"
                       >
-                        <Icon size={24} />
-                      </div>
-                      <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-background border border-line/60 text-muted">
-                        {cat.count}
-                      </span>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-deep group-hover:text-primary transition-colors">
-                      {cat.title}
-                    </h3>
-                    <p className="text-muted text-sm mt-2 leading-relaxed">
-                      {cat.desc}
-                    </p>
-                  </div>
-
-                  <div className="pt-5 mt-5 border-t border-line/40 flex items-center justify-between text-xs font-semibold text-primary">
-                    <span>Browse track</span>
-                    <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
-                  </div>
-                </Link>
-              );
-            })}
+                        <div>
+                          <div className="flex items-center justify-between mb-3">
+                            <div className={`w-9 h-9 rounded-lg ${cat.color} border flex items-center justify-center`}>
+                              <Icon size={18} />
+                            </div>
+                            <span className="text-xs text-muted font-medium">{cat.count}</span>
+                          </div>
+                          <h3 className="text-base font-bold text-deep">{cat.title}</h3>
+                          <p className="text-xs text-muted mt-1 line-clamp-2">{cat.desc}</p>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </ScrollReveal>
       </section>
 
-      {/* ─── WHY INFODESK ─── */}
+      {/* ─── WHY INFODESK (SPOTLIGHTCARD) ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-14">
@@ -356,13 +550,17 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {whyInfodesk.map((item) => {
               const Icon = item.icon;
-              return (
-                <div
+              return effectsConfig.spotlightCard ? (
+                <SpotlightCard
                   key={item.title}
-                  className="relative bg-surface border border-line/80 rounded-card p-6 shadow-card hover:border-primary/40 hover:shadow-[0_16px_32px_-14px_rgba(19,38,111,0.18)] hover:-translate-y-1 transition-all duration-300 group"
+                  spotlightColor="rgba(36, 72, 201, 0.16)"
+                  shape="circle"
+                  intensity={0.22}
+                  theme="light"
+                  className="!bg-surface !border !border-line/80 !rounded-card p-6 !shadow-card hover:!border-primary/40 transition-all duration-300"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-soft text-primary flex items-center justify-center group-hover:scale-105 transition-transform shadow-sm">
+                    <div className="w-10 h-10 rounded-xl bg-soft text-primary flex items-center justify-center shadow-sm">
                       <Icon size={20} />
                     </div>
                     <span className="font-mono text-xs font-bold text-muted/60 bg-background px-2 py-0.5 rounded-md border border-line/50">
@@ -381,9 +579,80 @@ export default function Home() {
                       {item.tag}
                     </span>
                   </div>
+                </SpotlightCard>
+              ) : (
+                <div
+                  key={item.title}
+                  className="relative bg-surface border border-line/80 rounded-card p-6 shadow-card hover:border-primary/40 transition-all"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-soft text-primary flex items-center justify-center shadow-sm">
+                      <Icon size={20} />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-muted/60 bg-background px-2 py-0.5 rounded-md border border-line/50">
+                      {item.num}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-deep mb-1.5">{item.title}</h3>
+                  <p className="text-muted text-sm leading-relaxed mb-4">{item.desc}</p>
+                  <div className="pt-3 border-t border-line/40">
+                    <span className="inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-soft/60 text-deep">
+                      {item.tag}
+                    </span>
+                  </div>
                 </div>
               );
             })}
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* ─── STUDENT VOICES (STACK CARD DECK) ─── */}
+      <section className="max-w-content mx-auto px-6">
+        <ScrollReveal>
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <h2 className="text-[clamp(32px,4.4vw,52px)] font-bold text-deep">
+              Student voices.
+            </h2>
+            <p className="text-muted text-base sm:text-lg mt-3">
+              Hear verified feedback from students who transformed their technical careers through our Mumbai batches.
+            </p>
+          </div>
+
+          {effectsConfig.testimonialsStack ? (
+            <div className="w-full max-w-lg h-[340px] sm:h-[360px] mx-auto relative">
+              <Stack
+                cards={testimonialCards}
+                layout="fan"
+                visible={4}
+                spread={0.3}
+                depth={0.4}
+                radius={22}
+                sendToBackOnClick={true}
+                autoplay={!shouldReduceMotion}
+                autoplayDelay={4500}
+                pauseOnHover={true}
+              />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {testimonials.slice(0, 2).map((t) => (
+                <div key={t.id} className="bg-surface border border-line/80 rounded-card p-6 shadow-card">
+                  <p className="text-muted text-sm italic">"{t.quote}"</p>
+                  <p className="text-sm font-bold text-deep mt-4">{t.name}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="text-center mt-8">
+            <Link
+              to="/placements"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors"
+            >
+              <span>Read more placement stories</span>
+              <ArrowRight size={15} />
+            </Link>
           </div>
         </ScrollReveal>
       </section>
@@ -415,12 +684,12 @@ export default function Home() {
                     Read the award story
                   </Button>
                   <span className="text-xs text-white/60 font-mono">
-                    Official ceremony • Delhi, India
+                    Official ceremony · Delhi, India
                   </span>
                 </div>
               </div>
 
-              {/* Award Photos with subtle frame */}
+              {/* Award Photos */}
               <div className="lg:col-span-5 grid grid-cols-2 gap-3.5">
                 <div className="rounded-2xl overflow-hidden border border-white/20 shadow-xl bg-black/20 group">
                   <img
@@ -444,7 +713,7 @@ export default function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ─── TOOL MARQUEE (UPGRADED TO LOGOLOOP) ─── */}
+      {/* ─── TOOL MARQUEE (LOGOLOOP) ─── */}
       <section className="w-full max-w-full overflow-hidden py-8 border-y border-line/60 bg-surface">
         <div className="max-w-content mx-auto px-4 sm:px-6 mb-4 text-center">
           <p className="text-xs uppercase font-bold tracking-wider text-muted">
@@ -494,22 +763,66 @@ export default function Home() {
         )}
       </section>
 
-      {/* ─── TRY A FREE DEMO BANNER ─── */}
+      {/* ─── CLOSING BANNER (GRADIENTASCII + ELECTRICBORDER) ─── */}
       <section className="max-w-content mx-auto px-6">
         <ScrollReveal>
           <div className="bg-deep rounded-band p-8 sm:p-14 text-center text-white space-y-6 shadow-signature relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-bright/10 rounded-full blur-3xl pointer-events-none" />
+            {/* Background GradientASCII mounted lazily */}
+            {effectsConfig.homeClosingBanner && !shouldReduceMotion && (
+              <div className="absolute inset-0 pointer-events-none opacity-30 z-0 overflow-hidden">
+                <LazyMount isCanvasOrWebGL={true} fallback={<div className="w-full h-full bg-deep" />}>
+                  <GradientASCII
+                    shape="rise"
+                    cellSize={16}
+                    density={0.6}
+                    glyphOpacity={0.6}
+                    colors={['#10173a', '#13266f', '#2448c9', '#4a6df0']}
+                    characters=" =+xX0S8#@"
+                    speed={0.4}
+                    mouseInteraction={false}
+                    className="w-full h-full"
+                  />
+                </LazyMount>
+              </div>
+            )}
 
-            <h2 className="text-[clamp(30px,4.2vw,48px)] font-bold text-white tracking-tight">
-              Try a free demo class.
-            </h2>
-            <p className="text-white/80 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-              Experience our teaching firsthand before enrolling. Visit any of our four Mumbai branches or attend a preview session with our faculty.
-            </p>
-            <div className="pt-2">
-              <Button to="/contact" size="lg" variant="white">
-                Book your demo
-              </Button>
+            <div className="relative z-10 space-y-6">
+              <h2 className="text-[clamp(30px,4.2vw,48px)] font-bold text-white tracking-tight">
+                Try a free demo class.
+              </h2>
+              <p className="text-white/80 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+                Experience our teaching firsthand before enrolling. Visit any of our four Mumbai branches or attend a preview session with our faculty.
+              </p>
+              <div className="pt-2 flex justify-center">
+                {effectsConfig.electricBorder ? (
+                  <LazyMount
+                    isCanvasOrWebGL={true}
+                    fallback={
+                      <Button to="/contact" size="lg" variant="white">
+                        Book your demo
+                      </Button>
+                    }
+                  >
+                    <ElectricBorder
+                      color="#7df9ff"
+                      glowColor="#38bdf8"
+                      borderRadius={9999}
+                      theme="dark"
+                      speed={0.8}
+                      intensity={0.9}
+                      className="inline-block rounded-full"
+                    >
+                      <Button to="/contact" size="lg" variant="white">
+                        Book your demo
+                      </Button>
+                    </ElectricBorder>
+                  </LazyMount>
+                ) : (
+                  <Button to="/contact" size="lg" variant="white">
+                    Book your demo
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </ScrollReveal>
