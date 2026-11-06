@@ -4,17 +4,8 @@ import { CheckCircle2, Terminal, Sparkles } from 'lucide-react';
 
 const terminalScenarios = [
   {
-    id: 'analytics',
-    label: 'Data Analytics',
-    cmdBase: 'infodesk $ learn --course',
-    courseName: '"data analytics"',
-    tools: 'Loaded: Excel, SQL, Python, Pandas, Power BI, Tableau',
-    duration: 'Duration: 6 months (hands-on industrial training)',
-    level: 'Status: 100% job assistance included ✓',
-  },
-  {
     id: 'science',
-    label: 'Data Science',
+    tabLabel: 'Data science',
     cmdBase: 'infodesk $ learn --course',
     courseName: '"data science"',
     tools: 'Loaded: Python, Scikit-Learn, GenAI, Alteryx, Informatica',
@@ -22,8 +13,17 @@ const terminalScenarios = [
     level: 'Status: Certified industrial faculties ✓',
   },
   {
+    id: 'analytics',
+    tabLabel: 'Analytics',
+    cmdBase: 'infodesk $ learn --course',
+    courseName: '"data analytics"',
+    tools: 'Loaded: Excel, SQL, Python, Pandas, Power BI, Tableau',
+    duration: 'Duration: 6 months (hands-on industrial training)',
+    level: 'Status: 100% job assistance included ✓',
+  },
+  {
     id: 'web',
-    label: 'Full Stack Web',
+    tabLabel: 'Web',
     cmdBase: 'infodesk $ learn --course',
     courseName: '"full stack web"',
     tools: 'Loaded: HTML5, CSS3, JavaScript, PHP, SQL, WordPress',
@@ -32,23 +32,34 @@ const terminalScenarios = [
   },
   {
     id: 'marketing',
-    label: 'Digital Marketing',
+    tabLabel: 'Marketing',
     cmdBase: 'infodesk $ learn --course',
     courseName: '"digital marketing"',
     tools: 'Loaded: SEO, Google Ads, SMM, Content, AI Tools',
     duration: 'Duration: 6 months plus practical job training',
     level: 'Status: Live ad spend & portfolio reviews ✓',
   },
+  {
+    id: 'design',
+    tabLabel: 'Design',
+    cmdBase: 'infodesk $ learn --course',
+    courseName: '"design & media"',
+    tools: 'Loaded: Photoshop, Illustrator, Figma, Premiere Pro, UI/UX',
+    duration: 'Duration: 6 months creative portfolio training',
+    level: 'Status: Live client design briefs ✓',
+  },
 ];
 
 export default function TerminalCard() {
   const shouldReduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const [typedChars, setTypedChars] = useState(0);
-  const [showOutputs, setShowOutputs] = useState(false);
 
   const current = terminalScenarios[index];
   const fullCmd = `${current.cmdBase} ${current.courseName}`;
+
+  // Start with full command and outputs visible immediately so there is never an empty prompt on load
+  const [typedChars, setTypedChars] = useState(fullCmd.length);
+  const [showOutputs, setShowOutputs] = useState(true);
 
   useEffect(() => {
     if (shouldReduceMotion) {
@@ -57,30 +68,29 @@ export default function TerminalCard() {
       return;
     }
 
-    setTypedChars(0);
-    setShowOutputs(false);
-
-    let currentLength = 0;
-    const typeInterval = setInterval(() => {
-      currentLength++;
-      setTypedChars(currentLength);
-      if (currentLength >= fullCmd.length) {
-        clearInterval(typeInterval);
-        setTimeout(() => {
-          setShowOutputs(true);
-        }, 250);
-      }
-    }, 38);
-
+    // Auto-cycle after 6 seconds
     const switchTimeout = setTimeout(() => {
       setIndex((prev) => (prev + 1) % terminalScenarios.length);
-    }, 5600);
+      setTypedChars(0);
+      setShowOutputs(false);
+
+      let currentLength = 0;
+      const typeInterval = setInterval(() => {
+        currentLength++;
+        setTypedChars(currentLength);
+        if (currentLength >= fullCmd.length) {
+          clearInterval(typeInterval);
+          setTimeout(() => {
+            setShowOutputs(true);
+          }, 200);
+        }
+      }, 35);
+    }, 6000);
 
     return () => {
-      clearInterval(typeInterval);
       clearTimeout(switchTimeout);
     };
-  }, [index, shouldReduceMotion]);
+  }, [index, fullCmd, shouldReduceMotion]);
 
   const displayedText = fullCmd.slice(0, typedChars);
 
@@ -96,32 +106,42 @@ export default function TerminalCard() {
         <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-bright to-transparent opacity-40 pointer-events-none" />
 
         {/* Top Header Bar */}
-        <div className="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-white/10">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-white/10 gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <span className="w-3 h-3 rounded-full bg-[#f87171] inline-block shadow-[0_0_8px_rgba(248,113,113,0.5)]" />
             <span className="w-3 h-3 rounded-full bg-[#fbbf24] inline-block shadow-[0_0_8px_rgba(251,191,36,0.5)]" />
             <span className="w-3 h-3 rounded-full bg-[#34d399] inline-block shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
           </div>
 
-          {/* Interactive track switcher pills */}
-          <div className="hidden sm:flex items-center gap-1">
-            {terminalScenarios.map((sc, sIdx) => (
-              <button
-                key={sc.id}
-                type="button"
-                onClick={() => setIndex(sIdx)}
-                className={`px-2 py-0.5 rounded text-[10px] font-mono transition-colors ${
-                  index === sIdx
-                    ? 'bg-bright/20 text-white font-bold border border-bright/40'
-                    : 'text-white/40 hover:text-white/70'
-                }`}
-              >
-                {sc.label.split(' ')[0]}
-              </button>
-            ))}
+          {/* Interactive track switcher pills: short, unique labels */}
+          <div className="flex items-center gap-1 overflow-x-auto py-0.5 scrollbar-none">
+            {terminalScenarios.map((sc, sIdx) => {
+              // Hide extra tabs on narrow widths
+              const isExtraTab = sIdx >= 3;
+              return (
+                <button
+                  key={sc.id}
+                  type="button"
+                  onClick={() => {
+                    setIndex(sIdx);
+                    setTypedChars(`${sc.cmdBase} ${sc.courseName}`.length);
+                    setShowOutputs(true);
+                  }}
+                  className={`px-2 py-0.5 rounded text-[11px] font-mono whitespace-nowrap transition-colors ${
+                    isExtraTab ? 'hidden sm:inline-block' : 'inline-block'
+                  } ${
+                    index === sIdx
+                      ? 'bg-bright/20 text-white font-bold border border-bright/40'
+                      : 'text-white/50 hover:text-white/80'
+                  }`}
+                >
+                  {sc.tabLabel}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono text-white/50">
+          <div className="hidden min-[480px]:flex items-center gap-1.5 text-[11px] font-mono text-white/50 shrink-0">
             <Terminal size={12} className="text-bright" />
             <span>infodesk-cli</span>
           </div>

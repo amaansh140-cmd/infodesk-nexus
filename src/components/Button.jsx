@@ -19,7 +19,7 @@ export default function Button({
   ...props
 }) {
   const baseClasses =
-    'inline-flex items-center justify-center font-medium rounded-full tracking-tight transition-all duration-300 btn-shine cursor-pointer select-none cursor-target';
+    'inline-flex items-center justify-center font-medium rounded-full tracking-tight transition-all duration-300 btn-shine cursor-pointer select-none';
 
   const sizeClasses = {
     sm: 'text-sm px-4 py-2 gap-1.5',

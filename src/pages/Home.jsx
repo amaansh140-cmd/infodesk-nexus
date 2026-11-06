@@ -257,17 +257,22 @@ export default function Home() {
               </div>
 
               {/* Headline with RotatingText */}
-              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-deep tracking-tight leading-[1.08] break-words">
-                Learn{' '}
+              <h1
+                aria-label="Learn data, design, marketing, web and accounts skills Mumbai's teams hire for."
+                className="text-3xl sm:text-5xl lg:text-7xl font-bold text-deep tracking-tight leading-[1.08] break-words"
+              >
+                <span>Learn </span>
                 {effectsConfig.rotatingText && !shouldReduceMotion ? (
-                  <RotatingText
-                    texts={['data', 'design', 'marketing', 'web', 'accounts']}
-                    mainClassName="inline-flex text-primary font-bold"
-                    rotationInterval={2400}
-                    staggerDuration={0.03}
-                  />
+                  <span className="inline-block min-w-[9ch] text-left align-baseline" aria-hidden="true">
+                    <RotatingText
+                      texts={['data', 'design', 'marketing', 'web', 'accounts']}
+                      mainClassName="inline-flex text-primary font-bold"
+                      rotationInterval={2400}
+                      staggerDuration={0.03}
+                    />
+                  </span>
                 ) : (
-                  <span className="text-primary">tech</span>
+                  <span className="text-primary font-bold">data</span>
                 )}{' '}
                 <br className="sm:hidden" />
                 skills Mumbai's teams <br className="sm:hidden" /> hire for.
@@ -324,17 +329,17 @@ export default function Home() {
                   <LazyMount
                     isCanvasOrWebGL={true}
                     fallback={
-                      <div className="w-24 h-24 rounded-full bg-surface/90 backdrop-blur border border-line/80 shadow-md p-1.5 hover:rotate-6 transition-transform flex items-center justify-center">
+                      <div className="w-24 h-24 rounded-[22px] bg-surface/95 backdrop-blur border border-line/80 shadow-md p-2 hover:rotate-3 transition-transform flex items-center justify-center">
                         <img
-                          src="/assets/recognition/sticker-peel-badge.png"
-                          alt="Govt. Recognized · ISO 9001:2015 certified board"
+                          src="/assets/recognition/job-assistance-badge.png"
+                          alt="100% job assistance"
                           className="w-full h-full object-contain"
                         />
                       </div>
                     }
                   >
                     <StickerPeel
-                      imageSrc="/assets/recognition/sticker-peel-badge.png"
+                      imageSrc="/assets/recognition/job-assistance-badge.png"
                       width={100}
                       peelDirection={45}
                       peelBackHoverPct={35}

@@ -4,9 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 import PageTransition from './components/PageTransition';
-import TargetCursor from './components/TargetCursor';
 import { ToastProvider } from './components/common/ToastContext';
-import { effectsConfig, isTouchDevice } from './config/effects';
 
 // Code-split pages by route with React.lazy
 const Home = lazy(() => import('./pages/Home'));
@@ -29,22 +27,6 @@ function PageFallback() {
 function AppContent() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-ink antialiased selection:bg-soft selection:text-deep">
-      {/* Target reticle cursor for desktop fine-pointer */}
-      {effectsConfig.targetCursor && !isTouchDevice && (
-        <TargetCursor
-          targetSelector=".cursor-target, a, button, [role='button'], input, select, textarea"
-          cursorColor="#2448c9"
-          cursorColorOnTarget="#4a6df0"
-          size={32}
-          thickness={2}
-          cornerSize={8}
-          dotSize={3}
-          spinDuration={3}
-          hoverDuration={0.2}
-          hideDefaultCursor={false}
-        />
-      )}
-
       <Header />
 
       <main className="flex-1">

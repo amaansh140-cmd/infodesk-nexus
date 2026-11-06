@@ -18,11 +18,9 @@ export const isSaveData =
 
 export const effectsConfig = {
   // Global Shell & Layout
-  cardNav: true,
   staggeredMenu: true,
   gradualBlur: true,
   noise: true,
-  targetCursor: !isTouchDevice,
   magnet: !isTouchDevice,
   clickSpark: !isTouchDevice,
   animatedContent: !prefersReducedMotion,
@@ -66,7 +64,6 @@ export const effectsConfig = {
   peekRating: true,
 
   // Gallery Page (/gallery)
-  imageTrail: !isTouchDevice && !prefersReducedMotion,
   depthCarousel: true,
   galleryMasonry: true,
 
