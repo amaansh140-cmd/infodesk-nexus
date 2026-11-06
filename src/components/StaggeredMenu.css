@@ -140,8 +140,15 @@
   padding: 6em 2em 2em 2em;
   overflow-y: auto;
   z-index: 10;
-  pointer-events: auto;
+  pointer-events: none;
+  visibility: hidden;
   opacity: 0;
+}
+
+.staggered-menu-panel[aria-hidden='false'] {
+  pointer-events: auto;
+  visibility: visible;
+  opacity: 1;
 }
 
 [data-position='left'] .staggered-menu-panel {

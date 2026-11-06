@@ -217,13 +217,17 @@ export default function Home() {
   ));
 
   return (
-    <div className="space-y-24 sm:space-y-32 w-full overflow-x-hidden">
+    <div className="space-y-24 sm:space-y-32 w-full overflow-x-clip">
       {/* ─── HERO SECTION ─── */}
       <section className="relative pt-8 sm:pt-16 pb-12 overflow-x-clip w-full">
         {/* Background GradientASCII mounted lazily */}
         {effectsConfig.heroBackground && !shouldReduceMotion ? (
-          <div className="absolute inset-0 pointer-events-none opacity-25 sm:opacity-35 -z-10 overflow-hidden">
-            <LazyMount isCanvasOrWebGL={true} fallback={<div className="w-full h-full bg-grid-dots opacity-40" />}>
+          <div className="absolute inset-0 pointer-events-none opacity-25 sm:opacity-35 -z-10 overflow-hidden select-none">
+            <LazyMount
+              className="pointer-events-none select-none"
+              isCanvasOrWebGL={true}
+              fallback={<div className="w-full h-full bg-grid-dots opacity-40 pointer-events-none" />}
+            >
               <GradientASCII
                 shape="horizon"
                 colors={['#1e3fd8', '#f6f8ff', '#a5d8ff', '#38bdf8']}
@@ -232,12 +236,12 @@ export default function Home() {
                 density={0.8}
                 speed={0.5}
                 glyphOpacity={0.4}
-                className="w-full h-full"
+                className="w-full h-full pointer-events-none"
               />
             </LazyMount>
           </div>
         ) : (
-          <div className="absolute inset-0 bg-grid-dots opacity-40 -z-10" />
+          <div className="absolute inset-0 bg-grid-dots opacity-40 -z-10 pointer-events-none" />
         )}
 
         <div className="w-full max-w-content mx-auto px-4 sm:px-6">
@@ -258,7 +262,7 @@ export default function Home() {
                 {effectsConfig.rotatingText && !shouldReduceMotion ? (
                   <RotatingText
                     texts={['data', 'design', 'marketing', 'web', 'accounts']}
-                    mainClassName="inline-flex text-primary font-bold overflow-hidden"
+                    mainClassName="inline-flex text-primary font-bold"
                     rotationInterval={2400}
                     staggerDuration={0.03}
                   />
