@@ -50,6 +50,15 @@ export const effectsConfig = {
   pillNav: true,
   courseBackgrounds: !prefersReducedMotion && !isSaveData,
   scrollStack: true,
+  dataScienceHeroCard: true,
+  dataScienceParticles: !prefersReducedMotion && !isSaveData,
+  dataScienceGradientText: !prefersReducedMotion,
+  dataScienceTextType: !prefersReducedMotion,
+  dataScienceDecryptedText: !prefersReducedMotion,
+  dataScienceToolsLoop: true,
+  dataScienceMlScatter: true,
+  dataScienceProjectFlow: true,
+  dataScienceSpotlight: true,
 
   // About Page (/about)
   scrollExpand: !prefersReducedMotion,

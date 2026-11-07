@@ -293,12 +293,12 @@ export default function Home() {
                     theme="light"
                     className="!p-0 !bg-transparent !border-0 inline-block rounded-full shadow-button"
                   >
-                    <Button to="/courses" size="lg" variant="primary">
+                    <Button to="/courses" size="lg" variant="primary" magnet={true}>
                       Explore courses
                     </Button>
                   </StarBorder>
                 ) : (
-                  <Button to="/courses" size="lg" variant="primary">
+                  <Button to="/courses" size="lg" variant="primary" magnet={true}>
                     Explore courses
                   </Button>
                 )}

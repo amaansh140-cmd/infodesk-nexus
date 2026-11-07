@@ -932,7 +932,7 @@ export const LogoLoop = memo(
       intro,
       scaleOnHover,
       labels,
-      links: logos.some(item => item.href)
+      links: logos.some(item => item && typeof item === 'object' && Boolean(item.href))
     };
 
     useIsomorphicLayoutEffect(() => {
@@ -975,7 +975,7 @@ export const LogoLoop = memo(
             <ul className="logoloop__list" key={copyIndex} role="list" aria-hidden={isPrimary ? undefined : true}>
               {logos.map((item, itemIndex) => {
                 const key = `${copyIndex}-${itemIndex}`;
-                const isNode = 'node' in item;
+                const isNode = Boolean(item && typeof item === 'object' && 'node' in item);
                 const visual = renderItem ? (
                   renderItem(item, key)
                 ) : isNode ? (
@@ -1007,19 +1007,26 @@ export const LogoLoop = memo(
                     )}
                   </>
                 );
-                const name = isNode ? (item.ariaLabel ?? item.title) : (item.alt ?? item.title);
+                const name = isNode
+                  ? (item.ariaLabel ?? item.title)
+                  : typeof item === 'object' && item
+                  ? (item.alt ?? item.title)
+                  : String(item ?? '');
+                const itemColor = typeof item === 'object' && item ? item.hoverColor : undefined;
+                const itemHref = typeof item === 'object' && item ? item.href : undefined;
+                const itemTitle = typeof item === 'object' && item ? item.title : String(item ?? '');
                 return (
                   <li
                     className="logoloop__item"
                     key={key}
                     role="listitem"
-                    data-color={item.hoverColor ? '' : undefined}
-                    style={item.hoverColor ? { '--logoloop-item-color': item.hoverColor } : undefined}
+                    data-color={itemColor ? '' : undefined}
+                    style={itemColor ? { '--logoloop-item-color': itemColor } : undefined}
                   >
-                    {item.href ? (
+                    {itemHref ? (
                       <a
                         className="logoloop__content"
-                        href={item.href}
+                        href={itemHref}
                         aria-label={name || 'logo link'}
                         target="_blank"
                         rel="noreferrer noopener"
@@ -1031,9 +1038,9 @@ export const LogoLoop = memo(
                     ) : (
                       <div className="logoloop__content">{inner}</div>
                     )}
-                    {labels === 'hover' && item.title && (
+                    {labels === 'hover' && itemTitle && (
                       <span className="logoloop__tip" aria-hidden="true">
-                        {item.title}
+                        {itemTitle}
                       </span>
                     )}
                   </li>

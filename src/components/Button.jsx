@@ -65,8 +65,8 @@ export default function Button({
     );
   }
 
-  // Wrap in ClickSpark if primary or explicit
-  const shouldSpark = (spark || variant === 'primary') && effectsConfig.clickSpark && !isTouchDevice;
+  // Wrap in ClickSpark only when explicitly requested (e.g. enquiry form submit)
+  const shouldSpark = Boolean(spark) && effectsConfig.clickSpark && !isTouchDevice;
   if (shouldSpark) {
     content = (
       <ClickSpark sparkColor="#4a6df0" sparkSize={10} sparkCount={8} duration={400}>
@@ -75,8 +75,8 @@ export default function Button({
     );
   }
 
-  // Wrap in Magnet for primary CTAs on desktop
-  const shouldMagnet = (magnet || variant === 'primary') && effectsConfig.magnet && !isTouchDevice;
+  // Wrap in Magnet only when explicitly requested on desktop (e.g. main hero CTA)
+  const shouldMagnet = Boolean(magnet) && effectsConfig.magnet && !isTouchDevice;
   if (shouldMagnet) {
     content = (
       <Magnet padding={40} spring={{ stiffness: 150, damping: 15, mass: 0.1 }}>

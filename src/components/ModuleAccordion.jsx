@@ -1,27 +1,42 @@
 import React, { useState } from 'react';
 import { ChevronDown, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SpotlightCard from './SpotlightCard';
 
-export default function ModuleAccordion({ modules, defaultOpenIndex = 0 }) {
-  const [openIndices, setOpenIndices] = useState([defaultOpenIndex]);
+export default function ModuleAccordion({
+  modules,
+  defaultOpenIndex = 0,
+  openIndices: controlledOpenIndices,
+  onToggle: onControlledToggle,
+  useSpotlight = false,
+}) {
+  const [internalOpenIndices, setInternalOpenIndices] = useState([defaultOpenIndex]);
+  const isControlled = controlledOpenIndices !== undefined;
+  const openIndices = isControlled ? controlledOpenIndices : internalOpenIndices;
 
   const toggleModule = (index) => {
-    setOpenIndices((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
+    if (isControlled && onControlledToggle) {
+      onControlledToggle(index);
+    } else {
+      setInternalOpenIndices((prev) =>
+        prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+      );
+    }
   };
 
   return (
     <div className="space-y-3">
       {modules.map((mod, idx) => {
         const isOpen = openIndices.includes(idx);
-        return (
+        const cardContent = (
           <div
-            key={mod.name}
-            className={`border rounded-panel bg-surface overflow-hidden shadow-sm transition-all duration-200 ${
-              isOpen
-                ? 'border-primary/40 shadow-[0_4px_16px_-4px_rgba(36,72,201,0.12)]'
-                : 'border-line/80 hover:border-line'
+            id={`module-${idx}`}
+            className={`rounded-panel bg-surface overflow-hidden transition-all duration-200 ${
+              !useSpotlight ? (
+                isOpen
+                  ? 'border border-primary/40 shadow-[0_4px_16px_-4px_rgba(36,72,201,0.12)]'
+                  : 'border border-line/80 hover:border-line shadow-sm'
+              ) : ''
             }`}
           >
             <button
@@ -31,6 +46,7 @@ export default function ModuleAccordion({ modules, defaultOpenIndex = 0 }) {
                 isOpen ? 'bg-soft/25 text-deep' : 'text-deep hover:bg-soft/15'
               }`}
               aria-expanded={isOpen}
+              aria-controls={`module-content-${idx}`}
             >
               <div className="flex items-center gap-3.5">
                 <span
@@ -58,6 +74,7 @@ export default function ModuleAccordion({ modules, defaultOpenIndex = 0 }) {
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div
+                  id={`module-content-${idx}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
@@ -78,6 +95,27 @@ export default function ModuleAccordion({ modules, defaultOpenIndex = 0 }) {
             </AnimatePresence>
           </div>
         );
+
+        if (useSpotlight) {
+          return (
+            <SpotlightCard
+              key={mod.name}
+              theme="light"
+              spotlightColor="rgba(36, 72, 201, 0.08)"
+              intensity={0.2}
+              proximity={100}
+              className={`!p-0 !rounded-panel overflow-hidden border transition-all duration-200 ${
+                isOpen
+                  ? 'border-primary/40 shadow-[0_4px_16px_-4px_rgba(36,72,201,0.12)]'
+                  : 'border-line/80 hover:border-line shadow-sm'
+              }`}
+            >
+              {cardContent}
+            </SpotlightCard>
+          );
+        }
+
+        return <div key={mod.name}>{cardContent}</div>;
       })}
     </div>
   );

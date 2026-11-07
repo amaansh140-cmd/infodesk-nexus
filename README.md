@@ -169,20 +169,25 @@ The following items are placeholders awaiting final details from the Infodesk ad
 
 ## ⚡ React Bits Components Integration
 
-The application integrates four components from **React Bits** (JS + CSS variant):
-1. **ScrollStack** (`/courses/:slug`):
-   - Renders "Your semester-by-semester roadmap" for 4 semester-based programs: **ADSE**, **ADGWA**, **ADAT**, and **DCA**.
-   - Features pinned stacked cards with 22px border radius, topic chips, and numeral markers.
-   - Gracefully falls back to a non-sticky vertical stack on mobile screens (< 768px). Modular courses retain `ModuleAccordion`.
-2. **LogoLoop**:
-   - **Placements Page (`/placements`)**: Infinite marquee showcasing 25 corporate recruitment partner logos with pause-on-hover, subtle scale effect, and side fade masks. Automatically renders an accessible static grid when `prefers-reduced-motion` is active.
-   - **Home Page (`/`)**: Highlighting 12 core industry tools (Python, Power BI, Tableau, SQL, Excel, Tally Prime, Photoshop, Premiere Pro, After Effects, Figma, WordPress, Java) as soft-blue interactive chips.
-3. **Stepper** (`/contact`):
-   - Interactive 3-step admission and demo booking flow inside the deep-blue card.
-   - Validates Indian 10-digit mobile numbers (`/^[6-9]\d{9}$/`), selects course options, and configures preferred branch and slot before opening WhatsApp with full details.
-4. **Masonry**:
-   - **Gallery Page (`/gallery`)**: Fluid photo layout supporting category filtering (**All**, **College seminars**, **Award ceremony**, **Campus events**, **Our new institute**). Includes a custom empty state when no photos are present in a category.
-   - **About Page (`/about`)**: Dynamic masonry grid showcasing college seminar sessions across Mumbai colleges.
+The application integrates components from **React Bits** (JS + CSS variant) with runtime flags configured in `src/config/effects.js`:
+
+### Data Science Course (`/courses/data-science`)
+1. **GradientText** (`effectsConfig.dataScienceGradientText`): Royal blue `#2448c9` to bright blue `#4a6df0` slow sweep on the main H1. Falls back to solid text on reduced motion.
+2. **Particles** (`effectsConfig.dataScienceParticles`): Hero right side "Data lab" card background with constellation lines (`connections={true}`), 50 low-density particles (`particleColors={['#4a6df0', '#a5d8ff', '#ffffff']}`), pointer interaction disabled (`moveParticlesOnHover={false}`, `clickBurst={false}`), wrapped in `<LazyMount>`. Strictly 1 WebGL canvas effect on the page.
+3. **TextType** (`effectsConfig.dataScienceTextType`): Terminal card typing looping lines (`df = pd.read_csv("sales.csv")`, `df.groupby("city").mean()`, `model.fit(X_train, y_train)`, `st.line_chart(df)`), ice-white with bright-blue `>>>` prompt, first line visible immediately.
+4. **DecryptedText** (`effectsConfig.dataScienceDecryptedText`): Card caption `"Raw data to real decisions."` (resolves once on first view).
+5. **CountUp** (`effectsConfig.countUp`): Tools card header count (`{course.tools.length}` = 13 technologies).
+6. **LogoLoop** (`effectsConfig.dataScienceToolsLoop`): Tools card chip row (soft-blue chips, 13 brochure tools, pause on hover, fade edges; static wrap grid on reduced motion).
+7. **RubberSegment** (`effectsConfig.dataScienceMlScatter`): Card `"Machine learning in ten seconds"` (Supervised, Unsupervised, Generative) controlling an interactive deterministic 50-point SVG scatter plot with live accessible captions.
+8. **SpotlightCard** (`effectsConfig.dataScienceSpotlight`): Soft royal-blue spotlight (`rgba(36, 72, 201, 0.08)`) on syllabus module cards.
+9. **AnimatedContent**: Staggered scroll reveals and smooth entry for the project flow stages and syllabus modules.
+
+### Unverified Copy Items (Confirm or Supply)
+The following marketing copy items are present in the Course Detail pages and should be confirmed or supplied by the Infodesk team:
+1. `"Flexible morning, evening & weekend timings"`
+2. `"Personalized 1-on-1 doubt clearing sessions"`
+3. `"Small batches, in-person"`
+4. `"Step-by-step topic breakdown verified against our official curriculum"`
 
 ---
 

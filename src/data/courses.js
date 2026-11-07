@@ -20,7 +20,21 @@ export const courses = [
     duration: '12 months',
     level: 'Career program',
     summary: 'Master Python, machine learning, generative AI, Alteryx, Power BI, and enterprise data governance.',
-    tools: ['Python', 'Power BI', 'SQL Server'],
+    tools: [
+      'Python',
+      'NumPy',
+      'pandas',
+      'Seaborn',
+      'Matplotlib',
+      'Scikit-Learn',
+      'Generative AI',
+      'Streamlit',
+      'Alteryx',
+      'Power BI',
+      'SQL Server',
+      'Advanced Excel',
+      'Informatica',
+    ],
     modules: [
       {
         name: 'Python',
