@@ -299,7 +299,10 @@ export const ScrollVelocity = ({
           parallaxClassName={parallaxClassName}
           scrollerClassName={scrollerClassName}
           parallaxStyle={parallaxStyle}
-          scrollerStyle={scrollerStyle}
+          scrollerStyle={{
+            marginBottom: index < texts.length - 1 ? '8px' : '0px',
+            ...scrollerStyle
+          }}
           separator={separator}
           pauseOnHover={pauseOnHover}
           hoveredRef={hoveredRef}
@@ -309,7 +312,7 @@ export const ScrollVelocity = ({
           gap={gap}
           fontSize={fontSize}
           fontWeight={fontWeight}
-          color={color}
+          color={Array.isArray(color) ? color[index % color.length] : color}
           draggable={draggable}
         >
           {text}

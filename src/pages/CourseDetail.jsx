@@ -684,13 +684,13 @@ export default function CourseDetail() {
       {isDataScience && effectsConfig.dataSciencePillNav && (
         <nav
           aria-label="Course section navigation"
-          className="sticky top-[72px] z-40 w-full py-2.5 bg-background/95 backdrop-blur-md border-b border-line/70 transition-all duration-200"
+          className="sticky top-[72px] z-40 w-full h-[48px] py-1.5 bg-background/95 backdrop-blur-md border-b border-line/70 transition-all duration-200"
         >
-          <div className="max-w-content mx-auto px-6 flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
-            <span className="text-xs font-bold text-deep shrink-0 hidden md:inline">
+          <div className="max-w-[1200px] mx-auto px-6 h-full flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
+            <span className="text-xs font-bold text-deep shrink-0 hidden min-[1100px]:inline">
               Data Science track
             </span>
-            <div className="flex items-center gap-1.5 sm:gap-2 mx-auto md:mx-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 mx-auto min-[1100px]:mx-0">
               {navItems.map((item) => {
                 const isActive = activeNavSection === item.id;
                 return (
@@ -702,7 +702,7 @@ export default function CourseDetail() {
                       const el = document.getElementById(item.id);
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+                    className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
                       isActive
                         ? 'bg-primary text-white shadow-sm'
                         : 'text-muted hover:text-deep hover:bg-soft/60'
@@ -715,7 +715,7 @@ export default function CourseDetail() {
             </div>
             <a
               href="#enquire"
-              className="hidden lg:inline-flex items-center text-xs font-bold text-primary hover:underline"
+              className="hidden min-[1100px]:inline-flex items-center text-xs font-bold text-primary hover:underline"
             >
               Enrollment options &rarr;
             </a>
@@ -726,73 +726,80 @@ export default function CourseDetail() {
       {/* ─── 1. HERO (FULL-BLEED DEEP BLUE BAND, MIN-HEIGHT 80VH) ─── */}
       <section
         id="overview"
-        className="relative bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white min-h-[80vh] flex items-center py-12 sm:py-20 overflow-hidden"
+        className="relative bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white min-h-[80vh] flex flex-col justify-between pt-14 pb-10 overflow-hidden"
       >
-        {/* Full-bleed Particles Constellation Background */}
-        {effectsConfig.dataScienceHeroParticles && (
-          <LazyMount
-            isCanvasOrWebGL={true}
-            fallback={
-              <div
-                className="absolute inset-0 bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] pointer-events-none"
-                aria-hidden="true"
+        {/* Full-bleed Absolute Background Layer */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          {/* Particles Constellation */}
+          {effectsConfig.dataScienceHeroParticles && (
+            <LazyMount
+              isCanvasOrWebGL={true}
+              fallback={
+                <div
+                  className="absolute inset-0 bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138]"
+                  aria-hidden="true"
+                />
+              }
+              className="!absolute inset-0 w-full h-full"
+            >
+              <Particles
+                connections={true}
+                connectionDistance={120}
+                particleColors={['#a5d8ff', '#4a6df0', '#ffffff']}
+                particleCount={isMobile ? 50 : 160}
+                particleBaseSize={70}
+                glow={0.6}
+                speed={0.08}
+                twinkle={0.3}
+                hoverEffect="parallax"
+                particleHoverFactor={0.5}
+                clickBurst={false}
+                className="w-full h-full pointer-events-none"
               />
-            }
-            className="absolute inset-0 pointer-events-none"
-          >
-            <Particles
-              connections={true}
-              connectionDistance={110}
-              particleColors={['#4a6df0', '#a5d8ff', '#ffffff']}
-              moveParticlesOnHover={false}
-              clickBurst={false}
-              particleCount={isMobile ? 28 : 65}
-              particleBaseSize={75}
-              speed={0.16}
-              className="absolute inset-0 w-full h-full pointer-events-none"
-            />
-          </LazyMount>
-        )}
+            </LazyMount>
+          )}
 
-        {/* Subtle Noise Texture */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay"
-          aria-hidden="true"
-        >
-          <Noise opacity={0.03} />
+          {/* Faint CSS Grid Line Pattern (4% opacity) */}
+          <div
+            className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px] opacity-40 pointer-events-none"
+          />
+
+          {/* Subtle Noise Texture */}
+          <div className="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none">
+            <Noise opacity={0.03} />
+          </div>
+
+          {/* Left-to-right contrast protection overlay */}
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-[#071138]/95 via-[#0b1a52]/80 to-transparent pointer-events-none"
+          />
         </div>
 
-        {/* Left-to-right contrast protection overlay */}
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-[#0b1a52]/90 via-[#13266f]/70 to-transparent pointer-events-none"
-          aria-hidden="true"
-        />
-
-        {/* Hero Content Container (max-width 1120px) */}
-        <div className="max-w-content mx-auto px-6 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Column: Tightly spaced, large typography */}
-            <div className="lg:col-span-7 space-y-5">
-              {/* Breadcrumb Navigation */}
+        {/* Hero Content Container (max-width 1200px) */}
+        <div className="max-w-[1200px] mx-auto px-6 relative z-10 w-full my-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+            {/* Column 1 (Left 55%): Text & Action Block */}
+            <div className="space-y-5">
+              {/* Breadcrumb Navigation (14px, #a5d8ff) */}
               <nav
                 aria-label="Breadcrumb"
-                className="flex items-center gap-2 text-xs text-[#a5d8ff] flex-wrap"
+                className="flex items-center gap-2 text-[14px] text-[#a5d8ff] flex-wrap"
               >
                 <Link to="/" className="hover:text-white transition-colors">
                   Home
                 </Link>
-                <ChevronRight size={12} />
+                <ChevronRight size={13} />
                 <Link to="/courses" className="hover:text-white transition-colors">
                   Courses
                 </Link>
-                <ChevronRight size={12} />
+                <ChevronRight size={13} />
                 <Link
                   to={`/courses?category=${encodeURIComponent(course.category)}`}
                   className="hover:text-white transition-colors"
                 >
                   {course.category}
                 </Link>
-                <ChevronRight size={12} />
+                <ChevronRight size={13} />
                 <span className="text-white font-medium truncate max-w-[200px] sm:max-w-none">
                   {course.title}
                 </span>
@@ -800,21 +807,21 @@ export default function CourseDetail() {
 
               {/* Glass Outline Chips */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] backdrop-blur-sm shadow-sm">
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-white/[0.08] border border-white/[0.18] text-[#a5d8ff] backdrop-blur-sm shadow-sm">
                   <Award size={13} className="text-white" />
                   <span>{course.level}</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] backdrop-blur-sm shadow-sm">
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-white/[0.08] border border-white/[0.18] text-[#a5d8ff] backdrop-blur-sm shadow-sm">
                   <Clock size={13} className="text-[#a5d8ff]" />
                   <span>{course.duration}</span>
                 </span>
-                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/5 border border-white/15 text-white/80">
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.15] text-white/80">
                   {course.category}
                 </span>
               </div>
 
-              {/* Very Large H1 with GradientText */}
-              <h1 className="text-[clamp(48px,6.5vw,96px)] font-bold tracking-tight leading-[1.05] text-white">
+              {/* Very Large H1 with GradientText: clamp(52px, 6.4vw, 96px), line-height 1.02 */}
+              <h1 className="text-[clamp(52px,6.4vw,96px)] font-bold tracking-tight leading-[1.02] text-white font-heading">
                 {effectsConfig.dataScienceGradientText && !prefersReducedMotion ? (
                   <GradientText
                     colors={['#a5d8ff', '#ffffff', '#4a6df0']}
@@ -829,15 +836,15 @@ export default function CourseDetail() {
                 )}
               </h1>
 
-              {/* Existing Subtitle in #c3cbf2 */}
-              <p className="text-[#c3cbf2] text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl">
+              {/* Subtitle (20px, #c3cbf2, max-width 34em) */}
+              <p className="text-[#c3cbf2] text-lg sm:text-[20px] leading-relaxed max-w-[34em]">
                 {course.summary}
               </p>
 
-              {/* Monospace Code Pill with TextType */}
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-[#071138]/85 border border-[#4a6df0]/40 backdrop-blur-md shadow-inner font-mono text-xs sm:text-sm text-white">
-                <span className="text-[#4a6df0] font-bold">&gt;&gt;&gt;</span>
-                <div className="min-w-[240px] sm:min-w-[280px]">
+              {/* Monospace Code Pill with TextType (dark glass, ~520px) */}
+              <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#071138]/90 border border-[#4a6df0]/40 backdrop-blur-md shadow-inner font-mono text-xs sm:text-sm text-white w-full max-w-[520px]">
+                <span className="text-[#4a6df0] font-bold shrink-0">&gt;&gt;&gt;</span>
+                <div className="flex-1 truncate">
                   {effectsConfig.dataScienceTextType && !prefersReducedMotion ? (
                     <TextType
                       text={[
@@ -856,15 +863,19 @@ export default function CourseDetail() {
                 </div>
               </div>
 
-              {/* Action Buttons: StarBorder CTA + Ghost Button */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
+              {/* Action Buttons: StarBorder CTA + Ghost Button (>= 48px tall) */}
+              <div className="flex flex-wrap items-center gap-4 pt-1">
                 <StarBorder
                   as={Link}
                   to="/contact"
-                  color="#a5d8ff"
-                  trailColor="#4a6df0"
-                  speed="4s"
-                  className="inline-flex items-center justify-center font-bold text-sm px-6 py-3 rounded-full bg-primary text-white shadow-md hover:bg-bright transition-colors"
+                  backgroundColor="#f6f5f1"
+                  textColor="#13266f"
+                  color="#4a6df0"
+                  trailColor="#a5d8ff"
+                  radius={999}
+                  duration={5}
+                  glow={0.6}
+                  className="inline-flex items-center justify-center font-bold text-sm sm:text-base px-7 py-3 min-h-[48px] rounded-full shadow-lg hover:shadow-xl transition-all"
                 >
                   Book a free demo
                 </StarBorder>
@@ -873,7 +884,7 @@ export default function CourseDetail() {
                   href="/assets/Infodesk_Computer_Education.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-bold text-white/90 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 min-h-[48px] rounded-full text-xs sm:text-sm font-bold text-white hover:text-white bg-white/[0.08] hover:bg-white/[0.16] border-[1.5px] border-[#a5d8ff] backdrop-blur-sm transition-colors"
                 >
                   <FileDown size={16} />
                   <span>Download brochure</span>
@@ -882,32 +893,43 @@ export default function CourseDetail() {
 
               {/* Glass-style Trust Chips */}
               <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-white/90">
-                <span className="flex items-center gap-1.5 bg-white/10 border border-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                <span className="flex items-center gap-1.5 bg-white/[0.08] border border-white/[0.18] px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
                   <ShieldCheck size={14} className="text-emerald-400" />
                   <span>Govt. Recognized Certification</span>
                 </span>
-                <span className="flex items-center gap-1.5 bg-white/10 border border-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                <span className="flex items-center gap-1.5 bg-white/[0.08] border border-white/[0.18] px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
                   <Briefcase size={14} className="text-[#a5d8ff]" />
                   <span>100% Job Placement Assistance</span>
                 </span>
               </div>
             </div>
 
-            {/* Right Column: 3D CardSwap Stack (Desktop) / Static Code Card (< 1024px) */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              {/* Desktop: CardSwap rotating in 3D stack */}
-              <div className="hidden lg:block w-[380px] h-[260px]">
+            {/* Column 2 (Right 45%): 3D CardSwap Stack (Desktop) / Static Code Card (< 1024px) */}
+            <div className="flex justify-center items-center relative">
+              {/* Radial glow behind right column */}
+              <div
+                className="absolute w-[440px] h-[360px] bg-[#4a6df0]/20 rounded-full blur-[80px] pointer-events-none -z-0"
+                aria-hidden="true"
+              />
+
+              {/* Desktop: CardSwap rotating in 3D stack (520 x 440 container, 420 x 270 cards) */}
+              <div className="hidden lg:block w-[520px] h-[440px] max-w-full relative z-10">
                 {effectsConfig.dataScienceCardSwap && !prefersReducedMotion ? (
                   <CardSwap
-                    cardWidth={380}
-                    cardHeight={240}
-                    cardRadius={22}
-                    delay={3200}
+                    width={420}
+                    height={270}
+                    visibleCards={3}
+                    cardDistance={48}
+                    verticalDistance={48}
+                    depth={75}
+                    skewAmount={5}
+                    delay={5000}
                     pauseOnHover={true}
+                    cardRadius={22}
                     theme="dark"
                   >
                     {/* Card 1: Code card "model.py" */}
-                    <div className="w-full h-full bg-[#0d1c54]/95 border border-[#4a6df0]/40 rounded-[22px] p-5 font-mono text-xs flex flex-col justify-between shadow-2xl backdrop-blur-md">
+                    <div className="w-full h-full bg-[#0b1a52]/95 border border-[#a5d8ff]/30 rounded-[22px] p-6 font-mono text-xs flex flex-col justify-between shadow-2xl backdrop-blur-md">
                       <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                         <div className="flex items-center gap-1.5">
                           <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]" />
@@ -917,85 +939,109 @@ export default function CourseDetail() {
                         <span className="text-[#a5d8ff] font-bold">model.py</span>
                         <span className="text-[10px] text-white/60">Python 3.12</span>
                       </div>
-                      <div className="space-y-1.5 text-white/90 py-3">
+                      <div className="space-y-1.5 text-white/90 py-2">
                         <p><span className="text-[#4a6df0]">import</span> pandas <span className="text-[#4a6df0]">as</span> pd</p>
                         <p><span className="text-[#4a6df0]">from</span> sklearn.ensemble <span className="text-[#4a6df0]">import</span> RandomForestClassifier</p>
-                        <p className="text-white/60"># Initialize model</p>
-                        <p>model = RandomForestClassifier(n_estimators=<span className="text-[#a5d8ff]">100</span>)</p>
-                        <p className="text-emerald-400">model.fit(X_train, y_train)</p>
+                        <p className="text-white/50"># Train predictive model</p>
+                        <p>model = RandomForestClassifier()</p>
+                        <p className="text-emerald-400 font-semibold">model.fit(X_train, y_train)</p>
                       </div>
                       <div className="border-t border-white/10 pt-2 flex items-center justify-between text-[11px] text-[#a5d8ff]">
                         <span>Accuracy: 94.8%</span>
-                        <span>status: trained</span>
+                        <span className="text-emerald-400">status: production ready</span>
                       </div>
                     </div>
 
                     {/* Card 2: Chart card "Sample data" */}
-                    <div className="w-full h-full bg-[#0b1847]/95 border border-[#2448c9]/50 rounded-[22px] p-5 flex flex-col justify-between shadow-2xl backdrop-blur-md">
+                    <div className="w-full h-full bg-[#0b1847]/95 border border-[#a5d8ff]/30 rounded-[22px] p-6 flex flex-col justify-between shadow-2xl backdrop-blur-md">
                       <div className="flex items-center justify-between border-b border-white/10 pb-2">
                         <span className="font-mono text-xs text-[#a5d8ff] font-bold">training_loss.svg</span>
-                        <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-white/70">Sample data</span>
+                        <span className="text-[10px] bg-white/10 px-2.5 py-0.5 rounded text-white/70">Sample data</span>
                       </div>
-                      {/* Mini SVG loss curve & accuracy bar */}
-                      <div className="py-2">
-                        <svg viewBox="0 0 320 100" className="w-full h-24">
+                      {/* SVG line and bar chart with axis ticks */}
+                      <div className="py-1">
+                        <svg viewBox="0 0 360 110" className="w-full h-24 select-none">
+                          {/* Grid & Axis */}
+                          <line x1="30" y1="90" x2="340" y2="90" stroke="#ffffff" strokeOpacity="0.2" strokeWidth="1" />
+                          <line x1="30" y1="20" x2="30" y2="90" stroke="#ffffff" strokeOpacity="0.2" strokeWidth="1" />
+                          <text x="15" y="25" fill="#a5d8ff" fontSize="9" fontFamily="monospace">1.0</text>
+                          <text x="15" y="60" fill="#a5d8ff" fontSize="9" fontFamily="monospace">0.5</text>
+                          <text x="15" y="92" fill="#a5d8ff" fontSize="9" fontFamily="monospace">0.0</text>
+                          {/* Mini validation bars */}
+                          <rect x="50" y="70" width="14" height="20" fill="#4a6df0" opacity="0.4" rx="2" />
+                          <rect x="120" y="55" width="14" height="35" fill="#4a6df0" opacity="0.4" rx="2" />
+                          <rect x="190" y="42" width="14" height="48" fill="#4a6df0" opacity="0.4" rx="2" />
+                          <rect x="260" y="30" width="14" height="60" fill="#4a6df0" opacity="0.4" rx="2" />
+                          {/* Curves */}
                           <path
-                            d="M 10 80 Q 80 75 140 40 T 310 15"
+                            d="M 35 85 Q 110 75 180 40 T 330 18"
                             fill="none"
                             stroke="#4a6df0"
                             strokeWidth="2.5"
                           />
                           <path
-                            d="M 10 90 Q 70 88 150 65 T 310 35"
+                            d="M 35 90 Q 100 85 180 55 T 330 30"
                             fill="none"
                             stroke="#a5d8ff"
-                            strokeWidth="1.8"
+                            strokeWidth="2"
                             strokeDasharray="4,4"
                           />
-                          <circle cx="310" cy="15" r="4" fill="#a5d8ff" />
+                          <circle cx="330" cy="18" r="4.5" fill="#a5d8ff" />
                         </svg>
                       </div>
                       <div className="border-t border-white/10 pt-2 flex items-center justify-between text-[11px] text-white/80 font-mono">
-                        <span>Loss: 0.042</span>
+                        <span>Epoch: 100/100 · Loss: 0.042</span>
                         <span className="text-emerald-400 font-semibold">Validation: 96.2%</span>
                       </div>
                     </div>
 
                     {/* Card 3: Pipeline card "Illustration" */}
-                    <div className="w-full h-full bg-[#0a1640]/95 border border-[#4a6df0]/40 rounded-[22px] p-5 flex flex-col justify-between shadow-2xl backdrop-blur-md">
+                    <div className="w-full h-full bg-[#07133d]/95 border border-[#a5d8ff]/30 rounded-[22px] p-6 flex flex-col justify-between shadow-2xl backdrop-blur-md">
                       <div className="flex items-center justify-between border-b border-white/10 pb-2">
                         <span className="font-mono text-xs text-[#a5d8ff] font-bold">pipeline_flow</span>
-                        <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-white/70">Illustration</span>
+                        <span className="text-[10px] bg-white/10 px-2.5 py-0.5 rounded text-white/70">Illustration</span>
                       </div>
-                      {/* 4 Connected Nodes */}
-                      <div className="flex items-center justify-between py-4 relative">
-                        <div className="absolute top-1/2 left-4 right-4 h-0.5 bg-gradient-to-r from-[#4a6df0] to-[#a5d8ff] -translate-y-1/2 -z-0" />
-                        {['Collect', 'Clean', 'Model', 'Deploy'].map((node, nIdx) => (
-                          <div key={node} className="relative z-10 flex flex-col items-center gap-1.5">
-                            <span className="w-7 h-7 rounded-full bg-[#13266f] border-2 border-[#a5d8ff] text-[11px] font-bold flex items-center justify-center text-white">
-                              {nIdx + 1}
-                            </span>
-                            <span className="text-[10px] font-semibold text-white/90">{node}</span>
-                          </div>
-                        ))}
+                      {/* 4 Connected Nodes with animated traveling dot */}
+                      <div className="relative py-4">
+                        <div className="absolute top-1/2 left-6 right-6 h-1 bg-gradient-to-r from-[#4a6df0] to-[#a5d8ff] -translate-y-1/2 -z-0 rounded-full" />
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 360 60">
+                          <circle cx="45" cy="30" r="4" fill="#ffffff" className="animate-pulse">
+                            <animate
+                              attributeName="cx"
+                              values="45;315;45"
+                              dur="5s"
+                              repeatCount="indefinite"
+                            />
+                          </circle>
+                        </svg>
+                        <div className="flex items-center justify-between relative z-10 px-2">
+                          {['Collect', 'Clean', 'Model', 'Deploy'].map((node, nIdx) => (
+                            <div key={node} className="flex flex-col items-center gap-1.5">
+                              <span className="w-8 h-8 rounded-full bg-[#0b1a52] border-2 border-[#a5d8ff] text-xs font-bold flex items-center justify-center text-white shadow-md">
+                                0{nIdx + 1}
+                              </span>
+                              <span className="text-[11px] font-semibold text-white/95">{node}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                       <div className="border-t border-white/10 pt-2 text-[11px] text-[#a5d8ff] font-mono text-center">
-                        Automated Data Pipeline · Production Ready
+                        Automated Data Pipeline • Production Ready
                       </div>
                     </div>
                   </CardSwap>
                 ) : (
                   /* Reduced motion fallback for desktop */
-                  <div className="w-full h-full bg-[#0d1c54] border border-[#4a6df0]/40 rounded-[22px] p-5 font-mono text-xs flex flex-col justify-between">
+                  <div className="w-full h-[270px] bg-[#0b1a52] border border-[#a5d8ff]/30 rounded-[22px] p-6 font-mono text-xs flex flex-col justify-between shadow-2xl">
                     <span className="text-[#a5d8ff] font-bold">model.py</span>
-                    <p className="text-white">model = RandomForestClassifier(n_estimators=100)</p>
+                    <p className="text-white">model = RandomForestClassifier()</p>
                     <span className="text-emerald-400">model.fit(X_train, y_train)</span>
                   </div>
                 )}
               </div>
 
               {/* Mobile & Tablet (< 1024px): Clean static code card below text */}
-              <div className="lg:hidden w-full max-w-[420px] bg-[#0d1c54]/95 border border-[#4a6df0]/40 rounded-[22px] p-5 font-mono text-xs space-y-3 shadow-xl">
+              <div className="lg:hidden w-full max-w-[440px] bg-[#0b1a52]/95 border border-[#a5d8ff]/30 rounded-[22px] p-5 font-mono text-xs space-y-3 shadow-xl">
                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]" />
@@ -1005,99 +1051,104 @@ export default function CourseDetail() {
                   <span className="text-[#a5d8ff] font-bold">model.py</span>
                   <span className="text-[10px] text-white/60">Python 3.12</span>
                 </div>
-                <div className="space-y-1 text-white/90">
+                <div className="space-y-1.5 text-white/90">
                   <p><span className="text-[#4a6df0]">import</span> pandas <span className="text-[#4a6df0]">as</span> pd</p>
                   <p><span className="text-[#4a6df0]">from</span> sklearn.ensemble <span className="text-[#4a6df0]">import</span> RandomForestClassifier</p>
-                  <p className="text-emerald-400">model.fit(X_train, y_train)</p>
+                  <p>model = RandomForestClassifier()</p>
+                  <p className="text-emerald-400 font-semibold">model.fit(X_train, y_train)</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ─── 2. SCROLLING STRIP (SCROLLVELOCITY BIDIRECTIONAL MARQUEE) ─── */}
-      <section className="bg-soft border-y border-line/80 py-4 overflow-hidden">
-        {effectsConfig.dataScienceScrollVelocity && !prefersReducedMotion ? (
-          <div className="space-y-1.5 font-bold tracking-tight text-deep text-sm sm:text-base">
-            <ScrollVelocity
-              texts={[
-                'Python · NumPy · pandas · Seaborn · Matplotlib · Scikit-Learn · Streamlit · Alteryx · Power BI · SQL Server · Advanced Excel · Informatica',
-                'Supervised learning · Unsupervised learning · Feature engineering · Cross-validation · Hyperparameter tuning · Ensemble methods · Generative AI',
-              ]}
-              velocity={60}
-              className="px-2"
-            />
-          </div>
-        ) : (
-          /* Reduced motion fallback: Clean wrapping chips */
-          <div className="max-w-content mx-auto px-6 flex flex-wrap gap-2 justify-center text-xs font-semibold text-deep">
-            {course.tools.map((t) => (
-              <span key={t} className="px-3 py-1 rounded-full bg-surface border border-line">
-                {t}
-              </span>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* ─── 3. NUMBERS STRIP (COUNTUP COMPUTED STRICTLY FROM DATA) ─── */}
-      <section className="bg-soft/50 py-10 border-b border-line/60">
-        <div className="max-w-content mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="p-4 bg-surface rounded-[22px] border border-line/80 shadow-sm">
-              <p className="text-3xl sm:text-4xl font-extrabold text-primary font-mono">
+        {/* ─── GLASS STATS BAR (Inside Hero Along Bottom Edge, max-w-[1120px]) ─── */}
+        <div className="max-w-[1120px] mx-auto w-full px-6 relative z-10 mt-8 lg:mt-10">
+          <div className="bg-white/[0.06] border border-white/[0.14] backdrop-blur-md rounded-[22px] p-4 sm:p-6 shadow-2xl grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-white/[0.12] text-center">
+            {/* 1. Months of training */}
+            <div className="p-3 sm:p-4">
+              <p className="text-3xl sm:text-[44px] font-bold text-white tracking-tight leading-none font-heading">
                 {effectsConfig.countUp && !prefersReducedMotion ? (
                   <CountUp to={12} duration={1.2} />
                 ) : (
                   '12'
                 )}
               </p>
-              <p className="text-xs sm:text-sm font-semibold text-deep mt-1">
-                Months practical training
+              <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-2">
+                Months of training
               </p>
             </div>
 
-            <div className="p-4 bg-surface rounded-[22px] border border-line/80 shadow-sm">
-              <p className="text-3xl sm:text-4xl font-extrabold text-primary font-mono">
+            {/* 2. Tools and technologies */}
+            <div className="p-3 sm:p-4">
+              <p className="text-3xl sm:text-[44px] font-bold text-white tracking-tight leading-none font-heading">
                 {effectsConfig.countUp && !prefersReducedMotion ? (
                   <CountUp to={course.tools.length} duration={1.2} />
                 ) : (
                   course.tools.length
                 )}
               </p>
-              <p className="text-xs sm:text-sm font-semibold text-deep mt-1">
-                Core industry tools
+              <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-2">
+                Tools and technologies
               </p>
             </div>
 
-            <div className="p-4 bg-surface rounded-[22px] border border-line/80 shadow-sm">
-              <p className="text-3xl sm:text-4xl font-extrabold text-primary font-mono">
+            {/* 3. Modules */}
+            <div className="p-3 sm:p-4 pt-4 lg:pt-4">
+              <p className="text-3xl sm:text-[44px] font-bold text-white tracking-tight leading-none font-heading">
                 {effectsConfig.countUp && !prefersReducedMotion ? (
                   <CountUp to={course.modules ? course.modules.length : 12} duration={1.2} />
                 ) : (
                   course.modules ? course.modules.length : 12
                 )}
               </p>
-              <p className="text-xs sm:text-sm font-semibold text-deep mt-1">
-                Curriculum modules
+              <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-2">
+                Modules
               </p>
             </div>
 
-            <div className="p-4 bg-surface rounded-[22px] border border-line/80 shadow-sm">
-              <p className="text-3xl sm:text-4xl font-extrabold text-primary font-mono">
+            {/* 4. Mumbai branches */}
+            <div className="p-3 sm:p-4 pt-4 lg:pt-4">
+              <p className="text-3xl sm:text-[44px] font-bold text-white tracking-tight leading-none font-heading">
                 {effectsConfig.countUp && !prefersReducedMotion ? (
                   <CountUp to={branches.length} duration={1.2} />
                 ) : (
                   branches.length
                 )}
               </p>
-              <p className="text-xs sm:text-sm font-semibold text-deep mt-1">
+              <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-2">
                 Mumbai branches
               </p>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ─── 2. SCROLLING STRIP (DIRECTLY UNDER HERO) ─── */}
+      <section className="bg-soft border-y border-line/80 py-5 overflow-hidden">
+        {effectsConfig.dataScienceScrollVelocity && !prefersReducedMotion ? (
+          <ScrollVelocity
+            texts={[
+              'Python • NumPy • pandas • Seaborn • Matplotlib • Scikit-Learn • Streamlit • Alteryx • Power BI • SQL Server • Advanced Excel • Informatica',
+              'Supervised learning • Unsupervised learning • Feature engineering • Cross-validation • Hyperparameter tuning • Ensemble methods • Generative AI',
+            ]}
+            velocity={50}
+            fontSize="clamp(24px, 3.2vw, 44px)"
+            fontWeight={600}
+            gap={32}
+            color={['#13266f', 'rgba(36, 72, 201, 0.8)']}
+            fadeEdges={true}
+          />
+        ) : (
+          /* Reduced motion fallback: Clean wrapping chips */
+          <div className="max-w-content mx-auto px-6 flex flex-wrap gap-2.5 justify-center text-xs font-semibold text-deep">
+            {course.tools.map((t) => (
+              <span key={t} className="px-3.5 py-1.5 rounded-full bg-surface border border-line shadow-sm">
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ─── 4. WHAT YOU WILL MASTER (6-CARD BENTO GRID WITH SPOTLIGHT) ─── */}
