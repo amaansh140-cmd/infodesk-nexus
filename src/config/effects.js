@@ -56,6 +56,8 @@ export const effectsConfig = {
   dataScienceTextType: !prefersReducedMotion,
   dataScienceDecryptedText: !prefersReducedMotion,
   dataScienceScrollVelocity: !prefersReducedMotion,
+  dataScienceLogoLoop: !prefersReducedMotion,
+  dataScienceTestimonials: true,
   dataScienceBento: true,
   dataScienceGridScan: !prefersReducedMotion && !isSaveData,
   dataScienceMlScatter: true,

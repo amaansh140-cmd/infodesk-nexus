@@ -28,9 +28,12 @@ import {
   Lock,
   Tag,
   BookOpen,
+  Star,
+  Quote,
 } from 'lucide-react';
 import { courses } from '../data/courses';
 import { branches } from '../data/branches';
+import { testimonials } from '../data/testimonials';
 import ModuleAccordion from '../components/ModuleAccordion';
 import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
 import Button from '../components/Button';
@@ -52,6 +55,7 @@ import FlipCard from '../components/FlipCard';
 import ElectricBorder from '../components/ElectricBorder';
 import GridScan from '../components/GridScan';
 import Threads from '../components/Threads';
+import LogoLoop from '../components/LogoLoop';
 import ScrollVelocity from '../components/ScrollVelocity';
 import AnimatedContent from '../components/AnimatedContent';
 import LazyMount from '../components/common/LazyMount';
@@ -113,55 +117,161 @@ function createDeterministicMLPoints() {
 
 const STATIC_ML_DATA = createDeterministicMLPoints();
 
-// ─── 6 WHAT YOU WILL MASTER DOMAINS ───
-const MASTER_DOMAINS = [
+// ─── 13 DATA SCIENCE SYLLABUS SOFTWARE TOOLS FOR LOGOLOOP ───
+const DATA_SCIENCE_SOFTWARE = [
   {
-    title: 'Python and data handling',
-    description: 'Foundations of programmatic data manipulation, indexing, slicing, and clean data wrangling.',
-    topics: ['Python fundamentals', 'NumPy vectorization', 'Pandas Series & DataFrames', 'File I/O & missing data'],
-    moduleIndex: 2, // Module 03 (Pandas)
-    moduleLabel: 'Module 01 - 03',
-    icon: Database,
+    name: 'Python',
+    category: 'Programming & ML',
+    icon: (
+      <svg viewBox="0 0 128 128" className="w-7 h-7" aria-hidden="true">
+        <path fill="#387eb8" d="M63.7 3.5c-30.8 0-28.9 13.4-28.9 13.4l.1 13.9h29.5v4.2H23.5S3.5 32.7 3.5 63.6s17.5 30 17.5 30h10.4v-14.6s-.6-17.5 17.2-17.5h29.3s16.3.3 16.3-15.8V19.3S96.8 3.5 63.7 3.5zm-16.1 9.4c2.8 0 5.1 2.3 5.1 5.1s-2.3 5.1-5.1 5.1-5.1-2.3-5.1-5.1 2.3-5.1 5.1-5.1z" />
+        <path fill="#ffe873" d="M64.3 124.5c30.8 0 28.9-13.4 28.9-13.4l-.1-13.9H63.6V93h40.9s20 2.3 20-28.6-17.5-30-17.5-30H116.6v14.6s.6 17.5-17.2 17.5H70.1s-16.3-.3-16.3 15.8v20.4s-2.6 15.8 30.5 15.8zm16.1-9.4c-2.8 0-5.1-2.3-5.1-5.1s2.3-5.1 5.1-5.1 5.1 2.3 5.1 5.1-2.3 5.1-5.1 5.1z" />
+      </svg>
+    ),
   },
   {
-    title: 'Data visualization',
-    description: 'Translating complex statistical distributions into publication-ready visual intelligence.',
-    topics: ['Matplotlib subplots', 'Seaborn distributions', 'Categorical & regression plots', 'Multi-panel storytelling'],
-    moduleIndex: 3, // Module 04
-    moduleLabel: 'Module 04',
-    icon: BarChart3,
+    name: 'NumPy',
+    category: 'Vector Computing',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#013243" />
+        <path d="M7 23V9l5 9V9h3v14l-5-9v9H7zm11 0V9h5.5c2.5 0 4.5 1.8 4.5 4.5s-2 4.5-4.5 4.5H21v5h-3zm3-7.5h2.2c1.3 0 2.3-.9 2.3-2s-1-2-2.3-2H21v4z" fill="#4dabcf" />
+      </svg>
+    ),
   },
   {
-    title: 'Machine learning',
-    description: 'Rigorous predictive modeling with Scikit-Learn from raw data to robust production inference.',
-    topics: ['Supervised & unsupervised', 'Model evaluation & metrics', 'Cross-validation & tuning', 'Ensemble methods (RF & Boosting)'],
-    moduleIndex: 4, // Module 05
-    moduleLabel: 'Module 05',
-    icon: Cpu,
+    name: 'pandas',
+    category: 'Data Wrangling',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#150458" />
+        <rect x="7" y="10" width="3.5" height="12" rx="1.5" fill="#e70488" />
+        <rect x="12.5" y="6" width="3.5" height="20" rx="1.5" fill="#ffffff" />
+        <rect x="18" y="12" width="3.5" height="14" rx="1.5" fill="#00a3e0" />
+        <rect x="23.5" y="8" width="3.5" height="11" rx="1.5" fill="#ffca00" />
+      </svg>
+    ),
   },
   {
-    title: 'Generative AI',
-    description: 'Modern generative architectures, neural generation, prompt engineering, and LLM foundations.',
-    topics: ['GANs & VAEs', 'RNNs for text generation', 'Style transfer & multimodal', 'Prompting & LLM tooling'],
-    moduleIndex: 5, // Module 06
-    moduleLabel: 'Module 06',
-    icon: Bot,
+    name: 'Seaborn',
+    category: 'Statistical Viz',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#eef3f8" stroke="#d5e0ea" strokeWidth="1" />
+        <path d="M6 22c4-2 7-12 11-12s5 8 9 4" stroke="#4c72b0" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+        <path d="M6 25c4-1 8-6 12-6s4 3 8 1" stroke="#55a868" strokeWidth="2" strokeLinecap="round" fill="none" strokeDasharray="2 2" />
+        <circle cx="17" cy="10" r="2" fill="#c44e52" />
+        <circle cx="21" cy="18" r="2" fill="#8172b2" />
+      </svg>
+    ),
   },
   {
-    title: 'Data tools and apps',
-    description: 'Interactive dashboard engineering, enterprise relational querying, and business intelligence pipelines.',
-    topics: ['Streamlit web applications', 'SQL Server database queries', 'Advanced Excel automation', 'Alteryx & Power BI BI'],
-    moduleIndex: 6, // Module 07
-    moduleLabel: 'Module 07 - 11',
-    icon: Rocket,
+    name: 'Matplotlib',
+    category: 'Plotting & Graphics',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#11557c" />
+        <circle cx="16" cy="16" r="9" fill="none" stroke="#ffffff" strokeWidth="1" opacity="0.3" />
+        <path d="M16 7v18M7 16h18" stroke="#ffffff" strokeWidth="1" opacity="0.3" />
+        <path d="M9 20l4-7 5 5 5-9" stroke="#ffa15a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      </svg>
+    ),
   },
   {
-    title: 'Data governance',
-    description: 'Enterprise data lineage, regulatory security roles, metadata cataloging, and automated ETL architecture.',
-    topics: ['Informatica Administrator', 'Data classification rules', 'ETL integration mappings', 'Business metadata glossary'],
-    moduleIndex: 11, // Module 12
-    moduleLabel: 'Module 12',
-    icon: ShieldCheck,
+    name: 'Scikit-Learn',
+    category: 'Predictive Modeling',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" />
+        <circle cx="16" cy="16" r="11" fill="#3499cd" />
+        <path d="M16 5a11 11 0 0 1 11 11c0 3-1.2 5.8-3.2 7.8L16 16V5z" fill="#f7931e" />
+        <circle cx="16" cy="16" r="4" fill="#ffffff" />
+        <text x="16" y="18.5" textAnchor="middle" fontSize="6.5" fontWeight="bold" fill="#013243" fontFamily="system-ui, sans-serif">sk</text>
+      </svg>
+    ),
+  },
+  {
+    name: 'Generative AI',
+    category: 'LLMs & Prompting',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <defs>
+          <linearGradient id="genAiIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#7928ca" />
+            <stop offset="50%" stopColor="#ff0080" />
+            <stop offset="100%" stopColor="#0070f3" />
+          </linearGradient>
+        </defs>
+        <rect width="32" height="32" rx="7" fill="url(#genAiIconGrad)" />
+        <path d="M16 6l2.3 6.2L24.5 14.5l-6.2 2.3L16 23l-2.3-6.2L7.5 14.5l6.2-2.3L16 6z" fill="#ffffff" />
+        <path d="M23 19l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1 1-2.5z" fill="#ffffff" opacity="0.9" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Streamlit',
+    category: 'Data Web Apps',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#ffffff" stroke="#e5e7eb" strokeWidth="1" />
+        <path d="M16 8l6.5 13.5-4.5-2-2 3-2.5-2.8-4.5 1.3L16 8z" fill="#ff4b4b" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Alteryx',
+    category: 'Self-Service ETL',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#004b87" />
+        <path d="M16 7a9 9 0 0 0-7.8 13.5l3.2-1.8A5.3 5.3 0 1 1 16 21.3v3.7A9 9 0 1 0 16 7z" fill="#ffffff" />
+        <circle cx="16" cy="16" r="3.2" fill="#00d2c4" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Power BI',
+    category: 'BI & Dashboards',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#262626" />
+        <rect x="7" y="16" width="4.5" height="10" rx="1" fill="#f2c811" />
+        <rect x="13.5" y="11" width="4.5" height="15" rx="1" fill="#f2c811" />
+        <rect x="20" y="6" width="4.5" height="20" rx="1" fill="#f2c811" />
+      </svg>
+    ),
+  },
+  {
+    name: 'SQL Server',
+    category: 'Enterprise DB',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#cc292b" />
+        <ellipse cx="16" cy="10" rx="8" ry="3" fill="#ffffff" opacity="0.95" />
+        <path d="M8 10v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" stroke="#ffffff" strokeWidth="1.6" fill="none" opacity="0.9" />
+        <path d="M8 16v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" stroke="#ffffff" strokeWidth="1.6" fill="none" opacity="0.9" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Advanced Excel',
+    category: 'Analytics & Models',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#107c41" />
+        <path d="M11.5 10l3.5 5.5-3.5 5.5h2.5l2.2-3.6 2.2 3.6h2.5l-3.5-5.5 3.5-5.5h-2.5l-2.2 3.6-2.2-3.6h-2.5z" fill="#ffffff" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Informatica',
+    category: 'Data Governance',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-7 h-7" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#0b1b3d" />
+        <path d="M16 6l8 8-3.5 3.5-4.5-4.5V25h-3.5V13L8 16.5 6.5 15l9.5-9z" fill="#ff4d00" />
+      </svg>
+    ),
   },
 ];
 
@@ -303,7 +413,7 @@ export default function CourseDetail() {
   // Scroll spy for sticky sub-nav
   useEffect(() => {
     if (!isDataScience) return;
-    const sectionIds = ['overview', 'what-you-will-master', 'machine-learning', 'workflow', 'syllabus', 'enquire'];
+    const sectionIds = ['overview', 'testimonials', 'machine-learning', 'workflow', 'syllabus', 'enquire'];
     const handleScroll = () => {
       const scrollPos = window.scrollY + 200;
       for (let i = sectionIds.length - 1; i >= 0; i--) {
@@ -320,7 +430,7 @@ export default function CourseDetail() {
 
   const navItems = [
     { id: 'overview', label: 'Overview' },
-    { id: 'what-you-will-master', label: 'Learn' },
+    { id: 'testimonials', label: 'Testimonials' },
     { id: 'machine-learning', label: 'Machine learning' },
     { id: 'workflow', label: 'Workflow' },
     { id: 'syllabus', label: 'Syllabus' },
@@ -1124,96 +1234,126 @@ export default function CourseDetail() {
         </div>
       </section>
 
-      {/* ─── 2. SCROLLING STRIP (DIRECTLY UNDER HERO) ─── */}
-      <section className="bg-soft border-y border-line/80 py-5 overflow-hidden">
-        {effectsConfig.dataScienceScrollVelocity && !prefersReducedMotion ? (
-          <ScrollVelocity
-            texts={[
-              'Python • NumPy • pandas • Seaborn • Matplotlib • Scikit-Learn • Streamlit • Alteryx • Power BI • SQL Server • Advanced Excel • Informatica',
-              'Supervised learning • Unsupervised learning • Feature engineering • Cross-validation • Hyperparameter tuning • Ensemble methods • Generative AI',
-            ]}
-            velocity={50}
-            fontSize="clamp(24px, 3.2vw, 44px)"
-            fontWeight={600}
-            gap={32}
-            color={['#13266f', 'rgba(36, 72, 201, 0.8)']}
-            fadeEdges={true}
-          />
+      {/* ─── 2. SOFTWARE LOGO LOOP (DIRECTLY UNDER HERO) ─── */}
+      <section className="bg-soft border-y border-line/80 py-4 sm:py-5 overflow-hidden">
+        {effectsConfig.dataScienceLogoLoop && !prefersReducedMotion ? (
+          <div className="w-full max-w-full overflow-hidden">
+            <LogoLoop
+              logos={DATA_SCIENCE_SOFTWARE}
+              ariaLabel="Softwares and tools used in the Data Science syllabus"
+              speed={45}
+              direction="left"
+              gap={20}
+              pauseOnHover={true}
+              fadeOut={true}
+              fadeOutWidth={0.12}
+              renderItem={(item) => (
+                <div
+                  key={item.name}
+                  className="inline-flex items-center gap-3 px-4 sm:px-5 py-2.5 rounded-2xl bg-surface border border-line/90 shadow-sm hover:shadow-md hover:border-primary/40 transition-all select-none group shrink-0"
+                >
+                  <span className="w-8 h-8 flex items-center justify-center shrink-0 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    {item.icon}
+                  </span>
+                  <div className="flex flex-col text-left">
+                    <span className="text-sm font-bold text-deep group-hover:text-primary transition-colors leading-tight">
+                      {item.name}
+                    </span>
+                    <span className="text-[11px] text-muted font-medium">
+                      {item.category}
+                    </span>
+                  </div>
+                </div>
+              )}
+            />
+          </div>
         ) : (
           /* Reduced motion fallback: Clean wrapping chips */
-          <div className="max-w-content mx-auto px-6 flex flex-wrap gap-2.5 justify-center text-xs font-semibold text-deep">
-            {course.tools.map((t) => (
-              <span key={t} className="px-3.5 py-1.5 rounded-full bg-surface border border-line shadow-sm">
-                {t}
-              </span>
+          <div className="max-w-content mx-auto px-6 flex flex-wrap gap-2.5 justify-center">
+            {DATA_SCIENCE_SOFTWARE.map((item) => (
+              <div
+                key={item.name}
+                className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-surface border border-line shadow-sm"
+              >
+                <span className="w-6 h-6 flex items-center justify-center shrink-0">
+                  {item.icon}
+                </span>
+                <span className="text-xs font-bold text-deep">{item.name}</span>
+              </div>
             ))}
           </div>
         )}
       </section>
 
-      {/* ─── 4. WHAT YOU WILL MASTER (6-CARD BENTO GRID WITH SPOTLIGHT) ─── */}
-      <section id="what-you-will-master" className="py-16 max-w-content mx-auto px-6">
+      {/* ─── 4. STUDENT TESTIMONIALS (REPLACES "WHAT YOU WILL MASTER") ─── */}
+      <section id="testimonials" className="py-16 max-w-content mx-auto px-6 scroll-mt-24">
         <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-soft border border-primary/20 text-xs font-semibold text-primary mb-3">
+            <Star size={13} className="text-amber-500 fill-amber-500" />
+            <span>Verified student experiences</span>
+          </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-deep tracking-tight">
-            What you will master
+            Student stories and reviews
           </h2>
           <p className="text-muted text-sm sm:text-base mt-2">
-            A comprehensive, industry-curated curriculum verified against the official Infodesk brochure.
+            Hear verified feedback from graduates who transformed their data and IT careers through our Mumbai batches.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {MASTER_DOMAINS.map((domain, dIdx) => {
-            const Icon = domain.icon;
-            return (
-              <SpotlightCard
-                key={domain.title}
-                theme="light"
-                spotlightColor="rgba(36, 72, 201, 0.12)"
-                intensity={0.25}
-                proximity={120}
-                className="!p-6 !rounded-[22px] bg-surface border border-line/80 shadow-card flex flex-col justify-between space-y-4"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="w-10 h-10 rounded-full bg-soft text-primary flex items-center justify-center">
-                      <Icon size={20} />
-                    </span>
-                    <span className="text-[11px] font-mono font-bold text-primary px-2.5 py-0.5 rounded-full bg-soft/80">
-                      {domain.moduleLabel}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-deep leading-snug">
-                    {domain.title}
-                  </h3>
-                  <p className="text-muted text-xs sm:text-sm leading-relaxed">
-                    {domain.description}
-                  </p>
-
-                  <ul className="space-y-1.5 pt-2">
-                    {domain.topics.map((t) => (
-                      <li key={t} className="flex items-start gap-2 text-xs text-ink/90 font-medium">
-                        <CheckCircle2 size={13} className="text-emerald-500 shrink-0 mt-0.5" />
-                        <span>{t}</span>
-                      </li>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {testimonials.map((t) => (
+            <SpotlightCard
+              key={t.id}
+              theme="light"
+              spotlightColor="rgba(36, 72, 201, 0.12)"
+              intensity={0.25}
+              proximity={120}
+              className="!p-6 sm:!p-7 !rounded-[22px] bg-surface border border-line/80 shadow-card flex flex-col justify-between space-y-5"
+            >
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  {/* 5 Rating Stars */}
+                  <div className="flex items-center gap-1 text-amber-500">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={15} fill="currentColor" />
                     ))}
-                  </ul>
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded-full">
+                    <CheckCircle2 size={12} className="text-emerald-600" />
+                    <span>Verified graduate</span>
+                  </span>
                 </div>
 
-                <div className="pt-3 border-t border-line/60">
-                  <button
-                    type="button"
-                    onClick={() => handleStageClick(domain.moduleIndex)}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline focus:outline-none"
-                  >
-                    <span>See module topics</span>
-                    <ArrowRight size={13} />
-                  </button>
+                <p className="text-ink/90 text-sm sm:text-[15px] leading-relaxed italic">
+                  "{t.quote}"
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3.5 pt-4 border-t border-line/60">
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
+                  loading="lazy"
+                />
+                <div className="min-w-0">
+                  <h4 className="font-bold text-deep text-base truncate">{t.name}</h4>
+                  <p className="text-xs text-primary font-semibold">Infodesk Graduate · Mumbai</p>
+                  <p className="text-[11px] text-muted truncate">Brochure verified review</p>
                 </div>
-              </SpotlightCard>
-            );
-          })}
+              </div>
+            </SpotlightCard>
+          ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link
+            to="/placements"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors group"
+          >
+            <span>Explore all 100+ placement success stories</span>
+            <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </section>
 
