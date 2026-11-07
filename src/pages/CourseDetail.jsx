@@ -49,11 +49,9 @@ import DecryptedText from '../components/DecryptedText';
 import CountUp from '../components/CountUp';
 import CardSwap from '../components/CardSwap';
 import StarBorder from '../components/StarBorder';
-import RubberSegment from '../components/RubberSegment';
 import SpotlightCard from '../components/SpotlightCard';
 import FlipCard from '../components/FlipCard';
 import ElectricBorder from '../components/ElectricBorder';
-import GridScan from '../components/GridScan';
 import Threads from '../components/Threads';
 import LogoLoop from '../components/LogoLoop';
 import ScrollVelocity from '../components/ScrollVelocity';
@@ -66,56 +64,6 @@ import {
   prefersReducedMotion,
   isSaveData,
 } from '../config/effects';
-
-// ─── DETERMINISTIC 60-POINT ML DATASET (Seed 101) ───
-function createDeterministicMLPoints() {
-  let a = 101;
-  const rng = () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = Math.imul(a ^ (a >>> 15), a | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-
-  const points = [];
-  // 30 points in Cluster A (center ~200, 140)
-  for (let i = 0; i < 30; i++) {
-    const r = rng() * 45 + 5;
-    const th = rng() * Math.PI * 2;
-    const x = Math.round(200 + Math.cos(th) * r);
-    const y = Math.round(140 + Math.sin(th) * r);
-    // Unsupervised partition: i < 15 cluster 0, 15..29 cluster 1
-    const unsupCluster = i < 15 ? 0 : 1;
-    points.push({ id: `a-${i}`, x, y, supervisedClass: 'A', unsupCluster });
-  }
-
-  // 30 points in Cluster B (center ~430, 220)
-  for (let i = 0; i < 30; i++) {
-    const r = rng() * 48 + 5;
-    const th = rng() * Math.PI * 2;
-    const x = Math.round(430 + Math.cos(th) * r);
-    const y = Math.round(220 + Math.sin(th) * r);
-    // Unsupervised partition: cluster 2
-    points.push({ id: `b-${i}`, x, y, supervisedClass: 'B', unsupCluster: 2 });
-  }
-
-  // 15 Generative Synthetic Points
-  const syntheticPoints = [];
-  for (let j = 0; j < 15; j++) {
-    const targetCluster = j % 2 === 0 ? 'A' : 'B';
-    const cx = targetCluster === 'A' ? 200 : 430;
-    const cy = targetCluster === 'A' ? 140 : 220;
-    const r = rng() * 40 + 8;
-    const th = rng() * Math.PI * 2;
-    const x = Math.round(cx + Math.cos(th) * r);
-    const y = Math.round(cy + Math.sin(th) * r);
-    syntheticPoints.push({ id: `synth-${j}`, x, y, targetCluster });
-  }
-
-  return { points, syntheticPoints };
-}
-
-const STATIC_ML_DATA = createDeterministicMLPoints();
 
 // ─── 13 DATA SCIENCE SYLLABUS SOFTWARE TOOLS FOR LOGOLOOP ───
 const DATA_SCIENCE_SOFTWARE = [
@@ -367,9 +315,6 @@ export default function CourseDetail() {
   // Controlled module accordion open indices
   const [openModuleIndices, setOpenModuleIndices] = useState([0]);
 
-  // Machine Learning interactive scatter mode
-  const [mlMode, setMlMode] = useState('Supervised');
-
   // Sticky sub-navigation active section
   const [activeNavSection, setActiveNavSection] = useState('overview');
 
@@ -413,7 +358,7 @@ export default function CourseDetail() {
   // Scroll spy for sticky sub-nav
   useEffect(() => {
     if (!isDataScience) return;
-    const sectionIds = ['overview', 'workflow', 'machine-learning', 'syllabus', 'testimonials', 'enquire'];
+    const sectionIds = ['overview', 'workflow', 'syllabus', 'testimonials', 'enquire'];
     const handleScroll = () => {
       const scrollPos = window.scrollY + 200;
       for (let i = sectionIds.length - 1; i >= 0; i--) {
@@ -431,7 +376,6 @@ export default function CourseDetail() {
   const navItems = [
     { id: 'overview', label: 'Overview' },
     { id: 'workflow', label: 'Workflow' },
-    { id: 'machine-learning', label: 'Machine learning' },
     { id: 'syllabus', label: 'Syllabus' },
     { id: 'testimonials', label: 'Testimonials' },
     { id: 'enquire', label: 'Enquire' },
@@ -1399,265 +1343,6 @@ export default function CourseDetail() {
             })}
           </ScrollStack>
         )}
-      </section>
-
-      {/* ─── 5. MACHINE LEARNING IN TEN SECONDS (DEEP BLUE BAND WITH GRIDSCAN) ─── */}
-      <section
-        id="machine-learning"
-        className="relative bg-gradient-to-br from-[#13266f] to-[#0b1a52] text-white py-16 sm:py-20 overflow-hidden"
-      >
-        {/* GridScan Canvas mounted in LazyMount */}
-        {effectsConfig.dataScienceGridScan && (
-          <LazyMount
-            isCanvasOrWebGL={true}
-            fallback={
-              <div
-                className="absolute inset-0 bg-[#0b1a52] opacity-80 pointer-events-none"
-                aria-hidden="true"
-              />
-            }
-            className="absolute inset-0 pointer-events-none"
-          >
-            <GridScan
-              gridColor="#2448c9"
-              scanColor="#a5d8ff"
-              className="absolute inset-0 w-full h-full opacity-35 pointer-events-none"
-            />
-          </LazyMount>
-        )}
-
-        <div className="max-w-content mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left: Heading, Paragraph, RubberSegment with comfortable sizes */}
-            <div className="lg:col-span-5 space-y-6">
-              <div>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
-                  Machine learning in ten seconds
-                </h2>
-                <p className="text-[#c3cbf2] text-sm sm:text-base mt-2 leading-relaxed">
-                  Explore how statistical algorithms discover structures and decision boundaries directly from data.
-                </p>
-              </div>
-
-              {/* RubberSegment with comfortable &ge;120px tabs */}
-              <div className="pt-2">
-                <RubberSegment
-                  items={['Supervised', 'Unsupervised', 'Generative']}
-                  value={mlMode}
-                  onChange={setMlMode}
-                  trackColor="#071138"
-                  thumbColor="#2448c9"
-                  textColor="#a5d8ff"
-                  activeTextColor="#ffffff"
-                  size="lg"
-                  radius={14}
-                  draggable={false}
-                  className="w-full max-w-[420px] sm:min-w-[360px]"
-                  aria-label="Machine learning paradigm selector"
-                />
-              </div>
-
-              {/* Dynamic accessible caption in aria-live */}
-              <div
-                aria-live="polite"
-                className="p-4 rounded-[18px] bg-white/10 border border-white/20 backdrop-blur-md text-xs sm:text-sm font-medium text-white flex items-start gap-3"
-              >
-                <Sparkles size={18} className="text-[#a5d8ff] shrink-0 mt-0.5" />
-                <span>
-                  {mlMode === 'Supervised' &&
-                    'Supervised algorithms construct an optimal decision boundary separating known target classes to classify unseen instances.'}
-                  {mlMode === 'Unsupervised' &&
-                    'Unsupervised clustering partitions unlabelled feature spaces into cohesive groups and calculates centroid convergence.'}
-                  {mlMode === 'Generative' &&
-                    'Generative networks model the underlying probability distribution to synthesize realistic new samples.'}
-                </span>
-              </div>
-            </div>
-
-            {/* Right: Clean SVG Scatter Plot with external HTML legend */}
-            <div className="lg:col-span-7">
-              <div className="bg-[#071138]/90 border border-[#4a6df0]/40 rounded-[22px] p-5 sm:p-6 shadow-2xl backdrop-blur-md space-y-4">
-                {/* External HTML Legend (never drawn on top of points) */}
-                <div className="flex flex-wrap items-center justify-between text-xs text-white/90 pb-2 border-b border-white/10 gap-2">
-                  <div className="flex items-center gap-4">
-                    {mlMode === 'Supervised' && (
-                      <>
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-3 h-3 rounded-full bg-[#a5d8ff]" />
-                          <span>Class A (30 pts)</span>
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-3 h-3 rounded-full bg-[#4a6df0]" />
-                          <span>Class B (30 pts)</span>
-                        </span>
-                      </>
-                    )}
-                    {mlMode === 'Unsupervised' && (
-                      <>
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-3 h-3 rounded-full bg-[#4a6df0]" />
-                          <span>Cluster 1</span>
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-3 h-3 rounded-full bg-[#a5d8ff]" />
-                          <span>Cluster 2</span>
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-3 h-3 rounded-full bg-emerald-400" />
-                          <span>Cluster 3</span>
-                        </span>
-                      </>
-                    )}
-                    {mlMode === 'Generative' && (
-                      <>
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-3 h-3 rounded-full bg-white/40" />
-                          <span>Training data (60 pts)</span>
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-3 h-3 rounded-full bg-[#4a6df0] ring-2 ring-[#a5d8ff]" />
-                          <span>Synthesized (15 new)</span>
-                        </span>
-                      </>
-                    )}
-                  </div>
-                  <span className="font-mono text-[11px] text-[#a5d8ff]">60 samples</span>
-                </div>
-
-                {/* SVG Canvas (viewBox 600 x 360) */}
-                <div className="relative">
-                  <svg
-                    viewBox="0 0 600 360"
-                    className="w-full h-auto select-none"
-                    role="img"
-                    aria-label={`Scatter plot displaying ${mlMode} model`}
-                  >
-                    {/* Axes and Grid Lines */}
-                    <g stroke="#ffffff" strokeOpacity="0.1" strokeWidth="1">
-                      <line x1="80" y1="50" x2="560" y2="50" strokeDasharray="3,3" />
-                      <line x1="80" y1="130" x2="560" y2="130" strokeDasharray="3,3" />
-                      <line x1="80" y1="210" x2="560" y2="210" strokeDasharray="3,3" />
-                      <line x1="80" y1="290" x2="560" y2="290" strokeDasharray="3,3" />
-                      <line x1="180" y1="40" x2="180" y2="310" strokeDasharray="3,3" />
-                      <line x1="300" y1="40" x2="300" y2="310" strokeDasharray="3,3" />
-                      <line x1="420" y1="40" x2="420" y2="310" strokeDasharray="3,3" />
-                    </g>
-
-                    {/* Main Axes */}
-                    <line x1="80" y1="310" x2="560" y2="310" stroke="#a5d8ff" strokeWidth="1.5" />
-                    <line x1="80" y1="310" x2="80" y2="40" stroke="#a5d8ff" strokeWidth="1.5" />
-                    <text x="310" y="340" fill="#a5d8ff" fontSize="11" textAnchor="middle" fontFamily="sans-serif">
-                      Feature 1 (Standardized)
-                    </text>
-                    <text x="35" y="175" fill="#a5d8ff" fontSize="11" textAnchor="middle" transform="rotate(-90 35 175)" fontFamily="sans-serif">
-                      Feature 2 (Standardized)
-                    </text>
-
-                    {/* Supervised Mode Rendering */}
-                    {mlMode === 'Supervised' && (
-                      <g>
-                        {/* Diagonal decision boundary line connecting (235, 30) to (395, 330) */}
-                        <line
-                          x1="235"
-                          y1="30"
-                          x2="395"
-                          y2="330"
-                          stroke="#4a6df0"
-                          strokeWidth="2.5"
-                          strokeDasharray="6,6"
-                        />
-                        <text x="245" y="45" fill="#a5d8ff" fontSize="10" fontWeight="bold" fontFamily="monospace">
-                          Decision boundary
-                        </text>
-
-                        {STATIC_ML_DATA.points.map((p) => {
-                          const isA = p.supervisedClass === 'A';
-                          return (
-                            <circle
-                              key={p.id}
-                              cx={p.x}
-                              cy={p.y}
-                              r={4.5}
-                              fill={isA ? '#a5d8ff' : '#4a6df0'}
-                              stroke="#071138"
-                              strokeWidth="1.2"
-                              className="transition-all duration-300"
-                            />
-                          );
-                        })}
-
-                        {/* Highlighted landing test point */}
-                        <g>
-                          <circle cx="160" cy="90" r="11" fill="none" stroke="#22c55e" strokeWidth="2" strokeDasharray="3,3" className="animate-spin" />
-                          <circle cx="160" cy="90" r="5" fill="#22c55e" />
-                          <text x="180" y="94" fill="#22c55e" fontSize="10" fontWeight="bold" fontFamily="sans-serif">
-                            New sample &rarr; Predicted Class A
-                          </text>
-                        </g>
-                      </g>
-                    )}
-
-                    {/* Unsupervised Mode Rendering */}
-                    {mlMode === 'Unsupervised' && (
-                      <g>
-                        {/* 3 Cluster halos */}
-                        <circle cx="190" cy="130" r="60" fill="#4a6df0" fillOpacity="0.14" stroke="#4a6df0" strokeWidth="1" strokeDasharray="3,3" />
-                        <circle cx="430" cy="220" r="62" fill="#a5d8ff" fillOpacity="0.14" stroke="#a5d8ff" strokeWidth="1" strokeDasharray="3,3" />
-                        <circle cx="310" cy="210" r="48" fill="#10b981" fillOpacity="0.14" stroke="#10b981" strokeWidth="1" strokeDasharray="3,3" />
-
-                        {STATIC_ML_DATA.points.map((p) => {
-                          const fill = p.unsupCluster === 0 ? '#4a6df0' : p.unsupCluster === 1 ? '#10b981' : '#a5d8ff';
-                          return (
-                            <circle
-                              key={p.id}
-                              cx={p.x}
-                              cy={p.y}
-                              r={4.5}
-                              fill={fill}
-                              stroke="#071138"
-                              strokeWidth="1.2"
-                              className="transition-all duration-300"
-                            />
-                          );
-                        })}
-
-                        {/* Centroids */}
-                        <path d="M 185 130 L 195 130 M 190 125 L 190 135" stroke="#ffffff" strokeWidth="2" />
-                        <path d="M 425 220 L 435 220 M 430 215 L 430 225" stroke="#ffffff" strokeWidth="2" />
-                        <path d="M 305 210 L 315 210 M 310 205 L 310 215" stroke="#ffffff" strokeWidth="2" />
-                      </g>
-                    )}
-
-                    {/* Generative Mode Rendering */}
-                    {mlMode === 'Generative' && (
-                      <g>
-                        {STATIC_ML_DATA.points.map((p) => (
-                          <circle
-                            key={p.id}
-                            cx={p.x}
-                            cy={p.y}
-                            r={3.8}
-                            fill="#ffffff"
-                            fillOpacity="0.4"
-                            stroke="#071138"
-                            strokeWidth="1"
-                          />
-                        ))}
-
-                        {STATIC_ML_DATA.syntheticPoints.map((s) => (
-                          <g key={s.id}>
-                            <circle cx={s.x} cy={s.y} r="10" fill="none" stroke="#a5d8ff" strokeWidth="1.2" strokeDasharray="2,2" opacity="0.9" />
-                            <circle cx={s.x} cy={s.y} r="4.5" fill="#4a6df0" stroke="#ffffff" strokeWidth="1.2" />
-                          </g>
-                        ))}
-                      </g>
-                    )}
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ─── 5. GENERATIVE AI BAND (DEEP BLUE WITH THREADS CANVAS) ─── */}
