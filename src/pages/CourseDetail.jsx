@@ -413,7 +413,7 @@ export default function CourseDetail() {
   // Scroll spy for sticky sub-nav
   useEffect(() => {
     if (!isDataScience) return;
-    const sectionIds = ['overview', 'testimonials', 'machine-learning', 'workflow', 'syllabus', 'enquire'];
+    const sectionIds = ['overview', 'workflow', 'machine-learning', 'syllabus', 'testimonials', 'enquire'];
     const handleScroll = () => {
       const scrollPos = window.scrollY + 200;
       for (let i = sectionIds.length - 1; i >= 0; i--) {
@@ -430,10 +430,10 @@ export default function CourseDetail() {
 
   const navItems = [
     { id: 'overview', label: 'Overview' },
-    { id: 'testimonials', label: 'Testimonials' },
-    { id: 'machine-learning', label: 'Machine learning' },
     { id: 'workflow', label: 'Workflow' },
+    { id: 'machine-learning', label: 'Machine learning' },
     { id: 'syllabus', label: 'Syllabus' },
+    { id: 'testimonials', label: 'Testimonials' },
     { id: 'enquire', label: 'Enquire' },
   ];
 
@@ -1285,76 +1285,120 @@ export default function CourseDetail() {
         )}
       </section>
 
-      {/* ─── 4. STUDENT TESTIMONIALS (REPLACES "WHAT YOU WILL MASTER") ─── */}
-      <section id="testimonials" className="py-16 max-w-content mx-auto px-6 scroll-mt-24">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-soft border border-primary/20 text-xs font-semibold text-primary mb-3">
-            <Star size={13} className="text-amber-500 fill-amber-500" />
-            <span>Verified student experiences</span>
-          </div>
+      {/* ─── 3. THE DATA SCIENCE WORKFLOW (FULL-WIDTH SCROLLSTACK) ─── */}
+      <section id="workflow" className="py-16 max-w-content mx-auto px-6 scroll-mt-24">
+        <div className="mb-10 text-center max-w-2xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold text-deep tracking-tight">
-            Student stories and reviews
+            The data science workflow
           </h2>
           <p className="text-muted text-sm sm:text-base mt-2">
-            Hear verified feedback from graduates who transformed their data and IT careers through our Mumbai batches.
+            This is how a project flows, not the class order. Click any stage to inspect the curriculum module.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {testimonials.map((t) => (
-            <SpotlightCard
-              key={t.id}
-              theme="light"
-              spotlightColor="rgba(36, 72, 201, 0.12)"
-              intensity={0.25}
-              proximity={120}
-              className="!p-6 sm:!p-7 !rounded-[22px] bg-surface border border-line/80 shadow-card flex flex-col justify-between space-y-5"
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  {/* 5 Rating Stars */}
-                  <div className="flex items-center gap-1 text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={15} fill="currentColor" />
-                    ))}
+        {isMobile ? (
+          /* Mobile vertical stack fallback to avoid pinning jank */
+          <div className="space-y-4">
+            {WORKFLOW_STAGES.map((stage) => (
+              <div
+                key={stage.step}
+                className="bg-surface rounded-[22px] border border-line p-6 shadow-card space-y-4"
+              >
+                <div className="flex items-center justify-between border-b border-line/60 pb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl font-bold text-primary font-mono">{stage.step}</span>
+                    <h3 className="text-lg font-bold text-deep">{stage.title}</h3>
                   </div>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded-full">
-                    <CheckCircle2 size={12} className="text-emerald-600" />
-                    <span>Verified graduate</span>
-                  </span>
+                  <button
+                    type="button"
+                    onClick={() => handleStageClick(stage.moduleIndex)}
+                    className="text-xs font-bold text-primary hover:underline"
+                  >
+                    {stage.moduleLabel} &rarr;
+                  </button>
                 </div>
-
-                <p className="text-ink/90 text-sm sm:text-[15px] leading-relaxed italic">
-                  "{t.quote}"
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3.5 pt-4 border-t border-line/60">
-                <img
-                  src={t.image}
-                  alt={t.name}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
-                  loading="lazy"
-                />
-                <div className="min-w-0">
-                  <h4 className="font-bold text-deep text-base truncate">{t.name}</h4>
-                  <p className="text-xs text-primary font-semibold">Infodesk Graduate · Mumbai</p>
-                  <p className="text-[11px] text-muted truncate">Brochure verified review</p>
+                <p className="text-xs sm:text-sm text-muted">{stage.explanation}</p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {stage.topics.map((t) => (
+                    <span key={t} className="px-3 py-1.5 rounded-full bg-soft/80 border border-line/70 text-xs font-medium text-deep">
+                      {t}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </SpotlightCard>
-          ))}
-        </div>
-
-        <div className="text-center mt-10">
-          <Link
-            to="/placements"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors group"
+            ))}
+          </div>
+        ) : (
+          /* Desktop & Tablet: ScrollStack with window scroll pinning sitting below header + PillNav */
+          <ScrollStack
+            useWindowScroll={true}
+            stackPosition="124px"
+            itemDistance={100}
+            itemStackDistance={24}
+            baseScale={0.88}
+            itemScale={0.03}
+            dimAmount={0.15}
+            blurAmount={0}
+            smoothScroll={false}
           >
-            <span>Explore all 100+ placement success stories</span>
-            <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+            {WORKFLOW_STAGES.map((stage, sIdx) => {
+              const bgTint = sIdx % 2 === 0 ? '!bg-[#fdfcf9]' : '!bg-[#f4f7fe]';
+              return (
+                <ScrollStackItem
+                  key={stage.step}
+                  itemClassName={`!h-auto min-h-[300px] ${bgTint} !rounded-[24px] !border-[1.5px] !border-line !shadow-card p-8 flex flex-col justify-between`}
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    {/* Left: Numeral, Stage title, explanation */}
+                    <div className="md:col-span-5 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-4xl font-extrabold text-primary font-mono">
+                          {stage.step}
+                        </span>
+                        <span className="text-xs font-bold uppercase tracking-wider text-muted">
+                          Pipeline stage
+                        </span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-deep">
+                        {stage.title}
+                      </h3>
+                      <p className="text-muted text-sm leading-relaxed">
+                        {stage.explanation}
+                      </p>
+                      <div className="pt-2">
+                        <button
+                          type="button"
+                          onClick={() => handleStageClick(stage.moduleIndex)}
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-soft text-primary font-bold text-xs hover:bg-primary hover:text-white transition-colors"
+                        >
+                          <span>{stage.moduleLabel}</span>
+                          <ArrowRight size={13} />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Right: Topics chips with full untruncated names */}
+                    <div className="md:col-span-7 space-y-3">
+                      <span className="text-xs font-bold text-muted uppercase tracking-wider block">
+                        Brochure topics covered
+                      </span>
+                      <div className="flex flex-wrap gap-2.5">
+                        {stage.topics.map((t) => (
+                          <span
+                            key={t}
+                            className="px-3.5 py-2 rounded-full bg-surface border border-line text-xs sm:text-sm font-semibold text-deep shadow-sm"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </ScrollStackItem>
+              );
+            })}
+          </ScrollStack>
+        )}
       </section>
 
       {/* ─── 5. MACHINE LEARNING IN TEN SECONDS (DEEP BLUE BAND WITH GRIDSCAN) ─── */}
@@ -1616,123 +1660,7 @@ export default function CourseDetail() {
         </div>
       </section>
 
-      {/* ─── 6. THE DATA SCIENCE WORKFLOW (FULL-WIDTH SCROLLSTACK) ─── */}
-      <section id="workflow" className="py-16 max-w-content mx-auto px-6">
-        <div className="mb-10 text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-deep tracking-tight">
-            The data science workflow
-          </h2>
-          <p className="text-muted text-sm sm:text-base mt-2">
-            This is how a project flows, not the class order. Click any stage to inspect the curriculum module.
-          </p>
-        </div>
-
-        {isMobile ? (
-          /* Mobile vertical stack fallback to avoid pinning jank */
-          <div className="space-y-4">
-            {WORKFLOW_STAGES.map((stage) => (
-              <div
-                key={stage.step}
-                className="bg-surface rounded-[22px] border border-line p-6 shadow-card space-y-4"
-              >
-                <div className="flex items-center justify-between border-b border-line/60 pb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl font-bold text-primary font-mono">{stage.step}</span>
-                    <h3 className="text-lg font-bold text-deep">{stage.title}</h3>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleStageClick(stage.moduleIndex)}
-                    className="text-xs font-bold text-primary hover:underline"
-                  >
-                    {stage.moduleLabel} &rarr;
-                  </button>
-                </div>
-                <p className="text-xs sm:text-sm text-muted">{stage.explanation}</p>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {stage.topics.map((t) => (
-                    <span key={t} className="px-3 py-1.5 rounded-full bg-soft/80 border border-line/70 text-xs font-medium text-deep">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          /* Desktop & Tablet: ScrollStack with window scroll pinning sitting below header + PillNav */
-          <ScrollStack
-            useWindowScroll={true}
-            stackPosition="124px"
-            itemDistance={100}
-            itemStackDistance={24}
-            baseScale={0.88}
-            itemScale={0.03}
-            dimAmount={0.15}
-            blurAmount={0}
-            smoothScroll={false}
-          >
-            {WORKFLOW_STAGES.map((stage, sIdx) => {
-              const bgTint = sIdx % 2 === 0 ? '!bg-[#fdfcf9]' : '!bg-[#f4f7fe]';
-              return (
-                <ScrollStackItem
-                  key={stage.step}
-                  itemClassName={`!h-auto min-h-[300px] ${bgTint} !rounded-[24px] !border-[1.5px] !border-line !shadow-card p-8 flex flex-col justify-between`}
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-                    {/* Left: Numeral, Stage title, explanation */}
-                    <div className="md:col-span-5 space-y-3">
-                      <div className="flex items-center gap-3">
-                        <span className="text-4xl font-extrabold text-primary font-mono">
-                          {stage.step}
-                        </span>
-                        <span className="text-xs font-bold uppercase tracking-wider text-muted">
-                          Pipeline stage
-                        </span>
-                      </div>
-                      <h3 className="text-2xl font-bold text-deep">
-                        {stage.title}
-                      </h3>
-                      <p className="text-muted text-sm leading-relaxed">
-                        {stage.explanation}
-                      </p>
-                      <div className="pt-2">
-                        <button
-                          type="button"
-                          onClick={() => handleStageClick(stage.moduleIndex)}
-                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-soft text-primary font-bold text-xs hover:bg-primary hover:text-white transition-colors"
-                        >
-                          <span>{stage.moduleLabel}</span>
-                          <ArrowRight size={13} />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Right: Topics chips with full untruncated names */}
-                    <div className="md:col-span-7 space-y-3">
-                      <span className="text-xs font-bold text-muted uppercase tracking-wider block">
-                        Brochure topics covered
-                      </span>
-                      <div className="flex flex-wrap gap-2.5">
-                        {stage.topics.map((t) => (
-                          <span
-                            key={t}
-                            className="px-3.5 py-2 rounded-full bg-surface border border-line text-xs sm:text-sm font-semibold text-deep shadow-sm"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </ScrollStackItem>
-              );
-            })}
-          </ScrollStack>
-        )}
-      </section>
-
-      {/* ─── 7. GENERATIVE AI BAND (DEEP BLUE WITH THREADS CANVAS) ─── */}
+      {/* ─── 5. GENERATIVE AI BAND (DEEP BLUE WITH THREADS CANVAS) ─── */}
       <section className="relative bg-gradient-to-br from-[#0b1a52] via-[#13266f] to-[#071138] text-white py-16 sm:py-20 overflow-hidden">
         {/* Threads Canvas mounted through LazyMount */}
         {effectsConfig.dataScienceThreads && (
@@ -1950,6 +1878,78 @@ export default function CourseDetail() {
               </div>
             </div>
           </aside>
+        </div>
+      </section>
+
+      {/* ─── 8. STUDENT TESTIMONIALS (AFTER DETAILED SYLLABUS) ─── */}
+      <section id="testimonials" className="py-16 max-w-content mx-auto px-6 scroll-mt-24">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-soft border border-primary/20 text-xs font-semibold text-primary mb-3">
+            <Star size={13} className="text-amber-500 fill-amber-500" />
+            <span>Verified student experiences</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-deep tracking-tight">
+            Student stories and reviews
+          </h2>
+          <p className="text-muted text-sm sm:text-base mt-2">
+            Hear verified feedback from graduates who transformed their data and IT careers through our Mumbai batches.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {testimonials.map((t) => (
+            <SpotlightCard
+              key={t.id}
+              theme="light"
+              spotlightColor="rgba(36, 72, 201, 0.12)"
+              intensity={0.25}
+              proximity={120}
+              className="!p-6 sm:!p-7 !rounded-[22px] bg-surface border border-line/80 shadow-card flex flex-col justify-between space-y-5"
+            >
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  {/* 5 Rating Stars */}
+                  <div className="flex items-center gap-1 text-amber-500">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={15} fill="currentColor" />
+                    ))}
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded-full">
+                    <CheckCircle2 size={12} className="text-emerald-600" />
+                    <span>Verified graduate</span>
+                  </span>
+                </div>
+
+                <p className="text-ink/90 text-sm sm:text-[15px] leading-relaxed italic">
+                  "{t.quote}"
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3.5 pt-4 border-t border-line/60">
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
+                  loading="lazy"
+                />
+                <div className="min-w-0">
+                  <h4 className="font-bold text-deep text-base truncate">{t.name}</h4>
+                  <p className="text-xs text-primary font-semibold">Infodesk Graduate · Mumbai</p>
+                  <p className="text-[11px] text-muted truncate">Brochure verified review</p>
+                </div>
+              </div>
+            </SpotlightCard>
+          ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link
+            to="/placements"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors group"
+          >
+            <span>Explore all 100+ placement success stories</span>
+            <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </section>
 
