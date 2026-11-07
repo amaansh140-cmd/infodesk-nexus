@@ -48,3 +48,10 @@ next-env.d.ts
 # Ignore nosync nextjs build folder
 .next.nosync
 public/_next
+
+# iCloud duplicate conflict files
+* [0-9].*
+* [0-9][0-9].*
+* [0-9]
+* [0-9][0-9]
+
