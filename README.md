@@ -171,23 +171,33 @@ The following items are placeholders awaiting final details from the Infodesk ad
 
 The application integrates components from **React Bits** (JS + CSS variant) with runtime flags configured in `src/config/effects.js`:
 
-### Data Science Course (`/courses/data-science`)
-1. **GradientText** (`effectsConfig.dataScienceGradientText`): Royal blue `#2448c9` to bright blue `#4a6df0` slow sweep on the main H1. Falls back to solid text on reduced motion.
-2. **Particles** (`effectsConfig.dataScienceParticles`): Hero right side "Data lab" card background with constellation lines (`connections={true}`), 50 low-density particles (`particleColors={['#4a6df0', '#a5d8ff', '#ffffff']}`), pointer interaction disabled (`moveParticlesOnHover={false}`, `clickBurst={false}`), wrapped in `<LazyMount>`. Strictly 1 WebGL canvas effect on the page.
-3. **TextType** (`effectsConfig.dataScienceTextType`): Terminal card typing looping lines (`df = pd.read_csv("sales.csv")`, `df.groupby("city").mean()`, `model.fit(X_train, y_train)`, `st.line_chart(df)`), ice-white with bright-blue `>>>` prompt, first line visible immediately.
-4. **DecryptedText** (`effectsConfig.dataScienceDecryptedText`): Card caption `"Raw data to real decisions."` (resolves once on first view).
-5. **CountUp** (`effectsConfig.countUp`): Tools card header count (`{course.tools.length}` = 13 technologies).
-6. **LogoLoop** (`effectsConfig.dataScienceToolsLoop`): Tools card chip row (soft-blue chips, 13 brochure tools, pause on hover, fade edges; static wrap grid on reduced motion).
-7. **RubberSegment** (`effectsConfig.dataScienceMlScatter`): Card `"Machine learning in ten seconds"` (Supervised, Unsupervised, Generative) controlling an interactive deterministic 50-point SVG scatter plot with live accessible captions.
-8. **SpotlightCard** (`effectsConfig.dataScienceSpotlight`): Soft royal-blue spotlight (`rgba(36, 72, 201, 0.08)`) on syllabus module cards.
-9. **AnimatedContent**: Staggered scroll reveals and smooth entry for the project flow stages and syllabus modules.
+### Data Science Redesign (`/courses/data-science`)
+1. **Particles** (`effectsConfig.dataScienceHeroParticles`): Full-bleed constellation hero background in deep-blue (`#13266f` to `#0b1a52`) with 65 low-density particles (`connections={true}`, `particleColors={['#4a6df0', '#a5d8ff', '#ffffff']}`), pointer interaction disabled, wrapped in `<LazyMount>`.
+2. **GradientText** (`effectsConfig.dataScienceGradientText`): Very large H1 (`clamp(48px, 6.5vw, 96px)`) in sentence case with royal blue `#a5d8ff` to bright blue `#4a6df0` slow sweep.
+3. **TextType** (`effectsConfig.dataScienceTextType`): Terminal prompt typing Python commands (`df.groupby("city").mean()`, `model.fit(X_train, y_train)`, `st.line_chart(df)`).
+4. **CardSwap** (`effectsConfig.dataScienceCardSwap`): Desktop 3D interactive stack with 3 cards (`model.py`, `training_loss.svg`, `pipeline_flow`). Swapped for a static code card on viewports `< 1024px` to eliminate mobile touch conflicts.
+5. **StarBorder** (`effectsConfig.starBorder`): "Book a free demo" CTA button with radiant edge border animation.
+6. **ScrollVelocity** (`effectsConfig.dataScienceScrollVelocity`): Dual bidirectional marquee ticker displaying the 13 brochure tools and core ML specializations.
+7. **CountUp** (`effectsConfig.countUp`): 4 verified metrics (12 months, 13 core tools, 12 modules, 4 branches).
+8. **SpotlightCard** (`effectsConfig.spotlightCard`): 6 What You Will Master domain cards + 4 Data Governance cards with soft royal-blue cursor spotlight (`rgba(36, 72, 201, 0.12)`).
+9. **GridScan** (`effectsConfig.dataScienceGridScan`): Cybernetic grid scan background canvas in Machine Learning band wrapped in `<LazyMount>`.
+10. **RubberSegment** (`effectsConfig.dataScienceMlScatter`): Segmented control (Supervised, Unsupervised, Generative) switching deterministic 60-point SVG scatter plot (seed 101) with clean linear decision boundary and external HTML legend.
+11. **ScrollStack** (`effectsConfig.scrollStack`): Full-width 5-stage project workflow stack with window scroll pinning on desktop and unpinned vertical stack on mobile.
+12. **Threads** (`effectsConfig.dataScienceThreads`): Deep-blue generative AI wave background canvas wrapped in `<LazyMount>`.
+13. **DecryptedText** (`effectsConfig.dataScienceDecryptedText`): "Generative AI, hands on" cypher reveal.
+14. **FlipCard** (`effectsConfig.flipCard`): Related courses 3D flipping cards (front: program summary, back: curriculum tools preview & direct link).
+15. **ElectricBorder** (`effectsConfig.electricBorder`): Closing demo session CTA banner border animation.
+16. **PillNav** (`effectsConfig.dataSciencePillNav`): Sticky pill sub-navigation bar with scroll spy anchors (`#overview`, `#what-you-will-master`, `#machine-learning`, `#workflow`, `#syllabus`, `#enquire`).
 
 ### Unverified Copy Items (Confirm or Supply)
-The following marketing copy items are present in the Course Detail pages and should be confirmed or supplied by the Infodesk team:
+The following marketing copy items are present in the redesigned Data Science and Course Detail pages and should be confirmed or supplied by the Infodesk team:
 1. `"Flexible morning, evening & weekend timings"`
 2. `"Personalized 1-on-1 doubt clearing sessions"`
-3. `"Small batches, in-person"`
-4. `"Step-by-step topic breakdown verified against our official curriculum"`
+3. `"Extra practice lab hours with mentor guidance"`
+4. `"Small batches, in-person"`
+5. `"Step-by-step topic breakdown verified against our official curriculum"`
+6. Domain explanations under *What you will master* and *Data science workflow* (written to contextualize official brochure topics).
+7. Informatica descriptions under *Data governance with Informatica* (Informatica Administrator, Classification, Integration, Glossary).
 
 ---
 

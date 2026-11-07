@@ -141,9 +141,10 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full h-[72px] bg-[#f6f5f1]/92 backdrop-blur-md transition-colors duration-300 ${
+      className={`sticky top-0 z-[100] w-full h-[72px] bg-[#f6f5f1]/[0.97] backdrop-blur-[4px] transition-colors duration-300 ${
         isScrolled ? 'border-b border-[#dcdde6]' : 'border-b border-transparent'
       }`}
+      style={{ backgroundColor: 'rgba(246, 245, 241, 0.97)' }}
     >
       <div className="w-full max-w-content mx-auto px-6 h-full flex items-center justify-between">
         {/* Left: Crisp Logo */}
