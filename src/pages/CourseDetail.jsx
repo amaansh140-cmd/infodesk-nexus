@@ -315,9 +315,6 @@ export default function CourseDetail() {
   // Controlled module accordion open indices
   const [openModuleIndices, setOpenModuleIndices] = useState([0]);
 
-  // Sticky sub-navigation active section
-  const [activeNavSection, setActiveNavSection] = useState('overview');
-
   // Mobile detection for scroll pinning fallback
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -354,32 +351,6 @@ export default function CourseDetail() {
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
-
-  // Scroll spy for sticky sub-nav
-  useEffect(() => {
-    if (!isDataScience) return;
-    const sectionIds = ['overview', 'workflow', 'syllabus', 'testimonials', 'enquire'];
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 200;
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sectionIds[i]);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveNavSection(sectionIds[i]);
-          break;
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isDataScience]);
-
-  const navItems = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'workflow', label: 'Workflow' },
-    { id: 'syllabus', label: 'Syllabus' },
-    { id: 'testimonials', label: 'Testimonials' },
-    { id: 'enquire', label: 'Enquire' },
-  ];
 
   // ─── STANDARD COURSE LAYOUT (For all non-Data Science courses) ───
   if (!isDataScience) {
@@ -734,49 +705,6 @@ export default function CourseDetail() {
 
   return (
     <div className="relative">
-      {/* ─── STICKY PILL SUB-NAVIGATION (Data Science only) ─── */}
-      {isDataScience && effectsConfig.dataSciencePillNav && (
-        <nav
-          aria-label="Course section navigation"
-          className="sticky top-[72px] z-40 w-full h-[48px] py-1.5 bg-background/95 backdrop-blur-md border-b border-line/70 transition-all duration-200"
-        >
-          <div className="max-w-[1200px] mx-auto px-6 h-full flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
-            <span className="text-xs font-bold text-deep shrink-0 hidden min-[1100px]:inline">
-              Data Science track
-            </span>
-            <div className="flex items-center gap-1.5 sm:gap-2 mx-auto min-[1100px]:mx-0">
-              {navItems.map((item) => {
-                const isActive = activeNavSection === item.id;
-                return (
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const el = document.getElementById(item.id);
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
-                      isActive
-                        ? 'bg-primary text-white shadow-sm'
-                        : 'text-muted hover:text-deep hover:bg-soft/60'
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                );
-              })}
-            </div>
-            <a
-              href="#enquire"
-              className="hidden min-[1100px]:inline-flex items-center text-xs font-bold text-primary hover:underline"
-            >
-              Enrollment options &rarr;
-            </a>
-          </div>
-        </nav>
-      )}
-
       {/* ─── 1. HERO (FULL-BLEED DEEP BLUE BAND, MIN-HEIGHT 80VH) ─── */}
       <section
         id="overview"
@@ -1273,10 +1201,10 @@ export default function CourseDetail() {
             ))}
           </div>
         ) : (
-          /* Desktop & Tablet: ScrollStack with window scroll pinning sitting below header + PillNav */
+          /* Desktop & Tablet: ScrollStack with window scroll pinning sitting below header */
           <ScrollStack
             useWindowScroll={true}
-            stackPosition="124px"
+            stackPosition="80px"
             itemDistance={100}
             itemStackDistance={24}
             baseScale={0.88}
