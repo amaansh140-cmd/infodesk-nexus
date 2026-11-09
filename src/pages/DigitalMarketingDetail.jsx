@@ -25,6 +25,8 @@ import Stack from '../components/Stack';
 import Counter from '../components/Counter';
 import CurvedLoop from '../components/CurvedLoop';
 import GooeyNav from '../components/GooeyNav';
+import Stepper, { Step } from '../components/Stepper';
+import SpotlightCard from '../components/SpotlightCard';
 import PixelCard from '../components/PixelCard';
 import LazyMount from '../components/common/LazyMount';
 
@@ -510,48 +512,97 @@ export default function DigitalMarketingDetail({ course }) {
             </p>
           </div>
 
-          {/* Interactive GooeyNav as Accessible Tabs (No eyebrow pills, no all-caps) */}
-          <div className="flex justify-center mb-8 overflow-x-auto max-w-full pb-2 no-scrollbar">
-            <GooeyNav
-              asTabs={true}
-              noCanvas={true}
-              ariaLabel="Customer journey stages"
-              items={journeyTabItems}
-              activeIndex={activeJourneyStage}
-              onChange={(idx) => setActiveJourneyStage(idx)}
-              theme="light"
-              color="#2448c9"
-              size="md"
-              className="shadow-sm"
-            />
-          </div>
-
-          {/* Active Journey Stage Compact Tabpanel */}
-          <div
-            role="tabpanel"
-            id={`journey-tabpanel-${activeJourneyStage}`}
-            aria-labelledby={`journey-tab-${activeJourneyStage}`}
-            className="focus:outline-none max-w-3xl mx-auto text-center space-y-6"
-          >
-            <p className="text-sm sm:text-base text-deep/90 font-medium leading-relaxed">
-              {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].sentence}
-            </p>
-
-            {/* Compact Topic Chips Linking to Syllabus Modules with 16px clearance */}
-            <div className="flex flex-wrap justify-center gap-2.5 pt-2">
-              {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].chips.map((chip, cIdx) => (
-                <button
-                  key={cIdx}
-                  type="button"
-                  onClick={() => handleOpenModule(chip.moduleIndex)}
-                  className="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white border border-line/80 text-primary hover:border-primary hover:bg-soft/40 transition-all shadow-sm flex items-center gap-2 group"
-                >
-                  <span>{chip.topic}</span>
-                  <ArrowRight size={13} className="text-primary/70 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-              ))}
+          {/* Funnel Stepper Component with GooeyNav Tab fallback */}
+          {effectsConfig.digitalMarketingStepper ? (
+            <div className="max-w-3xl mx-auto">
+              <Stepper
+                theme="light"
+                accentColor="#2448c9"
+                radius={24}
+                indicator="numbers"
+                linear={false}
+                width="100%"
+                step={activeJourneyStage + 1}
+                onStepChange={(s) => setActiveJourneyStage(s - 1)}
+                nextButtonText="Next stage"
+                backButtonText="Previous stage"
+                completeButtonText="Explore Syllabus"
+                onFinalStepCompleted={() => {
+                  const el = document.getElementById('syllabus');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="bg-white/95 border border-line/80 shadow-card"
+              >
+                {CUSTOMER_JOURNEY_STAGES.map((stage) => (
+                  <Step key={stage.stage} title={stage.stage}>
+                    <div className="py-4 px-2 sm:px-6 text-center space-y-5">
+                      <p className="text-sm sm:text-base text-deep/90 font-medium leading-relaxed max-w-xl mx-auto">
+                        {stage.sentence}
+                      </p>
+                      <div className="flex flex-wrap justify-center gap-2.5 pt-1">
+                        {stage.chips.map((chip, cIdx) => (
+                          <button
+                            key={cIdx}
+                            type="button"
+                            onClick={() => handleOpenModule(chip.moduleIndex)}
+                            className="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white border border-line/80 text-primary hover:border-primary hover:bg-soft/40 transition-all shadow-sm flex items-center gap-2 group cursor-pointer"
+                          >
+                            <span>{chip.topic}</span>
+                            <ArrowRight size={13} className="text-primary/70 group-hover:translate-x-0.5 transition-transform" />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </Step>
+                ))}
+              </Stepper>
             </div>
-          </div>
+          ) : (
+            <>
+              {/* Interactive GooeyNav as Accessible Tabs (No eyebrow pills, no all-caps) */}
+              <div className="flex justify-center mb-8 overflow-x-auto max-w-full pb-2 no-scrollbar">
+                <GooeyNav
+                  asTabs={true}
+                  noCanvas={true}
+                  ariaLabel="Customer journey stages"
+                  items={journeyTabItems}
+                  activeIndex={activeJourneyStage}
+                  onChange={(idx) => setActiveJourneyStage(idx)}
+                  theme="light"
+                  color="#2448c9"
+                  size="md"
+                  className="shadow-sm"
+                />
+              </div>
+
+              {/* Active Journey Stage Compact Tabpanel */}
+              <div
+                role="tabpanel"
+                id={`journey-tabpanel-${activeJourneyStage}`}
+                aria-labelledby={`journey-tab-${activeJourneyStage}`}
+                className="focus:outline-none max-w-3xl mx-auto text-center space-y-6"
+              >
+                <p className="text-sm sm:text-base text-deep/90 font-medium leading-relaxed">
+                  {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].sentence}
+                </p>
+
+                {/* Compact Topic Chips Linking to Syllabus Modules with 16px clearance */}
+                <div className="flex flex-wrap justify-center gap-2.5 pt-2">
+                  {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].chips.map((chip, cIdx) => (
+                    <button
+                      key={cIdx}
+                      type="button"
+                      onClick={() => handleOpenModule(chip.moduleIndex)}
+                      className="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white border border-line/80 text-primary hover:border-primary hover:bg-soft/40 transition-all shadow-sm flex items-center gap-2 group"
+                    >
+                      <span>{chip.topic}</span>
+                      <ArrowRight size={13} className="text-primary/70 group-hover:translate-x-0.5 transition-transform" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </section>
 
@@ -606,35 +657,54 @@ export default function DigitalMarketingDetail({ course }) {
             </p>
           </div>
 
-          {/* 4 Exact Brochure Testimonials - NO star ratings, NO verified badges */}
+          {/* 4 Exact Brochure Testimonials with optional SpotlightCard illumination */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {testimonials.map((t) => (
-              <div
-                key={t.id}
-                className="p-6 sm:p-7 rounded-2xl bg-white border border-line/80 shadow-sm flex flex-col justify-between space-y-5"
-              >
-                <blockquote className="text-sm sm:text-[15px] text-ink/90 leading-relaxed italic">
-                  “{t.quote.replace(/'/g, '’')}”
-                </blockquote>
+            {testimonials.map((t) => {
+              const cardContent = (
+                <>
+                  <blockquote className="text-sm sm:text-[15px] text-ink/90 leading-relaxed italic">
+                    “{t.quote.replace(/'/g, '’')}”
+                  </blockquote>
 
-                <div className="flex items-center gap-3.5 pt-4 border-t border-line/50">
-                  <img
-                    src={t.image}
-                    alt={t.name}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
-                    loading="lazy"
-                  />
-                  <div>
-                    <h4 className="text-base font-bold text-deep leading-tight">
-                      {t.name}
-                    </h4>
-                    <p className="text-xs text-primary font-semibold mt-0.5">
-                      Infodesk student
-                    </p>
+                  <div className="flex items-center gap-3.5 pt-4 border-t border-line/50">
+                    <img
+                      src={t.image}
+                      alt={t.name}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h4 className="text-base font-bold text-deep leading-tight">
+                        {t.name}
+                      </h4>
+                      <p className="text-xs text-primary font-semibold mt-0.5">
+                        Infodesk student
+                      </p>
+                    </div>
                   </div>
+                </>
+              );
+
+              return effectsConfig.digitalMarketingSpotlight ? (
+                <SpotlightCard
+                  key={t.id}
+                  theme="light"
+                  spotlightColor="rgba(36, 72, 201, 0.12)"
+                  intensity={0.25}
+                  proximity={100}
+                  className="!p-6 sm:!p-7 !rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between space-y-5"
+                >
+                  {cardContent}
+                </SpotlightCard>
+              ) : (
+                <div
+                  key={t.id}
+                  className="p-6 sm:p-7 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between space-y-5"
+                >
+                  {cardContent}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="text-center mt-10">

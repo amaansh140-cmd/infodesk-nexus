@@ -73,6 +73,8 @@ export const effectsConfig = {
   digitalMarketingStack: true,
   digitalMarketingCurvedLoop: !prefersReducedMotion,
   digitalMarketingGooeyNav: true,
+  digitalMarketingStepper: true,
+  digitalMarketingSpotlight: true,
   digitalMarketingPixelCard: true,
   digitalMarketingLaserFlow: !prefersReducedMotion && !isSaveData && !isTouchDevice,
 
