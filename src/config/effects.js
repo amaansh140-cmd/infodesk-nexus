@@ -79,6 +79,8 @@ export const effectsConfig = {
   digitalMarketingLaserFlow: !prefersReducedMotion && !isSaveData && !isTouchDevice,
   digitalMarketingSpecular: !prefersReducedMotion && !isTouchDevice,
   digitalMarketingTiltedCard: !prefersReducedMotion && !isTouchDevice,
+  digitalMarketingFolder: !prefersReducedMotion,
+  digitalMarketingFaqSpotlight: true,
 
   // About Page (/about)
   scrollExpand: !prefersReducedMotion,

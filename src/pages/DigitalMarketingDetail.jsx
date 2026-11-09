@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronRight,
+  ChevronDown,
   Award,
   CheckCircle2,
   Clock,
@@ -32,6 +33,8 @@ import {
   LayoutTemplate,
   ShieldCheck,
   Sparkles,
+  X,
+  ExternalLink,
 } from 'lucide-react';
 
 // React Bits Components
@@ -46,6 +49,7 @@ import GooeyNav from '../components/GooeyNav';
 import Stepper, { Step } from '../components/Stepper';
 import SpotlightCard from '../components/SpotlightCard';
 import TiltedCard from '../components/TiltedCard';
+import Folder from '../components/Folder';
 import PixelCard from '../components/PixelCard';
 import LazyMount from '../components/common/LazyMount';
 
@@ -53,6 +57,7 @@ import LazyMount from '../components/common/LazyMount';
 import ModuleAccordion from '../components/ModuleAccordion';
 import CourseOverviewCard from '../components/CourseOverviewCard';
 import ClosingDemoBanner from '../components/ClosingDemoBanner';
+import Button from '../components/Button';
 
 // Data Source of Truth (Brochure Page 4)
 import {
@@ -146,7 +151,29 @@ const TOPIC_ICON_MAP = {
   'Customer retention': { icon: Award, color: 'text-indigo-600', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200/70' },
 };
 
+// High-Intent Student FAQs (Brochure Source of Truth)
+const DIGITAL_MARKETING_FAQS = [
+  {
+    q: 'Do I need any technical or coding knowledge to learn digital marketing?',
+    a: 'No prior technical or coding experience is required. The curriculum begins with marketing fundamentals and guides you through intuitive, industry-standard platforms including WordPress, Google Ads, Meta Ads Manager, and Google Search Console with hands-on mentor support.',
+  },
+  {
+    q: 'How is this 6-month course different from the 1-year ADDM course?',
+    a: 'This 6-month Digital Marketing course focuses on the core 10 marketing modules: SEO, SMM, SEM, Google Ads, WordPress, Blogging, Content marketing, App marketing, ORM, and General marketing with job training. The 1-year Advance Diploma in Digital Marketing (ADDM) is an extended diploma that includes advanced AI tools and FTP modules.',
+  },
+  {
+    q: 'How does the in-person job training work across Mumbai centers?',
+    a: 'Job training is conducted hands-on at all 4 Infodesk Mumbai centers (Andheri, Borivali, Dadar, and Thane). You will work on live campaign scenarios, optimize real ad funnels, and prepare campaign portfolios under the direct guidance of industry professionals.',
+  },
+  {
+    q: 'Are weekend or flexible batch timings available for working professionals?',
+    a: 'Yes. We offer morning, afternoon, evening, and dedicated Sunday weekend batches. Additionally, all enrolled students receive extra practice lab hours with dedicated mentor support to ensure complete schedule flexibility.',
+  },
+];
+
 export default function DigitalMarketingDetail({ course }) {
+  const navigate = useNavigate();
+
   // Related courses (ADDM and Graphic Design per prompt)
   const relatedCourses = useMemo(() => {
     return courses.filter((c) => ['addm', 'graphic-design'].includes(c.slug));
@@ -157,6 +184,68 @@ export default function DigitalMarketingDetail({ course }) {
 
   // Customer Journey Active Stage Tab
   const [activeJourneyStage, setActiveJourneyStage] = useState(0);
+
+  // Certificate Lightbox Modal State
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
+
+  // FAQ Accordion State
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
+
+  // Accessible Escape listener and body scroll lock for certificate modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isCertModalOpen) {
+        setIsCertModalOpen(false);
+      }
+    };
+    if (isCertModalOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isCertModalOpen]);
+
+  // Interactive Course Materials Folder Items
+  const folderItems = useMemo(
+    () => [
+      {
+        title: 'Official Brochure',
+        description: 'Complete 2026 curriculum PDF',
+      },
+      {
+        title: '10-Module Syllabus',
+        description: 'Detailed module breakdown',
+      },
+      {
+        title: '4 Mumbai Centers',
+        description: 'Andheri, Borivali, Dadar, Thane',
+      },
+    ],
+    []
+  );
+
+  const handleFolderItemClick = (item, index) => {
+    if (index === 0) {
+      window.open('/assets/Infodesk_Computer_Education.pdf', '_blank');
+    } else if (index === 1) {
+      const syllabusEl = document.getElementById('syllabus');
+      if (syllabusEl) {
+        const headerOffset = 88;
+        const elementPosition = syllabusEl.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: elementPosition - headerOffset,
+          behavior: 'smooth',
+        });
+      }
+    } else if (index === 2) {
+      navigate('/contact');
+    }
+  };
 
   // Robust smooth scroll and auto-expand target module accordion after layout settles
   const handleOpenModule = (targetIndex) => {
@@ -827,7 +916,7 @@ export default function DigitalMarketingDetail({ course }) {
             </div>
 
             {/* Right Column: Sticky Course Overview Card (col-span-4) */}
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-4 space-y-6">
               <CourseOverviewCard
                 course={course}
                 whatsappMessage={encodeURIComponent(
@@ -837,9 +926,59 @@ export default function DigitalMarketingDetail({ course }) {
                 className="sticky lg:top-[92px]"
               />
 
+              {/* React Bits Folder: Interactive Course Kit & Materials */}
+              {effectsConfig.digitalMarketingFolder && (
+                <div className="hidden sm:block">
+                  <div className="p-5 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col items-center text-center space-y-4">
+                    <div className="w-full flex items-center justify-between text-left">
+                      <div>
+                        <h4 className="text-sm font-bold text-deep font-heading">
+                          Course kit &amp; materials
+                        </h4>
+                        <p className="text-[11px] text-muted">
+                          Official brochure and curriculum sheets
+                        </p>
+                      </div>
+                      <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-soft text-primary border border-line/50">
+                        Interactive
+                      </span>
+                    </div>
+
+                    <div className="py-2 flex justify-center w-full min-h-[195px] items-center overflow-visible">
+                      <Folder
+                        label="Digital Marketing Kit"
+                        color="#13266f"
+                        paperColor="#ffffff"
+                        theme="light"
+                        size={0.9}
+                        items={folderItems}
+                        onItemClick={handleFolderItemClick}
+                      />
+                    </div>
+
+                    <div className="w-full pt-3 border-t border-line/50 flex items-center justify-between text-[11px] text-muted">
+                      <span>3 documents</span>
+                      <span className="text-primary font-semibold">Click sheet to open</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* React Bits TiltedCard: Certificate & Accreditation Showcase */}
               {effectsConfig.digitalMarketingTiltedCard && (
-                <div className="hidden sm:block">
+                <div
+                  className="hidden sm:block cursor-pointer group"
+                  onClick={() => setIsCertModalOpen(true)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setIsCertModalOpen(true);
+                    }
+                  }}
+                  aria-label="Preview official Digital Marketing course certificate"
+                >
                   <TiltedCard
                     containerHeight="auto"
                     containerWidth="100%"
@@ -853,19 +992,24 @@ export default function DigitalMarketingDetail({ course }) {
                     radius={20}
                     className="w-full"
                   >
-                    <div className="p-5 rounded-[20px] bg-white border border-line/80 shadow-card space-y-3">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-9 h-9 rounded-full bg-soft text-primary flex items-center justify-center shrink-0">
-                          <Award size={18} />
+                    <div className="p-5 rounded-[20px] bg-white border border-line/80 shadow-card space-y-3 transition-colors group-hover:border-primary/50">
+                      <div className="flex items-center justify-between gap-2.5">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-9 h-9 rounded-full bg-soft text-primary flex items-center justify-center shrink-0">
+                            <Award size={18} />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-bold text-deep leading-tight font-heading group-hover:text-primary transition-colors">
+                              Course Certificate
+                            </h4>
+                            <p className="text-[11px] text-muted">
+                              Govt. Recognized &amp; ISO 9001:2015
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="text-sm font-bold text-deep leading-tight font-heading">
-                            Course Certificate
-                          </h4>
-                          <p className="text-[11px] text-muted">
-                            Govt. Recognized & ISO 9001:2015
-                          </p>
-                        </div>
+                        <span className="text-[11px] font-semibold text-primary underline underline-offset-2">
+                          Preview
+                        </span>
                       </div>
                       <p className="text-xs text-muted leading-relaxed">
                         Official certification issued upon completing all 10 modules and practical project assignments.
@@ -957,7 +1101,98 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 6. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
+      {/* ─── 6. FREQUENTLY ASKED QUESTIONS (SPOTLIGHTCARD - B8) ─── */}
+      <section id="faqs" className="py-12 sm:py-20 bg-surface border-t border-line/70">
+        <div className="max-w-content mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+              Frequently asked questions.
+            </h2>
+            <p className="text-muted text-sm leading-relaxed">
+              Key details about the 6-month Digital Marketing curriculum, batches, and job training.
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto space-y-4">
+            {DIGITAL_MARKETING_FAQS.map((faq, idx) => {
+              const isOpen = openFaqIndex === idx;
+              return effectsConfig.digitalMarketingFaqSpotlight ? (
+                <SpotlightCard
+                  key={idx}
+                  theme="light"
+                  spotlightColor="rgba(36, 72, 201, 0.12)"
+                  intensity={0.25}
+                  proximity={100}
+                  className="!p-0 !rounded-[22px] bg-white border border-line/80 shadow-card overflow-hidden transition-all duration-200"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                    className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer select-none"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-sm sm:text-base font-bold text-deep font-heading pr-2">
+                      {faq.q}
+                    </span>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                        isOpen ? 'bg-primary text-white rotate-180' : 'bg-soft text-primary'
+                      }`}
+                    >
+                      <ChevronDown size={16} />
+                    </div>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 sm:px-6 pb-5 sm:pb-6 text-sm text-muted leading-relaxed border-t border-line/40 pt-4">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </SpotlightCard>
+              ) : (
+                <div
+                  key={idx}
+                  className="rounded-[22px] bg-white border border-line/80 shadow-card overflow-hidden"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                    className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer select-none"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-sm sm:text-base font-bold text-deep font-heading pr-2">
+                      {faq.q}
+                    </span>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                        isOpen ? 'bg-primary text-white rotate-180' : 'bg-soft text-primary'
+                      }`}
+                    >
+                      <ChevronDown size={16} />
+                    </div>
+                  </button>
+                  {isOpen && (
+                    <div className="px-5 sm:px-6 pb-5 sm:pb-6 text-sm text-muted leading-relaxed border-t border-line/40 pt-4">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 7. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
       <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70">
         <div className="max-w-content mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
@@ -1024,12 +1259,178 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 7. CLOSING DEMO BANNER (LASERFLOW IN LAZYMOUNT + STARBORDER BUTTON) ─── */}
+      {/* ─── 8. CLOSING DEMO BANNER (LASERFLOW IN LAZYMOUNT + STARBORDER BUTTON) ─── */}
       <ClosingDemoBanner
         title="Try a free demo class."
         description="Experience our hands-on data labs, mentor guidance, and production curriculums in-person at any of our 4 Mumbai centers."
         buttonText="Book your free demo session"
       />
+
+      {/* ─── CERTIFICATE LIGHTBOX MODAL ─── */}
+      <AnimatePresence>
+        {isCertModalOpen && (
+          <div
+            className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cert-modal-title"
+          >
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsCertModalOpen(false)}
+              className="fixed inset-0 bg-[#0b1a52]/70 backdrop-blur-sm"
+            />
+
+            {/* Modal Dialog Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="relative w-full max-w-2xl bg-white rounded-[24px] shadow-2xl border border-line/80 overflow-hidden z-10 my-auto flex flex-col max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-4 sm:p-6 border-b border-line/60 bg-surface shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-soft text-primary flex items-center justify-center shrink-0">
+                    <Award size={18} />
+                  </div>
+                  <div>
+                    <h3 id="cert-modal-title" className="text-base font-bold text-deep font-heading">
+                      Official Course Certificate
+                    </h3>
+                    <p className="text-xs text-muted">
+                      Government Recognized &amp; ISO 9001:2015 Certified
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsCertModalOpen(false)}
+                  className="w-8 h-8 rounded-full bg-soft/80 hover:bg-soft text-muted hover:text-deep flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                  aria-label="Close certificate modal"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Certificate Document Body */}
+              <div className="p-4 sm:p-8 bg-[#fdfcf9] overflow-y-auto flex-1">
+                <div className="p-5 sm:p-8 rounded-[16px] border-2 border-primary/20 bg-white relative shadow-sm space-y-6">
+                  {/* Decorative Corners */}
+                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-primary/40 pointer-events-none" />
+                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-primary/40 pointer-events-none" />
+                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-primary/40 pointer-events-none" />
+                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-primary/40 pointer-events-none" />
+
+                  <div className="text-center space-y-1">
+                    <p className="text-[11px] font-bold text-primary uppercase tracking-widest font-heading">
+                      Infodesk Computer Education · Mumbai
+                    </p>
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
+                      Certificate of Completion
+                    </h4>
+                    <p className="text-xs text-muted">
+                      This is to certify the successful completion of the professional program in
+                    </p>
+                    <p className="text-lg sm:text-xl font-bold text-primary font-heading pt-1">
+                      Digital Marketing &amp; Practical Job Training
+                    </p>
+                  </div>
+
+                  {/* Course Details Grid */}
+                  <div className="grid grid-cols-2 gap-3 py-3 border-y border-line/60 text-xs">
+                    <div>
+                      <span className="text-muted block">Duration</span>
+                      <span className="font-semibold text-deep">6 Months + Job Training</span>
+                    </div>
+                    <div>
+                      <span className="text-muted block">Format</span>
+                      <span className="font-semibold text-deep">In-Person &amp; Live Projects</span>
+                    </div>
+                    <div>
+                      <span className="text-muted block">Curriculum</span>
+                      <span className="font-semibold text-deep">10 Comprehensive Modules</span>
+                    </div>
+                    <div>
+                      <span className="text-muted block">Accreditation</span>
+                      <span className="font-semibold text-deep">Govt. Recognized · ISO 9001:2015</span>
+                    </div>
+                  </div>
+
+                  {/* Modules Pills Grid */}
+                  <div className="space-y-2">
+                    <p className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                      Verified Curriculum Modules (10)
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {DIGITAL_MARKETING_MODULES.map((m) => (
+                        <span
+                          key={m.number}
+                          className="text-[10px] sm:text-[11px] font-medium px-2.5 py-1 rounded-md bg-soft text-primary border border-line/60"
+                        >
+                          {m.number}. {m.name || m.title}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Seals & Signatures */}
+                  <div className="flex items-center justify-between pt-4 border-t border-line/50 text-[11px] text-muted">
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck size={24} className="text-primary" />
+                      <div>
+                        <p className="font-bold text-deep leading-none">ISO 9001:2015</p>
+                        <p className="text-[10px]">Quality Certified</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-deep leading-none">Infodesk Academic Council</p>
+                      <p className="text-[10px]">Mumbai Centers</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Actions */}
+              <div className="p-4 sm:p-5 border-t border-line/60 bg-surface flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+                <a
+                  href="/assets/Infodesk_Computer_Education.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold text-muted hover:text-deep hover:bg-soft transition-colors border border-line/60"
+                >
+                  <FileDown size={14} />
+                  <span>Download brochure (PDF)</span>
+                </a>
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => setIsCertModalOpen(false)}
+                    className="flex-1 sm:flex-none px-4 py-2.5 rounded-full text-xs font-semibold text-muted hover:text-deep hover:bg-soft transition-colors cursor-pointer"
+                  >
+                    Close
+                  </button>
+                  <Button
+                    to="/contact"
+                    size="sm"
+                    variant="primary"
+                    className="flex-1 sm:flex-none !px-5"
+                    onClick={() => setIsCertModalOpen(false)}
+                  >
+                    Book a free demo
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
