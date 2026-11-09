@@ -27,6 +27,7 @@ import CurvedLoop from '../components/CurvedLoop';
 import GooeyNav from '../components/GooeyNav';
 import Stepper, { Step } from '../components/Stepper';
 import SpotlightCard from '../components/SpotlightCard';
+import TiltedCard from '../components/TiltedCard';
 import PixelCard from '../components/PixelCard';
 import LazyMount from '../components/common/LazyMount';
 
@@ -640,6 +641,48 @@ export default function DigitalMarketingDetail({ course }) {
                 brochurePath="/assets/Infodesk_Computer_Education.pdf"
                 className="sticky lg:top-[92px]"
               />
+
+              {/* React Bits TiltedCard: Certificate & Accreditation Showcase */}
+              {effectsConfig.digitalMarketingTiltedCard && (
+                <div className="hidden sm:block">
+                  <TiltedCard
+                    containerHeight="auto"
+                    containerWidth="100%"
+                    imageHeight="auto"
+                    imageWidth="100%"
+                    scaleOnHover={1.02}
+                    rotateAmplitude={8}
+                    showTooltip={false}
+                    glare={0.25}
+                    glareColor="#2448c9"
+                    radius={20}
+                    className="w-full"
+                  >
+                    <div className="p-5 rounded-[20px] bg-white border border-line/80 shadow-card space-y-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-9 h-9 rounded-full bg-soft text-primary flex items-center justify-center shrink-0">
+                          <Award size={18} />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-bold text-deep leading-tight font-heading">
+                            Course Certificate
+                          </h4>
+                          <p className="text-[11px] text-muted">
+                            Govt. Recognized & ISO 9001:2015
+                          </p>
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted leading-relaxed">
+                        Official certification issued upon completing all 10 modules and practical project assignments.
+                      </p>
+                      <div className="flex items-center justify-between pt-2.5 border-t border-line/50 text-[11px] font-semibold text-primary">
+                        <span>10 Modules</span>
+                        <span>Job Training Included</span>
+                      </div>
+                    </div>
+                  </TiltedCard>
+                </div>
+              )}
             </div>
           </div>
         </div>
