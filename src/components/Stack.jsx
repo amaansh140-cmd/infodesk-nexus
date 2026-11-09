@@ -5,12 +5,7 @@ import { animate, motion, motionValue, useReducedMotion } from 'motion/react';
 
 import './Stack.css';
 
-const DEFAULT_IMAGES = [
-  'https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=500&auto=format',
-  'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=500&auto=format',
-  'https://images.unsplash.com/photo-1452626212852-811d58933cae?q=80&w=500&auto=format',
-  'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=500&auto=format'
-];
+const DEFAULT_IMAGES = [];
 
 const ORIGINS = { fan: [0.9, 0.9], cascade: [0.5, 0.5], deck: [0.5, 0], pile: [0.5, 0.5] };
 const EXITS = { fan: [1, -0.3], cascade: [0.8, 0.6], deck: [0, 1] };
@@ -88,10 +83,7 @@ export default function Stack({
   className = '',
   style
 }) {
-  const items =
-    cards && cards.length
-      ? cards
-      : DEFAULT_IMAGES.map((src, index) => <img key={src} src={src} alt={`Card ${index + 1}`} draggable={false} />);
+  const items = cards && cards.length ? cards : [];
   const count = items.length;
   const shape = ORIGINS[layout] ? layout : 'fan';
   const reduceMotion = useReducedMotion();

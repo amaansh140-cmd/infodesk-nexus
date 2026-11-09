@@ -186,19 +186,20 @@ The application integrates components from **React Bits** (JS + CSS variant) wit
 12. **FlipCard** (`effectsConfig.dataScienceRelatedFlip`): Related courses flat flipping cards (`height={300}`, front: program summary, tools chips, duration, and single flip hint; back: curriculum preview & direct course link; keyboard focus ring enabled).
 
 ### Digital Marketing Course (`/courses/digital-marketing`)
-1. **Aurora** (`effectsConfig.digitalMarketingAurora`): Deep blue (`#2448c9`, `#4a6df0`, `#a5d8ff`) fluid WebGL background canvas in hero, wrapped in `<LazyMount>` (`mouseInteraction={false}`).
-2. **ShinyText** (`effectsConfig.digitalMarketingShinyText`): Soft metallic shine across the bold H1 heading.
-3. **TrueFocus** (`effectsConfig.digitalMarketingTrueFocus`): Animated ice-blue bracket frame highlighting marketing core pillars ("Search Social Ads Content") with static fallback under reduced-motion.
-4. **Stack** (`effectsConfig.digitalMarketingStack`): Desktop 3D deck of 4 marketing cards (SEO search result, SMM social post with zero numbers, Google Ads search banner, Email nurture sequence) with manual swipe/click and static mobile SEO fallback.
-5. **Counter** (`effectsConfig.counter`): Bottom glass stats bar displaying 10 modules, 6 months, 4 branches, and 67 topics covered.
-6. **CurvedLoop** (`effectsConfig.digitalMarketingCurvedLoop`): Soft-blue band ticker continuously looping 15 brochure marketing channels (static wrapping chips under reduced motion).
-7. **GooeyNav as Tabs** (`effectsConfig.digitalMarketingGooeyNav`): Accessible 4-stage funnel navigation (`role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`, and ArrowLeft/ArrowRight/Home/End keyboard navigation) with `noCanvas={true}` for zero-WebGL footprint.
-8. **FlowingMenu** (`effectsConfig.digitalMarketingFlowingMenu`): Desktop liquid menu linking each of the 10 modules to its syllabus accordion with module index and topic count tags (clean vertical expandable list fallback on mobile).
-9. **GlassIcons** (`effectsConfig.digitalMarketingGlassIcons`): Grid of 6 mastered marketing channels using royal blue, bright blue, and ice blue gradients with `noCanvas={true}` DOM/CSS mode.
-10. **AnimatedList** (`effectsConfig.digitalMarketingAnimatedList`): Interactive spring-animated list of 8 practical classroom skills with module tags (static list fallback under reduced motion).
-11. **ScrollReveal** (`effectsConfig.digitalMarketingScrollReveal`): Deep blue section with un-blurring sentence: *"SEO, social media, ads, content, WhatsApp and email. One course, 10 modules."*
-12. **PixelCard** (`effectsConfig.digitalMarketingPixelCard`): Related courses (ADDM 12 months & Graphic Design 4 months) with interactive twinkling pixels on hover and direct syllabus links.
-13. **LaserFlow** (`effectsConfig.digitalMarketingLaserFlow`): Closing demo banner WebGL background canvas in `<LazyMount>` with off-white `StarBorder` button.
+Following the trim, de-duplication, and accuracy pass (reducing document height from 8,931 px to 5,384 px, a 39.7% drop):
+1. **Hero & Stack** (`effectsConfig.digitalMarketingAurora`, `effectsConfig.digitalMarketingStack`): Deep blue Aurora WebGL background canvas, ShinyText title, TrueFocus pillar highlight, Counter stats bar (10 modules, 6 months, 4 branches, 67 topics), and desktop Stack featuring 4 custom deep-blue glass illustration cards (SEO search result with highlighted keyword, SMM social post with zero engagement numbers/counts, Google Ads search card with "Ad" tag, and Email nurture card) with static SEO card on mobile.
+2. **Channel Ticker Strip** (`effectsConfig.digitalMarketingCurvedLoop`): Slim, sentence-case ticker (`py-2 sm:py-2.5`, 30px font weight 600) smoothly looping 15 brochure marketing channels (static chips under reduced motion).
+3. **Compact Customer Journey** (`effectsConfig.digitalMarketingGooeyNav`): Ultra-compact 4-stage funnel (`Awareness`, `Engagement`, `Conversion`, `Loyalty`) with accessible `role="tablist"` / `role="tab"` GooeyNav tabs (`noCanvas={true}` for zero-WebGL footprint), single factual sentence, and clickable topic chips that expand and smooth-scroll to the exact syllabus module with 16px clearance below the 72px header.
+4. **Detailed Syllabus**: Accordion listing all 10 brochure modules in exact order with sticky Course Overview sidebar card. Module 3 (SEM) features single approved line (`"Reach customers through paid search."`) with 0 chips due to the brochure copy error. Total dynamically computed topics: 67.
+5. **Student Stories**: Section heading `"Student stories"`, subline `"What our students say."`, 4 brochure testimonials with exact student quotes, portraits, names, and `"Infodesk student"`. Star ratings, verification badges, and unverified claims removed.
+6. **Related Courses** (`effectsConfig.digitalMarketingPixelCard`): ADDM (12 months) and Graphic Design (4 months) with single border, single shadow, interactive twinkling pixel cards, and direct syllabus links.
+7. **Closing Demo Banner** (`effectsConfig.digitalMarketingLaserFlow`): Closing banner with background LaserFlow canvas in `<LazyMount>` and royal blue `StarBorder` button.
+
+#### Sections Removed During Trim Pass (Redundancy & Accuracy)
+- **FlowingMenu** ("Ten modules designed for modern marketing"): Removed because the syllabus accordion already comprehensively lists every module.
+- **GlassIcons** ("Channels you will master" & duplicate 6-card grid): Removed to eliminate redundant marketing channel claims.
+- **AnimatedList** ("Practical skills you will practise in class"): Removed to eliminate duplicate classroom skill cards.
+- **ScrollReveal Statement**: Removed the unverified slogan section (*"SEO, social media, ads, content, WhatsApp and email. One course, 10 modules."* and institute claims).
 
 ### ⚠️ Brochure Discrepancies & Items Needing Confirmation
 1. **SEM Module Copy Error (Pending Confirmation):**

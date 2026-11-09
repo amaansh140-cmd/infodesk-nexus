@@ -10,6 +10,7 @@ export default function ClosingDemoBanner({
   description = 'Experience our hands-on data labs, mentor guidance, and production curriculums in-person at any of our 4 Mumbai centers.',
   buttonText = 'Book your free demo session',
   className = '',
+  id = 'enquire',
 }) {
   const showLaserFlow =
     effectsConfig.digitalMarketingLaserFlow &&
@@ -18,7 +19,7 @@ export default function ClosingDemoBanner({
     !isTouchDevice;
 
   return (
-    <section className={`max-w-content mx-auto px-6 py-12 ${className}`}>
+    <section id={id} className={`max-w-content mx-auto px-6 py-12 ${className}`}>
       <div className="relative rounded-[32px] bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white p-8 sm:p-12 overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10">
         {/* Background LaserFlow Canvas in LazyMount */}
         {showLaserFlow && (

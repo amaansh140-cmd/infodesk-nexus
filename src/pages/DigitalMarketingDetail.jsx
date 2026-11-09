@@ -1,32 +1,19 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ChevronRight,
   Award,
   CheckCircle2,
   Clock,
-  Sparkles,
   Search,
   Share2,
   Heart,
   MessageCircle,
   Bookmark,
-  ExternalLink,
   Mail,
   Send,
-  Layers,
   FileDown,
   ArrowRight,
-  BookOpen,
-  Target,
-  TrendingUp,
-  Smartphone,
-  Globe,
-  ShieldCheck,
-  Check,
-  Megaphone,
-  Palette,
-  Laptop,
 } from 'lucide-react';
 
 // React Bits Components
@@ -38,13 +25,8 @@ import Stack from '../components/Stack';
 import Counter from '../components/Counter';
 import CurvedLoop from '../components/CurvedLoop';
 import GooeyNav from '../components/GooeyNav';
-import FlowingMenu from '../components/FlowingMenu';
-import GlassIcons from '../components/GlassIcons';
-import AnimatedList from '../components/AnimatedList';
-import ScrollReveal from '../components/ScrollReveal';
 import PixelCard from '../components/PixelCard';
 import LazyMount from '../components/common/LazyMount';
-import Button from '../components/Button';
 
 // Shared Components reused per Adjustment 3
 import ModuleAccordion from '../components/ModuleAccordion';
@@ -57,8 +39,6 @@ import {
   TOTAL_DIGITAL_MARKETING_TOPICS,
   MARKETING_CHANNELS,
   CUSTOMER_JOURNEY_STAGES,
-  CHANNELS_MASTERED,
-  PRACTICAL_SKILLS,
 } from '../data/digitalMarketing';
 import { branches } from '../data/branches';
 import { courses } from '../data/courses';
@@ -72,16 +52,6 @@ import {
   isTouchDevice,
 } from '../config/effects';
 
-// Palette restriction for GlassIcons per Adjustment 6 (royal blue, bright blue, ice blue)
-const GLASS_ICON_COLORS = [
-  'linear-gradient(135deg, #13266f, #2448c9)', // Royal Blue
-  'linear-gradient(135deg, #2448c9, #4a6df0)', // Bright Blue
-  'linear-gradient(135deg, #4a6df0, #60a5fa)', // Sky Blue
-  'linear-gradient(135deg, #1e3a8a, #3b82f6)', // Deep Bright Blue
-  'linear-gradient(135deg, #0284c7, #38bdf8)', // Cyan Blue
-  'linear-gradient(135deg, #1d4ed8, #a5d8ff)', // Ice Blue
-];
-
 export default function DigitalMarketingDetail({ course }) {
   // Related courses (ADDM and Graphic Design per prompt)
   const relatedCourses = useMemo(() => {
@@ -94,7 +64,7 @@ export default function DigitalMarketingDetail({ course }) {
   // Customer Journey Active Stage Tab
   const [activeJourneyStage, setActiveJourneyStage] = useState(0);
 
-  // Robust smooth scroll and auto-expand target module accordion after layout settles (Adjustment 7)
+  // Robust smooth scroll and auto-expand target module accordion after layout settles
   const handleOpenModule = (targetIndex) => {
     // 1. Expand target module
     setOpenModuleIndices((prev) =>
@@ -132,8 +102,7 @@ export default function DigitalMarketingDetail({ course }) {
     );
   };
 
-  // ─── HERO STACK ILLUSTRATION CARDS ───
-  // Card (b) has NO numbers/engagement counts per Adjustment 2
+  // ─── HERO STACK ILLUSTRATION CARDS (B1 FIX: Generic copy, 1px ice-blue border, "Illustration" badge) ───
   const heroCards = [
     // Card (a): SEO Search Result
     <div
@@ -165,12 +134,12 @@ export default function DigitalMarketingDetail({ course }) {
         </p>
       </div>
       <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-[#a5d8ff]">
-        <span>Rank #1 Organic result</span>
-        <span className="text-emerald-400 font-medium">Search Engine Optimization</span>
+        <span>Rank #1 organic result</span>
+        <span className="text-emerald-400 font-medium">Search engine optimization</span>
       </div>
     </div>,
 
-    // Card (b): Social Post Card (SMM) - NO engagement numbers per Adjustment 2
+    // Card (b): Social Post Card (SMM) - NO engagement numbers per Adjustment 2 & B1
     <div
       key="smm-card"
       className="w-full h-full p-6 rounded-[22px] bg-[#0c1a4b]/90 backdrop-blur-xl border border-[#a5d8ff]/30 text-white flex flex-col justify-between shadow-2xl select-none"
@@ -183,7 +152,7 @@ export default function DigitalMarketingDetail({ course }) {
             </div>
             <div>
               <p className="text-xs font-bold text-white leading-none">Your brand</p>
-              <p className="text-[10px] text-[#a5d8ff]/70 mt-0.5">@yourbrand · SMM Campaign</p>
+              <p className="text-[10px] text-[#a5d8ff]/70 mt-0.5">@yourbrand · SMM campaign</p>
             </div>
           </div>
           <span className="text-[10px] font-semibold text-[#a5d8ff] bg-white/10 px-2 py-0.5 rounded-full border border-white/15">
@@ -194,10 +163,10 @@ export default function DigitalMarketingDetail({ course }) {
           Scale your revenue with multi-channel funnels and high-converting lead generation pages built for modern audiences.
         </p>
         <div className="w-full h-24 rounded-xl bg-gradient-to-br from-[#13266f] to-[#2448c9]/50 border border-white/10 flex items-center justify-center text-xs font-semibold text-[#a5d8ff]">
-          Visual Storytelling &amp; Lead Generation
+          Visual storytelling &amp; lead generation
         </div>
       </div>
-      {/* Action icons ONLY - Zero engagement numbers per Adjustment 2 */}
+      {/* Action icons ONLY - Zero engagement numbers per B1 */}
       <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[#a5d8ff]">
         <div className="flex items-center gap-4">
           <Heart size={16} className="text-[#a5d8ff] hover:text-white transition-colors" />
@@ -208,7 +177,7 @@ export default function DigitalMarketingDetail({ course }) {
       </div>
     </div>,
 
-    // Card (c): Google Ads Card
+    // Card (c): Google Ads Search Card
     <div
       key="ads-card"
       className="w-full h-full p-6 rounded-[22px] bg-[#0c1a4b]/90 backdrop-blur-xl border border-[#a5d8ff]/30 text-white flex flex-col justify-between shadow-2xl select-none"
@@ -219,25 +188,25 @@ export default function DigitalMarketingDetail({ course }) {
             <span className="text-[10px] font-bold text-white bg-[#4a6df0] px-2 py-0.5 rounded">
               Ad
             </span>
-            <span className="text-xs font-mono text-[#a5d8ff] truncate">yourbrand.com/leads</span>
+            <span className="text-xs font-mono text-[#a5d8ff] truncate">yourbrand.com/offer</span>
           </div>
           <span className="text-[10px] font-semibold text-[#a5d8ff] bg-white/10 px-2 py-0.5 rounded-full border border-white/15">
             Illustration
           </span>
         </div>
         <h4 className="text-base font-bold text-white leading-snug font-heading">
-          High-Converting Lead Campaigns - Targeted Ads That Convert
+          High-converting lead campaigns - Targeted ads that convert
         </h4>
         <p className="text-xs text-[#c3cbf2] leading-relaxed">
           Reach buyers precisely at the point of commercial intent with keyword targeting, negative lists, and automated bidding.
         </p>
         <div className="flex gap-2 pt-1 text-[11px] text-[#a5d8ff]">
-          <span className="px-2.5 py-1 rounded bg-white/10 border border-white/10">Syllabus Overview</span>
-          <span className="px-2.5 py-1 rounded bg-white/10 border border-white/10">Free Demo Session</span>
+          <span className="px-2.5 py-1 rounded bg-white/10 border border-white/10">Syllabus overview</span>
+          <span className="px-2.5 py-1 rounded bg-white/10 border border-white/10">Free demo session</span>
         </div>
       </div>
       <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-[#a5d8ff]">
-        <span>Google Ads &amp; Paid Search</span>
+        <span>Google Ads &amp; paid search</span>
         <span className="text-emerald-400 font-medium">Right conversion setup</span>
       </div>
     </div>,
@@ -258,9 +227,9 @@ export default function DigitalMarketingDetail({ course }) {
           </span>
         </div>
         <div className="space-y-1">
-          <p className="text-[11px] font-medium text-[#a5d8ff]">Subject Line</p>
+          <p className="text-[11px] font-medium text-[#a5d8ff]">Subject line</p>
           <h4 className="text-base font-bold text-white leading-snug font-heading">
-            Your Weekly Omnichannel Growth &amp; Customer Retention Playbook
+            Your weekly growth &amp; customer retention playbook
           </h4>
         </div>
         <p className="text-xs text-[#c3cbf2] leading-relaxed">
@@ -268,7 +237,7 @@ export default function DigitalMarketingDetail({ course }) {
         </p>
       </div>
       <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-[#a5d8ff]">
-        <span>WhatsApp &amp; Email Marketing</span>
+        <span>WhatsApp &amp; email marketing</span>
         <span className="text-white hover:underline cursor-pointer flex items-center gap-1 font-medium">
           Open campaign <Send size={11} />
         </span>
@@ -278,49 +247,14 @@ export default function DigitalMarketingDetail({ course }) {
 
   // GooeyNav Tab Items for Customer Journey
   const journeyTabItems = CUSTOMER_JOURNEY_STAGES.map((st, idx) => ({
-    label: `${idx + 1}. ${st.label}`,
+    label: st.label,
     id: `journey-tab-${idx}`,
     controls: `journey-tabpanel-${idx}`,
   }));
 
-  // FlowingMenu Items for The Ten Modules
-  const flowingMenuItems = useMemo(() => {
-    return DIGITAL_MARKETING_MODULES.map((mod, idx) => ({
-      text: `${String(idx + 1).padStart(2, '0')} ${mod.name}`,
-      marquee: `${mod.name} · ${mod.topics.length > 0 ? `${mod.topics.length} topics` : 'Paid Search'}`,
-      meta: mod.topics.length > 0 ? `${mod.topics.length} topics` : 'Paid search',
-      targetIndex: idx,
-    }));
-  }, []);
-
-  // GlassIcons Items for Channels You Will Master
-  const glassIconsItems = useMemo(() => {
-    const icons = [Search, Share2, Target, BookOpen, MessageCircle, ShieldCheck];
-    return CHANNELS_MASTERED.map((ch, idx) => {
-      const IconComponent = icons[idx % icons.length];
-      return {
-        id: `channel-${ch.id}`,
-        label: ch.label,
-        color: GLASS_ICON_COLORS[idx % GLASS_ICON_COLORS.length],
-        icon: <IconComponent size={24} className="text-white" />,
-        onClick: () => handleOpenModule(ch.moduleIndex),
-      };
-    });
-  }, []);
-
-  // AnimatedList Items for Skills You Will Practise
-  const animatedListItems = useMemo(() => {
-    return PRACTICAL_SKILLS.map((item, idx) => ({
-      id: item.id || `skill-${idx}`,
-      title: item.title,
-      subtitle: item.moduleTag,
-      badge: item.moduleTag,
-    }));
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-ink overflow-x-hidden">
-      {/* ─── 1. HERO SECTION (FULL BLEED DEEP BLUE WITH AURORA & STACK) ─── */}
+      {/* ─── 1. HERO SECTION (APPROVED: LAYOUT, TEXT, BACKGROUND, BUTTONS & STATS BAR UNCHANGED) ─── */}
       <section
         id="overview"
         className="relative bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white min-h-[82vh] flex flex-col justify-between pt-14 pb-10 overflow-hidden"
@@ -462,18 +396,18 @@ export default function DigitalMarketingDetail({ course }) {
               </div>
             </div>
 
-            {/* Right Column: ~42% (5 cols on lg) */}
+            {/* Right Column: B1 FIX: cards={heroCards} illustration cards, NO remote demo images */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               {/* Desktop (>= 1024px): Stack of 4 illustration cards (460x380px container) */}
               <div className="hidden lg:block w-[460px] h-[380px] relative">
                 <Stack
-                  items={heroCards}
-                  shape="deck"
+                  cards={heroCards}
+                  layout="deck"
                   autoplay={false}
                   visible={4}
                   radius={22}
-                  spread={14}
-                  depth={18}
+                  spread={0.6}
+                  depth={0.4}
                   className="w-full h-full"
                 />
               </div>
@@ -532,25 +466,26 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 2. CHANNEL STRIP (CURVEDLOOP ON SOFT-BLUE BAND) ─── */}
-      <section className="bg-[#eef2fd] border-y border-[#c3d1fb]/70 py-4 overflow-hidden relative">
+      {/* ─── 2. CHANNEL STRIP (SLIM BAND, SENTENCE CASE, 30PX FONT - B3 FIX) ─── */}
+      <section className="bg-[#eef2fd] border-y border-[#c3d1fb]/60 py-2 sm:py-2.5 overflow-hidden relative">
         {!prefersReducedMotion ? (
-          <div className="w-full h-14 sm:h-16 flex items-center justify-center">
+          <div className="w-full h-12 sm:h-14 flex items-center justify-center">
             <CurvedLoop
               marqueeText={MARKETING_CHANNELS.join(' · ')}
               speed={1.5}
               shape="line"
-              fontSize={24}
+              fontSize={30}
+              fontWeight={600}
               color="#13266f"
               separator="·"
               separatorColor="#4a6df0"
               interactive={false}
-              className="font-bold tracking-wide uppercase font-heading select-none"
+              className="font-semibold tracking-normal font-heading select-none"
             />
           </div>
         ) : (
-          /* Reduced-motion Fallback: Static wrapping chips per Adjustment 5 */
-          <div className="max-w-content mx-auto px-6 flex flex-wrap justify-center gap-2 py-2">
+          /* Reduced-motion Fallback: Static wrapping chips in sentence case */
+          <div className="max-w-content mx-auto px-6 flex flex-wrap justify-center gap-2 py-1.5">
             {MARKETING_CHANNELS.map((ch) => (
               <span
                 key={ch}
@@ -563,23 +498,20 @@ export default function DigitalMarketingDetail({ course }) {
         )}
       </section>
 
-      {/* ─── 3. CUSTOMER JOURNEY (ACCESSIBLE GOOEYNAV TABS) ─── */}
-      <section id="journey" className="py-16 sm:py-24 bg-surface relative">
+      {/* ─── 3. CUSTOMER JOURNEY (COMPACT VERSION, ~450PX TALL - B4 FIX) ─── */}
+      <section id="journey" className="py-12 sm:py-16 bg-surface relative">
         <div className="max-w-content mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary px-3 py-1 rounded-full bg-soft border border-line">
-              Funnel Strategy
-            </span>
+          <div className="text-center max-w-2xl mx-auto space-y-2 mb-8">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              How customers discover, trust and buy
+              From first click to loyal customer
             </h2>
             <p className="text-muted text-sm sm:text-base leading-relaxed">
-              Modern digital marketing connects awareness to conversion. Explore each stage of the funnel below.
+              This shows how the topics fit a customer journey, not the class order.
             </p>
           </div>
 
-          {/* Interactive GooeyNav as Accessible Tabs (Adjustment 6) */}
-          <div className="flex justify-center mb-10 overflow-x-auto max-w-full pb-2 no-scrollbar">
+          {/* Interactive GooeyNav as Accessible Tabs (No eyebrow pills, no all-caps) */}
+          <div className="flex justify-center mb-8 overflow-x-auto max-w-full pb-2 no-scrollbar">
             <GooeyNav
               asTabs={true}
               noCanvas={true}
@@ -594,354 +526,51 @@ export default function DigitalMarketingDetail({ course }) {
             />
           </div>
 
-          {/* Active Journey Stage Tabpanel */}
+          {/* Active Journey Stage Compact Tabpanel */}
           <div
             role="tabpanel"
             id={`journey-tabpanel-${activeJourneyStage}`}
             aria-labelledby={`journey-tab-${activeJourneyStage}`}
-            className="focus:outline-none"
+            className="focus:outline-none max-w-3xl mx-auto text-center space-y-6"
           >
-            {/* Stage Description Header */}
-            <div className="p-6 rounded-2xl bg-soft/40 border border-line/80 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                  Stage {activeJourneyStage + 1} of 4 · {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].label}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-deep mt-1 font-heading">
-                  {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].headline}
-                </h3>
-                <p className="text-sm text-muted mt-1 max-w-2xl">
-                  {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].summary}
-                </p>
-              </div>
-              <div className="shrink-0">
-                <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white border border-line text-primary shadow-sm inline-flex items-center gap-1.5">
-                  <Target size={14} />
-                  <span>{CUSTOMER_JOURNEY_STAGES[activeJourneyStage].cards.length} Channels</span>
-                </span>
-              </div>
-            </div>
+            <p className="text-sm sm:text-base text-deep/90 font-medium leading-relaxed">
+              {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].sentence}
+            </p>
 
-            {/* Stage Channel Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].cards.map((card, cIdx) => (
-                <div
+            {/* Compact Topic Chips Linking to Syllabus Modules with 16px clearance */}
+            <div className="flex flex-wrap justify-center gap-2.5 pt-2">
+              {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].chips.map((chip, cIdx) => (
+                <button
                   key={cIdx}
-                  className="p-6 rounded-2xl bg-white border border-line/80 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
+                  type="button"
+                  onClick={() => handleOpenModule(chip.moduleIndex)}
+                  className="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white border border-line/80 text-primary hover:border-primary hover:bg-soft/40 transition-all shadow-sm flex items-center gap-2 group"
                 >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-soft text-primary border border-line/60">
-                        {card.moduleName}
-                      </span>
-                      <span className="text-xs text-muted font-mono">
-                        Module {card.moduleIndex + 1}
-                      </span>
-                    </div>
-                    <h4 className="text-lg font-bold text-deep leading-snug font-heading">
-                      {card.topic}
-                    </h4>
-                  </div>
-
-                  <div className="pt-6 border-t border-line/50 mt-4">
-                    <button
-                      type="button"
-                      onClick={() => handleOpenModule(card.moduleIndex)}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-deep transition-colors group"
-                    >
-                      <span>Open {card.topic} module</span>
-                      <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                </div>
+                  <span>{chip.topic}</span>
+                  <ArrowRight size={13} className="text-primary/70 group-hover:translate-x-0.5 transition-transform" />
+                </button>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── 4. THE TEN MODULES (FLOWINGMENU DESKTOP / EXPANDABLE LIST MOBILE) ─── */}
-      <section id="modules" className="py-16 sm:py-24 bg-soft/30 border-t border-line/70">
-        <div className="max-w-content mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary px-3 py-1 rounded-full bg-soft border border-line">
-              Curriculum Architecture
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              Ten modules designed for modern marketing
-            </h2>
-            <p className="text-muted text-sm sm:text-base leading-relaxed">
-              Every module focuses on a concrete growth lever. Open any module to view its syllabus topics.
-            </p>
-          </div>
-
-          {/* Desktop (>= 1024px): FlowingMenu */}
-          {!prefersReducedMotion ? (
-            <div className="hidden lg:block rounded-2xl overflow-hidden border border-line/80 shadow-card bg-surface">
-              <FlowingMenu
-                items={flowingMenuItems}
-                speed={50}
-                textColor="#13266f"
-                bgColor="#ffffff"
-                marqueeBgColor="#13266f"
-                marqueeTextColor="#ffffff"
-                borderColor="rgba(19, 38, 111, 0.08)"
-                showIndex={false}
-                showArrow={true}
-                onItemClick={(item) => handleOpenModule(item.targetIndex)}
-                className="w-full"
-              />
-            </div>
-          ) : null}
-
-          {/* Mobile (< 1024px) or Reduced Motion Fallback: Clean Vertical List */}
-          <div className={`${!prefersReducedMotion ? 'lg:hidden' : 'block'} space-y-3`}>
-            {DIGITAL_MARKETING_MODULES.map((mod, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-2xl bg-surface border border-line/80 shadow-sm flex items-center justify-between gap-4"
-              >
-                <div className="flex items-center gap-3.5">
-                  <span className="w-8 h-8 rounded-full bg-soft text-primary font-bold text-xs flex items-center justify-center shrink-0">
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
-                  <div>
-                    <h4 className="text-base font-bold text-deep leading-snug">
-                      {mod.name}
-                    </h4>
-                    <p className="text-xs text-muted mt-0.5">
-                      {mod.topics.length > 0 ? `${mod.topics.length} topics covered` : 'Reach customers through paid search'}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => handleOpenModule(idx)}
-                  className="shrink-0 px-3 py-1.5 rounded-full bg-soft text-primary text-xs font-semibold hover:bg-primary hover:text-white transition-colors"
-                >
-                  View syllabus
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 5. CHANNELS YOU WILL MASTER (GLASSICONS GRID) ─── */}
-      <section id="channels" className="py-16 sm:py-24 bg-surface border-t border-line/70">
-        <div className="max-w-content mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary px-3 py-1 rounded-full bg-soft border border-line">
-              Comprehensive Reach
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              Channels you will master
-            </h2>
-            <p className="text-muted text-sm sm:text-base leading-relaxed">
-              End-to-end expertise across organic search, social platforms, paid advertising, and direct response.
-            </p>
-          </div>
-
-          {/* GlassIcons Component with noCanvas and Royal Blue Palette (Adjustment 6) */}
-          <div className="flex justify-center mb-8">
-            <GlassIcons
-              items={glassIconsItems}
-              theme="light"
-              noCanvas={true}
-              size={64}
-              labels="always"
-              className="max-w-4xl"
-            />
-          </div>
-
-          {/* Quick Module Triggers Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 pt-4">
-            {CHANNELS_MASTERED.map((ch, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => handleOpenModule(ch.moduleIndex)}
-                className="p-4 rounded-xl bg-soft/50 border border-line/70 hover:border-primary/50 hover:bg-soft text-center transition-all group"
-              >
-                <p className="text-xs font-bold text-deep group-hover:text-primary transition-colors">
-                  {ch.label}
-                </p>
-                <p className="text-[11px] text-muted mt-1">
-                  {ch.moduleName}
-                </p>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 6. SKILLS YOU WILL PRACTISE (ANIMATEDLIST) ─── */}
-      <section id="skills" className="py-16 sm:py-24 bg-soft/30 border-t border-line/70">
-        <div className="max-w-content mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left Column: Heading and Overview */}
-            <div className="lg:col-span-6 space-y-5 text-left">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary px-3 py-1 rounded-full bg-soft border border-line">
-                Applied Execution
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-                Practical skills you will practise in class
-              </h2>
-              <p className="text-muted text-sm sm:text-base leading-relaxed">
-                Every topic in the Infodesk curriculum is backed by hands-on execution. You set up live search campaigns, configure tracking schemas, build landing pages, and launch client ads.
-              </p>
-
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-3 text-sm text-deep">
-                  <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                    <Check size={14} />
-                  </div>
-                  <span>Real campaign budgets &amp; simulated ad spend environments</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-deep">
-                  <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                    <Check size={14} />
-                  </div>
-                  <span>Google Search Console &amp; Analytics property verification</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-deep">
-                  <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                    <Check size={14} />
-                  </div>
-                  <span>WordPress CMS live deployment &amp; widget customization</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: AnimatedList or Static Fallback */}
-            <div className="lg:col-span-6 flex justify-center">
-              {!prefersReducedMotion ? (
-                <div className="w-full max-w-lg bg-white rounded-2xl border border-line/80 p-4 shadow-card">
-                  <AnimatedList
-                    items={animatedListItems}
-                    theme="light"
-                    accentColor="#2448c9"
-                    maxHeight={440}
-                    width="100%"
-                    className="w-full"
-                    itemClassName="py-3 px-4 rounded-xl hover:bg-soft/40 transition-colors"
-                  />
-                </div>
-              ) : (
-                /* Reduced-motion Fallback: Static Clean List per Adjustment 5 */
-                <div className="w-full max-w-lg bg-white rounded-2xl border border-line/80 p-5 space-y-3 shadow-card">
-                  {PRACTICAL_SKILLS.map((sk, idx) => (
-                    <div
-                      key={idx}
-                      className="p-3 rounded-xl bg-soft/40 border border-line/60 flex items-center justify-between gap-3 text-sm"
-                    >
-                      <div>
-                        <p className="font-semibold text-deep">{sk.title}</p>
-                        <p className="text-xs text-muted mt-0.5">{sk.moduleTag}</p>
-                      </div>
-                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-white border border-line/60 text-primary shrink-0">
-                        {sk.moduleTag}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 7. STATEMENT (SCROLLREVEAL UN-BLURRING SENTENCE) ─── */}
-      <section className="py-20 sm:py-28 bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-4 relative z-10">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#a5d8ff] px-3.5 py-1 rounded-full bg-white/10 border border-white/15">
-            Full Spectrum Mastery
-          </span>
-          <div className="py-4">
-            <ScrollReveal
-              baseOpacity={0.15}
-              enableBlur={true}
-              baseRotation={0}
-              blurStrength={6}
-              textClassName="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight font-heading"
-            >
-              SEO, social media, ads, content, WhatsApp and email. One course, 10 modules.
-            </ScrollReveal>
-          </div>
-          <p className="text-[#a5d8ff] text-sm sm:text-base max-w-xl mx-auto">
-            Build a market-ready career with production-grade training from Mumbai&apos;s leading computer education institute.
-          </p>
-        </div>
-      </section>
-
-      {/* ─── 8. STUDENT STORIES (BROCHURE AUTHENTIC REVIEWS) ─── */}
-      <section id="stories" className="py-16 sm:py-24 bg-surface border-b border-line/70">
-        <div className="max-w-content mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary px-3 py-1 rounded-full bg-soft border border-line">
-              Student Stories
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              What our students say
-            </h2>
-            <p className="text-muted text-sm sm:text-base leading-relaxed">
-              Authentic feedback from graduates across our Mumbai training centers.
-            </p>
-          </div>
-
-          {/* 4 Exact Brochure Testimonials - NO star ratings, NO verified badges */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {testimonials.map((t) => (
-              <div
-                key={t.id}
-                className="p-6 sm:p-8 rounded-2xl bg-white border border-line/80 shadow-sm flex flex-col justify-between"
-              >
-                <blockquote className="text-sm sm:text-base text-ink/90 leading-relaxed italic">
-                  “{t.quote.replace(/'/g, '’')}”
-                </blockquote>
-
-                <div className="flex items-center gap-3.5 pt-6 border-t border-line/50 mt-6">
-                  <img
-                    src={t.image}
-                    alt={t.name}
-                    className="w-11 h-11 rounded-full object-cover border border-line shadow-sm"
-                    loading="lazy"
-                  />
-                  <div>
-                    <h4 className="text-sm font-bold text-deep leading-tight">
-                      {t.name}
-                    </h4>
-                    <p className="text-xs text-muted mt-0.5">
-                      Infodesk student
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 9. SYLLABUS AND ENROL (MODULEACCORDION + STICKY OVERVIEW CARD) ─── */}
-      <section id="syllabus" className="py-16 sm:py-24 bg-soft/30 scroll-mt-[88px]">
+      {/* ─── 4. DETAILED SYLLABUS (MODULEACCORDION + STICKY OVERVIEW CARD - B5 FIX) ─── */}
+      <section id="syllabus" className="py-12 sm:py-20 bg-soft/30 scroll-mt-[88px]">
         <div className="max-w-content mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: 10 Modules Accordion (col-span-8) */}
             <div className="lg:col-span-8 space-y-6">
-              <div className="space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-primary px-3 py-1 rounded-full bg-soft border border-line">
-                  Course Syllabus
-                </span>
+              <div className="space-y-1.5">
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
-                  10 modules · {TOTAL_DIGITAL_MARKETING_TOPICS} topics covered
+                  Detailed syllabus.
                 </h2>
                 <p className="text-muted text-sm leading-relaxed">
-                  Click any module to expand the full list of classroom topics and practical assignments.
+                  Full topic list for each module.
                 </p>
               </div>
 
-              {/* ModuleAccordion with controlled open indices */}
+              {/* ModuleAccordion with controlled open indices and clean module titles */}
               <ModuleAccordion
                 modules={DIGITAL_MARKETING_MODULES}
                 openIndices={openModuleIndices}
@@ -965,29 +594,81 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 10. RELATED COURSES (PIXELCARD CARDS) ─── */}
-      <section id="related" className="py-16 sm:py-24 bg-surface border-t border-line/70">
+      {/* ─── 5. STUDENT STORIES (4 EXACT BROCHURE QUOTES - B6 FIX) ─── */}
+      <section id="stories" className="py-12 sm:py-20 bg-surface border-t border-line/70">
         <div className="max-w-content mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary px-3 py-1 rounded-full bg-soft border border-line">
-              Explore More Options
-            </span>
+          <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              Related courses in marketing and design
+              Student stories
             </h2>
             <p className="text-muted text-sm sm:text-base leading-relaxed">
+              What our students say.
+            </p>
+          </div>
+
+          {/* 4 Exact Brochure Testimonials - NO star ratings, NO verified badges */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {testimonials.map((t) => (
+              <div
+                key={t.id}
+                className="p-6 sm:p-7 rounded-2xl bg-white border border-line/80 shadow-sm flex flex-col justify-between space-y-5"
+              >
+                <blockquote className="text-sm sm:text-[15px] text-ink/90 leading-relaxed italic">
+                  “{t.quote.replace(/'/g, '’')}”
+                </blockquote>
+
+                <div className="flex items-center gap-3.5 pt-4 border-t border-line/50">
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
+                    loading="lazy"
+                  />
+                  <div>
+                    <h4 className="text-base font-bold text-deep leading-tight">
+                      {t.name}
+                    </h4>
+                    <p className="text-xs text-primary font-semibold mt-0.5">
+                      Infodesk student
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link
+              to="/placements"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors group"
+            >
+              <span>See student stories</span>
+              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 6. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
+      <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70">
+        <div className="max-w-content mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+              Related courses in marketing and design.
+            </h2>
+            <p className="text-muted text-sm leading-relaxed">
               Broaden your career path with diploma and specialization tracks.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {relatedCourses.map((rel) => (
               <PixelCard
                 key={rel.slug}
                 variant="blue"
                 gap={8}
                 speed={30}
-                className="p-6 sm:p-8 rounded-2xl bg-white border border-line/80 shadow-sm flex flex-col justify-between"
+                className="p-6 sm:p-7 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between gap-2">
@@ -1035,7 +716,7 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 11. CLOSING DEMO BANNER (LASERFLOW IN LAZYMOUNT + STARBORDER BUTTON) ─── */}
+      {/* ─── 7. CLOSING DEMO BANNER (LASERFLOW IN LAZYMOUNT + STARBORDER BUTTON) ─── */}
       <ClosingDemoBanner
         title="Try a free demo class."
         description="Experience our hands-on data labs, mentor guidance, and production curriculums in-person at any of our 4 Mumbai centers."

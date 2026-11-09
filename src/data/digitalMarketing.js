@@ -7,10 +7,7 @@
 export const DIGITAL_MARKETING_MODULES = [
   {
     number: 1,
-    name: 'Module 1 - SEO (Search Engine Optimization)',
-    shortTitle: 'SEO',
-    fullName: 'Search Engine Optimization',
-    description: 'Master organic search architecture, technical optimization, and Google search algorithms.',
+    name: 'SEO (search engine optimization)',
     moduleIndex: 0,
     topics: [
       'General SEO',
@@ -30,10 +27,7 @@ export const DIGITAL_MARKETING_MODULES = [
   },
   {
     number: 2,
-    name: 'Module 2 - SMM (Social Media Marketing)',
-    shortTitle: 'SMM',
-    fullName: 'Social Media Marketing',
-    description: 'Build organic presence, high-converting lead generation pages, and funnel-based distribution.',
+    name: 'SMM (social media marketing)',
     moduleIndex: 1,
     topics: [
       'Fundamentals of social media',
@@ -45,19 +39,14 @@ export const DIGITAL_MARKETING_MODULES = [
   },
   {
     number: 3,
-    name: 'Module 3 - SEM (Search Engine Marketing)',
-    shortTitle: 'SEM',
-    fullName: 'Search Engine Marketing',
+    name: 'SEM (search engine marketing)',
     description: 'Reach customers through paid search.',
     moduleIndex: 2,
     topics: [], // SEM topics duplicated from SEO in printed brochure; zero invented topics per specification
   },
   {
     number: 4,
-    name: 'Module 4 - Google Ads',
-    shortTitle: 'Google Ads',
-    fullName: 'Google Ads & Paid Search',
-    description: 'Configure conversion tracking, advanced audience targeting, and high-ROI campaigns.',
+    name: 'Google Ads',
     moduleIndex: 3,
     topics: [
       'Fundamentals and right conversion setup in all scenarios',
@@ -69,10 +58,7 @@ export const DIGITAL_MARKETING_MODULES = [
   },
   {
     number: 5,
-    name: 'Module 5 - WordPress',
-    shortTitle: 'WordPress',
-    fullName: 'WordPress Management',
-    description: 'Deploy, configure, and manage high-performance blogs, pages, and marketing funnels.',
+    name: 'WordPress',
     moduleIndex: 4,
     topics: [
       'Add, edit and delete categories',
@@ -89,10 +75,7 @@ export const DIGITAL_MARKETING_MODULES = [
   },
   {
     number: 6,
-    name: 'Module 6 - Blogging',
-    shortTitle: 'Blogging',
-    fullName: 'Blogging & Organic Traffic',
-    description: 'Establish domain authority and drive qualified inbound traffic with editorial frameworks.',
+    name: 'Blogging',
     moduleIndex: 5,
     topics: [
       'Driving website traffic',
@@ -105,10 +88,7 @@ export const DIGITAL_MARKETING_MODULES = [
   },
   {
     number: 7,
-    name: 'Module 7 - Content Marketing',
-    shortTitle: 'Content Marketing',
-    fullName: 'Content Strategy & Retention',
-    description: 'Develop strategic assets that build credibility, generate leads, and retain customers.',
+    name: 'Content marketing',
     moduleIndex: 6,
     topics: [
       'Improved brand awareness',
@@ -121,10 +101,7 @@ export const DIGITAL_MARKETING_MODULES = [
   },
   {
     number: 8,
-    name: 'Module 8 - App Marketing',
-    shortTitle: 'App Marketing',
-    fullName: 'Mobile & App Store Marketing',
-    description: 'Drive app installs and lifecycle engagement through App Store Optimization and user retention.',
+    name: 'App marketing',
     moduleIndex: 7,
     topics: [
       'App promotion and engagement',
@@ -138,10 +115,7 @@ export const DIGITAL_MARKETING_MODULES = [
   },
   {
     number: 9,
-    name: 'Module 9 - ORM (Online Reputation Management)',
-    shortTitle: 'ORM',
-    fullName: 'Online Reputation Management',
-    description: 'Monitor brand sentiment, command digital narratives, and manage public reviews proactively.',
+    name: 'ORM (online reputation management)',
     moduleIndex: 8,
     topics: [
       'Monitoring',
@@ -153,10 +127,7 @@ export const DIGITAL_MARKETING_MODULES = [
   },
   {
     number: 10,
-    name: 'Module 10 - Marketing',
-    shortTitle: 'Marketing',
-    fullName: 'Multi-Channel Marketing & Freelancing',
-    description: 'Master omnichannel execution across WhatsApp, email, video, e-commerce, and client acquisition.',
+    name: 'Marketing',
     moduleIndex: 9,
     topics: [
       'WhatsApp marketing',
@@ -179,179 +150,71 @@ export const TOTAL_DIGITAL_MARKETING_TOPICS = DIGITAL_MARKETING_MODULES.reduce(
   0
 );
 
-// 15 Channel loop names for CurvedLoop
+// 15 Channel loop names for CurvedLoop (in sentence case)
 export const MARKETING_CHANNELS = [
   'SEO',
-  'Social media',
+  'Social media marketing',
   'Google Ads',
   'WordPress',
-  'Blogging',
   'Content marketing',
+  'Blogging',
   'App marketing',
-  'Online reputation',
-  'WhatsApp',
-  'Email',
-  'Video',
-  'Affiliate',
-  'E-commerce',
-  'Google My Business',
-  'Display ads',
+  'Online reputation management',
+  'Email nurture',
+  'WhatsApp campaigns',
+  'Lead generation',
+  'Keyword research',
+  'Funnel strategy',
+  'Local SEO',
+  'Client closing',
 ];
 
-// Customer Journey stages mapping to syllabus modules
+// Compact Customer Journey stages mapping to syllabus modules
 export const CUSTOMER_JOURNEY_STAGES = [
   {
     id: 'awareness',
     label: 'Awareness',
-    headline: 'Capture audience attention at the top of the funnel',
-    summary: 'Attract high-intent searchers and build broad awareness across search engines, blogs, and display networks.',
-    cards: [
-      { topic: 'SEO', moduleIndex: 0, moduleName: 'Module 1 - SEO' },
-      { topic: 'Blogging', moduleIndex: 5, moduleName: 'Module 6 - Blogging' },
-      { topic: 'Content marketing', moduleIndex: 6, moduleName: 'Module 7 - Content Marketing' },
-      { topic: 'Display advertising', moduleIndex: 9, moduleName: 'Module 10 - Marketing' },
-      { topic: 'Media planning and buying', moduleIndex: 9, moduleName: 'Module 10 - Marketing' },
+    sentence: 'Get found by people who are searching and browsing.',
+    chips: [
+      { topic: 'SEO', moduleIndex: 0 },
+      { topic: 'Blogging', moduleIndex: 5 },
+      { topic: 'Content marketing', moduleIndex: 6 },
+      { topic: 'Display advertising', moduleIndex: 9 },
+      { topic: 'Media planning and buying', moduleIndex: 9 },
     ],
   },
   {
     id: 'engagement',
     label: 'Engagement',
-    headline: 'Nurture interest through compelling media and community',
-    summary: 'Engage prospects with interactive social content, rich video storytelling, and mobile app touchpoints.',
-    cards: [
-      { topic: 'Social media marketing', moduleIndex: 1, moduleName: 'Module 2 - SMM' },
-      { topic: 'Video marketing', moduleIndex: 9, moduleName: 'Module 10 - Marketing' },
-      { topic: 'App marketing', moduleIndex: 7, moduleName: 'Module 8 - App Marketing' },
-      { topic: 'Managing social media comments', moduleIndex: 8, moduleName: 'Module 9 - ORM' },
+    sentence: 'Build brand presence and engage prospects across social and app channels.',
+    chips: [
+      { topic: 'Social media marketing', moduleIndex: 1 },
+      { topic: 'Video marketing', moduleIndex: 9 },
+      { topic: 'App marketing', moduleIndex: 7 },
+      { topic: 'Managing social media comments', moduleIndex: 8 },
     ],
   },
   {
     id: 'conversion',
     label: 'Conversion',
-    headline: 'Turn qualified traffic into paying customers and revenue',
-    summary: 'Drive high-conversion performance campaigns with targeted paid search, optimized landing pages, and CRO.',
-    cards: [
-      { topic: 'Google Ads', moduleIndex: 3, moduleName: 'Module 4 - Google Ads' },
-      { topic: 'Conversion rate optimisation (CRO)', moduleIndex: 9, moduleName: 'Module 10 - Marketing' },
-      { topic: 'E-commerce marketing', moduleIndex: 9, moduleName: 'Module 10 - Marketing' },
-      { topic: 'Affiliate marketing', moduleIndex: 9, moduleName: 'Module 10 - Marketing' },
-      { topic: 'Building a lead generation page', moduleIndex: 1, moduleName: 'Module 2 - SMM' },
+    sentence: 'Turn qualified interest into inquiries, leads and sales.',
+    chips: [
+      { topic: 'Google Ads', moduleIndex: 3 },
+      { topic: 'Conversion rate optimisation (CRO)', moduleIndex: 9 },
+      { topic: 'E-commerce marketing', moduleIndex: 9 },
+      { topic: 'Affiliate marketing', moduleIndex: 9 },
+      { topic: 'Building a lead generation page', moduleIndex: 1 },
     ],
   },
   {
     id: 'loyalty',
     label: 'Loyalty',
-    headline: 'Retain happy customers and build brand advocacy',
-    summary: 'Keep clients engaged and drive repeat business with direct messaging, active review management, and retention.',
-    cards: [
-      { topic: 'Email marketing', moduleIndex: 9, moduleName: 'Module 10 - Marketing' },
-      { topic: 'WhatsApp marketing', moduleIndex: 9, moduleName: 'Module 10 - Marketing' },
-      { topic: 'Responding to reviews', moduleIndex: 8, moduleName: 'Module 9 - ORM' },
-      { topic: 'Customer retention', moduleIndex: 6, moduleName: 'Module 7 - Content Marketing' },
+    sentence: 'Retain customers, handle reviews, and maintain direct client communication.',
+    chips: [
+      { topic: 'Email marketing', moduleIndex: 9 },
+      { topic: 'WhatsApp marketing', moduleIndex: 9 },
+      { topic: 'Responding to reviews', moduleIndex: 8 },
+      { topic: 'Customer retention', moduleIndex: 6 },
     ],
-  },
-];
-
-// Channels You Will Master (GlassIcons)
-export const CHANNELS_MASTERED = [
-  {
-    id: 'search',
-    label: 'Search (SEO)',
-    moduleIndex: 0,
-    moduleName: 'Module 1 - SEO',
-    iconType: 'search',
-    color: '#2448c9', // Royal blue
-  },
-  {
-    id: 'social',
-    label: 'Social (SMM)',
-    moduleIndex: 1,
-    moduleName: 'Module 2 - SMM',
-    iconType: 'share',
-    color: '#4a6df0', // Bright blue
-  },
-  {
-    id: 'ads',
-    label: 'Ads (Google Ads)',
-    moduleIndex: 3,
-    moduleName: 'Module 4 - Google Ads',
-    iconType: 'megaphone',
-    color: '#13266f', // Deep blue
-  },
-  {
-    id: 'content',
-    label: 'Content (Blogging)',
-    moduleIndex: 5,
-    moduleName: 'Module 6 - Blogging',
-    iconType: 'document',
-    color: '#2448c9', // Royal blue
-  },
-  {
-    id: 'messaging',
-    label: 'WhatsApp and email',
-    moduleIndex: 9,
-    moduleName: 'Module 10 - Marketing',
-    iconType: 'mail',
-    color: '#4a6df0', // Bright blue
-  },
-  {
-    id: 'reputation',
-    label: 'Reputation (ORM)',
-    moduleIndex: 8,
-    moduleName: 'Module 9 - ORM',
-    iconType: 'shield',
-    color: '#0b1a52', // Darker blue
-  },
-];
-
-// Practical Skills You Will Practise (AnimatedList)
-export const PRACTICAL_SKILLS = [
-  {
-    id: 'skill-1',
-    title: 'Build a lead generation page',
-    moduleTag: 'Module 2',
-    moduleIndex: 1,
-  },
-  {
-    id: 'skill-2',
-    title: 'Build a funnel-based strategy',
-    moduleTag: 'Module 2',
-    moduleIndex: 1,
-  },
-  {
-    id: 'skill-3',
-    title: 'Create ads that convert',
-    moduleTag: 'Module 4',
-    moduleIndex: 3,
-  },
-  {
-    id: 'skill-4',
-    title: 'Set up conversions correctly',
-    moduleTag: 'Module 4',
-    moduleIndex: 3,
-  },
-  {
-    id: 'skill-5',
-    title: 'Publish posts and pages in WordPress',
-    moduleTag: 'Module 5',
-    moduleIndex: 4,
-  },
-  {
-    id: 'skill-6',
-    title: 'Drive traffic with blogging',
-    moduleTag: 'Module 6',
-    moduleIndex: 5,
-  },
-  {
-    id: 'skill-7',
-    title: 'Run WhatsApp and email campaigns',
-    moduleTag: 'Module 10',
-    moduleIndex: 9,
-  },
-  {
-    id: 'skill-8',
-    title: 'Respond to reviews and manage comments',
-    moduleTag: 'Module 9',
-    moduleIndex: 8,
   },
 ];
