@@ -185,8 +185,9 @@ export default function DigitalMarketingDetail({ course }) {
   // Customer Journey Active Stage Tab
   const [activeJourneyStage, setActiveJourneyStage] = useState(0);
 
-  // Certificate Lightbox Modal State
+  // Certificate Lightbox Modal State & Active Tab (0: Diploma, 1: Job Training, 2: Transcript)
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
+  const [activeCertTab, setActiveCertTab] = useState(0);
 
   // FAQ Accordion State
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
@@ -210,41 +211,28 @@ export default function DigitalMarketingDetail({ course }) {
     };
   }, [isCertModalOpen]);
 
-  // Interactive Course Materials Folder Items
-  const folderItems = useMemo(
+  // Interactive Course Certificate Folder Items (Credentials Awarded After Course Completion)
+  const certificateFolderItems = useMemo(
     () => [
       {
-        title: 'Official Brochure',
-        description: 'Complete 2026 curriculum PDF',
+        title: 'Course Diploma',
+        description: 'Govt. Recognized · ISO 9001:2015',
       },
       {
-        title: '10-Module Syllabus',
-        description: 'Detailed module breakdown',
+        title: 'Job Training Letter',
+        description: 'Live campaign & agency projects',
       },
       {
-        title: '4 Mumbai Centers',
-        description: 'Andheri, Borivali, Dadar, Thane',
+        title: 'Module Transcript',
+        description: '10 modules · 67 topics verified',
       },
     ],
     []
   );
 
   const handleFolderItemClick = (item, index) => {
-    if (index === 0) {
-      window.open('/assets/Infodesk_Computer_Education.pdf', '_blank');
-    } else if (index === 1) {
-      const syllabusEl = document.getElementById('syllabus');
-      if (syllabusEl) {
-        const headerOffset = 88;
-        const elementPosition = syllabusEl.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-          top: elementPosition - headerOffset,
-          behavior: 'smooth',
-        });
-      }
-    } else if (index === 2) {
-      navigate('/contact');
-    }
+    setActiveCertTab(index);
+    setIsCertModalOpen(true);
   };
 
   // Robust smooth scroll and auto-expand target module accordion after layout settles
@@ -926,100 +914,41 @@ export default function DigitalMarketingDetail({ course }) {
                 className="sticky lg:top-[92px]"
               />
 
-              {/* React Bits Folder: Interactive Course Kit & Materials */}
+              {/* React Bits Folder: Interactive Course Certificate & Credentials */}
               {effectsConfig.digitalMarketingFolder && (
                 <div className="hidden sm:block">
                   <div className="p-5 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col items-center text-center space-y-4">
                     <div className="w-full flex items-center justify-between text-left">
                       <div>
                         <h4 className="text-sm font-bold text-deep font-heading">
-                          Course kit &amp; materials
+                          Course certificate &amp; credentials
                         </h4>
                         <p className="text-[11px] text-muted">
-                          Official brochure and curriculum sheets
+                          Official certification awarded after course completion
                         </p>
                       </div>
                       <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-soft text-primary border border-line/50">
-                        Interactive
+                        Govt. Recognized
                       </span>
                     </div>
 
                     <div className="py-2 flex justify-center w-full min-h-[195px] items-center overflow-visible">
                       <Folder
-                        label="Digital Marketing Kit"
+                        label="Course Certificate"
                         color="#13266f"
                         paperColor="#ffffff"
                         theme="light"
                         size={0.9}
-                        items={folderItems}
+                        items={certificateFolderItems}
                         onItemClick={handleFolderItemClick}
                       />
                     </div>
 
                     <div className="w-full pt-3 border-t border-line/50 flex items-center justify-between text-[11px] text-muted">
-                      <span>3 documents</span>
-                      <span className="text-primary font-semibold">Click sheet to open</span>
+                      <span>3 verified credentials</span>
+                      <span className="text-primary font-semibold">Click sheet to preview</span>
                     </div>
                   </div>
-                </div>
-              )}
-
-              {/* React Bits TiltedCard: Certificate & Accreditation Showcase */}
-              {effectsConfig.digitalMarketingTiltedCard && (
-                <div
-                  className="hidden sm:block cursor-pointer group"
-                  onClick={() => setIsCertModalOpen(true)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setIsCertModalOpen(true);
-                    }
-                  }}
-                  aria-label="Preview official Digital Marketing course certificate"
-                >
-                  <TiltedCard
-                    containerHeight="auto"
-                    containerWidth="100%"
-                    imageHeight="auto"
-                    imageWidth="100%"
-                    scaleOnHover={1.02}
-                    rotateAmplitude={8}
-                    showTooltip={false}
-                    glare={0.25}
-                    glareColor="#2448c9"
-                    radius={20}
-                    className="w-full"
-                  >
-                    <div className="p-5 rounded-[20px] bg-white border border-line/80 shadow-card space-y-3 transition-colors group-hover:border-primary/50">
-                      <div className="flex items-center justify-between gap-2.5">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-9 h-9 rounded-full bg-soft text-primary flex items-center justify-center shrink-0">
-                            <Award size={18} />
-                          </div>
-                          <div>
-                            <h4 className="text-sm font-bold text-deep leading-tight font-heading group-hover:text-primary transition-colors">
-                              Course Certificate
-                            </h4>
-                            <p className="text-[11px] text-muted">
-                              Govt. Recognized &amp; ISO 9001:2015
-                            </p>
-                          </div>
-                        </div>
-                        <span className="text-[11px] font-semibold text-primary underline underline-offset-2">
-                          Preview
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted leading-relaxed">
-                        Official certification issued upon completing all 10 modules and practical project assignments.
-                      </p>
-                      <div className="flex items-center justify-between pt-2.5 border-t border-line/50 text-[11px] font-semibold text-primary">
-                        <span>10 Modules</span>
-                        <span>Job Training Included</span>
-                      </div>
-                    </div>
-                  </TiltedCard>
                 </div>
               )}
             </div>
@@ -1319,82 +1248,312 @@ export default function DigitalMarketingDetail({ course }) {
                 </button>
               </div>
 
+              {/* Credential Tab Selector */}
+              <div className="px-4 sm:px-6 py-2.5 bg-surface border-b border-line/60 flex items-center justify-center shrink-0">
+                <div className="flex items-center gap-1 p-1 bg-white border border-line/60 rounded-full text-xs font-semibold shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => setActiveCertTab(0)}
+                    className={`px-3 sm:px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                      activeCertTab === 0
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'text-muted hover:text-deep'
+                    }`}
+                  >
+                    Course Diploma
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveCertTab(1)}
+                    className={`px-3 sm:px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                      activeCertTab === 1
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'text-muted hover:text-deep'
+                    }`}
+                  >
+                    Job Training Letter
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveCertTab(2)}
+                    className={`px-3 sm:px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                      activeCertTab === 2
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'text-muted hover:text-deep'
+                    }`}
+                  >
+                    Module Transcript
+                  </button>
+                </div>
+              </div>
+
               {/* Certificate Document Body */}
               <div className="p-4 sm:p-8 bg-[#fdfcf9] overflow-y-auto flex-1">
-                <div className="p-5 sm:p-8 rounded-[16px] border-2 border-primary/20 bg-white relative shadow-sm space-y-6">
-                  {/* Decorative Corners */}
-                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-primary/40 pointer-events-none" />
-                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-primary/40 pointer-events-none" />
-                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-primary/40 pointer-events-none" />
-                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-primary/40 pointer-events-none" />
+                {activeCertTab === 0 && (
+                  <motion.div
+                    key="tab-diploma"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="p-5 sm:p-8 rounded-[16px] border-2 border-primary/20 bg-white relative shadow-sm space-y-6"
+                  >
+                    {/* Decorative Corners */}
+                    <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-primary/40 pointer-events-none" />
+                    <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-primary/40 pointer-events-none" />
+                    <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-primary/40 pointer-events-none" />
+                    <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-primary/40 pointer-events-none" />
 
-                  <div className="text-center space-y-1">
-                    <p className="text-[11px] font-bold text-primary uppercase tracking-widest font-heading">
-                      Infodesk Computer Education · Mumbai
-                    </p>
-                    <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
-                      Certificate of Completion
-                    </h4>
-                    <p className="text-xs text-muted">
-                      This is to certify the successful completion of the professional program in
-                    </p>
-                    <p className="text-lg sm:text-xl font-bold text-primary font-heading pt-1">
-                      Digital Marketing &amp; Practical Job Training
-                    </p>
-                  </div>
+                    <div className="text-center space-y-1">
+                      <p className="text-[11px] font-bold text-primary uppercase tracking-widest font-heading">
+                        Infodesk Computer Education · Mumbai
+                      </p>
+                      <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
+                        Certificate of Completion
+                      </h4>
+                      <p className="text-xs text-muted">
+                        This is to certify the successful completion of the professional program in
+                      </p>
+                      <p className="text-lg sm:text-xl font-bold text-primary font-heading pt-1">
+                        Digital Marketing &amp; Practical Job Training
+                      </p>
+                    </div>
 
-                  {/* Course Details Grid */}
-                  <div className="grid grid-cols-2 gap-3 py-3 border-y border-line/60 text-xs">
-                    <div>
-                      <span className="text-muted block">Duration</span>
-                      <span className="font-semibold text-deep">6 Months + Job Training</span>
-                    </div>
-                    <div>
-                      <span className="text-muted block">Format</span>
-                      <span className="font-semibold text-deep">In-Person &amp; Live Projects</span>
-                    </div>
-                    <div>
-                      <span className="text-muted block">Curriculum</span>
-                      <span className="font-semibold text-deep">10 Comprehensive Modules</span>
-                    </div>
-                    <div>
-                      <span className="text-muted block">Accreditation</span>
-                      <span className="font-semibold text-deep">Govt. Recognized · ISO 9001:2015</span>
-                    </div>
-                  </div>
-
-                  {/* Modules Pills Grid */}
-                  <div className="space-y-2">
-                    <p className="text-[11px] font-bold text-muted uppercase tracking-wider">
-                      Verified Curriculum Modules (10)
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {DIGITAL_MARKETING_MODULES.map((m) => (
-                        <span
-                          key={m.number}
-                          className="text-[10px] sm:text-[11px] font-medium px-2.5 py-1 rounded-md bg-soft text-primary border border-line/60"
-                        >
-                          {m.number}. {m.name || m.title}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Seals & Signatures */}
-                  <div className="flex items-center justify-between pt-4 border-t border-line/50 text-[11px] text-muted">
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck size={24} className="text-primary" />
+                    {/* Course Details Grid */}
+                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-line/60 text-xs">
                       <div>
-                        <p className="font-bold text-deep leading-none">ISO 9001:2015</p>
-                        <p className="text-[10px]">Quality Certified</p>
+                        <span className="text-muted block">Duration</span>
+                        <span className="font-semibold text-deep">6 Months + Job Training</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Format</span>
+                        <span className="font-semibold text-deep">In-Person &amp; Live Projects</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Curriculum</span>
+                        <span className="font-semibold text-deep">10 Comprehensive Modules</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Accreditation</span>
+                        <span className="font-semibold text-deep">Govt. Recognized · ISO 9001:2015</span>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-bold text-deep leading-none">Infodesk Academic Council</p>
-                      <p className="text-[10px]">Mumbai Centers</p>
+
+                    {/* Modules Pills Grid */}
+                    <div className="space-y-2">
+                      <p className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                        Verified Curriculum Modules (10)
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {DIGITAL_MARKETING_MODULES.map((m) => (
+                          <span
+                            key={m.number}
+                            className="text-[10px] sm:text-[11px] font-medium px-2.5 py-1 rounded-md bg-soft text-primary border border-line/60"
+                          >
+                            {m.number}. {m.name || m.title}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </div>
+
+                    {/* Seals & Signatures */}
+                    <div className="flex items-center justify-between pt-4 border-t border-line/50 text-[11px] text-muted">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck size={24} className="text-primary" />
+                        <div>
+                          <p className="font-bold text-deep leading-none">ISO 9001:2015</p>
+                          <p className="text-[10px]">Quality Certified</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-deep leading-none">Infodesk Academic Council</p>
+                        <p className="text-[10px]">Mumbai Centers</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeCertTab === 1 && (
+                  <motion.div
+                    key="tab-training"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="p-5 sm:p-8 rounded-[16px] border-2 border-emerald-500/20 bg-white relative shadow-sm space-y-6"
+                  >
+                    {/* Decorative Corners */}
+                    <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-emerald-500/40 pointer-events-none" />
+                    <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-emerald-500/40 pointer-events-none" />
+                    <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-emerald-500/40 pointer-events-none" />
+                    <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-emerald-500/40 pointer-events-none" />
+
+                    <div className="text-center space-y-1">
+                      <p className="text-[11px] font-bold text-emerald-600 uppercase tracking-widest font-heading">
+                        Infodesk Computer Education · Industry Training Division
+                      </p>
+                      <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
+                        Practical Job Training Certificate
+                      </h4>
+                      <p className="text-xs text-muted">
+                        This certifies the satisfactory completion of practical job training on live marketing workflows
+                      </p>
+                      <p className="text-lg sm:text-xl font-bold text-emerald-600 font-heading pt-1">
+                        Live Campaign Execution &amp; Agency Projects
+                      </p>
+                    </div>
+
+                    {/* Training Details Grid */}
+                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-line/60 text-xs">
+                      <div>
+                        <span className="text-muted block">Training Period</span>
+                        <span className="font-semibold text-deep">6 Months Hands-On Labs</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Centers</span>
+                        <span className="font-semibold text-deep">Andheri, Borivali, Dadar, Thane</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Mentorship</span>
+                        <span className="font-semibold text-deep">Industry Professional Guided</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Evaluation</span>
+                        <span className="font-semibold text-emerald-600">100% Practical Verification</span>
+                      </div>
+                    </div>
+
+                    {/* Competency Blocks */}
+                    <div className="space-y-2.5">
+                      <p className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                        Practised Core Competencies
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div className="p-2.5 rounded-lg bg-soft/50 border border-line/60 space-y-1">
+                          <p className="font-bold text-deep">Search &amp; Technical SEO</p>
+                          <p className="text-muted text-[11px] leading-relaxed">
+                            Google Search Console, keyword finalization, schema markup &amp; on-page optimization.
+                          </p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-soft/50 border border-line/60 space-y-1">
+                          <p className="font-bold text-deep">Paid Ads &amp; Conversion Setup</p>
+                          <p className="text-muted text-[11px] leading-relaxed">
+                            Google Ads targeting, conversion tracking, ad optimization &amp; client closing techniques.
+                          </p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-soft/50 border border-line/60 space-y-1">
+                          <p className="font-bold text-deep">Social Media &amp; Funnels</p>
+                          <p className="text-muted text-[11px] leading-relaxed">
+                            Lead generation landing pages, funnel-based strategy, push marketing &amp; brand building.
+                          </p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-soft/50 border border-line/60 space-y-1">
+                          <p className="font-bold text-deep">Content, CMS &amp; Growth</p>
+                          <p className="text-muted text-[11px] leading-relaxed">
+                            WordPress management, blogging traffic, WhatsApp marketing &amp; conversion rate optimization.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Seals & Signatures */}
+                    <div className="flex items-center justify-between pt-4 border-t border-line/50 text-[11px] text-muted">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 size={24} className="text-emerald-500" />
+                        <div>
+                          <p className="font-bold text-deep leading-none">Job Training Certified</p>
+                          <p className="text-[10px]">Practical Performance Approved</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-deep leading-none">Industry Training Directorate</p>
+                        <p className="text-[10px]">Infodesk Centers</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeCertTab === 2 && (
+                  <motion.div
+                    key="tab-transcript"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="p-5 sm:p-8 rounded-[16px] border-2 border-indigo-500/20 bg-white relative shadow-sm space-y-6"
+                  >
+                    {/* Decorative Corners */}
+                    <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-indigo-500/40 pointer-events-none" />
+                    <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-indigo-500/40 pointer-events-none" />
+                    <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-indigo-500/40 pointer-events-none" />
+                    <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-indigo-500/40 pointer-events-none" />
+
+                    <div className="text-center space-y-1">
+                      <p className="text-[11px] font-bold text-indigo-600 uppercase tracking-widest font-heading">
+                        Infodesk Computer Education · Academic Board
+                      </p>
+                      <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
+                        Curriculum Performance Transcript
+                      </h4>
+                      <p className="text-xs text-muted">
+                        Official verification of modules and topics completed under the 6-month curriculum
+                      </p>
+                      <p className="text-lg sm:text-xl font-bold text-indigo-600 font-heading pt-1">
+                        10 Modules · 67 Topics Verified
+                      </p>
+                    </div>
+
+                    {/* Summary Metrics */}
+                    <div className="grid grid-cols-3 gap-2 py-3 border-y border-line/60 text-center">
+                      <div className="p-2 rounded-lg bg-soft/40">
+                        <span className="text-lg font-bold text-deep block">10</span>
+                        <span className="text-[11px] text-muted">Modules</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-soft/40">
+                        <span className="text-lg font-bold text-deep block">67</span>
+                        <span className="text-[11px] text-muted">Topics Covered</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-soft/40">
+                        <span className="text-lg font-bold text-deep block">6 Mos</span>
+                        <span className="text-[11px] text-muted">+ Job Training</span>
+                      </div>
+                    </div>
+
+                    {/* 10 Module List */}
+                    <div className="space-y-2">
+                      <p className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                        Module-by-Module Verification
+                      </p>
+                      <div className="space-y-1.5 max-h-[220px] overflow-y-auto pr-1 text-xs">
+                        {DIGITAL_MARKETING_MODULES.map((m) => (
+                          <div
+                            key={m.number}
+                            className="p-2 rounded-lg bg-soft/30 border border-line/50 flex items-center justify-between"
+                          >
+                            <span className="font-semibold text-deep">
+                              {m.number}. {m.name || m.title}
+                            </span>
+                            <span className="text-[11px] font-medium text-primary">
+                              {m.topics && m.topics.length > 0 ? `${m.topics.length} topics` : 'Paid search reach'}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Seals & Signatures */}
+                    <div className="flex items-center justify-between pt-4 border-t border-line/50 text-[11px] text-muted">
+                      <div className="flex items-center gap-2">
+                        <Award size={24} className="text-indigo-600" />
+                        <div>
+                          <p className="font-bold text-deep leading-none">ISO 9001:2015</p>
+                          <p className="text-[10px]">Academic Standards Compliant</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-deep leading-none">Office of Academic Records</p>
+                        <p className="text-[10px]">Mumbai Board</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
               </div>
 
               {/* Modal Actions */}
