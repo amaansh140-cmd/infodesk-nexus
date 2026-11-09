@@ -149,7 +149,12 @@ export default function FlipCard({
         tiltY.set(0);
         sheen.set(0);
       }
-      const span = dragDistance > 0 ? dragDistance : axis === 'x' ? height : width;
+      const span =
+        dragDistance > 0
+          ? dragDistance
+          : axis === 'x'
+          ? (typeof height === 'number' ? height : 320)
+          : (typeof width === 'number' ? width : 360);
       const deg = g.base + (axis === 'x' ? -1 : 1) * (d / span) * 180;
       turn.set(deg);
       const now = performance.now();
@@ -235,9 +240,9 @@ export default function FlipCard({
       onClick={onClick}
       onDragStart={e => e.preventDefault()}
       style={{
-        '--fc-w': `${width}px`,
-        '--fc-h': `${height}px`,
-        '--fc-radius': `${radius}px`,
+        '--fc-w': typeof width === 'number' ? `${width}px` : width,
+        '--fc-h': typeof height === 'number' ? `${height}px` : height,
+        '--fc-radius': typeof radius === 'number' ? `${radius}px` : radius,
         '--fc-bg': background,
         '--fc-ink': color,
         '--fc-shadow': shadowColor,
