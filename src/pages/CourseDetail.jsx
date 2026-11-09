@@ -51,10 +51,8 @@ import CardSwap from '../components/CardSwap';
 import StarBorder from '../components/StarBorder';
 import SpotlightCard from '../components/SpotlightCard';
 import FlipCard from '../components/FlipCard';
-import ElectricBorder from '../components/ElectricBorder';
 import Threads from '../components/Threads';
 import LogoLoop from '../components/LogoLoop';
-import ScrollVelocity from '../components/ScrollVelocity';
 import AnimatedContent from '../components/AnimatedContent';
 import LazyMount from '../components/common/LazyMount';
 
@@ -228,42 +226,107 @@ const WORKFLOW_STAGES = [
   {
     step: '01',
     title: 'Collect and clean',
-    explanation: 'Read structured/unstructured files and cleanse dirty enterprise data.',
-    moduleIndex: 2,
-    moduleLabel: 'Open module 03',
-    topics: ['Pandas: reading CSV/Excel/SQL', 'Missing value analysis & treatment', 'Merging & joining tables', 'Groupby aggregations'],
+    explanation: 'Read structured and unstructured data, clean missing values, and transform datasets for analysis.',
+    links: [{ label: 'Open Pandas module', moduleIndex: 2 }],
+    topics: [
+      'Integration with Pandas',
+      'Series and DataFrames',
+      'DataFrame operations',
+      'Indexing and selecting data',
+      'Handling missing data',
+      'Data cleaning and preparation',
+      'Merging and joining DataFrames',
+      'Grouping and aggregation',
+      'Pivot tables',
+      'Time series analysis',
+    ],
   },
   {
     step: '02',
     title: 'Explore and visualize',
-    explanation: 'Uncover statistical correlations, distributions, and behavioral trends.',
-    moduleIndex: 3,
-    moduleLabel: 'Open module 04',
-    topics: ['Matplotlib customized axes', 'Seaborn distribution plots', 'Categorical heatmaps', 'Regression analysis plots'],
+    explanation: 'Uncover statistical distributions, correlations, and multi-variable patterns.',
+    links: [{ label: 'Open Matplotlib & Seaborn module', moduleIndex: 3 }],
+    topics: [
+      'Matplotlib: Basic plotting',
+      'Customizing plots',
+      'Figures and axes',
+      'Plot types (line, bar, histogram)',
+      'Subplots',
+      'Annotations and text',
+      'Legends and labels',
+      'Plot aesthetics',
+      'Saving and exporting plots',
+      'Seaborn: Basic plotting',
+      'Categorical plots',
+      'Distribution plots',
+      'Matrix plots',
+      'Regression plots',
+      'Multi-plot grids',
+      'Customizing Seaborn plots',
+    ],
   },
   {
     step: '03',
     title: 'Build models',
-    explanation: 'Train, evaluate, cross-validate, and hyperparameter-tune ML models.',
-    moduleIndex: 4,
-    moduleLabel: 'Open module 05',
-    topics: ['Feature engineering & scaling', 'Supervised regression & classification', 'Cross-validation pipelines', 'Ensemble Random Forests'],
+    explanation: 'Train, validate, tune, and evaluate predictive machine learning algorithms.',
+    links: [{ label: 'Open Scikit-Learn module', moduleIndex: 4 }],
+    topics: [
+      'Data preprocessing',
+      'Supervised learning',
+      'Unsupervised learning',
+      'Model evaluation and selection',
+      'Cross-validation',
+      'Feature engineering',
+      'Dimensionality reduction',
+      'Hyperparameter tuning',
+      'Ensemble methods',
+    ],
   },
   {
     step: '04',
     title: 'Generative AI',
-    explanation: 'Synthesize new text, images, and domain solutions with generative networks.',
-    moduleIndex: 5,
-    moduleLabel: 'Open module 06',
-    topics: ['Variational Autoencoders (VAEs)', 'Generative Adversarial Networks (GANs)', 'Text & code generation', 'Multimodal style transfer'],
+    explanation: 'Synthesize text, imagery, and multi-modal assets with modern generative architectures.',
+    links: [{ label: 'Open Generative AI module', moduleIndex: 5 }],
+    topics: [
+      'Introduction to generative AI',
+      'Basic concepts and applications',
+      'GANs',
+      'VAEs',
+      'RNNs for generation',
+      'Text generation',
+      'Image generation',
+      'Style transfer',
+      'Music and audio generation',
+    ],
   },
   {
     step: '05',
     title: 'Share and deploy',
-    explanation: 'Deliver interactive live data applications and executive dashboards.',
-    moduleIndex: 6,
-    moduleLabel: 'Open module 07',
-    topics: ['Streamlit live web apps', 'Power BI automated dashboards', 'Interactive KPI widgets', 'Model deployment pipelines'],
+    explanation: 'Deliver interactive data apps and executive business intelligence dashboards.',
+    links: [
+      { label: 'Open Streamlit module', moduleIndex: 6 },
+      { label: 'Open Power BI module', moduleIndex: 8 },
+    ],
+    topics: [
+      'Streamlit: Introduction',
+      'Setting up Streamlit',
+      'Creating a basic app',
+      'Widgets and user inputs',
+      'Data display and visualization',
+      'Layout and customization',
+      'Integrating with Pandas',
+      'Working with Plotly and Seaborn',
+      'File uploads and downloads',
+      'Power BI: Introduction to Power BI',
+      'Power BI Desktop interface',
+      'Connecting to data sources',
+      'Data transformation with Power Query',
+      'Creating basic visualizations',
+      'Advanced visualizations',
+      'Dashboards and reports',
+      'DAX (Data Analysis Expressions)',
+      'Filters and slicers',
+    ],
   },
 ];
 
@@ -271,26 +334,49 @@ const WORKFLOW_STAGES = [
 const GOVERNANCE_TRACKS = [
   {
     title: 'Informatica Administrator',
-    description: 'Enterprise platform setup and infrastructure management.',
-    topics: ['Administrator console operations', 'Domain architecture & nodes', 'Service manager configuration', 'User security & role privileges'],
+    description: 'Platform setup and security',
+    topics: [
+      'Platform architecture and components',
+      'User and security management, including LDAP integration and access provisioning',
+      'Installation, configuration and environment setup (on-premises and cloud)',
+    ],
     icon: Server,
   },
   {
     title: 'Data Classification',
-    description: 'Automated data identification and sensitive asset security.',
-    topics: ['Classification rule design', 'Data profiling & discovery', 'Sensitive data tagging', 'Compliance audit preparation'],
+    description: 'Find and classify sensitive data',
+    topics: [
+      'Classification concepts and why they matter in governance',
+      'Rule-based (custom and predefined) and AI-driven (CLAIRE engine) classification',
+      'Applying rules at column and table level',
+      'Over 200 out-of-the-box classification rules and creating custom ones',
+      'Viewing, searching and reporting on classified data assets for compliance and risk management',
+    ],
     icon: Tag,
   },
   {
     title: 'Data Integration',
-    description: 'High-throughput enterprise pipelines and transformations.',
-    topics: ['ETL mapping workflows', 'Source-to-target pipelines', 'Connector frameworks', 'Transformation logic debugging'],
+    description: 'Move and prepare data',
+    topics: [
+      'Fundamentals of data integration, ETL and data pipelines',
+      'Data mapping, transformation, cleansing and enrichment',
+      'Real-time and batch integration scenarios',
+      'Data quality, lineage and traceability',
+      'Automation, monitoring and error handling for integration jobs',
+      'Supporting analytics and AI with integrated, high-quality data',
+    ],
     icon: Workflow,
   },
   {
     title: 'Data Glossary',
-    description: 'Centralized business term definitions and lineage tracing.',
-    topics: ['Business term governance', 'End-to-end lineage tracing', 'Metadata catalog administration', 'Data quality policies'],
+    description: 'Define shared business terms',
+    topics: [
+      'The role of a business glossary in data governance',
+      'Creating and managing business terms, definitions, categories and policies',
+      'Associating glossary terms with technical data assets',
+      'Designing domain and subdomain structures, ownership and approval workflows',
+      'Glossary best practices: intake, editing and versioning',
+    ],
     icon: BookOpen,
   },
 ];
@@ -333,17 +419,35 @@ export default function CourseDetail() {
     `Hello Infodesk Computer Education, I am interested in the ${course.title} (${course.duration}) course. Could you share batch timings, fee details, and book a free demo session?`
   );
 
-  // Smooth scroll and auto-expand target module accordion
+  // Expander state for workflow stage topics (max 6 chips by default)
+  const [expandedStages, setExpandedStages] = useState({});
+  const toggleStageTopics = (step) => {
+    setExpandedStages((prev) => ({ ...prev, [step]: !prev[step] }));
+  };
+
+  // Smooth scroll and auto-expand target module accordion after layout settles
   const handleStageClick = (moduleIndex) => {
+    // 1. Open target module accordion item
     setOpenModuleIndices((prev) =>
       prev.includes(moduleIndex) ? prev : [...prev, moduleIndex]
     );
-    const targetElement =
-      document.getElementById(`module-${moduleIndex}`) ||
-      document.getElementById('syllabus');
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+
+    // 2. Wait for layout transition to settle, accounting for height collapse/expansion
+    setTimeout(() => {
+      const targetElement =
+        document.getElementById(`module-${moduleIndex}`) ||
+        document.getElementById('syllabus');
+      if (targetElement) {
+        const headerOffset = 88; // 72px header + 16px clearance
+        const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+      }
+    }, 150);
   };
 
   const handleModuleToggle = (index) => {
@@ -901,10 +1005,10 @@ export default function CourseDetail() {
                     width={420}
                     height={270}
                     visibleCards={3}
-                    cardDistance={48}
-                    verticalDistance={48}
+                    cardDistance={36}
+                    verticalDistance={64}
                     depth={75}
-                    skewAmount={5}
+                    skewAmount={2}
                     delay={5000}
                     pauseOnHover={true}
                     cardRadius={22}
@@ -929,8 +1033,8 @@ export default function CourseDetail() {
                         <p className="text-emerald-400 font-semibold">model.fit(X_train, y_train)</p>
                       </div>
                       <div className="border-t border-white/10 pt-2 flex items-center justify-between text-[11px] text-[#a5d8ff]">
-                        <span>Accuracy: 94.8%</span>
-                        <span className="text-emerald-400">status: production ready</span>
+                        <span>Predictive ML Model</span>
+                        <span className="text-emerald-400">status: ready</span>
                       </div>
                     </div>
 
@@ -946,9 +1050,8 @@ export default function CourseDetail() {
                           {/* Grid & Axis */}
                           <line x1="30" y1="90" x2="340" y2="90" stroke="#ffffff" strokeOpacity="0.2" strokeWidth="1" />
                           <line x1="30" y1="20" x2="30" y2="90" stroke="#ffffff" strokeOpacity="0.2" strokeWidth="1" />
-                          <text x="15" y="25" fill="#a5d8ff" fontSize="9" fontFamily="monospace">1.0</text>
-                          <text x="15" y="60" fill="#a5d8ff" fontSize="9" fontFamily="monospace">0.5</text>
-                          <text x="15" y="92" fill="#a5d8ff" fontSize="9" fontFamily="monospace">0.0</text>
+                          <text x="12" y="25" fill="#a5d8ff" fontSize="9" fontFamily="monospace">Loss</text>
+                          <text x="310" y="85" fill="#a5d8ff" fontSize="9" fontFamily="monospace">Epoch</text>
                           {/* Mini validation bars */}
                           <rect x="50" y="70" width="14" height="20" fill="#4a6df0" opacity="0.4" rx="2" />
                           <rect x="120" y="55" width="14" height="35" fill="#4a6df0" opacity="0.4" rx="2" />
@@ -971,9 +1074,9 @@ export default function CourseDetail() {
                           <circle cx="330" cy="18" r="4.5" fill="#a5d8ff" />
                         </svg>
                       </div>
-                      <div className="border-t border-white/10 pt-2 flex items-center justify-between text-[11px] text-white/80 font-mono">
-                        <span>Epoch: 100/100 · Loss: 0.042</span>
-                        <span className="text-emerald-400 font-semibold">Validation: 96.2%</span>
+                      <div className="border-t border-white/10 pt-2 flex items-center justify-between text-[11px] text-[#a5d8ff] font-mono">
+                        <span>Epoch</span>
+                        <span>Loss</span>
                       </div>
                     </div>
 
@@ -1171,50 +1274,77 @@ export default function CourseDetail() {
         {isMobile ? (
           /* Mobile vertical stack fallback to avoid pinning jank */
           <div className="space-y-4">
-            {WORKFLOW_STAGES.map((stage) => (
-              <div
-                key={stage.step}
-                className="bg-surface rounded-[22px] border border-line p-6 shadow-card space-y-4"
-              >
-                <div className="flex items-center justify-between border-b border-line/60 pb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl font-bold text-primary font-mono">{stage.step}</span>
-                    <h3 className="text-lg font-bold text-deep">{stage.title}</h3>
+            {WORKFLOW_STAGES.map((stage) => {
+              const isExpanded = !!expandedStages[stage.step];
+              const displayedTopics = isExpanded ? stage.topics : stage.topics.slice(0, 6);
+              const remainingCount = stage.topics.length - 6;
+
+              return (
+                <div
+                  key={stage.step}
+                  className="bg-surface rounded-[22px] border border-line p-6 shadow-card space-y-4"
+                >
+                  <div className="flex items-start justify-between border-b border-line/60 pb-3 gap-2">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-bold text-primary font-mono">{stage.step}</span>
+                      <h3 className="text-lg font-bold text-deep">{stage.title}</h3>
+                    </div>
+                    <div className="flex flex-col items-end gap-1.5 shrink-0">
+                      {stage.links.map((link) => (
+                        <button
+                          key={link.label}
+                          type="button"
+                          onClick={() => handleStageClick(link.moduleIndex)}
+                          className="text-xs font-bold text-primary hover:underline text-right"
+                        >
+                          {link.label} &rarr;
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleStageClick(stage.moduleIndex)}
-                    className="text-xs font-bold text-primary hover:underline"
-                  >
-                    {stage.moduleLabel} &rarr;
-                  </button>
+                  <p className="text-xs sm:text-sm text-muted">{stage.explanation}</p>
+                  <div className="space-y-2 pt-1">
+                    <div className="flex flex-wrap gap-2">
+                      {displayedTopics.map((t) => (
+                        <span key={t} className="px-3 py-1.5 rounded-full bg-soft/80 border border-line/70 text-xs font-medium text-deep">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    {remainingCount > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => toggleStageTopics(stage.step)}
+                        className="text-xs font-semibold text-primary hover:underline pt-1 inline-block"
+                      >
+                        {isExpanded ? 'Show fewer topics' : `+${remainingCount} more topics`}
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <p className="text-xs sm:text-sm text-muted">{stage.explanation}</p>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {stage.topics.map((t) => (
-                    <span key={t} className="px-3 py-1.5 rounded-full bg-soft/80 border border-line/70 text-xs font-medium text-deep">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           /* Desktop & Tablet: ScrollStack with window scroll pinning sitting below header */
           <ScrollStack
             useWindowScroll={true}
             stackPosition="80px"
-            itemDistance={100}
-            itemStackDistance={24}
+            itemDistance={40}
+            itemStackDistance={12}
+            holdDistance={80}
             baseScale={0.88}
             itemScale={0.03}
-            dimAmount={0.15}
+            dimAmount={0}
             blurAmount={0}
             smoothScroll={false}
           >
             {WORKFLOW_STAGES.map((stage, sIdx) => {
               const bgTint = sIdx % 2 === 0 ? '!bg-[#fdfcf9]' : '!bg-[#f4f7fe]';
+              const isExpanded = !!expandedStages[stage.step];
+              const displayedTopics = isExpanded ? stage.topics : stage.topics.slice(0, 6);
+              const remainingCount = stage.topics.length - 6;
+
               return (
                 <ScrollStackItem
                   key={stage.step}
@@ -1237,25 +1367,28 @@ export default function CourseDetail() {
                       <p className="text-muted text-sm leading-relaxed">
                         {stage.explanation}
                       </p>
-                      <div className="pt-2">
-                        <button
-                          type="button"
-                          onClick={() => handleStageClick(stage.moduleIndex)}
-                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-soft text-primary font-bold text-xs hover:bg-primary hover:text-white transition-colors"
-                        >
-                          <span>{stage.moduleLabel}</span>
-                          <ArrowRight size={13} />
-                        </button>
+                      <div className="pt-2 flex flex-wrap gap-2">
+                        {stage.links.map((link) => (
+                          <button
+                            key={link.label}
+                            type="button"
+                            onClick={() => handleStageClick(link.moduleIndex)}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-soft text-primary font-bold text-xs hover:bg-primary hover:text-white transition-colors"
+                          >
+                            <span>{link.label}</span>
+                            <ArrowRight size={13} />
+                          </button>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Right: Topics chips with full untruncated names */}
+                    {/* Right: Topics chips with max 6 and expander */}
                     <div className="md:col-span-7 space-y-3">
                       <span className="text-xs font-bold text-muted uppercase tracking-wider block">
-                        Brochure topics covered
+                        Topics covered
                       </span>
                       <div className="flex flex-wrap gap-2.5">
-                        {stage.topics.map((t) => (
+                        {displayedTopics.map((t) => (
                           <span
                             key={t}
                             className="px-3.5 py-2 rounded-full bg-surface border border-line text-xs sm:text-sm font-semibold text-deep shadow-sm"
@@ -1264,6 +1397,15 @@ export default function CourseDetail() {
                           </span>
                         ))}
                       </div>
+                      {remainingCount > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => toggleStageTopics(stage.step)}
+                          className="text-xs font-semibold text-primary hover:underline pt-1 inline-block"
+                        >
+                          {isExpanded ? 'Show fewer topics' : `+${remainingCount} more topics`}
+                        </button>
+                      )}
                     </div>
                   </div>
                 </ScrollStackItem>
@@ -1290,11 +1432,12 @@ export default function CourseDetail() {
             <Threads
               color={[0.29, 0.43, 0.94]}
               accentColor={[0.65, 0.85, 1.0]}
-              amplitude={1.2}
-              distance={0.3}
+              amplitude={1.1}
+              distance={0.35}
               enableMouseInteraction={false}
-              lineCount={70}
-              opacity={0.4}
+              lineCount={65}
+              thickness={2.5}
+              opacity={0.85}
               className="absolute inset-0 w-full h-full pointer-events-none"
             />
           </LazyMount>
@@ -1303,7 +1446,7 @@ export default function CourseDetail() {
         <div className="max-w-content mx-auto px-6 relative z-10 text-center max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-sm mb-4">
             <Bot size={14} />
-            <span>Dedicated specialization track</span>
+            <span>Generative AI module</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-3">
@@ -1367,7 +1510,7 @@ export default function CourseDetail() {
                 spotlightColor="rgba(36, 72, 201, 0.12)"
                 intensity={0.25}
                 proximity={100}
-                className="!p-6 !rounded-[22px] bg-surface border border-line/80 shadow-card flex flex-col justify-between space-y-4"
+                className="!p-6 !rounded-[22px] bg-surface flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-3">
                   <span className="w-10 h-10 rounded-full bg-soft text-primary flex items-center justify-center">
@@ -1420,7 +1563,7 @@ export default function CourseDetail() {
           </div>
 
           {/* Right Column: Sticky Enrollment Sidebar (4 cols) */}
-          <aside id="enquire" className="lg:col-span-4 lg:sticky lg:top-32 space-y-6">
+          <aside id="enquire" className="lg:col-span-4 lg:sticky lg:top-[92px] space-y-6">
             <div className="bg-surface border border-line/80 rounded-panel p-6 sm:p-7 shadow-card space-y-6">
               <div>
                 <span className="text-xs font-bold text-muted">
@@ -1497,15 +1640,11 @@ export default function CourseDetail() {
       {/* ─── 8. STUDENT TESTIMONIALS (AFTER DETAILED SYLLABUS) ─── */}
       <section id="testimonials" className="py-16 max-w-content mx-auto px-6 scroll-mt-24">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-soft border border-primary/20 text-xs font-semibold text-primary mb-3">
-            <Star size={13} className="text-amber-500 fill-amber-500" />
-            <span>Verified student experiences</span>
-          </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-deep tracking-tight">
-            Student stories and reviews
+            Student stories
           </h2>
           <p className="text-muted text-sm sm:text-base mt-2">
-            Hear verified feedback from graduates who transformed their data and IT careers through our Mumbai batches.
+            What our students say.
           </p>
         </div>
 
@@ -1517,24 +1656,11 @@ export default function CourseDetail() {
               spotlightColor="rgba(36, 72, 201, 0.12)"
               intensity={0.25}
               proximity={120}
-              className="!p-6 sm:!p-7 !rounded-[22px] bg-surface border border-line/80 shadow-card flex flex-col justify-between space-y-5"
+              className="!p-6 sm:!p-7 !rounded-[22px] bg-surface flex flex-col justify-between space-y-5"
             >
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  {/* 5 Rating Stars */}
-                  <div className="flex items-center gap-1 text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={15} fill="currentColor" />
-                    ))}
-                  </div>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded-full">
-                    <CheckCircle2 size={12} className="text-emerald-600" />
-                    <span>Verified graduate</span>
-                  </span>
-                </div>
-
                 <p className="text-ink/90 text-sm sm:text-[15px] leading-relaxed italic">
-                  "{t.quote}"
+                  “{t.quote}”
                 </p>
               </div>
 
@@ -1547,8 +1673,7 @@ export default function CourseDetail() {
                 />
                 <div className="min-w-0">
                   <h4 className="font-bold text-deep text-base truncate">{t.name}</h4>
-                  <p className="text-xs text-primary font-semibold">Infodesk Graduate · Mumbai</p>
-                  <p className="text-[11px] text-muted truncate">Brochure verified review</p>
+                  <p className="text-xs text-primary font-semibold">Infodesk student</p>
                 </div>
               </div>
             </SpotlightCard>
@@ -1560,7 +1685,7 @@ export default function CourseDetail() {
             to="/placements"
             className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors group"
           >
-            <span>Explore all 100+ placement success stories</span>
+            <span>See student stories</span>
             <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -1590,10 +1715,22 @@ export default function CourseDetail() {
                       <span className="text-xs font-mono text-muted">{rel.duration}</span>
                     </div>
                     <h4 className="text-xl font-bold text-deep">{rel.title}</h4>
-                    <p className="text-muted text-xs sm:text-sm leading-relaxed">{rel.summary}</p>
+                    <p className="text-muted text-xs sm:text-sm leading-relaxed line-clamp-2">{rel.summary}</p>
+                    {rel.tools && rel.tools.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {rel.tools.slice(0, 5).map((tool) => (
+                          <span
+                            key={tool}
+                            className="px-2.5 py-0.5 rounded-full bg-soft/80 border border-line/60 text-[11px] font-medium text-deep"
+                          >
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  <div className="pt-4 border-t border-line/50 flex items-center justify-between text-xs text-primary font-bold">
-                    <span>Click or tap to view syllabus</span>
+                  <div className="pt-3 border-t border-line/50 flex items-center justify-between text-xs text-primary font-bold">
+                    <span>Tap to see syllabus topics</span>
                     <span>Flip &rarr;</span>
                   </div>
                 </div>
@@ -1628,12 +1765,12 @@ export default function CourseDetail() {
               );
 
               return (
-                <div key={rel.slug} className="h-[320px]">
+                <div key={rel.slug} className="h-[300px]">
                   <FlipCard
                     front={frontContent}
                     back={backContent}
                     width="100%"
-                    height={320}
+                    height={300}
                     radius={22}
                     tilt={false}
                     glare={false}
@@ -1641,7 +1778,7 @@ export default function CourseDetail() {
                     hoverScale={1}
                     draggable={false}
                     background="transparent"
-                    className="w-full h-full"
+                    className="w-full h-full rounded-[22px] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus:outline-none"
                     ariaLabel={`${rel.title} course details`}
                   />
                 </div>
@@ -1651,7 +1788,7 @@ export default function CourseDetail() {
         </section>
       )}
 
-      {/* ─── 11. CLOSING BANNER WITH ELECTRICBORDER ─── */}
+      {/* ─── 11. CLOSING BANNER WITH STARBORDER ─── */}
       <section className="max-w-content mx-auto px-6 py-12">
         <div className="relative rounded-[32px] bg-gradient-to-br from-[#13266f] to-[#071138] text-white p-8 sm:p-12 overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="space-y-3 max-w-xl text-center md:text-left">
@@ -1664,28 +1801,20 @@ export default function CourseDetail() {
           </div>
 
           <div className="shrink-0">
-            {effectsConfig.electricBorder && !prefersReducedMotion ? (
-              <ElectricBorder
-                color="#4a6df0"
-                glowColor="#a5d8ff"
-                intensity={0.6}
-                className="rounded-full inline-block"
-              >
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center font-bold text-sm sm:text-base px-8 py-4 rounded-full bg-primary text-white hover:bg-bright transition-colors shadow-lg"
-                >
-                  Book your free demo session
-                </Link>
-              </ElectricBorder>
-            ) : (
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center font-bold text-sm sm:text-base px-8 py-4 rounded-full bg-primary text-white hover:bg-bright transition-colors shadow-lg"
-              >
-                Book your free demo session
-              </Link>
-            )}
+            <StarBorder
+              as={Link}
+              to="/contact"
+              backgroundColor="#f6f5f1"
+              textColor="#13266f"
+              color="#4a6df0"
+              trailColor="#a5d8ff"
+              radius={999}
+              duration={5}
+              glow={0.6}
+              className="inline-flex items-center justify-center font-bold text-sm sm:text-base px-8 py-3.5 min-h-[48px] rounded-full shadow-lg hover:shadow-xl transition-all"
+            >
+              Book your free demo session
+            </StarBorder>
           </div>
         </div>
       </section>

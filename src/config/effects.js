@@ -47,7 +47,6 @@ export const effectsConfig = {
   borderGlow: true,
 
   // Course Detail (/courses/:slug)
-  pillNav: true,
   courseBackgrounds: !prefersReducedMotion && !isSaveData,
   scrollStack: true,
   dataScienceHeroParticles: !prefersReducedMotion && !isSaveData,
@@ -66,7 +65,6 @@ export const effectsConfig = {
   dataScienceGovernance: true,
   dataScienceSpotlight: true,
   dataScienceRelatedFlip: true,
-  dataSciencePillNav: true,
 
   // About Page (/about)
   scrollExpand: !prefersReducedMotion,

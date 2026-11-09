@@ -37,7 +37,6 @@ import CardSwap, { Card } from '../components/CardSwap';
 import LogoLoop from '../components/LogoLoop';
 import SpotlightCard from '../components/SpotlightCard';
 import Stack from '../components/Stack';
-import ElectricBorder from '../components/ElectricBorder';
 
 import { branches } from '../data/branches';
 import { courses } from '../data/courses';
@@ -192,13 +191,8 @@ export default function Home() {
       className="w-full h-full bg-surface border border-line/80 rounded-card p-6 sm:p-7 flex flex-col justify-between shadow-card text-left select-none"
     >
       <div className="space-y-3">
-        <div className="flex items-center gap-1 text-amber-500">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} size={15} fill="currentColor" />
-          ))}
-        </div>
         <p className="text-deep text-xs sm:text-sm sm:text-[14px] leading-relaxed line-clamp-4 italic">
-          "{t.quote}"
+          “{t.quote}”
         </p>
       </div>
       <div className="flex items-center gap-3 pt-3.5 border-t border-line/50">
@@ -210,7 +204,7 @@ export default function Home() {
         />
         <div className="min-w-0">
           <p className="text-sm font-bold text-deep truncate">{t.name}</p>
-          <p className="text-xs text-muted truncate">Alumni · Brochure Verified</p>
+          <p className="text-xs text-muted truncate">Infodesk student</p>
         </div>
       </div>
     </div>
@@ -566,7 +560,7 @@ export default function Home() {
                   shape="circle"
                   intensity={0.22}
                   theme="light"
-                  className="!bg-surface !border !border-line/80 !rounded-card p-6 !shadow-card hover:!border-primary/40 transition-all duration-300"
+                  className="!bg-surface !rounded-card p-6 transition-all duration-300"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-10 h-10 rounded-xl bg-soft text-primary flex items-center justify-center shadow-sm">
@@ -803,34 +797,20 @@ export default function Home() {
                 Experience our teaching firsthand before enrolling. Visit any of our four Mumbai branches or attend a preview session with our faculty.
               </p>
               <div className="pt-2 flex justify-center">
-                {effectsConfig.electricBorder ? (
-                  <LazyMount
-                    isCanvasOrWebGL={true}
-                    fallback={
-                      <Button to="/contact" size="lg" variant="white">
-                        Book your demo
-                      </Button>
-                    }
-                  >
-                    <ElectricBorder
-                      color="#7df9ff"
-                      glowColor="#38bdf8"
-                      borderRadius={9999}
-                      theme="dark"
-                      speed={0.8}
-                      intensity={0.9}
-                      className="inline-block rounded-full"
-                    >
-                      <Button to="/contact" size="lg" variant="white">
-                        Book your demo
-                      </Button>
-                    </ElectricBorder>
-                  </LazyMount>
-                ) : (
-                  <Button to="/contact" size="lg" variant="white">
-                    Book your demo
-                  </Button>
-                )}
+                <StarBorder
+                  as={Link}
+                  to="/contact"
+                  backgroundColor="#f6f5f1"
+                  textColor="#13266f"
+                  color="#4a6df0"
+                  trailColor="#a5d8ff"
+                  radius={999}
+                  duration={5}
+                  glow={0.6}
+                  className="inline-flex items-center justify-center font-bold text-sm sm:text-base px-8 py-3.5 min-h-[48px] rounded-full shadow-lg hover:shadow-xl transition-all"
+                >
+                  Book your demo
+                </StarBorder>
               </div>
             </div>
           </div>

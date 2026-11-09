@@ -30,7 +30,6 @@ export default function ModuleAccordion({
         const isOpen = openIndices.includes(idx);
         const cardContent = (
           <div
-            id={`module-${idx}`}
             className={`rounded-panel bg-surface overflow-hidden transition-all duration-200 ${
               !useSpotlight ? (
                 isOpen
@@ -98,24 +97,25 @@ export default function ModuleAccordion({
 
         if (useSpotlight) {
           return (
-            <SpotlightCard
-              key={mod.name}
-              theme="light"
-              spotlightColor="rgba(36, 72, 201, 0.08)"
-              intensity={0.2}
-              proximity={100}
-              className={`!p-0 !rounded-panel overflow-hidden border transition-all duration-200 ${
-                isOpen
-                  ? 'border-primary/40 shadow-[0_4px_16px_-4px_rgba(36,72,201,0.12)]'
-                  : 'border-line/80 hover:border-line shadow-sm'
-              }`}
-            >
-              {cardContent}
-            </SpotlightCard>
+            <div id={`module-${idx}`} key={mod.name} className="scroll-mt-[88px]">
+              <SpotlightCard
+                theme="light"
+                spotlightColor="rgba(36, 72, 201, 0.08)"
+                intensity={0.2}
+                proximity={100}
+                className="!p-0 !rounded-panel overflow-hidden transition-all duration-200"
+              >
+                {cardContent}
+              </SpotlightCard>
+            </div>
           );
         }
 
-        return <div key={mod.name}>{cardContent}</div>;
+        return (
+          <div id={`module-${idx}`} key={mod.name} className="scroll-mt-[88px]">
+            {cardContent}
+          </div>
+        );
       })}
     </div>
   );

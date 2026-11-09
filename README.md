@@ -171,33 +171,27 @@ The following items are placeholders awaiting final details from the Infodesk ad
 
 The application integrates components from **React Bits** (JS + CSS variant) with runtime flags configured in `src/config/effects.js`:
 
-### Data Science Redesign (`/courses/data-science`)
-1. **Particles** (`effectsConfig.dataScienceHeroParticles`): Full-bleed constellation hero background in deep-blue (`#13266f` to `#0b1a52`) with 65 low-density particles (`connections={true}`, `particleColors={['#4a6df0', '#a5d8ff', '#ffffff']}`), pointer interaction disabled, wrapped in `<LazyMount>`.
+### Data Science Course (`/courses/data-science`)
+1. **Particles** (`effectsConfig.dataScienceHeroParticles`): Full-bleed constellation hero background in deep blue (`#13266f` to `#0b1a52`) with 65 low-density particles (`connections={true}`, `particleColors={['#4a6df0', '#a5d8ff', '#ffffff']}`), pointer interaction disabled, wrapped in `<LazyMount>`.
 2. **GradientText** (`effectsConfig.dataScienceGradientText`): Very large H1 (`clamp(48px, 6.5vw, 96px)`) in sentence case with royal blue `#a5d8ff` to bright blue `#4a6df0` slow sweep.
 3. **TextType** (`effectsConfig.dataScienceTextType`): Terminal prompt typing Python commands (`df.groupby("city").mean()`, `model.fit(X_train, y_train)`, `st.line_chart(df)`).
-4. **CardSwap** (`effectsConfig.dataScienceCardSwap`): Desktop 3D interactive stack with 3 cards (`model.py`, `training_loss.svg`, `pipeline_flow`). Swapped for a static code card on viewports `< 1024px` to eliminate mobile touch conflicts.
-5. **StarBorder** (`effectsConfig.starBorder`): "Book a free demo" CTA button with radiant edge border animation.
-6. **ScrollVelocity** (`effectsConfig.dataScienceScrollVelocity`): Dual bidirectional marquee ticker displaying the 13 brochure tools and core ML specializations.
-7. **CountUp** (`effectsConfig.countUp`): 4 verified metrics (12 months, 13 core tools, 12 modules, 4 branches).
-8. **SpotlightCard** (`effectsConfig.spotlightCard`): 6 What You Will Master domain cards + 4 Data Governance cards with soft royal-blue cursor spotlight (`rgba(36, 72, 201, 0.12)`).
-9. **GridScan** (`effectsConfig.dataScienceGridScan`): Cybernetic grid scan background canvas in Machine Learning band wrapped in `<LazyMount>`.
-10. **RubberSegment** (`effectsConfig.dataScienceMlScatter`): Segmented control (Supervised, Unsupervised, Generative) switching deterministic 60-point SVG scatter plot (seed 101) with clean linear decision boundary and external HTML legend.
-11. **ScrollStack** (`effectsConfig.scrollStack`): Full-width 5-stage project workflow stack with window scroll pinning on desktop and unpinned vertical stack on mobile.
-12. **Threads** (`effectsConfig.dataScienceThreads`): Deep-blue generative AI wave background canvas wrapped in `<LazyMount>`.
-13. **DecryptedText** (`effectsConfig.dataScienceDecryptedText`): "Generative AI, hands on" cypher reveal.
-14. **FlipCard** (`effectsConfig.flipCard`): Related courses 3D flipping cards (front: program summary, back: curriculum tools preview & direct link).
-15. **ElectricBorder** (`effectsConfig.electricBorder`): Closing demo session CTA banner border animation.
-16. **PillNav** (`effectsConfig.dataSciencePillNav`): Sticky pill sub-navigation bar with scroll spy anchors (`#overview`, `#what-you-will-master`, `#machine-learning`, `#workflow`, `#syllabus`, `#enquire`).
+4. **CardSwap** (`effectsConfig.dataScienceCardSwap`): Desktop 3D interactive stack with 3 cards (`model.py`, `training_loss.svg`, `pipeline_flow`). Swapped for a static code card on viewports `< 1024px` to eliminate mobile touch conflicts. Chart labels use neutral `Epoch` / `Loss` indicators with `Sample data` badge.
+5. **StarBorder** (`effectsConfig.starBorder`): Primary "Book a free demo" CTA button and closing banner button with radiant edge border animation (`backgroundColor="#f6f5f1"`, `textColor="#13266f"`, `color="#4a6df0"`, `trailColor="#a5d8ff"`, `radius={999}`).
+6. **LogoLoop** (`effectsConfig.dataScienceLogoLoop`): Infinite marquee ticker under hero displaying the 13 official brochure tools and technologies with smooth pause on hover.
+7. **CountUp** (`effectsConfig.countUp`): 4 verified metrics directly derived from course data (12 months, 13 core tools, 12 modules, 4 branches).
+8. **ScrollStack** (`effectsConfig.scrollStack`): Full-width 5-stage project workflow stack with window scroll pinning on desktop (`itemDistance={40}`, `itemStackDistance={12}`, `holdDistance={80}`, `dimAmount={0}`) and unpinned vertical stack on mobile.
+9. **Threads** (`effectsConfig.dataScienceThreads`): Deep-blue generative AI wave background canvas wrapped in `<LazyMount>` (`color={[0.29, 0.43, 0.94]}`, `accentColor={[0.65, 0.85, 1.0]}`, `amplitude={1.1}`, `distance={0.35}`, `enableMouseInteraction={false}`, `lineCount={65}`, `thickness={2.5}`, `opacity={0.85}`).
+10. **DecryptedText** (`effectsConfig.dataScienceDecryptedText`): "Generative AI, hands on" cypher reveal.
+11. **SpotlightCard** (`effectsConfig.spotlightCard`): Single-border cursor spotlight cards on Informatica governance tracks, syllabus modules, and student stories.
+12. **FlipCard** (`effectsConfig.dataScienceRelatedFlip`): Related courses flat flipping cards (`height={300}`, front: program summary, tools chips, duration, and single flip hint; back: curriculum preview & direct course link; keyboard focus ring enabled).
 
-### Unverified Copy Items (Confirm or Supply)
-The following marketing copy items are present in the redesigned Data Science and Course Detail pages and should be confirmed or supplied by the Infodesk team:
-1. `"Flexible morning, evening & weekend timings"`
-2. `"Personalized 1-on-1 doubt clearing sessions"`
-3. `"Extra practice lab hours with mentor guidance"`
-4. `"Small batches, in-person"`
-5. `"Step-by-step topic breakdown verified against our official curriculum"`
-6. Domain explanations under *What you will master* and *Data science workflow* (written to contextualize official brochure topics).
-7. Informatica descriptions under *Data governance with Informatica* (Informatica Administrator, Classification, Integration, Glossary).
+### 5 Unverified Marketing Claims (Pending Client Confirmation)
+The following 5 marketing claims remain in the course overview sidebar for user review and are pending administrative verification against official institute records:
+1. `"100% job assistance"` (Course overview sidebar - placement assistance guarantee)
+2. `"Flexible morning, evening & weekend timings"` (Course overview sidebar - batch schedule flexibility)
+3. `"Extra practice lab hours with mentor guidance"` (Course overview sidebar - complimentary lab access)
+4. `"Personalized 1-on-1 doubt clearing sessions"` (Course overview sidebar - individual mentorship)
+5. `"Small batches, in-person"` (Course overview sidebar - class size and delivery format)
 
 ---
 

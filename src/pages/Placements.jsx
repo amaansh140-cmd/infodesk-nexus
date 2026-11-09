@@ -307,16 +307,8 @@ export default function Placements() {
                   transition={{ duration: 0.35, ease: [0.2, 0.7, 0.2, 1] }}
                   className="space-y-6"
                 >
-                  {/* Rating Stars */}
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={15} className="text-amber-400 fill-amber-400" />
-                    ))}
-                    <span className="text-xs font-semibold text-muted ml-2">Verified Graduate Review</span>
-                  </div>
-
                   <blockquote className="text-base sm:text-lg text-ink/90 leading-relaxed italic relative z-10">
-                    "{activeTestimonial.quote}"
+                    “{activeTestimonial.quote}”
                   </blockquote>
 
                   <div className="flex items-center gap-4 pt-4 border-t border-line/60">
@@ -327,8 +319,7 @@ export default function Placements() {
                     />
                     <div>
                       <h4 className="font-bold text-deep text-base">{activeTestimonial.name}</h4>
-                      <p className="text-xs text-primary font-semibold">{activeTestimonial.role}</p>
-                      <p className="text-xs text-muted">Infodesk Computer Education • Mumbai Graduate</p>
+                      <p className="text-xs text-primary font-semibold">Infodesk student</p>
                     </div>
                   </div>
                 </motion.div>
