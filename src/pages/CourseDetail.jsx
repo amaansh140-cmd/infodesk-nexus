@@ -1635,6 +1635,12 @@ export default function CourseDetail() {
                     width="100%"
                     height={320}
                     radius={22}
+                    tilt={false}
+                    glare={false}
+                    shadow={false}
+                    hoverScale={1}
+                    draggable={false}
+                    background="transparent"
                     className="w-full h-full"
                     ariaLabel={`${rel.title} course details`}
                   />
