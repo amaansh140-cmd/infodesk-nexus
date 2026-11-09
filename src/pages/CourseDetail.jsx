@@ -39,6 +39,7 @@ import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
 import Button from '../components/Button';
 import CourseCard from '../components/CourseCard';
 import ScrollReveal from '../components/ScrollReveal';
+import DigitalMarketingDetail from './DigitalMarketingDetail';
 
 // React Bits components
 import Particles from '../components/Particles';
@@ -390,6 +391,11 @@ export default function CourseDetail() {
   }
 
   const isDataScience = course.slug === 'data-science';
+  const isDigitalMarketing = course.slug === 'digital-marketing';
+
+  if (isDigitalMarketing) {
+    return <DigitalMarketingDetail course={course} />;
+  }
 
   // Semester course flag for non-data-science semester programs
   const isSemesterCourse = Boolean(

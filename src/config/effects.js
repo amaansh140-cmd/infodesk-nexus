@@ -66,6 +66,19 @@ export const effectsConfig = {
   dataScienceSpotlight: true,
   dataScienceRelatedFlip: true,
 
+  // Digital Marketing Course (/courses/digital-marketing)
+  digitalMarketingAurora: !prefersReducedMotion && !isSaveData && !isTouchDevice,
+  digitalMarketingShinyText: !prefersReducedMotion,
+  digitalMarketingTrueFocus: !prefersReducedMotion,
+  digitalMarketingStack: true,
+  digitalMarketingCurvedLoop: !prefersReducedMotion,
+  digitalMarketingGooeyNav: true,
+  digitalMarketingFlowingMenu: !prefersReducedMotion,
+  digitalMarketingGlassIcons: true,
+  digitalMarketingAnimatedList: !prefersReducedMotion,
+  digitalMarketingPixelCard: true,
+  digitalMarketingLaserFlow: !prefersReducedMotion && !isSaveData && !isTouchDevice,
+
   // About Page (/about)
   scrollExpand: !prefersReducedMotion,
   profileCardTilt: !isTouchDevice && !prefersReducedMotion,

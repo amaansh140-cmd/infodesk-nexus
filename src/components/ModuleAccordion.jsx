@@ -58,9 +58,11 @@ export default function ModuleAccordion({
                 <span className="text-[17px] font-bold text-deep">{mod.name}</span>
               </div>
               <div className="flex items-center gap-3 text-muted text-xs">
-                <span className="hidden sm:inline bg-background px-2 py-0.5 rounded-full border border-line/60">
-                  {mod.topics.length} topics
-                </span>
+                {mod.topics && mod.topics.length > 0 ? (
+                  <span className="hidden sm:inline bg-background px-2 py-0.5 rounded-full border border-line/60">
+                    {mod.topics.length} topics
+                  </span>
+                ) : null}
                 <ChevronDown
                   size={18}
                   className={`text-primary transition-transform duration-200 ${
@@ -79,15 +81,22 @@ export default function ModuleAccordion({
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.25, ease: [0.2, 0.7, 0.2, 1] }}
                 >
-                  <div className="px-6 pb-6 pt-2 border-t border-line/40 bg-surface">
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
-                      {mod.topics.map((topic, tIdx) => (
-                        <li key={tIdx} className="flex items-start gap-2.5 text-sm text-ink/90">
-                          <CheckCircle2 size={16} className="text-emerald-500 mt-0.5 shrink-0" />
-                          <span className="leading-snug">{topic}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="px-6 pb-6 pt-2 border-t border-line/40 bg-surface space-y-3">
+                    {mod.description && (
+                      <p className="text-xs sm:text-sm text-muted leading-relaxed pt-2">
+                        {mod.description}
+                      </p>
+                    )}
+                    {mod.topics && mod.topics.length > 0 && (
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        {mod.topics.map((topic, tIdx) => (
+                          <li key={tIdx} className="flex items-start gap-2.5 text-sm text-ink/90">
+                            <CheckCircle2 size={16} className="text-emerald-500 mt-0.5 shrink-0" />
+                            <span className="leading-snug">{topic}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </motion.div>
               )}

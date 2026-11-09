@@ -185,13 +185,33 @@ The application integrates components from **React Bits** (JS + CSS variant) wit
 11. **SpotlightCard** (`effectsConfig.spotlightCard`): Single-border cursor spotlight cards on Informatica governance tracks, syllabus modules, and student stories.
 12. **FlipCard** (`effectsConfig.dataScienceRelatedFlip`): Related courses flat flipping cards (`height={300}`, front: program summary, tools chips, duration, and single flip hint; back: curriculum preview & direct course link; keyboard focus ring enabled).
 
-### 5 Unverified Marketing Claims (Pending Client Confirmation)
-The following 5 marketing claims remain in the course overview sidebar for user review and are pending administrative verification against official institute records:
-1. `"100% job assistance"` (Course overview sidebar - placement assistance guarantee)
-2. `"Flexible morning, evening & weekend timings"` (Course overview sidebar - batch schedule flexibility)
-3. `"Extra practice lab hours with mentor guidance"` (Course overview sidebar - complimentary lab access)
-4. `"Personalized 1-on-1 doubt clearing sessions"` (Course overview sidebar - individual mentorship)
-5. `"Small batches, in-person"` (Course overview sidebar - class size and delivery format)
+### Digital Marketing Course (`/courses/digital-marketing`)
+1. **Aurora** (`effectsConfig.digitalMarketingAurora`): Deep blue (`#2448c9`, `#4a6df0`, `#a5d8ff`) fluid WebGL background canvas in hero, wrapped in `<LazyMount>` (`mouseInteraction={false}`).
+2. **ShinyText** (`effectsConfig.digitalMarketingShinyText`): Soft metallic shine across the bold H1 heading.
+3. **TrueFocus** (`effectsConfig.digitalMarketingTrueFocus`): Animated ice-blue bracket frame highlighting marketing core pillars ("Search Social Ads Content") with static fallback under reduced-motion.
+4. **Stack** (`effectsConfig.digitalMarketingStack`): Desktop 3D deck of 4 marketing cards (SEO search result, SMM social post with zero numbers, Google Ads search banner, Email nurture sequence) with manual swipe/click and static mobile SEO fallback.
+5. **Counter** (`effectsConfig.counter`): Bottom glass stats bar displaying 10 modules, 6 months, 4 branches, and 67 topics covered.
+6. **CurvedLoop** (`effectsConfig.digitalMarketingCurvedLoop`): Soft-blue band ticker continuously looping 15 brochure marketing channels (static wrapping chips under reduced motion).
+7. **GooeyNav as Tabs** (`effectsConfig.digitalMarketingGooeyNav`): Accessible 4-stage funnel navigation (`role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`, and ArrowLeft/ArrowRight/Home/End keyboard navigation) with `noCanvas={true}` for zero-WebGL footprint.
+8. **FlowingMenu** (`effectsConfig.digitalMarketingFlowingMenu`): Desktop liquid menu linking each of the 10 modules to its syllabus accordion with module index and topic count tags (clean vertical expandable list fallback on mobile).
+9. **GlassIcons** (`effectsConfig.digitalMarketingGlassIcons`): Grid of 6 mastered marketing channels using royal blue, bright blue, and ice blue gradients with `noCanvas={true}` DOM/CSS mode.
+10. **AnimatedList** (`effectsConfig.digitalMarketingAnimatedList`): Interactive spring-animated list of 8 practical classroom skills with module tags (static list fallback under reduced motion).
+11. **ScrollReveal** (`effectsConfig.digitalMarketingScrollReveal`): Deep blue section with un-blurring sentence: *"SEO, social media, ads, content, WhatsApp and email. One course, 10 modules."*
+12. **PixelCard** (`effectsConfig.digitalMarketingPixelCard`): Related courses (ADDM 12 months & Graphic Design 4 months) with interactive twinkling pixels on hover and direct syllabus links.
+13. **LaserFlow** (`effectsConfig.digitalMarketingLaserFlow`): Closing demo banner WebGL background canvas in `<LazyMount>` with off-white `StarBorder` button.
+
+### ⚠️ Brochure Discrepancies & Items Needing Confirmation
+1. **SEM Module Copy Error (Pending Confirmation):**
+   - On Page 4 of the official brochure (`Infodesk_Computer_Education.pdf`), the syllabus for **Module 3 - SEM (Search Engine Marketing)** mistakenly duplicates the exact bullets of Module 1 - SEO (*General SEO, SEO tools, Local SEO, etc.*).
+   - Following strict truth-in-advertising guidelines, we did not repeat the duplicate SEO bullets and did not invent unverified paid search topics.
+   - SEM is currently presented with 0 topic badges and the single approved summary line: `"Reach customers through paid search."`.
+   - **Topics covered count:** Computed dynamically in code as **67 topics** across the remaining 9 brochure modules. Client must provide the true SEM curriculum topics to update this module and the topic tally.
+2. **5 Unverified Overview Sidebar Claims:**
+   - `"100% job assistance"` (Course overview sidebar - placement assistance guarantee)
+   - `"Flexible morning, evening & weekend timings"` (Course overview sidebar - batch schedule flexibility)
+   - `"Extra practice lab hours with mentor guidance"` (Course overview sidebar - complimentary lab access)
+   - `"Personalized 1-on-1 doubt clearing sessions"` (Course overview sidebar - individual mentorship)
+   - `"Small batches, in-person"` (Course overview sidebar - class size and delivery format)
 
 ---
 

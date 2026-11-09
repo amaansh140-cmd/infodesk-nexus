@@ -1,6 +1,8 @@
 // Official course dataset extracted from Infodesk Computer Education brochure
 // Typo corrections applied, duplicates removed, formatted in sentence case.
 
+import { DIGITAL_MARKETING_MODULES } from './digitalMarketing.js';
+
 export const courseCategories = [
   'All',
   'Data and AI',
@@ -318,95 +320,11 @@ export const courses = [
     slug: 'digital-marketing',
     title: 'Digital Marketing',
     category: 'Digital marketing',
-    duration: '6 months plus job training',
+    duration: '6 months + job training',
     level: 'Diploma',
     summary: 'Comprehensive 10-module program covering SEO, social media, paid ads, content strategy, and client closing.',
     tools: ['Google Ads', 'WordPress', 'Google Analytics'],
-    modules: [
-      {
-        name: 'Module 1 - SEO (Search Engine Optimization)',
-        topics: [
-          'General SEO fundamentals and local search setup',
-          'Search engine mechanics and keyword research',
-          'Technical SEO, sitemaps, and Google Search Console',
-          'On-page optimization, link building, and schema markup',
-          'Search algorithms, keyword ranking, and Google Analytics',
-        ],
-      },
-      {
-        name: 'Module 2 - SMM (Social Media Marketing)',
-        topics: [
-          'Fundamentals of modern social platforms',
-          'Designing high-converting lead generation pages',
-          'Building organic brand authority and community presence',
-          'Funnel-based social strategies and push marketing',
-        ],
-      },
-      {
-        name: 'Module 3 - SEM (Search Engine Marketing)',
-        topics: [
-          'Search engine marketing architecture',
-          'Commercial intent keyword research and match types',
-          'Landing page optimization and quality score metrics',
-          'Conversion tracking and campaign analytics',
-        ],
-      },
-      {
-        name: 'Module 4 - Google Ads',
-        topics: [
-          'Campaign structures across Search, Display, and Video',
-          'Advanced keyword targeting and negative lists',
-          'Ad copywriting, extensions, and bidding strategies',
-          'Conversion tracking in varied business models',
-          'Client pitch and closing mastery',
-        ],
-      },
-      {
-        name: 'Module 5 - WordPress Management',
-        topics: [
-          'Categories, posts, and media library organisation',
-          'Page creation and visual layout customization',
-          'Plugin evaluation, installation, and configuration',
-          'Theme selection, widgets, and website security basics',
-        ],
-      },
-      {
-        name: 'Module 6 - Blogging & Content Marketing',
-        topics: [
-          'Driving sustainable organic search traffic',
-          'Content frameworks that establish domain authority',
-          'Audience engagement and editorial calendar planning',
-          'Lead generation through gated assets and articles',
-        ],
-      },
-      {
-        name: 'Module 7 - App Marketing & ASO',
-        topics: [
-          'App promotion and engagement campaigns',
-          'App Store Optimization (ASO) strategies',
-          'In-app marketing funnels and retention models',
-          'Mobile user behavioral analytics',
-        ],
-      },
-      {
-        name: 'Module 8 - ORM (Online Reputation Management)',
-        topics: [
-          'Continuous brand sentiment monitoring',
-          'Building positive review footprints on major portals',
-          'Managing customer reviews and crisis response plans',
-        ],
-      },
-      {
-        name: 'Module 9 - Multi-Channel Marketing',
-        topics: [
-          'WhatsApp marketing campaigns and API bots',
-          'Email marketing workflows and list segmentation',
-          'Affiliate and e-commerce marketing systems',
-          'Google My Business local presence and conversion optimization',
-          'Media planning, budgeting, and freelance client acquisition',
-        ],
-      },
-    ],
+    modules: DIGITAL_MARKETING_MODULES,
   },
   {
     slug: 'addm',
