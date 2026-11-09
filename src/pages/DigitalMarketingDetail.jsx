@@ -35,6 +35,9 @@ import {
   Sparkles,
   X,
   ExternalLink,
+  MapPin,
+  Phone,
+  Printer,
 } from 'lucide-react';
 
 // React Bits Components
@@ -163,7 +166,7 @@ const DIGITAL_MARKETING_FAQS = [
   },
   {
     q: 'How does the in-person job training work across Mumbai centers?',
-    a: 'Job training is conducted hands-on at all 4 Infodesk Mumbai centers (Andheri, Borivali, Dadar, and Thane). You will work on live campaign scenarios, optimize real ad funnels, and prepare campaign portfolios under the direct guidance of industry professionals.',
+    a: 'Job training is conducted hands-on at all 4 Infodesk Mumbai centers (Goregaon West, Behram Baug, Jogeshwari West, and Motilal Nagar). You will work on live campaign scenarios, optimize real ad funnels, and prepare campaign portfolios under the direct guidance of industry professionals.',
   },
   {
     q: 'Are weekend or flexible batch timings available for working professionals?',
@@ -173,6 +176,13 @@ const DIGITAL_MARKETING_FAQS = [
 
 export default function DigitalMarketingDetail({ course }) {
   const navigate = useNavigate();
+
+  // Selected Branch for Interactive Centers & Batch Timings
+  const [selectedBranchId, setSelectedBranchId] = useState(branches[0]?.id || 'goregaon-west');
+  const selectedBranch = useMemo(
+    () => branches.find((b) => b.id === selectedBranchId) || branches[0],
+    [selectedBranchId]
+  );
 
   // Related courses (ADDM and Graphic Design per prompt)
   const relatedCourses = useMemo(() => {
@@ -1121,7 +1131,188 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 7. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
+      {/* ─── 7. IN-PERSON MUMBAI CENTERS & BATCH SCHEDULE ─── */}
+      <section id="centers" className="py-12 sm:py-20 bg-surface border-t border-line/70">
+        <div className="max-w-content mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+              Train in-person across Mumbai.
+            </h2>
+            <p className="text-muted text-sm leading-relaxed">
+              Visit any of our 4 Mumbai centers for hands-on classroom sessions, mentor guidance, and practice labs.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            {/* Center Selector Tabs */}
+            <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-soft/60 border border-line/60 rounded-2xl max-w-2xl mx-auto mb-8">
+              {branches.map((b) => {
+                const isSelected = selectedBranchId === b.id;
+                return (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => setSelectedBranchId(b.id)}
+                    className={`flex-1 min-w-[130px] sm:min-w-[140px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer text-center ${
+                      isSelected
+                        ? 'bg-primary text-white shadow-md'
+                        : 'text-ink/80 hover:text-deep hover:bg-white/60'
+                    }`}
+                  >
+                    <span>{b.name}</span>
+                    <span className={`block text-[10px] font-normal truncate mt-0.5 ${isSelected ? 'text-white/80' : 'text-muted'}`}>
+                      {b.locality}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Selected Center Details Card */}
+            {selectedBranch && (
+              <motion.div
+                key={selectedBranch.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+                className="bg-white rounded-[24px] border border-line/80 shadow-card p-6 sm:p-8"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  {/* Left Column: Center Location & Operating Info (7 cols) */}
+                  <div className="lg:col-span-7 space-y-6">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">
+                          Active Training Center
+                        </span>
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-bold text-deep font-heading">
+                        {selectedBranch.name} Center
+                      </h3>
+                      <p className="text-sm text-muted">
+                        {selectedBranch.locality}
+                      </p>
+                    </div>
+
+                    <div className="space-y-3.5 text-xs sm:text-sm text-ink/90 border-t border-line/50 pt-5">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-soft text-primary flex items-center justify-center shrink-0 mt-0.5">
+                          <MapPin size={16} />
+                        </div>
+                        <div>
+                          <span className="font-bold text-deep block">Center Address</span>
+                          <span className="text-muted leading-relaxed">
+                            {selectedBranch.address.replace(/^\[.*?:\s*/, '').replace(/\]$/, '')}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-soft text-primary flex items-center justify-center shrink-0 mt-0.5">
+                          <Clock size={16} />
+                        </div>
+                        <div>
+                          <span className="font-bold text-deep block">Operating Hours &amp; Lab Access</span>
+                          <span className="text-muted">
+                            {selectedBranch.timings} · Open 6 days/week
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-soft text-primary flex items-center justify-center shrink-0 mt-0.5">
+                          <Phone size={16} />
+                        </div>
+                        <div>
+                          <span className="font-bold text-deep block">Direct Center Hotline</span>
+                          <span className="text-muted font-mono">
+                            {selectedBranch.primaryPhone} {selectedBranch.secondaryPhone ? `· ${selectedBranch.secondaryPhone}` : ''}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row items-center gap-3 pt-3 border-t border-line/50">
+                      <Button
+                        to="/contact"
+                        size="md"
+                        variant="primary"
+                        className="w-full sm:w-auto !px-6"
+                      >
+                        Book demo at {selectedBranch.name}
+                      </Button>
+                      <Button
+                        href={`https://wa.me/${selectedBranch.primaryPhoneRaw}?text=${encodeURIComponent(
+                          selectedBranch.whatsappMessage
+                        )}`}
+                        size="md"
+                        variant="ghost"
+                        className="w-full sm:w-auto"
+                        icon={<MessageCircle size={18} className="text-[#25D366]" />}
+                      >
+                        Chat on WhatsApp
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Weekly Batch Timings Schedule (5 cols) */}
+                  <div className="lg:col-span-5 bg-surface rounded-[20px] border border-line/70 p-5 sm:p-6 space-y-4">
+                    <div className="flex items-center justify-between border-b border-line/60 pb-3">
+                      <span className="text-xs font-bold text-deep font-heading">
+                        Available Batch Timings
+                      </span>
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        Admissions Open
+                      </span>
+                    </div>
+
+                    <div className="space-y-3 text-xs">
+                      <div className="p-3 rounded-xl bg-white border border-line/60 space-y-1">
+                        <div className="flex items-center justify-between font-bold text-deep">
+                          <span>Weekday Morning</span>
+                          <span className="font-mono text-primary font-semibold">10:00 AM – 12:00 PM</span>
+                        </div>
+                        <p className="text-[11px] text-muted">
+                          Monday to Friday · Small batch mentor instruction
+                        </p>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-white border border-line/60 space-y-1">
+                        <div className="flex items-center justify-between font-bold text-deep">
+                          <span>Weekday Evening</span>
+                          <span className="font-mono text-primary font-semibold">6:30 PM – 8:30 PM</span>
+                        </div>
+                        <p className="text-[11px] text-muted">
+                          Monday to Friday · Ideal for working professionals
+                        </p>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-white border border-line/60 space-y-1">
+                        <div className="flex items-center justify-between font-bold text-deep">
+                          <span>Weekend Fast-Track</span>
+                          <span className="font-mono text-primary font-semibold">11:00 AM – 3:00 PM</span>
+                        </div>
+                        <p className="text-[11px] text-muted">
+                          Sunday Intensive · Practical live campaign workshops
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 text-[11px] text-muted flex items-center gap-1.5">
+                      <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
+                      <span>Free practice lab hours included before and after class</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 8. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
       <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70">
         <div className="max-w-content mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
@@ -1288,7 +1479,7 @@ export default function DigitalMarketingDetail({ course }) {
               </div>
 
               {/* Certificate Document Body */}
-              <div className="p-4 sm:p-8 bg-[#fdfcf9] overflow-y-auto flex-1">
+              <div id="printable-certificate" className="p-4 sm:p-8 bg-[#fdfcf9] overflow-y-auto flex-1">
                 {activeCertTab === 0 && (
                   <motion.div
                     key="tab-diploma"
@@ -1409,7 +1600,7 @@ export default function DigitalMarketingDetail({ course }) {
                       </div>
                       <div>
                         <span className="text-muted block">Centers</span>
-                        <span className="font-semibold text-deep">Andheri, Borivali, Dadar, Thane</span>
+                        <span className="font-semibold text-deep">Goregaon W, Behram Baug, Jogeshwari W, Motilal Nagar</span>
                       </div>
                       <div>
                         <span className="text-muted block">Mentorship</span>
@@ -1558,15 +1749,25 @@ export default function DigitalMarketingDetail({ course }) {
 
               {/* Modal Actions */}
               <div className="p-4 sm:p-5 border-t border-line/60 bg-surface flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-                <a
-                  href="/assets/Infodesk_Computer_Education.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold text-muted hover:text-deep hover:bg-soft transition-colors border border-line/60"
-                >
-                  <FileDown size={14} />
-                  <span>Download brochure (PDF)</span>
-                </a>
+                <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                  <a
+                    href="/assets/Infodesk_Computer_Education.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold text-muted hover:text-deep hover:bg-soft transition-colors border border-line/60"
+                  >
+                    <FileDown size={14} />
+                    <span>Brochure (PDF)</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold text-primary bg-primary/10 hover:bg-primary/20 transition-colors border border-primary/20 cursor-pointer"
+                  >
+                    <Printer size={14} />
+                    <span>Print credential</span>
+                  </button>
+                </div>
                 <div className="flex items-center gap-2 w-full sm:w-auto">
                   <button
                     type="button"
