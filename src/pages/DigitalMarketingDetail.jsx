@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronRight,
   Award,
@@ -14,6 +15,23 @@ import {
   Send,
   FileDown,
   ArrowRight,
+  ArrowLeft,
+  Compass,
+  Users,
+  Target,
+  Crown,
+  PenTool,
+  Layers,
+  Megaphone,
+  PieChart,
+  Flame,
+  Smartphone,
+  TrendingUp,
+  ShoppingBag,
+  Zap,
+  LayoutTemplate,
+  ShieldCheck,
+  Sparkles,
 } from 'lucide-react';
 
 // React Bits Components
@@ -54,6 +72,79 @@ import {
   isSaveData,
   isTouchDevice,
 } from '../config/effects';
+
+// Premium Stage Metadata & Icons for Customer Journey
+const STAGE_METADATA = [
+  {
+    id: 'awareness',
+    stepNumber: '01',
+    title: 'Awareness',
+    badge: 'Discovery & Search',
+    icon: Compass,
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-500/10',
+    borderColor: 'border-blue-500/20',
+  },
+  {
+    id: 'engagement',
+    stepNumber: '02',
+    title: 'Engagement',
+    badge: 'Social & Video',
+    icon: Users,
+    color: 'text-pink-600',
+    bgColor: 'bg-pink-500/10',
+    borderColor: 'border-pink-500/20',
+  },
+  {
+    id: 'conversion',
+    stepNumber: '03',
+    title: 'Conversion',
+    badge: 'Leads & Paid Ads',
+    icon: Target,
+    color: 'text-emerald-600',
+    bgColor: 'bg-emerald-500/10',
+    borderColor: 'border-emerald-500/20',
+  },
+  {
+    id: 'loyalty',
+    stepNumber: '04',
+    title: 'Loyalty',
+    badge: 'Retention & ORM',
+    icon: Crown,
+    color: 'text-violet-600',
+    bgColor: 'bg-violet-500/10',
+    borderColor: 'border-violet-500/20',
+  },
+];
+
+// Tailored Premium Icons for All Brochure Marketing Topics
+const TOPIC_ICON_MAP = {
+  // Awareness
+  'SEO': { icon: Search, color: 'text-blue-600', bg: 'bg-blue-50 text-blue-600 border-blue-200/70' },
+  'Blogging': { icon: PenTool, color: 'text-indigo-600', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200/70' },
+  'Content marketing': { icon: Layers, color: 'text-sky-600', bg: 'bg-sky-50 text-sky-600 border-sky-200/70' },
+  'Display advertising': { icon: Megaphone, color: 'text-amber-600', bg: 'bg-amber-50 text-amber-600 border-amber-200/70' },
+  'Media planning and buying': { icon: PieChart, color: 'text-emerald-600', bg: 'bg-emerald-50 text-emerald-600 border-emerald-200/70' },
+
+  // Engagement
+  'Social media marketing': { icon: Share2, color: 'text-rose-600', bg: 'bg-rose-50 text-rose-600 border-rose-200/70' },
+  'Video marketing': { icon: Flame, color: 'text-orange-600', bg: 'bg-orange-50 text-orange-600 border-orange-200/70' },
+  'App marketing': { icon: Smartphone, color: 'text-violet-600', bg: 'bg-violet-50 text-violet-600 border-violet-200/70' },
+  'Managing social media comments': { icon: MessageCircle, color: 'text-teal-600', bg: 'bg-teal-50 text-teal-600 border-teal-200/70' },
+
+  // Conversion
+  'Google Ads': { icon: Target, color: 'text-blue-600', bg: 'bg-blue-50 text-blue-600 border-blue-200/70' },
+  'Conversion rate optimisation (CRO)': { icon: TrendingUp, color: 'text-emerald-600', bg: 'bg-emerald-50 text-emerald-600 border-emerald-200/70' },
+  'E-commerce marketing': { icon: ShoppingBag, color: 'text-amber-600', bg: 'bg-amber-50 text-amber-600 border-amber-200/70' },
+  'Affiliate marketing': { icon: Zap, color: 'text-yellow-600', bg: 'bg-yellow-50 text-yellow-600 border-yellow-200/70' },
+  'Building a lead generation page': { icon: LayoutTemplate, color: 'text-cyan-600', bg: 'bg-cyan-50 text-cyan-600 border-cyan-200/70' },
+
+  // Loyalty
+  'Email marketing': { icon: Send, color: 'text-blue-600', bg: 'bg-blue-50 text-blue-600 border-blue-200/70' },
+  'WhatsApp marketing': { icon: MessageCircle, color: 'text-emerald-600', bg: 'bg-emerald-50 text-emerald-600 border-emerald-200/70' },
+  'Responding to reviews': { icon: ShieldCheck, color: 'text-emerald-600', bg: 'bg-emerald-50 text-emerald-600 border-emerald-200/70' },
+  'Customer retention': { icon: Award, color: 'text-indigo-600', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200/70' },
+};
 
 export default function DigitalMarketingDetail({ course }) {
   // Related courses (ADDM and Graphic Design per prompt)
@@ -513,97 +604,201 @@ export default function DigitalMarketingDetail({ course }) {
             </p>
           </div>
 
-          {/* Funnel Stepper Component with GooeyNav Tab fallback */}
-          {effectsConfig.digitalMarketingStepper ? (
-            <div className="max-w-3xl mx-auto">
-              <Stepper
-                theme="light"
-                accentColor="#2448c9"
-                radius={24}
-                indicator="numbers"
-                linear={false}
-                width="100%"
-                step={activeJourneyStage + 1}
-                onStepChange={(s) => setActiveJourneyStage(s - 1)}
-                nextButtonText="Next stage"
-                backButtonText="Previous stage"
-                completeButtonText="Explore Syllabus"
-                onFinalStepCompleted={() => {
-                  const el = document.getElementById('syllabus');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="bg-white/95 border border-line/80 shadow-card"
-              >
-                {CUSTOMER_JOURNEY_STAGES.map((stage) => (
-                  <Step key={stage.stage} title={stage.stage}>
-                    <div className="py-4 px-2 sm:px-6 text-center space-y-5">
-                      <p className="text-sm sm:text-base text-deep/90 font-medium leading-relaxed max-w-xl mx-auto">
-                        {stage.sentence}
-                      </p>
-                      <div className="flex flex-wrap justify-center gap-2.5 pt-1">
-                        {stage.chips.map((chip, cIdx) => (
-                          <button
-                            key={cIdx}
-                            type="button"
-                            onClick={() => handleOpenModule(chip.moduleIndex)}
-                            className="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white border border-line/80 text-primary hover:border-primary hover:bg-soft/40 transition-all shadow-sm flex items-center gap-2 group cursor-pointer"
-                          >
-                            <span>{chip.topic}</span>
-                            <ArrowRight size={13} className="text-primary/70 group-hover:translate-x-0.5 transition-transform" />
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </Step>
-                ))}
-              </Stepper>
-            </div>
-          ) : (
-            <>
-              {/* Interactive GooeyNav as Accessible Tabs (No eyebrow pills, no all-caps) */}
-              <div className="flex justify-center mb-8 overflow-x-auto max-w-full pb-2 no-scrollbar">
-                <GooeyNav
-                  asTabs={true}
-                  noCanvas={true}
-                  ariaLabel="Customer journey stages"
-                  items={journeyTabItems}
-                  activeIndex={activeJourneyStage}
-                  onChange={(idx) => setActiveJourneyStage(idx)}
-                  theme="light"
-                  color="#2448c9"
-                  size="md"
-                  className="shadow-sm"
-                />
-              </div>
+          {/* Interactive Stepper Pipeline Container */}
+          <div className="max-w-4xl mx-auto rounded-[28px] bg-white/95 border border-line/80 shadow-card p-5 sm:p-8 space-y-7 relative backdrop-blur-sm">
+            {/* 4-Step Interactive Pipeline Header Bar */}
+            <div
+              role="tablist"
+              aria-label="Customer journey stages"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 p-1.5 rounded-2xl bg-soft/60 border border-line/60"
+            >
+              {STAGE_METADATA.map((meta, idx) => {
+                const IconComponent = meta.icon;
+                const isActive = activeJourneyStage === idx;
+                const isPassed = activeJourneyStage > idx;
 
-              {/* Active Journey Stage Compact Tabpanel */}
-              <div
+                return (
+                  <button
+                    key={meta.id}
+                    type="button"
+                    role="tab"
+                    id={`journey-tab-${idx}`}
+                    aria-selected={isActive}
+                    aria-controls={`journey-tabpanel-${idx}`}
+                    onClick={() => setActiveJourneyStage(idx)}
+                    className={`relative flex items-center gap-2.5 sm:gap-3 p-2.5 sm:py-3 sm:px-4 rounded-xl text-left transition-all duration-200 group cursor-pointer focus:outline-none ${
+                      isActive ? 'text-deep' : 'text-muted hover:text-deep hover:bg-white/40'
+                    }`}
+                  >
+                    {/* Active Glider Background */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeFunnelGlider"
+                        className="absolute inset-0 bg-white rounded-xl shadow-sm border border-line/70"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+
+                    {/* Step Icon Badge */}
+                    <span
+                      className={`relative z-10 w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-xs font-bold transition-transform duration-300 ${
+                        isActive
+                          ? `${meta.bgColor} ${meta.color} shadow-sm scale-105`
+                          : isPassed
+                          ? 'bg-emerald-50 text-emerald-600'
+                          : 'bg-white/80 text-muted border border-line/50 group-hover:scale-105'
+                      }`}
+                    >
+                      {isPassed ? (
+                        <CheckCircle2 size={16} className="text-emerald-500" />
+                      ) : (
+                        <IconComponent size={16} className={isActive ? 'animate-pulse' : ''} />
+                      )}
+                    </span>
+
+                    {/* Step Text */}
+                    <div className="relative z-10 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted">
+                          {meta.stepNumber}
+                        </span>
+                        {isActive && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+                        )}
+                      </div>
+                      <span className="block text-xs sm:text-sm font-bold truncate">
+                        {meta.title}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active Stage Content with Smooth Slide Animation */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeJourneyStage}
                 role="tabpanel"
                 id={`journey-tabpanel-${activeJourneyStage}`}
                 aria-labelledby={`journey-tab-${activeJourneyStage}`}
-                className="focus:outline-none max-w-3xl mx-auto text-center space-y-6"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
+                className="space-y-6 pt-1 text-center"
               >
-                <p className="text-sm sm:text-base text-deep/90 font-medium leading-relaxed">
-                  {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].sentence}
-                </p>
-
-                {/* Compact Topic Chips Linking to Syllabus Modules with 16px clearance */}
-                <div className="flex flex-wrap justify-center gap-2.5 pt-2">
-                  {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].chips.map((chip, cIdx) => (
-                    <button
-                      key={cIdx}
-                      type="button"
-                      onClick={() => handleOpenModule(chip.moduleIndex)}
-                      className="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white border border-line/80 text-primary hover:border-primary hover:bg-soft/40 transition-all shadow-sm flex items-center gap-2 group"
-                    >
-                      <span>{chip.topic}</span>
-                      <ArrowRight size={13} className="text-primary/70 group-hover:translate-x-0.5 transition-transform" />
-                    </button>
-                  ))}
+                {/* Stage Badge & Factual Sentence */}
+                <div className="space-y-2.5 max-w-2xl mx-auto">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+                    <Sparkles size={12} className="animate-spin" style={{ animationDuration: '4s' }} />
+                    <span>{STAGE_METADATA[activeJourneyStage].badge}</span>
+                  </span>
+                  <p className="text-base sm:text-lg text-deep/95 font-medium leading-relaxed">
+                    {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].sentence}
+                  </p>
                 </div>
-              </div>
-            </>
-          )}
+
+                {/* Premium Interactive Topic Chips with Tailored Icons & Hover Animations */}
+                <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3 pt-2">
+                  {CUSTOMER_JOURNEY_STAGES[activeJourneyStage].chips.map((chip, cIdx) => {
+                    const iconConfig = TOPIC_ICON_MAP[chip.topic] || {
+                      icon: Sparkles,
+                      color: 'text-primary',
+                      bg: 'bg-soft text-primary border-line/60',
+                    };
+                    const ChipIcon = iconConfig.icon;
+
+                    return (
+                      <motion.button
+                        key={cIdx}
+                        type="button"
+                        onClick={() => handleOpenModule(chip.moduleIndex)}
+                        whileHover={{ y: -2, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="group relative inline-flex items-center gap-2.5 pl-2.5 pr-4 py-2 sm:py-2.5 rounded-full bg-white hover:bg-gradient-to-r hover:from-white hover:to-soft/60 border border-line/80 hover:border-primary/50 text-deep shadow-sm hover:shadow-md hover:shadow-primary/10 transition-all duration-200 cursor-pointer"
+                      >
+                        {/* Custom Colored Icon Bubble with Micro-Animation */}
+                        <span
+                          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 border ${iconConfig.bg} group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}
+                        >
+                          <ChipIcon size={15} className={`${iconConfig.color} transition-colors`} />
+                        </span>
+
+                        {/* Topic Name */}
+                        <span className="text-xs sm:text-sm font-semibold tracking-tight group-hover:text-primary transition-colors">
+                          {chip.topic}
+                        </span>
+
+                        {/* Interactive Animated Arrow */}
+                        <span className="w-5 h-5 rounded-full bg-soft/70 group-hover:bg-primary group-hover:text-white flex items-center justify-center text-primary/70 transition-all duration-200 shrink-0 ml-0.5">
+                          <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                        </span>
+                      </motion.button>
+                    );
+                  })}
+                </div>
+
+                {/* Bottom Navigation & Controls */}
+                <div className="pt-6 border-t border-line/60 flex items-center justify-between gap-4">
+                  {/* Previous Stage Button */}
+                  <button
+                    type="button"
+                    onClick={() => setActiveJourneyStage(Math.max(0, activeJourneyStage - 1))}
+                    disabled={activeJourneyStage === 0}
+                    className={`inline-flex items-center gap-2 text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition-all ${
+                      activeJourneyStage === 0
+                        ? 'opacity-0 pointer-events-none'
+                        : 'text-muted hover:text-deep hover:bg-soft/70 cursor-pointer'
+                    }`}
+                  >
+                    <ArrowLeft size={15} />
+                    <span>Previous stage</span>
+                  </button>
+
+                  {/* Funnel Progress Dots */}
+                  <div className="flex items-center gap-1.5" aria-hidden="true">
+                    {STAGE_METADATA.map((_, dotIdx) => (
+                      <span
+                        key={dotIdx}
+                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                          dotIdx === activeJourneyStage
+                            ? 'w-6 bg-primary'
+                            : dotIdx < activeJourneyStage
+                            ? 'w-2 bg-emerald-500'
+                            : 'w-2 bg-line'
+                        }`}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Next Stage or Final CTA Button */}
+                  {activeJourneyStage < 3 ? (
+                    <button
+                      type="button"
+                      onClick={() => setActiveJourneyStage(activeJourneyStage + 1)}
+                      className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl bg-primary text-white hover:bg-deep shadow-md hover:shadow-lg shadow-primary/20 transition-all group cursor-pointer"
+                    >
+                      <span>Next stage</span>
+                      <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById('syllabus');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 shadow-md hover:shadow-lg shadow-emerald-600/20 transition-all group cursor-pointer"
+                    >
+                      <span>Explore Syllabus</span>
+                      <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </section>
 
