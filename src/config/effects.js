@@ -81,6 +81,8 @@ export const effectsConfig = {
   digitalMarketingTiltedCard: !prefersReducedMotion && !isTouchDevice,
   digitalMarketingFolder: !prefersReducedMotion,
   digitalMarketingFaqSpotlight: true,
+  digitalMarketingLogoLoop: !prefersReducedMotion,
+  digitalMarketingTimeline: true,
 
   // About Page (/about)
   scrollExpand: !prefersReducedMotion,
