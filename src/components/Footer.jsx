@@ -15,7 +15,7 @@ export default function Footer() {
         </div>
       )}
 
-      <div className="max-w-content mx-auto px-6">
+      <div className="max-w-content mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-line/60">
           {/* Col 1: Brand Info (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
@@ -129,7 +129,7 @@ export default function Footer() {
                     <p className="font-semibold text-deep">{b.name}</p>
                     <a
                       href={`tel:${phone.replace(/\s+/g, '')}`}
-                      className="text-muted hover:text-primary flex items-center gap-1.5 mt-0.5"
+                      className="text-muted hover:text-primary inline-flex items-center gap-1.5 py-1 text-xs sm:text-sm"
                     >
                       <Phone size={13} className="text-primary shrink-0" />
                       <span>{phone}</span>

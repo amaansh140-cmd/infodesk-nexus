@@ -83,7 +83,7 @@ export default function Gallery() {
       const meta = photoMetadataLookup[item.filename] || {
         title: item.filename.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
         alt: `Infodesk Computer Education - ${item.filename.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')}`,
-        description: '[CAPTION_PLACEHOLDER: Description for newly added photo]',
+        description: 'Infodesk practical learning sessions and student training moments.',
       };
 
       return {
@@ -106,26 +106,26 @@ export default function Gallery() {
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* ─── PAGE HEADER ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-14 sm:py-20 relative overflow-hidden bg-grid-dots">
-        <div className="max-w-content mx-auto px-6 text-center max-w-3xl relative z-10">
+      <section className="bg-soft/60 border-b border-line/60 py-12 sm:py-20 relative overflow-hidden bg-grid-dots">
+        <div className="max-w-content mx-auto px-4 sm:px-6 text-center max-w-3xl relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-line/80 text-xs font-semibold text-deep mb-4 shadow-sm">
             <Camera size={13} className="text-primary" />
             <span>Campus Life & Milestones</span>
           </div>
-          <h1 className="text-[clamp(36px,5.2vw,64px)] font-bold text-deep tracking-tight">
+          <h1 className="text-[clamp(32px,5.2vw,64px)] font-bold text-deep tracking-tight">
             Life and achievements at Infodesk.
           </h1>
-          <p className="text-muted text-lg sm:text-[19px] mt-4 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-muted text-base sm:text-[19px] mt-3 sm:mt-4 leading-relaxed max-w-2xl mx-auto">
             From national institute honors to college coding seminars, explore the moments that define our student community in Mumbai.
           </p>
         </div>
       </section>
 
       {/* ─── GALLERY CONTROLS & MASONRY GRID ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           {/* Filter Chips */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mb-10">
+          <div className="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-8 sm:flex-wrap sm:justify-center -mx-4 px-4 sm:mx-0 sm:px-0">
             {CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat.id;
               const count =
@@ -138,7 +138,7 @@ export default function Gallery() {
                   key={cat.id}
                   type="button"
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-sm ${
+                  className={`inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 min-h-[40px] rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer shadow-sm ${
                     isActive
                       ? 'bg-primary text-white shadow-primary/25 shadow-md scale-[1.02]'
                       : 'bg-surface text-muted hover:text-deep border border-line hover:border-primary/40'

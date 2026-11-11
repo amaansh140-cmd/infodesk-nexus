@@ -5,7 +5,7 @@ import Button from '../components/Button';
 
 export default function NotFound() {
   return (
-    <div className="py-24 sm:py-32 max-w-content mx-auto px-6 text-center space-y-6">
+    <div className="py-24 sm:py-32 max-w-content mx-auto px-4 sm:px-6 text-center space-y-6">
       <div className="w-16 h-16 rounded-full bg-soft text-primary mx-auto flex items-center justify-center">
         <Compass size={32} />
       </div>

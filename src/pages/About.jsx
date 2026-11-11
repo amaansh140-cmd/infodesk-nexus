@@ -112,19 +112,19 @@ export default function About() {
   return (
     <div className="space-y-24 sm:space-y-32">
       {/* ─── HEADER ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-24">
-        <div className="max-w-content mx-auto px-6 max-w-3xl text-center">
-          <h1 className="text-[clamp(36px,5.2vw,64px)] font-bold text-deep tracking-tight">
+      <section className="bg-soft/60 border-b border-line/60 py-12 sm:py-24">
+        <div className="max-w-content mx-auto px-4 sm:px-6 max-w-3xl text-center">
+          <h1 className="text-[clamp(32px,5.2vw,64px)] font-bold text-deep tracking-tight">
             An institute for people who learn by building.
           </h1>
-          <p className="text-muted text-lg sm:text-[19px] mt-4 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-muted text-base sm:text-[19px] mt-4 leading-relaxed max-w-2xl mx-auto">
             Infodesk Computer Education provides practical, project-focused training in Mumbai, preparing students and working professionals for competitive technology careers.
           </p>
         </div>
       </section>
 
       {/* ─── HOW EVERY COURSE RUNS (4-STEP SEQUENCE) ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="text-[clamp(32px,4.4vw,48px)] font-bold text-deep">
@@ -158,9 +158,9 @@ export default function About() {
       </section>
 
       {/* ─── RECOGNITION & CERTIFICATION ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-8 sm:p-12 shadow-card">
+          <div className="bg-surface border border-line/80 rounded-panel p-5 sm:p-8 lg:p-12 shadow-card">
             <div className="max-w-2xl mb-8">
               <h2 className="text-2xl sm:text-3xl font-bold text-deep">
                 Recognized and certified standards.
@@ -200,9 +200,9 @@ export default function About() {
       </section>
 
       {/* ─── AWARD BY ASHNEER GROVER ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-[#101f5c] text-white rounded-band p-8 sm:p-14 shadow-signature">
+          <div className="bg-[#101f5c] text-white rounded-band p-5 sm:p-8 lg:p-14 shadow-signature">
             <div className="max-w-3xl mb-10 space-y-3">
               <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white/90 border border-white/20">
                 National Honor
@@ -285,7 +285,7 @@ export default function About() {
       </section>
 
       {/* ─── GLOBAL CERTIFICATIONS (KAREEM SHAH) ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-[clamp(32px,4.4vw,48px)] font-bold text-deep">
@@ -339,7 +339,7 @@ export default function About() {
       </section>
 
       {/* ─── SEMINARS IN COLLEGES ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-[clamp(32px,4.4vw,48px)] font-bold text-deep">

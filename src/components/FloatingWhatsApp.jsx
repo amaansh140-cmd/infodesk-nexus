@@ -12,15 +12,18 @@ export default function FloatingWhatsApp() {
       initial={{ opacity: 0, scale: 0.8, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay: 1, duration: 0.4, type: 'spring', stiffness: 260, damping: 20 }}
-      className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 pointer-events-auto"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      className="fixed z-40 pointer-events-auto"
+      style={{
+        bottom: 'max(1.25rem, calc(0.75rem + env(safe-area-inset-bottom, 0px)))',
+        right: 'max(1rem, calc(0.75rem + env(safe-area-inset-right, 0px)))',
+      }}
       aria-label="Contact us on WhatsApp"
     >
       <a
         href={`https://wa.me/919769445334?text=${defaultMessage}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex items-center gap-2 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:shadow-[0_12px_28px_rgba(37,211,102,0.55)] hover:bg-[#20ba59] active:scale-95 transition-all duration-300"
+        className="group relative flex items-center justify-center gap-2 bg-[#25D366] text-white px-3.5 py-3 sm:px-4 rounded-full shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:shadow-[0_12px_28px_rgba(37,211,102,0.55)] hover:bg-[#20ba59] active:scale-95 transition-all duration-300 min-h-[48px] min-w-[48px]"
         title="Chat with Infodesk on WhatsApp"
       >
         <MessageCircle size={22} className="shrink-0 fill-white" />

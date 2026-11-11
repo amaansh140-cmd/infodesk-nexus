@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
@@ -183,6 +183,17 @@ const tools = [
 
 export default function Home() {
   const shouldReduceMotion = useReducedMotion();
+  const [swapWidth, setSwapWidth] = useState(380);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const avail = typeof window !== 'undefined' ? window.innerWidth - 32 : 380;
+      setSwapWidth(Math.min(400, Math.max(260, avail)));
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   // Testimonial cards for React Bits Stack
   const testimonialCards = testimonials.map((t) => (
@@ -352,7 +363,7 @@ export default function Home() {
 
       {/* ─── NUMBERS STRIP (COUNTUP) ─── */}
       <section className="bg-soft/70 border-y border-line/70 py-8 sm:py-10">
-        <div className="max-w-content mx-auto px-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
             <div className="p-3">
               <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-deep font-display tracking-tight flex items-center justify-center">
@@ -408,9 +419,9 @@ export default function Home() {
       </section>
 
       {/* ─── RECOGNITION STRIP ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-6 sm:p-8 shadow-card">
+          <div className="bg-surface border border-line/80 rounded-panel p-5 sm:p-8 shadow-card">
             <p className="text-center text-xs font-bold uppercase tracking-wider text-muted mb-6">
               Recognized and certified for vocational excellence
             </p>
@@ -442,7 +453,7 @@ export default function Home() {
       </section>
 
       {/* ─── PICK YOUR TRACK (CARDSWAP) ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left Column: Heading and info */}
@@ -461,11 +472,11 @@ export default function Home() {
             </div>
 
             {/* Right Column: CardSwap or Responsive Grid Fallback */}
-            <div className="lg:col-span-7 flex justify-center">
+            <div className="lg:col-span-7 flex justify-center w-full overflow-hidden sm:overflow-visible">
               {effectsConfig.cardSwap && !shouldReduceMotion ? (
                 <div className="relative w-full max-w-[480px] h-[340px] sm:h-[380px] flex items-center justify-center">
                   <CardSwap
-                    width={400}
+                    width={swapWidth}
                     height={260}
                     cardRadius={22}
                     visibleCards={4}
@@ -539,7 +550,7 @@ export default function Home() {
       </section>
 
       {/* ─── WHY INFODESK (SPOTLIGHTCARD) ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="text-[clamp(32px,4.4vw,52px)] font-bold text-deep">
@@ -611,7 +622,7 @@ export default function Home() {
       </section>
 
       {/* ─── STUDENT VOICES (STACK CARD DECK) ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="text-[clamp(32px,4.4vw,52px)] font-bold text-deep">
@@ -661,9 +672,9 @@ export default function Home() {
       </section>
 
       {/* ─── AWARD HIGHLIGHT ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-[#101f5c] text-white rounded-band p-8 sm:p-14 shadow-signature overflow-hidden relative">
+          <div className="bg-[#101f5c] text-white rounded-band p-5 sm:p-8 lg:p-14 shadow-signature overflow-hidden relative">
             {/* Background glowing orb */}
             <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-bright/20 blur-3xl pointer-events-none" />
 
@@ -767,9 +778,9 @@ export default function Home() {
       </section>
 
       {/* ─── CLOSING BANNER (GRADIENTASCII + ELECTRICBORDER) ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-deep rounded-band p-8 sm:p-14 text-center text-white space-y-6 shadow-signature relative overflow-hidden">
+          <div className="bg-deep rounded-band p-5 sm:p-8 lg:p-14 text-center text-white space-y-6 shadow-signature relative overflow-hidden">
             {/* Background GradientASCII mounted lazily */}
             {effectsConfig.homeClosingBanner && !shouldReduceMotion && (
               <div className="absolute inset-0 pointer-events-none opacity-30 z-0 overflow-hidden">

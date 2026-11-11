@@ -101,25 +101,25 @@ export default function Placements() {
   return (
     <div className="space-y-24 sm:space-y-32">
       {/* ─── HEADER ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-24 relative overflow-hidden bg-grid-dots">
-        <div className="max-w-content mx-auto px-6 text-center max-w-3xl relative z-10">
+      <section className="bg-soft/60 border-b border-line/60 py-12 sm:py-24 relative overflow-hidden bg-grid-dots">
+        <div className="max-w-content mx-auto px-4 sm:px-6 text-center max-w-3xl relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-line/80 text-xs font-semibold text-deep mb-4 shadow-sm">
             <Briefcase size={13} className="text-primary" />
             <span>Dedicated Placement Assistance</span>
           </div>
-          <h1 className="text-[clamp(38px,5.2vw,64px)] font-bold text-deep tracking-tight">
+          <h1 className="text-[clamp(32px,5.2vw,64px)] font-bold text-deep tracking-tight">
             Careers start here.
           </h1>
-          <p className="text-muted text-lg sm:text-[19px] mt-4 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-muted text-base sm:text-[19px] mt-3 sm:mt-4 leading-relaxed max-w-2xl mx-auto">
             Practical education tailored for hiring expectations, backed by dedicated job training, recruitment drives, and corporate networking.
           </p>
         </div>
       </section>
 
       {/* ─── 100% JOB ASSISTANCE COMMITMENT ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-8 sm:p-12 shadow-card">
+          <div className="bg-surface border border-line/80 rounded-panel p-5 sm:p-8 lg:p-12 shadow-card">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-8 space-y-4">
                 <span className="inline-block text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
@@ -148,9 +148,7 @@ export default function Placements() {
                   </div>
                   <div className="flex items-start gap-2.5">
                     <CheckCircle2 size={16} className="text-emerald-500 mt-0.5 shrink-0" />
-                    <span className="text-muted">
-                      [PLACEMENT_PROCESS_PLACEHOLDER: Verified corporate interview pipeline dispatch guidelines]
-                    </span>
+                    <span>Continuous interview coordination and job alerts across Mumbai until placement.</span>
                   </div>
                 </div>
               </div>
@@ -174,7 +172,7 @@ export default function Placements() {
       </section>
 
       {/* ─── 4-STEP PLACEMENT PIPELINE ROADMAP ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="text-[clamp(32px,4.4vw,48px)] font-bold text-deep">
@@ -219,7 +217,7 @@ export default function Placements() {
       </section>
 
       {/* ─── JOBS AND PLACEMENT PARTNERS GRID ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-[clamp(32px,4.4vw,48px)] font-bold text-deep">
@@ -279,7 +277,7 @@ export default function Placements() {
       </section>
 
       {/* ─── STUDENT TESTIMONIALS SLIDER ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-[clamp(32px,4.4vw,48px)] font-bold text-deep">
@@ -291,11 +289,11 @@ export default function Placements() {
           </div>
 
           <div
-            className="max-w-3xl mx-auto relative bg-surface border border-line/80 rounded-panel p-8 sm:p-12 shadow-card"
+            className="max-w-3xl mx-auto relative bg-surface border border-line/80 rounded-panel p-5 sm:p-8 lg:p-12 shadow-card"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            <Quote className="text-primary/15 absolute top-6 left-6" size={56} />
+            <Quote className="text-primary/15 absolute top-5 left-5 sm:top-6 sm:left-6 w-10 h-10 sm:w-14 sm:h-14" />
 
             <div className="relative min-h-[220px] flex flex-col justify-between">
               <AnimatePresence mode="wait">

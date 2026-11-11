@@ -468,7 +468,7 @@ export default function CourseDetail() {
       <div className="space-y-16">
         {/* Standard Course Header */}
         <section className="bg-soft/60 border-b border-line/60 py-12 sm:py-16 relative overflow-hidden bg-grid-dots">
-          <div className="max-w-content mx-auto px-6 relative z-10">
+          <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10">
             {/* Breadcrumb Navigation */}
             <nav
               aria-label="Breadcrumb"
@@ -532,7 +532,7 @@ export default function CourseDetail() {
         </section>
 
         {/* Two-Column Content Layout */}
-        <section className="max-w-content mx-auto px-6">
+        <section className="max-w-content mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             <div className="lg:col-span-8 space-y-8">
               {/* Tools Covered Strip */}
@@ -782,7 +782,7 @@ export default function CourseDetail() {
 
         {/* Related courses */}
         {relatedCourses.length > 0 && (
-          <section className="max-w-content mx-auto px-6 pt-10">
+          <section className="max-w-content mx-auto px-4 sm:px-6 pt-10">
             <ScrollReveal>
               <div className="flex items-center justify-between mb-8">
                 <div>
@@ -868,7 +868,7 @@ export default function CourseDetail() {
         </div>
 
         {/* Hero Content Container (max-width 1200px) */}
-        <div className="max-w-[1200px] mx-auto px-6 relative z-10 w-full my-auto">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10 w-full my-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
             {/* Column 1 (Left 55%): Text & Action Block */}
             <div className="space-y-5">
@@ -1154,7 +1154,7 @@ export default function CourseDetail() {
         </div>
 
         {/* ─── GLASS STATS BAR (Inside Hero Along Bottom Edge, max-w-[1120px]) ─── */}
-        <div className="max-w-[1120px] mx-auto w-full px-6 relative z-10 mt-8 lg:mt-10">
+        <div className="max-w-[1120px] mx-auto w-full px-4 sm:px-6 relative z-10 mt-8 lg:mt-10">
           <div className="bg-white/[0.06] border border-white/[0.14] backdrop-blur-md rounded-[22px] p-4 sm:p-6 shadow-2xl grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-white/[0.12] text-center">
             {/* 1. Months of training */}
             <div className="p-3 sm:p-4">
@@ -1250,7 +1250,7 @@ export default function CourseDetail() {
           </div>
         ) : (
           /* Reduced motion fallback: Clean wrapping chips */
-          <div className="max-w-content mx-auto px-6 flex flex-wrap gap-2.5 justify-center">
+          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap gap-2.5 justify-center">
             {DATA_SCIENCE_SOFTWARE.map((item) => (
               <div
                 key={item.name}
@@ -1267,7 +1267,7 @@ export default function CourseDetail() {
       </section>
 
       {/* ─── 3. THE DATA SCIENCE WORKFLOW (FULL-WIDTH SCROLLSTACK) ─── */}
-      <section id="workflow" className="py-16 max-w-content mx-auto px-6 scroll-mt-24">
+      <section id="workflow" className="py-12 sm:py-16 max-w-content mx-auto px-4 sm:px-6 scroll-mt-24">
         <div className="mb-10 text-center max-w-2xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold text-deep tracking-tight">
             The data science workflow
@@ -1449,7 +1449,7 @@ export default function CourseDetail() {
           </LazyMount>
         )}
 
-        <div className="max-w-content mx-auto px-6 relative z-10 text-center max-w-3xl">
+        <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10 text-center max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-sm mb-4">
             <Bot size={14} />
             <span>Generative AI module</span>
@@ -1496,7 +1496,7 @@ export default function CourseDetail() {
       </section>
 
       {/* ─── 8. DATA GOVERNANCE WITH INFORMATICA (4 SPOTLIGHTCARDS) ─── */}
-      <section className="py-16 max-w-content mx-auto px-6">
+      <section className="py-12 sm:py-16 max-w-content mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-deep tracking-tight">
             Data governance with Informatica
@@ -1544,7 +1544,7 @@ export default function CourseDetail() {
       </section>
 
       {/* ─── 9. SYLLABUS AND ENROL (TWO COLUMNS) ─── */}
-      <section id="syllabus" className="max-w-content mx-auto px-6 py-12">
+      <section id="syllabus" className="max-w-content mx-auto px-4 sm:px-6 py-10 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           {/* Left Column: Syllabus Breakdown (8 cols) */}
           <div className="lg:col-span-8 space-y-6">
@@ -1644,7 +1644,7 @@ export default function CourseDetail() {
       </section>
 
       {/* ─── 8. STUDENT TESTIMONIALS (AFTER DETAILED SYLLABUS) ─── */}
-      <section id="testimonials" className="py-16 max-w-content mx-auto px-6 scroll-mt-24">
+      <section id="testimonials" className="py-12 sm:py-16 max-w-content mx-auto px-4 sm:px-6 scroll-mt-24">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-deep tracking-tight">
             Student stories
@@ -1699,7 +1699,7 @@ export default function CourseDetail() {
 
       {/* ─── 10. RELATED COURSES AS FLIPCARD ─── */}
       {relatedCourses.length > 0 && (
-        <section className="max-w-content mx-auto px-6 py-12">
+        <section className="max-w-content mx-auto px-4 sm:px-6 py-10 sm:py-12">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h3 className="text-2xl sm:text-3xl font-bold text-deep">
               Related courses in {course.category}.
@@ -1795,8 +1795,8 @@ export default function CourseDetail() {
       )}
 
       {/* ─── 11. CLOSING BANNER WITH STARBORDER ─── */}
-      <section className="max-w-content mx-auto px-6 py-12">
-        <div className="relative rounded-[32px] bg-gradient-to-br from-[#13266f] to-[#071138] text-white p-8 sm:p-12 overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+      <section className="max-w-content mx-auto px-4 sm:px-6 py-10 sm:py-12">
+        <div className="relative rounded-[28px] sm:rounded-[32px] bg-gradient-to-br from-[#13266f] to-[#071138] text-white p-6 sm:p-12 overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
           <div className="space-y-3 max-w-xl text-center md:text-left">
             <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
               Try a free demo class.

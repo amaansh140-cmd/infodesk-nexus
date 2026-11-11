@@ -20,8 +20,14 @@
     font-size: 17px;
     line-height: 1.6;
     overflow-x: clip;
+    overflow-wrap: anywhere;
     min-height: 100vh;
     width: 100%;
+  }
+
+  img, video {
+    max-inline-size: 100%;
+    block-size: auto;
   }
 
   #root {
@@ -35,6 +41,22 @@
     letter-spacing: -0.02em;
     line-height: 1.08;
     color: #13266f;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Accessible touch targets on coarse pointer devices */
+  @media (pointer: coarse) {
+    button:not(.no-min-touch),
+    [role="button"]:not(.no-min-touch),
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+      min-height: 44px;
+    }
   }
 
   /* Accessible 3px bright-blue keyboard focus rings */

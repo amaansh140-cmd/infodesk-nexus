@@ -143,25 +143,25 @@ export default function Contact() {
   return (
     <div className="space-y-24 sm:space-y-32">
       {/* ─── HEADER ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-24 relative overflow-hidden bg-grid-dots">
-        <div className="max-w-content mx-auto px-6 text-center max-w-3xl relative z-10">
+      <section className="bg-soft/60 border-b border-line/60 py-12 sm:py-24 relative overflow-hidden bg-grid-dots">
+        <div className="max-w-content mx-auto px-4 sm:px-6 text-center max-w-3xl relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-line/80 text-xs font-semibold text-deep mb-4 shadow-sm">
             <Sparkles size={13} className="text-primary" />
             <span>Admissions & Counseling Desk</span>
           </div>
-          <h1 className="text-[clamp(36px,5.2vw,64px)] font-bold text-deep tracking-tight">
+          <h1 className="text-[clamp(32px,5.2vw,64px)] font-bold text-deep tracking-tight">
             Let's find the right course for you.
           </h1>
-          <p className="text-muted text-lg sm:text-[19px] mt-4 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-muted text-base sm:text-[19px] mt-3 sm:mt-4 leading-relaxed max-w-2xl mx-auto">
             Reach out directly to any of our four Mumbai training centres, schedule a free counseling demo, or submit your query below.
           </p>
         </div>
       </section>
 
       {/* ─── ENQUIRY PANEL (DEEP BLUE PANEL WITH STEPPER) ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-deep text-white rounded-band p-8 sm:p-12 lg:p-14 shadow-signature relative overflow-hidden">
+          <div className="bg-deep text-white rounded-band p-5 sm:p-8 lg:p-14 shadow-signature relative overflow-hidden">
             <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-bright/15 blur-3xl pointer-events-none" />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start relative z-10">
@@ -458,7 +458,7 @@ export default function Contact() {
       </section>
 
       {/* ─── MUMBAI BRANCHES DETAILED DIRECTORY ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-[clamp(32px,4.4vw,48px)] font-bold text-deep">
@@ -475,7 +475,7 @@ export default function Contact() {
               return (
                 <div
                   key={branch.id}
-                  className="bg-surface border border-line/80 rounded-panel p-7 shadow-card flex flex-col justify-between hover:border-primary/40 transition-colors"
+                  className="bg-surface border border-line/80 rounded-panel p-5 sm:p-7 shadow-card flex flex-col justify-between hover:border-primary/40 transition-colors"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
@@ -524,9 +524,9 @@ export default function Contact() {
       </section>
 
       {/* ─── HEAD OFFICE & VERIFIED DIRECTORY ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-8 shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="bg-surface border border-line/80 rounded-panel p-5 sm:p-8 shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
                 <Building size={18} className="text-primary" />

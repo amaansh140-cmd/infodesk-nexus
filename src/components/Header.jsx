@@ -146,7 +146,7 @@ export default function Header() {
       }`}
       style={{ backgroundColor: 'rgba(246, 245, 241, 0.97)' }}
     >
-      <div className="w-full max-w-content mx-auto px-6 h-full flex items-center justify-between">
+      <div className="w-full max-w-content mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
         {/* Left: Crisp Logo */}
         <Link to="/" aria-label="Infodesk Home" className="flex items-center shrink-0">
           <img
@@ -304,10 +304,16 @@ export default function Header() {
           role="dialog"
           aria-modal="true"
         >
-          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-[#fdfcf9] border-l border-[#dcdde6] shadow-2xl flex flex-col justify-between p-6 animate-in slide-in-from-right duration-300 overflow-y-auto">
+          <div
+            className="fixed inset-y-0 right-0 w-full max-w-sm bg-[#fdfcf9] border-l border-[#dcdde6] shadow-2xl flex flex-col justify-between p-5 sm:p-6 animate-in slide-in-from-right duration-300 overflow-y-auto"
+            style={{
+              paddingTop: 'max(1.25rem, env(safe-area-inset-top, 0px))',
+              paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom, 0px))',
+            }}
+          >
             {/* Header row */}
             <div>
-              <div className="flex items-center justify-between pb-5 border-b border-[#dcdde6]">
+              <div className="flex items-center justify-between pb-4 sm:pb-5 border-b border-[#dcdde6]">
                 <img
                   src="/assets/logo-transparent.png"
                   alt="Infodesk Computer Education"
@@ -317,28 +323,28 @@ export default function Header() {
                   type="button"
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-label="Close menu"
-                  className="w-10 h-10 flex items-center justify-center rounded-full text-ink hover:bg-soft/70 transition-colors"
+                  className="w-11 h-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-ink hover:bg-soft/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  <X size={20} />
+                  <X size={22} />
                 </button>
               </div>
 
               {/* Navigation links */}
-              <nav className="py-6 space-y-4">
+              <nav className="py-4 sm:py-6 space-y-2 sm:space-y-3">
                 <Link
                   to="/"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-lg font-semibold text-deep hover:text-primary transition-colors"
+                  className="flex items-center min-h-[44px] text-lg font-semibold text-deep hover:text-primary transition-colors"
                 >
                   Home
                 </Link>
 
                 {/* Courses Accordion */}
-                <div className="border-y border-line/60 py-3">
+                <div className="border-y border-line/60 py-2 sm:py-3">
                   <button
                     type="button"
                     onClick={() => setIsMobileCoursesExpanded((prev) => !prev)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-deep hover:text-primary transition-colors"
+                    className="w-full flex items-center justify-between min-h-[44px] text-lg font-semibold text-deep hover:text-primary transition-colors"
                   >
                     <span>Courses</span>
                     <ChevronDown
@@ -350,11 +356,11 @@ export default function Header() {
                   </button>
 
                   {isMobileCoursesExpanded && (
-                    <div className="mt-3 pl-3 space-y-3.5 border-l-2 border-primary/30">
+                    <div className="mt-2 pl-3 space-y-3 border-l-2 border-primary/30">
                       <Link
                         to="/courses"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="block text-sm font-bold text-primary hover:underline"
+                        className="flex items-center min-h-[36px] text-sm font-bold text-primary hover:underline"
                       >
                         View all courses →
                       </Link>
@@ -363,7 +369,7 @@ export default function Header() {
                           <Link
                             to={cat.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="block text-xs font-bold uppercase tracking-wider text-muted hover:text-primary"
+                            className="block text-xs font-bold uppercase tracking-wider text-muted hover:text-primary pt-1"
                           >
                             {cat.name}
                           </Link>
@@ -372,7 +378,7 @@ export default function Header() {
                               key={course.href}
                               to={course.href}
                               onClick={() => setIsMobileMenuOpen(false)}
-                              className="block text-sm text-ink/80 hover:text-primary pl-1 py-0.5"
+                              className="flex items-center min-h-[34px] text-sm text-ink/80 hover:text-primary pl-1 py-1"
                             >
                               {course.name}
                             </Link>
@@ -388,7 +394,7 @@ export default function Header() {
                     key={item.href}
                     to={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block text-lg font-semibold text-deep hover:text-primary transition-colors"
+                    className="flex items-center min-h-[44px] text-lg font-semibold text-deep hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -397,10 +403,10 @@ export default function Header() {
             </div>
 
             {/* Bottom Contact & Action Buttons */}
-            <div className="pt-6 border-t border-[#dcdde6] space-y-3">
+            <div className="pt-4 sm:pt-6 border-t border-[#dcdde6] space-y-3">
               <a
                 href="tel:+919769445334"
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-soft text-deep font-semibold text-sm hover:bg-soft/80 transition-colors"
+                className="w-full flex items-center justify-center gap-2 min-h-[44px] py-3 rounded-full bg-soft text-deep font-semibold text-sm hover:bg-soft/80 transition-colors"
               >
                 <Phone size={16} className="text-primary" />
                 <span>Call +91 9769 445334</span>
@@ -410,7 +416,7 @@ export default function Header() {
                 href="https://wa.me/919769445334?text=Hi%20Infodesk,%20I%20would%20like%20to%20enquire%20about%20your%20courses."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:opacity-95 transition-opacity"
+                className="w-full flex items-center justify-center gap-2 min-h-[44px] py-3 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:opacity-95 transition-opacity"
               >
                 <MessageSquare size={16} />
                 <span>Chat on WhatsApp</span>

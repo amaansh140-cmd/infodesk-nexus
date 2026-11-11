@@ -53,21 +53,21 @@ export default function Courses() {
   return (
     <div className="space-y-16">
       {/* ─── PAGE HEADER (SOFT BLUE TINT) ─── */}
-      <section className="bg-soft/60 border-b border-line/60 py-16 sm:py-20 relative overflow-hidden bg-grid-dots">
-        <div className="max-w-content mx-auto px-6 text-center max-w-3xl relative z-10">
+      <section className="bg-soft/60 border-b border-line/60 py-12 sm:py-20 relative overflow-hidden bg-grid-dots">
+        <div className="max-w-content mx-auto px-4 sm:px-6 text-center max-w-3xl relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-line/80 text-xs font-semibold text-deep mb-4 shadow-sm">
             <BookOpen size={13} className="text-primary" />
             <span>18 Industry-Aligned Programs</span>
           </div>
-          <h1 className="text-[clamp(36px,5vw,60px)] font-bold text-deep tracking-tight">
+          <h1 className="text-[clamp(32px,5vw,60px)] font-bold text-deep tracking-tight">
             Courses for every career path.
           </h1>
-          <p className="text-muted text-lg mt-4 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-muted text-base sm:text-lg mt-3 sm:mt-4 leading-relaxed max-w-2xl mx-auto">
             Practical, curriculum-certified training across data, web development, marketing, design, accounting, and cyber security in Mumbai.
           </p>
 
           {/* Quick Search Bar */}
-          <div className="mt-8 max-w-xl mx-auto relative">
+          <div className="mt-6 sm:mt-8 max-w-xl mx-auto relative">
             <div className="relative flex items-center">
               <Search
                 size={18}
@@ -77,8 +77,8 @@ export default function Courses() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by course name or tool (e.g. Python, SQL, Excel, SEO, Tally)..."
-                className="w-full pl-11 pr-10 py-3.5 rounded-full bg-surface border border-line text-ink text-sm shadow-sm placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-bright focus:border-transparent transition-all"
+                placeholder="Search course or tool (e.g. Python, SQL, Excel, SEO)..."
+                className="w-full pl-11 pr-10 py-3.5 rounded-full bg-surface border border-line text-ink text-base sm:text-sm shadow-sm placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-bright focus:border-transparent transition-all"
               />
               {searchQuery && (
                 <button
@@ -96,9 +96,9 @@ export default function Courses() {
       </section>
 
       {/* ─── FILTER CHIPS & COURSES GRID ─── */}
-      <section className="max-w-content mx-auto px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6">
         {/* Filter Chips Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-8">
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
           {courseCategories.map((cat) => {
             const isActive = activeCategory === cat;
             const count =
@@ -111,7 +111,7 @@ export default function Courses() {
                 key={cat}
                 type="button"
                 onClick={() => handleCategoryChange(cat)}
-                className={`relative px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                className={`relative px-3.5 sm:px-4 py-2 min-h-[40px] rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-1.5 sm:gap-2 ${
                   isActive
                     ? 'bg-primary text-white shadow-sm'
                     : 'bg-surface text-deep/80 border border-line/80 hover:bg-soft/40 hover:text-deep'
@@ -200,9 +200,9 @@ export default function Courses() {
       </section>
 
       {/* ─── CUSTOM TRACK BANNER ─── */}
-      <section className="max-w-content mx-auto px-6 pt-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6 pt-6">
         <ScrollReveal>
-          <div className="bg-surface border border-line/80 rounded-panel p-8 sm:p-12 shadow-card flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="bg-surface border border-line/80 rounded-panel p-5 sm:p-8 lg:p-12 shadow-card flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center md:text-left">
               <h3 className="text-2xl sm:text-3xl font-bold text-deep">
                 Want a mix of tracks?

@@ -712,7 +712,7 @@ export default function DigitalMarketingDetail({ course }) {
         <div className="absolute inset-0 bg-gradient-to-r from-[#071138]/95 via-[#0b1a52]/75 to-transparent pointer-events-none" />
 
         {/* Main Hero Container */}
-        <div className="max-w-content mx-auto px-6 relative z-10 w-full my-auto py-6 sm:py-8">
+        <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10 w-full my-auto py-6 sm:py-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: ~58% (7 cols on lg) */}
             <div className="lg:col-span-7 space-y-6 text-left">
@@ -851,7 +851,7 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
 
         {/* Bottom Glass Stats Bar (Counter metrics: 10 | 6 | 4 | 67) */}
-        <div className="max-w-content mx-auto px-6 w-full relative z-10 pt-4">
+        <div className="max-w-content mx-auto px-4 sm:px-6 w-full relative z-10 pt-4">
           <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.14] rounded-[22px] grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/10 text-center shadow-lg">
             {/* 1. Modules */}
             <div className="p-4 sm:p-5">
@@ -915,7 +915,7 @@ export default function DigitalMarketingDetail({ course }) {
           </div>
         ) : (
           /* Reduced-motion Fallback: Static wrapping chips in sentence case */
-          <div className="max-w-content mx-auto px-6 flex flex-wrap justify-center gap-2 py-1.5">
+          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap justify-center gap-2 py-1.5">
             {MARKETING_CHANNELS.map((ch) => (
               <span
                 key={ch}
@@ -930,7 +930,7 @@ export default function DigitalMarketingDetail({ course }) {
 
       {/* ─── 3. CUSTOMER JOURNEY (COMPACT VERSION, ~450PX TALL - B4 FIX) ─── */}
       <section id="journey" className="py-12 sm:py-16 bg-surface relative">
-        <div className="max-w-content mx-auto px-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-2 mb-8">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
               From first click to loyal customer
@@ -1173,7 +1173,7 @@ export default function DigitalMarketingDetail({ course }) {
           </div>
         ) : (
           /* Reduced motion fallback: Clean wrapping chips */
-          <div className="max-w-content mx-auto px-6 flex flex-wrap gap-2.5 justify-center">
+          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap gap-2.5 justify-center">
             {DIGITAL_MARKETING_TOOLS.map((item) => (
               <div
                 key={item.name}
@@ -1191,7 +1191,7 @@ export default function DigitalMarketingDetail({ course }) {
 
       {/* ─── 5. DETAILED SYLLABUS (MODULEACCORDION + STICKY OVERVIEW CARD - B5 FIX) ─── */}
       <section id="syllabus" className="py-12 sm:py-20 bg-soft/30 scroll-mt-[88px]">
-        <div className="max-w-content mx-auto px-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: 10 Modules Accordion (col-span-8) */}
             <div className="lg:col-span-8 space-y-6">
@@ -1226,8 +1226,8 @@ export default function DigitalMarketingDetail({ course }) {
 
               {/* React Bits Folder: Interactive Course Certificate & Credentials */}
               {effectsConfig.digitalMarketingFolder && (
-                <div className="hidden sm:block">
-                  <div className="p-5 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col items-center text-center space-y-4">
+                <div className="block">
+                  <div className="p-4 sm:p-5 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col items-center text-center space-y-4">
                     <div className="w-full flex items-center justify-between text-left">
                       <div>
                         <h4 className="text-sm font-bold text-deep font-heading">
@@ -1242,13 +1242,13 @@ export default function DigitalMarketingDetail({ course }) {
                       </span>
                     </div>
 
-                    <div className="py-2 flex justify-center w-full min-h-[195px] items-center overflow-visible">
+                    <div className="py-2 flex justify-center w-full min-h-[180px] sm:min-h-[195px] items-center overflow-visible">
                       <Folder
                         label="Course Certificate"
                         color="#13266f"
                         paperColor="#ffffff"
                         theme="light"
-                        size={0.9}
+                        size={0.82}
                         items={certificateFolderItems}
                         onItemClick={handleFolderItemClick}
                       />
@@ -1268,7 +1268,7 @@ export default function DigitalMarketingDetail({ course }) {
 
       {/* ─── 6. 6-MONTH CAMPAIGN TIMELINE (LEARNING CURVE BREAKDOWN) ─── */}
       <section id="timeline" className="py-12 sm:py-20 bg-surface border-t border-line/70 scroll-mt-[88px]">
-        <div className="max-w-content mx-auto px-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft border border-line text-xs font-semibold text-primary">
               <Calendar size={13} />
@@ -1484,7 +1484,7 @@ export default function DigitalMarketingDetail({ course }) {
 
       {/* ─── 7. STUDENT STORIES (4 EXACT BROCHURE QUOTES - B6 FIX) ─── */}
       <section id="stories" className="py-12 sm:py-20 bg-surface border-t border-line/70">
-        <div className="max-w-content mx-auto px-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
               Student stories
@@ -1558,7 +1558,7 @@ export default function DigitalMarketingDetail({ course }) {
 
       {/* ─── 8. FREQUENTLY ASKED QUESTIONS (SPOTLIGHTCARD - B8) ─── */}
       <section id="faqs" className="py-12 sm:py-20 bg-surface border-t border-line/70">
-        <div className="max-w-content mx-auto px-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
               Frequently asked questions.
@@ -1649,7 +1649,7 @@ export default function DigitalMarketingDetail({ course }) {
 
       {/* ─── 9. IN-PERSON MUMBAI CENTERS & BATCH SCHEDULE ─── */}
       <section id="centers" className="py-12 sm:py-20 bg-surface border-t border-line/70">
-        <div className="max-w-content mx-auto px-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
               Train in-person across Mumbai.
@@ -1830,7 +1830,7 @@ export default function DigitalMarketingDetail({ course }) {
 
       {/* ─── 10. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
       <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70">
-        <div className="max-w-content mx-auto px-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
               Related courses in marketing and design.
@@ -1927,7 +1927,7 @@ export default function DigitalMarketingDetail({ course }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 16 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="relative w-full max-w-2xl bg-white rounded-[24px] shadow-2xl border border-line/80 overflow-hidden z-10 my-auto flex flex-col max-h-[90vh]"
+              className="relative w-full max-w-2xl bg-white rounded-[24px] shadow-2xl border border-line/80 overflow-hidden z-10 my-auto flex flex-col max-h-[92dvh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
@@ -1948,10 +1948,10 @@ export default function DigitalMarketingDetail({ course }) {
                 <button
                   type="button"
                   onClick={() => setIsCertModalOpen(false)}
-                  className="w-8 h-8 rounded-full bg-soft/80 hover:bg-soft text-muted hover:text-deep flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                  className="w-10 h-10 min-h-[44px] min-w-[44px] rounded-full bg-soft/80 hover:bg-soft text-muted hover:text-deep flex items-center justify-center transition-colors cursor-pointer shrink-0"
                   aria-label="Close certificate modal"
                 >
-                  <X size={18} />
+                  <X size={20} />
                 </button>
               </div>
 
