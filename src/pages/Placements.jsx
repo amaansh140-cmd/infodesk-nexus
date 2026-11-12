@@ -13,11 +13,13 @@ import {
   Sparkles,
   ArrowRight,
   GraduationCap,
+  ExternalLink,
 } from 'lucide-react';
-import { testimonials } from '../data/testimonials';
+import { testimonials, GOOGLE_BUSINESS_INFO } from '../data/testimonials';
 import Button from '../components/Button';
 import ScrollReveal from '../components/ScrollReveal';
 import LogoLoop from '../components/LogoLoop';
+import GoogleRatingBadge, { GoogleIcon, GoogleStars } from '../components/GoogleRatingBadge';
 
 const partnerList = [
   { name: 'Airtel', file: 'airtel.png', category: 'Tech & Telecom' },
@@ -279,7 +281,10 @@ export default function Placements() {
       {/* ─── STUDENT TESTIMONIALS SLIDER ─── */}
       <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="flex justify-center mb-3.5">
+              <GoogleRatingBadge variant="pill" />
+            </div>
             <h2 className="text-[clamp(32px,4.4vw,48px)] font-bold text-deep">
               Student testimonials.
             </h2>
@@ -305,20 +310,81 @@ export default function Placements() {
                   transition={{ duration: 0.35, ease: [0.2, 0.7, 0.2, 1] }}
                   className="space-y-6"
                 >
+                  {/* Testimonial Header: Source Badge + Rating */}
+                  <div className="flex items-center justify-between gap-3 relative z-10">
+                    <div className="flex items-center gap-2">
+                      <GoogleStars rating={activeTestimonial.rating || 5} size={16} />
+                      <span className="text-xs font-bold text-deep font-mono">5.0</span>
+                    </div>
+
+                    {activeTestimonial.source === 'Google Review' ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-xs font-semibold text-primary border border-primary/20">
+                        <GoogleIcon className="w-3.5 h-3.5" />
+                        <span>Google Review</span>
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-xs font-semibold text-emerald-700 border border-emerald-200">
+                        <CheckCircle2 size={12} />
+                        <span>Alumni Story</span>
+                      </span>
+                    )}
+                  </div>
+
                   <blockquote className="text-base sm:text-lg text-ink/90 leading-relaxed italic relative z-10">
-                    “{activeTestimonial.quote}”
+                    “{activeTestimonial.quote.replace(/'/g, '’')}”
                   </blockquote>
 
-                  <div className="flex items-center gap-4 pt-4 border-t border-line/60">
-                    <img
-                      src={activeTestimonial.image}
-                      alt={activeTestimonial.name}
-                      className="w-14 h-14 rounded-full object-cover border-2 border-primary/40 shadow-sm"
-                    />
-                    <div>
-                      <h4 className="font-bold text-deep text-base">{activeTestimonial.name}</h4>
-                      <p className="text-xs text-primary font-semibold">Infodesk student</p>
+                  {/* Testimonial Author Meta */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-line/60">
+                    <div className="flex items-center gap-4 min-w-0">
+                      {activeTestimonial.image ? (
+                        <img
+                          src={activeTestimonial.image}
+                          alt={activeTestimonial.name}
+                          className="w-13 h-13 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-primary/40 shadow-sm shrink-0"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div
+                          className="w-13 h-13 sm:w-14 sm:h-14 rounded-full text-white font-bold text-base flex items-center justify-center shrink-0 shadow-sm"
+                          style={{ backgroundColor: activeTestimonial.avatarBg || '#4285F4' }}
+                          aria-hidden="true"
+                        >
+                          {activeTestimonial.initials || activeTestimonial.name.slice(0, 2).toUpperCase()}
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <h4 className="font-bold text-deep text-base truncate">{activeTestimonial.name}</h4>
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-muted mt-0.5">
+                          <span className="text-primary font-semibold">
+                            {activeTestimonial.role || 'Infodesk student'}
+                          </span>
+                          {activeTestimonial.course && (
+                            <>
+                              <span>•</span>
+                              <span className="truncate">{activeTestimonial.course}</span>
+                            </>
+                          )}
+                          {activeTestimonial.mentor && (
+                            <span className="px-1.5 py-0.2 rounded bg-amber-50 text-amber-800 border border-amber-200/60 font-medium">
+                              {activeTestimonial.mentor}
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </div>
+
+                    {activeTestimonial.source === 'Google Review' && (
+                      <a
+                        href={GOOGLE_BUSINESS_INFO.shareUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-deep hover:text-primary transition-colors shrink-0 group self-start sm:self-center"
+                      >
+                        <span>View on Google</span>
+                        <ExternalLink size={13} className="text-muted group-hover:text-primary transition-colors" />
+                      </a>
+                    )}
                   </div>
                 </motion.div>
               </AnimatePresence>
@@ -326,13 +392,13 @@ export default function Placements() {
 
             {/* Slider Controls */}
             <div className="flex items-center justify-between pt-6 mt-6 border-t border-line/40">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 overflow-x-auto max-w-[65%] py-1">
                 {testimonials.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setCurrentSlide(idx)}
-                    className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                    className={`h-2.5 rounded-full transition-all cursor-pointer shrink-0 ${
                       currentSlide === idx ? 'w-7 bg-primary' : 'w-2.5 bg-line hover:bg-muted'
                     }`}
                     aria-label={`Go to slide ${idx + 1}`}
@@ -359,6 +425,11 @@ export default function Placements() {
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* Full Google Trust Banner */}
+          <div className="max-w-3xl mx-auto mt-8">
+            <GoogleRatingBadge variant="banner" />
           </div>
         </ScrollReveal>
       </section>

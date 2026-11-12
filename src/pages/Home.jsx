@@ -19,6 +19,7 @@ import {
   Star,
   MapPin,
   ChevronRight,
+  ExternalLink,
 } from 'lucide-react';
 
 import Button from '../components/Button';
@@ -26,6 +27,7 @@ import TerminalCard from '../components/TerminalCard';
 import ScrollReveal from '../components/ScrollReveal';
 import LazyMount from '../components/common/LazyMount';
 import { effectsConfig } from '../config/effects';
+import GoogleRatingBadge, { GoogleIcon, GoogleStars } from '../components/GoogleRatingBadge';
 
 // React Bits components for Home Page
 import GradientASCII from '../components/GradientASCII';
@@ -40,7 +42,7 @@ import Stack from '../components/Stack';
 
 import { branches } from '../data/branches';
 import { courses } from '../data/courses';
-import { testimonials } from '../data/testimonials';
+import { testimonials, GOOGLE_BUSINESS_INFO } from '../data/testimonials';
 
 const recognitionBadges = [
   {
@@ -195,31 +197,96 @@ export default function Home() {
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
 
-  // Testimonial cards for React Bits Stack
-  const testimonialCards = testimonials.map((t) => (
-    <div
-      key={t.id}
-      className="w-full h-full bg-surface border border-line/80 rounded-card p-6 sm:p-7 flex flex-col justify-between shadow-card text-left select-none"
-    >
-      <div className="space-y-3">
-        <p className="text-deep text-xs sm:text-sm sm:text-[14px] leading-relaxed line-clamp-4 italic">
-          “{t.quote}”
-        </p>
-      </div>
-      <div className="flex items-center gap-3 pt-3.5 border-t border-line/50">
-        <img
-          src={t.image}
-          alt={t.name}
-          className="w-10 h-10 rounded-full object-cover border border-line/80 shadow-sm"
-          loading="lazy"
-        />
-        <div className="min-w-0">
-          <p className="text-sm font-bold text-deep truncate">{t.name}</p>
-          <p className="text-xs text-muted truncate">Infodesk student</p>
+  // Testimonial cards for React Bits Stack (Google reviews + brochure stories)
+  const testimonialCards = testimonials.map((t) => {
+    const isGoogle = t.source === 'Google Review';
+    return (
+      <div
+        key={t.id}
+        className="w-full h-full bg-surface border border-line/80 rounded-card p-5 sm:p-7 flex flex-col justify-between shadow-card text-left select-none relative"
+      >
+        <div className="space-y-2.5">
+          {/* Top meta: Stars + Badge */}
+          <div className="flex items-center justify-between gap-2 border-b border-line/40 pb-2.5">
+            <div className="flex items-center gap-1.5">
+              <GoogleStars rating={t.rating || 5} size={13} />
+              <span className="text-[11px] font-bold text-deep font-mono">5.0</span>
+            </div>
+            {isGoogle ? (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-soft text-[10px] font-semibold text-primary border border-primary/20">
+                <GoogleIcon className="w-3 h-3" />
+                <span>Google</span>
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-[10px] font-semibold text-emerald-700 border border-emerald-200">
+                <CheckCircle size={10} />
+                <span>Alumni</span>
+              </span>
+            )}
+          </div>
+
+          {(t.course || t.mentor) && (
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {t.course && (
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-soft text-deep border border-line/60 truncate max-w-[200px]">
+                  {t.course}
+                </span>
+              )}
+              {t.mentor && (
+                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/60">
+                  {t.mentor}
+                </span>
+              )}
+            </div>
+          )}
+
+          <p className="text-deep text-xs sm:text-[13px] leading-relaxed line-clamp-4 italic">
+            “{t.quote.replace(/'/g, '’')}”
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between gap-3 pt-3 border-t border-line/50">
+          <div className="flex items-center gap-3 min-w-0">
+            {t.image ? (
+              <img
+                src={t.image}
+                alt={t.name}
+                className="w-10 h-10 rounded-full object-cover border border-line/80 shadow-sm shrink-0"
+                loading="lazy"
+              />
+            ) : (
+              <div
+                className="w-10 h-10 rounded-full text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs"
+                style={{ backgroundColor: t.avatarBg || '#4285F4' }}
+                aria-hidden="true"
+              >
+                {t.initials || t.name.slice(0, 2).toUpperCase()}
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-deep truncate">{t.name}</p>
+              <p className="text-[11px] text-muted truncate">
+                {t.date ? `${t.date} · ` : ''}{t.role || 'Student'}
+              </p>
+            </div>
+          </div>
+
+          {isGoogle && (
+            <a
+              href={GOOGLE_BUSINESS_INFO.shareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View ${t.name}'s review on Google`}
+              className="text-muted hover:text-primary transition-colors p-1.5 rounded-lg hover:bg-soft"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ExternalLink size={13} />
+            </a>
+          )}
         </div>
       </div>
-    </div>
-  ));
+    );
+  });
 
   return (
     <div className="space-y-24 sm:space-y-32 w-full overflow-x-clip">
@@ -625,6 +692,9 @@ export default function Home() {
       <section className="max-w-content mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="flex justify-center mb-3.5">
+              <GoogleRatingBadge variant="pill" />
+            </div>
             <h2 className="text-[clamp(32px,4.4vw,52px)] font-bold text-deep">
               Student voices.
             </h2>
@@ -651,15 +721,36 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {testimonials.slice(0, 2).map((t) => (
-                <div key={t.id} className="bg-surface border border-line/80 rounded-card p-6 shadow-card">
-                  <p className="text-muted text-sm italic">"{t.quote}"</p>
-                  <p className="text-sm font-bold text-deep mt-4">{t.name}</p>
+                <div key={t.id} className="bg-surface border border-line/80 rounded-card p-6 shadow-card flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-1.5">
+                      <GoogleStars rating={t.rating || 5} size={13} />
+                      <span className="text-xs font-bold text-deep font-mono">5.0</span>
+                    </div>
+                    <p className="text-muted text-sm italic">“{t.quote.replace(/'/g, '’')}”</p>
+                  </div>
+                  <div className="flex items-center gap-3 mt-4 pt-3 border-t border-line/50">
+                    {t.image ? (
+                      <img src={t.image} alt={t.name} className="w-9 h-9 rounded-full object-cover" />
+                    ) : (
+                      <div
+                        className="w-9 h-9 rounded-full text-white font-bold text-xs flex items-center justify-center shrink-0"
+                        style={{ backgroundColor: t.avatarBg || '#4285F4' }}
+                      >
+                        {t.initials || t.name.slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-deep leading-tight truncate">{t.name}</p>
+                      <p className="text-[11px] text-muted truncate">{t.role || 'Student'}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           )}
 
-          <div className="text-center mt-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-6 mt-8">
             <Link
               to="/placements"
               className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors"
@@ -667,6 +758,17 @@ export default function Home() {
               <span>Read more placement stories</span>
               <ArrowRight size={15} />
             </Link>
+            <span className="hidden sm:inline text-line">•</span>
+            <a
+              href={GOOGLE_BUSINESS_INFO.shareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-deep hover:text-primary transition-colors group"
+            >
+              <GoogleIcon className="w-3.5 h-3.5" />
+              <span>Read all 122+ reviews on Google</span>
+              <ExternalLink size={13} className="text-muted group-hover:text-primary transition-colors" />
+            </a>
           </div>
         </ScrollReveal>
       </section>

@@ -73,7 +73,8 @@ import {
 } from '../data/digitalMarketing';
 import { branches } from '../data/branches';
 import { courses } from '../data/courses';
-import { testimonials } from '../data/testimonials';
+import { testimonials, GOOGLE_BUSINESS_INFO } from '../data/testimonials';
+import GoogleRatingBadge, { GoogleIcon, GoogleStars } from '../components/GoogleRatingBadge';
 
 // Runtime Configuration
 import {
@@ -1475,42 +1476,105 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 7. STUDENT STORIES (4 EXACT BROCHURE QUOTES - B6 FIX) ─── */}
+      {/* ─── 7. STUDENT STORIES (VERIFIED REVIEWS & STORIES) ─── */}
       <section id="stories" className="py-12 sm:py-20 bg-surface border-t border-line/70">
         <div className="max-w-content mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
+          <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
+            <div className="flex justify-center mb-1">
+              <GoogleRatingBadge variant="pill" />
+            </div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
               Student stories
             </h2>
             <p className="text-muted text-sm sm:text-base leading-relaxed">
-              What our students say.
+              What our students say about learning at Infodesk.
             </p>
           </div>
 
-          {/* 4 Exact Brochure Testimonials with optional SpotlightCard illumination */}
+          {/* Curated Verified Student Reviews with SpotlightCard illumination */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {testimonials.map((t) => {
+            {testimonials.slice(0, 4).map((t) => {
+              const isGoogle = t.source === 'Google Review';
               const cardContent = (
                 <>
-                  <blockquote className="text-sm sm:text-[15px] text-ink/90 leading-relaxed italic">
-                    “{t.quote.replace(/'/g, '’')}”
-                  </blockquote>
-
-                  <div className="flex items-center gap-3.5 pt-4 border-t border-line/50">
-                    <img
-                      src={t.image}
-                      alt={t.name}
-                      className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
-                      loading="lazy"
-                    />
-                    <div>
-                      <h4 className="text-base font-bold text-deep leading-tight">
-                        {t.name}
-                      </h4>
-                      <p className="text-xs text-primary font-semibold mt-0.5">
-                        Infodesk student
-                      </p>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-2 border-b border-line/40 pb-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <GoogleStars rating={t.rating || 5} size={14} />
+                        <span className="text-xs font-bold text-deep font-mono">5.0</span>
+                      </div>
+                      {isGoogle ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-soft text-[11px] font-semibold text-primary border border-primary/20">
+                          <GoogleIcon className="w-3 h-3" />
+                          <span>Google Review</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-[11px] font-semibold text-emerald-700 border border-emerald-200">
+                          <CheckCircle2 size={11} />
+                          <span>Alumni Story</span>
+                        </span>
+                      )}
                     </div>
+
+                    {(t.course || t.mentor) && (
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {t.course && (
+                          <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-soft text-deep border border-line/60">
+                            {t.course}
+                          </span>
+                        )}
+                        {t.mentor && (
+                          <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/60">
+                            {t.mentor}
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    <blockquote className="text-sm sm:text-[15px] text-ink/90 leading-relaxed italic pt-1">
+                      “{t.quote.replace(/'/g, '’')}”
+                    </blockquote>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3.5 pt-4 border-t border-line/50">
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      {t.image ? (
+                        <img
+                          src={t.image}
+                          alt={t.name}
+                          className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div
+                          className="w-12 h-12 rounded-full text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-sm"
+                          style={{ backgroundColor: t.avatarBg || '#4285F4' }}
+                          aria-hidden="true"
+                        >
+                          {t.initials || t.name.slice(0, 2).toUpperCase()}
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <h4 className="text-base font-bold text-deep leading-tight truncate">
+                          {t.name}
+                        </h4>
+                        <p className="text-xs text-muted mt-0.5 truncate">
+                          {t.date ? `${t.date} · ` : ''}{t.role || 'Infodesk student'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {isGoogle && (
+                      <a
+                        href={GOOGLE_BUSINESS_INFO.shareUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted hover:text-primary transition-colors p-1.5 rounded-lg hover:bg-soft"
+                        aria-label={`View ${t.name}'s review on Google`}
+                      >
+                        <ExternalLink size={14} />
+                      </a>
+                    )}
                   </div>
                 </>
               );
@@ -1537,7 +1601,7 @@ export default function DigitalMarketingDetail({ course }) {
             })}
           </div>
 
-          <div className="text-center mt-10">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-10">
             <Link
               to="/placements"
               className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors group"
@@ -1545,6 +1609,17 @@ export default function DigitalMarketingDetail({ course }) {
               <span>See student stories</span>
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </Link>
+            <span className="hidden sm:inline text-line">•</span>
+            <a
+              href={GOOGLE_BUSINESS_INFO.shareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-deep hover:text-primary transition-colors group"
+            >
+              <GoogleIcon className="w-3.5 h-3.5" />
+              <span>Read all 122+ Google reviews</span>
+              <ExternalLink size={13} className="text-muted group-hover:text-primary transition-colors" />
+            </a>
           </div>
         </div>
       </section>
