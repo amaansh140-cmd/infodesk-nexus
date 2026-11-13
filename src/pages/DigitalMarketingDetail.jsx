@@ -172,72 +172,59 @@ const TOPIC_ICON_MAP = {
   'Customer retention': { icon: Award, color: 'text-indigo-600', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200/70' },
 };
 
-// 12 Industry Marketing Platforms for LogoLoop Marquee with Authentic Brand Logos
+// Industry Marketing Platforms for LogoLoop Marquee with Authentic Brand Logos
 const DIGITAL_MARKETING_TOOLS = [
   {
     name: 'GMB Profile',
-    category: 'Local Maps 3-Pack & SEO',
-    icon: <GmbLogo className="w-7 h-7" />,
+    icon: <GmbLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'WordPress CMS',
-    category: 'Landing Pages & Sites',
-    icon: <WordPressLogo className="w-7 h-7" />,
+    icon: <WordPressLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Google Analytics 4',
-    category: 'Attribution & Tracking',
-    icon: <GoogleAnalyticsLogo className="w-7 h-7" />,
+    icon: <GoogleAnalyticsLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Semrush',
-    category: 'Keyword & Competitor Audits',
-    icon: <SemrushLogo className="w-7 h-7" />,
+    icon: <SemrushLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Keyword Planner',
-    category: 'Search Volume & CPC',
-    icon: <KeywordPlannerLogo className="w-7 h-7" />,
+    icon: <KeywordPlannerLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'WhatsApp Business',
-    category: 'Direct CRM & Sales',
-    icon: <WhatsAppLogo className="w-7 h-7" />,
+    icon: <WhatsAppLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Meta Ads Manager',
-    category: 'Social & Lead Funnels',
-    icon: <MetaLogo className="w-7 h-7" />,
+    icon: <MetaLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'GMass',
-    category: 'Cold Email & Mail Merge',
-    icon: <GMassLogo className="w-7 h-7" />,
+    icon: <GMassLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Search Console',
-    category: 'Indexing & Crawl Health',
-    icon: <SearchConsoleLogo className="w-7 h-7" />,
+    icon: <SearchConsoleLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Google Ads',
-    category: 'Search & Display Bidding',
-    icon: <GoogleAdsLogo className="w-7 h-7" />,
+    icon: <GoogleAdsLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Canva',
-    category: 'Ad Creatives & Banners',
-    icon: <CanvaLogo className="w-7 h-7" />,
+    icon: <CanvaLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Mailchimp',
-    category: 'Email Nurture & Drips',
-    icon: <MailchimpLogo className="w-7 h-7" />,
+    icon: <MailchimpLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'WooCommerce',
-    category: 'E-Commerce Catalogs',
-    icon: <WooCommerceLogo className="w-7 h-7" />,
+    icon: <WooCommerceLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
 ];
 
@@ -1085,50 +1072,45 @@ export default function DigitalMarketingDetail({ course }) {
       </section>
 
       {/* ─── 4. SOFTWARE & MARKETING PLATFORMS MARQUEE (LOGOLOOP) ─── */}
-      <section aria-label="Marketing platforms and tools" className="bg-soft/50 border-y border-line/80 py-4 sm:py-5 overflow-hidden">
+      <section aria-label="Marketing platforms and tools" className="bg-soft/40 border-y border-line/80 py-5 sm:py-6 overflow-hidden">
         {effectsConfig.digitalMarketingLogoLoop && !prefersReducedMotion ? (
           <div className="w-full max-w-full overflow-hidden">
             <LogoLoop
               logos={DIGITAL_MARKETING_TOOLS}
-              ariaLabel="Industry marketing tools and platforms taught across the 10 modules"
-              speed={42}
+              ariaLabel="Industry marketing tools and platforms"
+              speed={38}
               direction="left"
-              gap={20}
+              gap={24}
               pauseOnHover={true}
               fadeOut={true}
               fadeOutWidth={0.12}
               renderItem={(item) => (
                 <div
                   key={item.name}
-                  className="inline-flex items-center gap-3 px-4 sm:px-5 py-2.5 rounded-2xl bg-surface border border-line/90 shadow-xs hover:shadow-md hover:border-primary/40 transition-all select-none group shrink-0"
+                  title={item.name}
+                  aria-label={item.name}
+                  className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-2xl sm:rounded-[20px] bg-gradient-to-b from-white via-surface to-[#f8f9fc] border border-line/90 shadow-[0_4px_16px_-2px_rgba(15,23,42,0.06),0_1px_3px_rgba(15,23,42,0.04)] hover:shadow-[0_12px_28px_-6px_rgba(36,72,201,0.22),0_4px_8px_rgba(0,0,0,0.04)] hover:border-primary/50 hover:scale-110 hover:-translate-y-1 transition-all duration-300 ease-out flex items-center justify-center p-3 select-none shrink-0 group cursor-pointer ring-1 ring-inset ring-white/70"
                 >
-                  <span className="w-8 h-8 flex items-center justify-center shrink-0 drop-shadow-xs group-hover:scale-110 transition-transform">
+                  <span className="w-full h-full flex items-center justify-center shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.04)] group-hover:scale-105 transition-transform duration-300">
                     {item.icon}
                   </span>
-                  <div className="flex flex-col text-left">
-                    <span className="text-sm font-bold text-deep group-hover:text-primary transition-colors leading-tight">
-                      {item.name}
-                    </span>
-                    <span className="text-[11px] text-muted font-medium">
-                      {item.category}
-                    </span>
-                  </div>
                 </div>
               )}
             />
           </div>
         ) : (
-          /* Reduced motion fallback: Clean wrapping chips */
-          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap gap-2.5 justify-center">
+          /* Reduced motion fallback: Clean wrapping premium logo tiles */
+          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap gap-3.5 justify-center">
             {DIGITAL_MARKETING_TOOLS.map((item) => (
               <div
                 key={item.name}
-                className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-surface border border-line shadow-xs"
+                title={item.name}
+                aria-label={item.name}
+                className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-2xl sm:rounded-[20px] bg-gradient-to-b from-white via-surface to-[#f8f9fc] border border-line/90 shadow-[0_4px_16px_-2px_rgba(15,23,42,0.06)] flex items-center justify-center p-3 ring-1 ring-inset ring-white/70"
               >
-                <span className="w-6 h-6 flex items-center justify-center shrink-0">
+                <span className="w-full h-full flex items-center justify-center shrink-0">
                   {item.icon}
                 </span>
-                <span className="text-xs font-bold text-deep">{item.name}</span>
               </div>
             ))}
           </div>
