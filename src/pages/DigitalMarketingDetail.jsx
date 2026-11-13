@@ -191,8 +191,8 @@ const DIGITAL_MARKETING_TOOLS = [
     icon: <SemrushLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
-    name: 'Keyword Planner',
-    icon: <KeywordPlannerLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
+    name: 'Google Ads & Keyword Planner',
+    icon: <GoogleAdsLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'WhatsApp Business',
@@ -209,10 +209,6 @@ const DIGITAL_MARKETING_TOOLS = [
   {
     name: 'Search Console',
     icon: <SearchConsoleLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
-  },
-  {
-    name: 'Google Ads',
-    icon: <GoogleAdsLogo className="w-9 h-9 sm:w-10 sm:h-10" />,
   },
   {
     name: 'Canva',
