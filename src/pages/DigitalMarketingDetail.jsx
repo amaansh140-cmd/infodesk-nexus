@@ -75,6 +75,21 @@ import { branches } from '../data/branches';
 import { courses } from '../data/courses';
 import { testimonials, GOOGLE_BUSINESS_INFO } from '../data/testimonials';
 import GoogleRatingBadge, { GoogleIcon, GoogleStars } from '../components/GoogleRatingBadge';
+import {
+  GmbLogo,
+  WordPressLogo,
+  GoogleAnalyticsLogo,
+  SemrushLogo,
+  KeywordPlannerLogo,
+  WhatsAppLogo,
+  MetaLogo,
+  GMassLogo,
+  GoogleAdsLogo,
+  SearchConsoleLogo,
+  CanvaLogo,
+  MailchimpLogo,
+  WooCommerceLogo,
+} from '../components/MarketingLogos';
 
 // Runtime Configuration
 import {
@@ -157,135 +172,72 @@ const TOPIC_ICON_MAP = {
   'Customer retention': { icon: Award, color: 'text-indigo-600', bg: 'bg-indigo-50 text-indigo-600 border-indigo-200/70' },
 };
 
-// 12 Industry Marketing Platforms for LogoLoop Marquee
+// 12 Industry Marketing Platforms for LogoLoop Marquee with Authentic Brand Logos
 const DIGITAL_MARKETING_TOOLS = [
   {
-    name: 'Google Ads',
-    category: 'Search & Display Bidding',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <path d="M3.7 13.9l5.9-10.2c.8-1.4 2.6-1.9 4-1.1l1.5.9c1.4.8 1.9 2.6 1.1 4L10.3 17.7c-.8 1.4-2.6 1.9-4 1.1l-1.5-.9c-1.4-.8-1.9-2.6-1.1-4z" fill="#fbbc04" />
-        <path d="M15.1 17.6c-1.4-.8-1.9-2.6-1.1-4l5.9-10.2c.8-1.4 2.6-1.9 4-1.1l.1.1c1.4.8 1.9 2.6 1.1 4l-5.9 10.2c-.8 1.4-2.6 1.9-4 1.1l-.1-.1z" fill="#4285f4" />
-        <circle cx="6.5" cy="17.5" r="3.5" fill="#34a853" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Search Console',
-    category: 'Indexing & Crawl Health',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <rect width="24" height="24" rx="5" fill="#e8f0fe" />
-        <path d="M5 18l4-5 3 3 7-9" stroke="#1a73e8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <circle cx="19" cy="7" r="2" fill="#34a853" />
-        <circle cx="5" cy="18" r="1.5" fill="#ea4335" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Meta Ads Manager',
-    category: 'Social & Lead Funnels',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <path d="M12 7.2c-2.3 0-3.9 1.4-5.2 3.1C5.4 12 4.1 13.5 3 13.5c-.8 0-1.4-.5-1.4-1.5 0-1.7 1.4-3.5 3.3-4.4C6.3 6.9 8.2 6.5 10 6.6c-1.2-2.1-3.6-3.4-6.4-3.4C1.6 3.2 0 4.8 0 6.8c0 3.7 3.3 6.8 6.7 6.8 2.3 0 4-1.4 5.3-3.1 1.4-1.7 2.7-3.2 3.8-3.2.8 0 1.4.5 1.4 1.5 0 1.7-1.4 3.5-3.3 4.4-1.4.7-3.3 1.1-5.1 1 1.2 2.1 3.6 3.4 6.4 3.4 2 0 3.6-1.6 3.6-3.6 0-3.7-3.3-6.8-6.8-6.8z" fill="#0081fb" />
-      </svg>
-    ),
+    name: 'GMB Profile',
+    category: 'Local Maps 3-Pack & SEO',
+    icon: <GmbLogo className="w-7 h-7" />,
   },
   {
     name: 'WordPress CMS',
     category: 'Landing Pages & Sites',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <circle cx="12" cy="12" r="11" fill="#21759b" />
-        <path d="M12 2.5C6.8 2.5 2.5 6.8 2.5 12c0 2.2.7 4.1 2 5.8L9.3 6.9c.3-.8.6-1.1 1.1-1.1.5 0 .8.3 1.1 1.1l3 8.3 1.6-4.9c.3-.8.6-1.1 1-1.1.4 0 .7.3 1 .1.1l2.4 6.8c1.6-1.9 2.5-4.4 2.5-7.2 0-5.2-4.3-9.5-9.5-9.5zm-5 13.9l3.4-9.3-3.4 9.3zm10 0l-3.2-9 3.2 9z" fill="#ffffff" />
-      </svg>
-    ),
+    icon: <WordPressLogo className="w-7 h-7" />,
   },
   {
     name: 'Google Analytics 4',
     category: 'Attribution & Tracking',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <rect x="2" y="14" width="4.5" height="7" rx="2" fill="#f9ab00" />
-        <rect x="9.5" y="8" width="5" height="13" rx="2" fill="#e37400" />
-        <rect x="17.5" y="3" width="4.5" height="18" rx="2" fill="#e37400" />
-      </svg>
-    ),
+    icon: <GoogleAnalyticsLogo className="w-7 h-7" />,
+  },
+  {
+    name: 'Semrush',
+    category: 'Keyword & Competitor Audits',
+    icon: <SemrushLogo className="w-7 h-7" />,
+  },
+  {
+    name: 'Keyword Planner',
+    category: 'Search Volume & CPC',
+    icon: <KeywordPlannerLogo className="w-7 h-7" />,
   },
   {
     name: 'WhatsApp Business',
     category: 'Direct CRM & Sales',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <circle cx="12" cy="12" r="11" fill="#25d366" />
-        <path d="M17.5 14.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.7.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5s-.7-1.7-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9 0 1.7 1.3 3.4 1.4 3.6.2.2 2.5 3.8 6 5.3.8.4 1.5.6 2 .8.8.3 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.6.2-1.7-.1-.1-.3-.2-.6-.4z" fill="#ffffff" />
-      </svg>
-    ),
+    icon: <WhatsAppLogo className="w-7 h-7" />,
+  },
+  {
+    name: 'Meta Ads Manager',
+    category: 'Social & Lead Funnels',
+    icon: <MetaLogo className="w-7 h-7" />,
+  },
+  {
+    name: 'GMass',
+    category: 'Cold Email & Mail Merge',
+    icon: <GMassLogo className="w-7 h-7" />,
+  },
+  {
+    name: 'Search Console',
+    category: 'Indexing & Crawl Health',
+    icon: <SearchConsoleLogo className="w-7 h-7" />,
+  },
+  {
+    name: 'Google Ads',
+    category: 'Search & Display Bidding',
+    icon: <GoogleAdsLogo className="w-7 h-7" />,
   },
   {
     name: 'Canva',
     category: 'Ad Creatives & Banners',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <circle cx="12" cy="12" r="11" fill="#00c4cc" />
-        <path d="M14.5 8.5c-1.2 0-2.4.6-3.1 1.7-.4-.9-1.2-1.5-2.3-1.5-1.7 0-3.1 1.6-3.1 3.8 0 2.5 1.7 4 3.6 4 1.1 0 2.1-.6 2.7-1.5.3 1 1.3 1.5 2.4 1.5 1.5 0 2.8-.9 3.3-2.3l-1.3-.5c-.3.8-1 1.3-1.9 1.3-.7 0-1.3-.4-1.4-1.1l4.4-.7c.1-.3.1-.6.1-.9 0-2.2-1.4-3.8-3.4-3.8zm-5.4 6.5c-1.1 0-2-1-2-2.5 0-1.4.8-2.3 1.8-2.3.9 0 1.6.8 1.6 2.2 0 1.6-.5 2.6-1.4 2.6zm5.3-2.3l-3.1.5c.1-1.1.7-1.9 1.6-1.9.9 0 1.5.6 1.5 1.4z" fill="#ffffff" />
-      </svg>
-    ),
+    icon: <CanvaLogo className="w-7 h-7" />,
   },
   {
     name: 'Mailchimp',
     category: 'Email Nurture & Drips',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <circle cx="12" cy="12" r="11" fill="#ffe01b" />
-        <path d="M7 10c0-1.7 1.3-3 3-3s3 1.3 3 3v4c0 1.7-1.3 3-3 3s-3-1.3-3-3v-4zm6 0c0-1.7 1.3-3 3-3s3 1.3 3 3v2c0 1.7-1.3 3-3 3s-3-1.3-3-3v-2z" fill="#241c15" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Yoast SEO',
-    category: 'On-Page Meta & Schema',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <rect width="24" height="24" rx="5" fill="#a4286a" />
-        <path d="M7 7l3.5 5.5V17h3v-4.5L17 7h-3.2L12 10.2 10.2 7H7z" fill="#ffffff" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Google Business',
-    category: 'Local Maps 3-Pack',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <rect width="24" height="24" rx="5" fill="#f8f9fa" />
-        <path d="M4 10h16v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8z" fill="#1a73e8" />
-        <path d="M2 7l10-3 10 3-2 3H4L2 7z" fill="#34a853" />
-        <path d="M10 14h4v6h-4v-6z" fill="#ffffff" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Semrush / Ahrefs',
-    category: 'Keyword & Backlinks',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <rect width="24" height="24" rx="5" fill="#ff642d" />
-        <path d="M6 14l3.5-6.5L13 12l5-8" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      </svg>
-    ),
+    icon: <MailchimpLogo className="w-7 h-7" />,
   },
   {
     name: 'WooCommerce',
     category: 'E-Commerce Catalogs',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden="true">
-        <rect width="24" height="24" rx="5" fill="#96588a" />
-        <path d="M5 8c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v6c0 1.1-.9 2-2 2H9l-3 3V8z" fill="#ffffff" />
-        <circle cx="9" cy="11" r="1.2" fill="#96588a" />
-        <circle cx="12" cy="11" r="1.2" fill="#96588a" />
-        <circle cx="15" cy="11" r="1.2" fill="#96588a" />
-      </svg>
-    ),
+    icon: <WooCommerceLogo className="w-7 h-7" />,
   },
 ];
 
