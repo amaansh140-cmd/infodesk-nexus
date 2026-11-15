@@ -83,6 +83,7 @@ export const effectsConfig = {
   digitalMarketingFaqSpotlight: true,
   digitalMarketingLogoLoop: !prefersReducedMotion,
   digitalMarketingTimeline: true,
+  roadmap: true,
 
   // About Page (/about)
   scrollExpand: !prefersReducedMotion,

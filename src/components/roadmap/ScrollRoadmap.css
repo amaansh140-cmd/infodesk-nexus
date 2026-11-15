@@ -1,0 +1,58 @@
+/* ScrollRoadmap.css - Styles for the Digital Marketing winding roadmap */
+
+.roadmap-section {
+  background: linear-gradient(180deg, #13266f 0%, #0e1e5c 48%, #0b1a52 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Faint CSS Dotted Pattern Overlay */
+.roadmap-dots-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+  background-position: 0 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* Station Row Vertical Spacing (~150px between nodes) */
+.station-row {
+  margin-bottom: 24px;
+}
+
+@media (min-width: 900px) {
+  .station-row {
+    margin-bottom: 36px;
+  }
+}
+
+/* Glass Station Card Styling */
+.glass-station-card {
+  will-change: transform, border-color, box-shadow;
+}
+
+/* Subtle Marker Pulsing Effect */
+@keyframes markerPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.5;
+  }
+}
+
+.roadmap-marker-glow {
+  animation: markerPulse 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Reduced Motion Mode Overrides */
+@media (prefers-reduced-motion: reduce) {
+  .roadmap-marker-glow {
+    animation: none;
+  }
+}

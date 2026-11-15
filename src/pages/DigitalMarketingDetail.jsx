@@ -18,20 +18,6 @@ import {
   FileDown,
   ArrowRight,
   ArrowLeft,
-  Compass,
-  Users,
-  Target,
-  Crown,
-  PenTool,
-  Layers,
-  Megaphone,
-  PieChart,
-  Flame,
-  Smartphone,
-  TrendingUp,
-  ShoppingBag,
-  Zap,
-  LayoutTemplate,
   ShieldCheck,
   Sparkles,
   X,
@@ -49,8 +35,6 @@ import GlareHover from '../components/GlareHover';
 import Stack from '../components/Stack';
 import Counter from '../components/Counter';
 import CurvedLoop from '../components/CurvedLoop';
-import GooeyNav from '../components/GooeyNav';
-import Stepper, { Step } from '../components/Stepper';
 import SpotlightCard from '../components/SpotlightCard';
 import TiltedCard from '../components/TiltedCard';
 import Folder from '../components/Folder';
@@ -58,8 +42,10 @@ import LogoLoop from '../components/LogoLoop';
 import PixelCard from '../components/PixelCard';
 import LazyMount from '../components/common/LazyMount';
 
+// Roadmap Section
+import ScrollRoadmap from '../components/roadmap/ScrollRoadmap';
+
 // Shared Components reused per Adjustment 3
-import CustomerJourneyRoadmap from '../components/CustomerJourneyRoadmap';
 import ModuleAccordion from '../components/ModuleAccordion';
 import CourseOverviewCard from '../components/CourseOverviewCard';
 import ClosingDemoBanner from '../components/ClosingDemoBanner';
@@ -528,8 +514,81 @@ export default function DigitalMarketingDetail({ course }) {
     </div>,
   ];
 
+  // Module short names per brochure specification
+  const MODULE_SHORT_NAMES = useMemo(
+    () => ({
+      1: 'SEO',
+      2: 'SMM',
+      3: 'SEM',
+      4: 'Google Ads',
+      5: 'WordPress',
+      6: 'Blogging',
+      7: 'Content marketing',
+      8: 'App marketing',
+      9: 'ORM',
+      10: 'Marketing',
+    }),
+    []
+  );
+
+  // Open module accordion item and wait for height transition to end before scrolling
+  const handleOpenModuleFromRoadmap = (targetIndex) => {
+    // 1. Expand target module
+    setOpenModuleIndices((prev) =>
+      prev.includes(targetIndex) ? prev : [...prev, targetIndex]
+    );
+
+    // 2. Wait for height transition (250ms) to end, then scroll so module title sits 16px below 72px header (88px)
+    setTimeout(() => {
+      const targetElement = document.getElementById(`module-${targetIndex}`);
+      if (targetElement) {
+        const headerOffset = 88; // 72px fixed header + 16px clearance
+        const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerOffset;
+
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: 'smooth',
+        });
+      }
+    }, 280);
+  };
+
+  // 10 brochure stations built directly from DIGITAL_MARKETING_MODULES
+  const roadmapStations = useMemo(() => {
+    return DIGITAL_MARKETING_MODULES.map((mod, idx) => {
+      const shortTitle = MODULE_SHORT_NAMES[mod.number] || mod.name;
+      const isSem = mod.number === 3;
+      const topics = mod.topics || [];
+      const first3Chips = isSem ? [] : topics.slice(0, 3);
+      const moreCount = isSem ? 0 : Math.max(0, topics.length - 3);
+
+      return {
+        id: `roadmap-station-${mod.number}`,
+        number: mod.number,
+        title: shortTitle,
+        description: isSem ? 'Reach customers through paid search.' : null,
+        chips: first3Chips,
+        moreCount,
+        onMore: () => handleOpenModuleFromRoadmap(idx),
+      };
+    });
+  }, [MODULE_SHORT_NAMES]);
+
+  // 11th Finish Station (Job training & Book a free demo)
+  const finishStation = useMemo(
+    () => ({
+      title: 'Job training',
+      ctaLabel: 'Book a free demo',
+      onCta: () => {
+        navigate('/contact');
+      },
+    }),
+    [navigate]
+  );
+
   return (
-    <div className="min-h-screen bg-background text-ink overflow-x-clip">
+    <div className="min-h-screen bg-background text-ink overflow-x-hidden">
       {/* ─── 1. HERO SECTION (APPROVED: LAYOUT, TEXT, BACKGROUND, BUTTONS & STATS BAR UNCHANGED) ─── */}
       <section
         id="overview"
@@ -774,11 +833,15 @@ export default function DigitalMarketingDetail({ course }) {
         )}
       </section>
 
-      {/* ─── 3. CUSTOMER JOURNEY ROADMAP (INTERACTIVE SCROLL-DRIVEN FUNNEL ROADMAP) ─── */}
-      <CustomerJourneyRoadmap
-        onOpenModule={handleOpenModule}
-        onBookDemo={() => navigate('/contact?course=digital-marketing')}
-      />
+      {/* ─── 3. ROADMAP (REPLACES CUSTOMER JOURNEY) ─── */}
+      {effectsConfig.roadmap && (
+        <ScrollRoadmap
+          stations={roadmapStations}
+          finish={finishStation}
+          heading="Your marketing roadmap"
+          subheading="Ten modules, then job training."
+        />
+      )}
 
       {/* ─── 4. SOFTWARE & MARKETING PLATFORMS MARQUEE (LOGOLOOP) ─── */}
       <section aria-label="Marketing platforms and tools" className="bg-soft/40 border-y border-line/80 py-5 sm:py-6 overflow-hidden">
