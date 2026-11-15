@@ -41,7 +41,9 @@ import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
 import Button from '../components/Button';
 import CourseCard from '../components/CourseCard';
 import ScrollReveal from '../components/ScrollReveal';
-import DigitalMarketingDetail from './DigitalMarketingDetail';
+
+// Code-split heavy sub-routes so non-marketing courses load instantly
+const DigitalMarketingDetail = React.lazy(() => import('./DigitalMarketingDetail'));
 
 // React Bits components
 import Particles from '../components/Particles';
@@ -396,7 +398,17 @@ export default function CourseDetail() {
   const isDigitalMarketing = course.slug === 'digital-marketing';
 
   if (isDigitalMarketing) {
-    return <DigitalMarketingDetail course={course} />;
+    return (
+      <React.Suspense
+        fallback={
+          <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+            <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+        }
+      >
+        <DigitalMarketingDetail course={course} />
+      </React.Suspense>
+    );
   }
 
   // Semester course flag for non-data-science semester programs

@@ -617,7 +617,7 @@ export default function Home() {
       </section>
 
       {/* ─── WHY INFODESK (SPOTLIGHTCARD) ─── */}
-      <section className="max-w-content mx-auto px-4 sm:px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6 content-auto">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="text-[clamp(32px,4.4vw,52px)] font-bold text-deep">
@@ -689,7 +689,7 @@ export default function Home() {
       </section>
 
       {/* ─── STUDENT VOICES (STACK CARD DECK) ─── */}
-      <section className="max-w-content mx-auto px-4 sm:px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6 content-auto">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="flex justify-center mb-3.5">
@@ -774,7 +774,7 @@ export default function Home() {
       </section>
 
       {/* ─── AWARD HIGHLIGHT ─── */}
-      <section className="max-w-content mx-auto px-4 sm:px-6">
+      <section className="max-w-content mx-auto px-4 sm:px-6 content-auto">
         <ScrollReveal>
           <div className="bg-[#101f5c] text-white rounded-band p-5 sm:p-8 lg:p-14 shadow-signature overflow-hidden relative">
             {/* Background glowing orb */}

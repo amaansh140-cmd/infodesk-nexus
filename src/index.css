@@ -190,6 +190,16 @@
   }
 }
 
+/* Performance optimization: Content-visibility for below-the-fold sections */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
+.content-auto-lg {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 1000px;
+}
+
 /* Print Styles for Official Course Certificate Modal */
 @media print {
   body * {

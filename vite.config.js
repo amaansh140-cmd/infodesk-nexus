@@ -29,14 +29,13 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    chunkSizeWarningLimit: 800,
+    chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           'vendor-motion': ['framer-motion', 'motion'],
-          'vendor-gsap': ['gsap'],
-          'vendor-three': ['three'],
+          'vendor-gsap': ['gsap', '@gsap/react'],
           'vendor-icons': ['lucide-react', '@hugeicons/react'],
         },
       },

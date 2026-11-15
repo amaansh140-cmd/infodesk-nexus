@@ -18,7 +18,6 @@ export const isSaveData =
 
 export const effectsConfig = {
   // Global Shell & Layout
-  staggeredMenu: true,
   gradualBlur: true,
   noise: true,
   magnet: !isTouchDevice,
@@ -37,14 +36,11 @@ export const effectsConfig = {
   homeToolsLoop: true,
   testimonialsStack: true,
   homeClosingBanner: !prefersReducedMotion && !isSaveData,
-  electricBorder: true,
   starBorder: true,
 
   // Courses Page (/courses)
   coursesHeaderBackground: !prefersReducedMotion && !isSaveData,
-  rubberSegment: true,
   flipCard: true,
-  borderGlow: true,
 
   // Course Detail (/courses/:slug)
   courseBackgrounds: !prefersReducedMotion && !isSaveData,
@@ -54,15 +50,9 @@ export const effectsConfig = {
   dataScienceGradientText: !prefersReducedMotion,
   dataScienceTextType: !prefersReducedMotion,
   dataScienceDecryptedText: !prefersReducedMotion,
-  dataScienceScrollVelocity: !prefersReducedMotion,
   dataScienceLogoLoop: !prefersReducedMotion,
   dataScienceTestimonials: true,
-  dataScienceBento: true,
-  dataScienceGridScan: !prefersReducedMotion && !isSaveData,
-  dataScienceMlScatter: true,
-  dataScienceWorkflowStack: true,
   dataScienceThreads: !prefersReducedMotion && !isSaveData,
-  dataScienceGovernance: true,
   dataScienceSpotlight: true,
   dataScienceRelatedFlip: true,
 
@@ -72,41 +62,26 @@ export const effectsConfig = {
   digitalMarketingTrueFocus: !prefersReducedMotion,
   digitalMarketingStack: true,
   digitalMarketingCurvedLoop: !prefersReducedMotion,
-  digitalMarketingGooeyNav: true,
-  digitalMarketingStepper: true,
   digitalMarketingSpotlight: true,
   digitalMarketingPixelCard: true,
   digitalMarketingLaserFlow: !prefersReducedMotion && !isSaveData && !isTouchDevice,
-  digitalMarketingSpecular: !prefersReducedMotion && !isTouchDevice,
   digitalMarketingTiltedCard: !prefersReducedMotion && !isTouchDevice,
   digitalMarketingFolder: !prefersReducedMotion,
   digitalMarketingFaqSpotlight: true,
   digitalMarketingLogoLoop: !prefersReducedMotion,
-  digitalMarketingTimeline: true,
   roadmap: true,
 
   // About Page (/about)
-  scrollExpand: !prefersReducedMotion,
-  profileCardTilt: !isTouchDevice && !prefersReducedMotion,
-  holoCard: true,
   seminarsMasonry: true,
 
   // Placements Page (/placements)
-  lanyard: !isTouchDevice && !prefersReducedMotion && !isSaveData,
   partnersLoop: true,
-  testimonialsCarousel: true,
-  peekRating: true,
 
   // Gallery Page (/gallery)
-  depthCarousel: true,
   galleryMasonry: true,
 
   // Contact Page (/contact)
-  accordionGallery: true,
   stepper: true,
-  springCheck: true,
-  glideSelect: true,
-  jellyRadio: true,
 };
 
 export default effectsConfig;

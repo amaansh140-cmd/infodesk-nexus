@@ -890,7 +890,7 @@ export default function DigitalMarketingDetail({ course }) {
       </section>
 
       {/* ─── 5. DETAILED SYLLABUS (MODULEACCORDION + STICKY OVERVIEW CARD - B5 FIX) ─── */}
-      <section id="syllabus" className="py-12 sm:py-20 bg-soft/30 scroll-mt-[88px]">
+      <section id="syllabus" className="py-12 sm:py-20 bg-soft/30 scroll-mt-[88px] content-auto-lg">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: 10 Modules Accordion (col-span-8) */}
@@ -967,7 +967,7 @@ export default function DigitalMarketingDetail({ course }) {
       </section>
 
       {/* ─── 6. 6-MONTH CAMPAIGN TIMELINE (LEARNING CURVE BREAKDOWN) ─── */}
-      <section id="timeline" className="py-12 sm:py-20 bg-surface border-t border-line/70 scroll-mt-[88px]">
+      <section id="timeline" className="py-12 sm:py-20 bg-surface border-t border-line/70 scroll-mt-[88px] content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft border border-line text-xs font-semibold text-primary">
@@ -1183,7 +1183,7 @@ export default function DigitalMarketingDetail({ course }) {
       </section>
 
       {/* ─── 7. STUDENT STORIES (VERIFIED REVIEWS & STORIES) ─── */}
-      <section id="stories" className="py-12 sm:py-20 bg-surface border-t border-line/70">
+      <section id="stories" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
             <div className="flex justify-center mb-1">
@@ -1331,7 +1331,7 @@ export default function DigitalMarketingDetail({ course }) {
       </section>
 
       {/* ─── 8. FREQUENTLY ASKED QUESTIONS (SPOTLIGHTCARD - B8) ─── */}
-      <section id="faqs" className="py-12 sm:py-20 bg-surface border-t border-line/70">
+      <section id="faqs" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
@@ -1422,7 +1422,7 @@ export default function DigitalMarketingDetail({ course }) {
       </section>
 
       {/* ─── 9. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
-      <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70">
+      <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
