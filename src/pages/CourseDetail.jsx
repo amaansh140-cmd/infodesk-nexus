@@ -44,6 +44,7 @@ import ScrollReveal from '../components/ScrollReveal';
 
 // Code-split heavy sub-routes so non-marketing courses load instantly
 const DigitalMarketingDetail = React.lazy(() => import('./DigitalMarketingDetail'));
+const GraphicDesignDetail = React.lazy(() => import('./GraphicDesignDetail'));
 
 // React Bits components
 import Particles from '../components/Particles';
@@ -396,6 +397,7 @@ export default function CourseDetail() {
 
   const isDataScience = course.slug === 'data-science';
   const isDigitalMarketing = course.slug === 'digital-marketing';
+  const isGraphicDesign = course.slug === 'graphic-design';
 
   if (isDigitalMarketing) {
     return (
@@ -407,6 +409,20 @@ export default function CourseDetail() {
         }
       >
         <DigitalMarketingDetail course={course} />
+      </React.Suspense>
+    );
+  }
+
+  if (isGraphicDesign) {
+    return (
+      <React.Suspense
+        fallback={
+          <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+            <div className="w-10 h-10 border-2 border-fuchsia-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+        }
+      >
+        <GraphicDesignDetail course={course} />
       </React.Suspense>
     );
   }

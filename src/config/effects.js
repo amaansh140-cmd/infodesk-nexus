@@ -70,6 +70,14 @@ export const effectsConfig = {
   digitalMarketingLogoLoop: !prefersReducedMotion,
   roadmap: true,
 
+  // Graphic Design Course (/courses/graphic-design)
+  graphicDesignNoise: true,
+  graphicDesignCardSwap: !prefersReducedMotion,
+  graphicDesignCurvedLoop: !prefersReducedMotion,
+  graphicDesignSpotlight: true,
+  graphicDesignCountUp: !prefersReducedMotion,
+  graphicDesignStarBorder: true,
+
   // About Page (/about)
   seminarsMasonry: true,
 
