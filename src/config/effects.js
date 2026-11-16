@@ -71,10 +71,19 @@ export const effectsConfig = {
   roadmap: true,
 
   // Graphic Design Course (/courses/graphic-design)
+  graphicDesignAurora: !prefersReducedMotion && !isSaveData && !isTouchDevice,
   graphicDesignNoise: true,
+  graphicDesignRotatingText: !prefersReducedMotion,
+  graphicDesignScrollFloat: !prefersReducedMotion,
   graphicDesignCardSwap: !prefersReducedMotion,
   graphicDesignCurvedLoop: !prefersReducedMotion,
   graphicDesignSpotlight: true,
+  graphicDesignTiltedCard: !prefersReducedMotion && !isTouchDevice,
+  graphicDesignClickSpark: !isTouchDevice,
+  graphicDesignMagnet: !isTouchDevice,
+  graphicDesignTrueFocus: !prefersReducedMotion,
+  graphicDesignDecryptedText: !prefersReducedMotion,
+  graphicDesignShinyText: !prefersReducedMotion,
   graphicDesignCountUp: !prefersReducedMotion,
   graphicDesignStarBorder: true,
 

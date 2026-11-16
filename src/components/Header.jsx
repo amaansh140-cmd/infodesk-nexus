@@ -153,7 +153,7 @@ export default function Header() {
             alt="Infodesk Computer Education"
             className="h-9 sm:h-10 lg:h-12 w-auto object-contain select-none transition-transform hover:opacity-95"
             decoding="async"
-            fetchpriority="high"
+            fetchPriority="high"
           />
         </Link>
 

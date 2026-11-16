@@ -35,9 +35,15 @@ import {
 } from 'lucide-react';
 
 // React Bits Components
+import Aurora from '../components/Aurora';
 import Noise from '../components/Noise';
 import ShinyText from '../components/ShinyText';
+import RotatingText from '../components/RotatingText';
+import ScrollFloat from '../components/ScrollFloat';
 import TrueFocus from '../components/TrueFocus';
+import ClickSpark from '../components/ClickSpark';
+import Magnet from '../components/Magnet';
+import DecryptedText from '../components/DecryptedText';
 import GlareHover from '../components/GlareHover';
 import CardSwap, { Card } from '../components/CardSwap';
 import CurvedLoop from '../components/CurvedLoop';
@@ -475,12 +481,27 @@ export default function GraphicDesignDetail({ course: propCourse }) {
 
   return (
     <div className="relative w-full bg-[#f6f5f1] text-ink overflow-x-clip selection:bg-primary/20 selection:text-deep">
-      {/* ─── 1. HERO SECTION (STUDIO CANVAS VIBE WITH AMBIENT GLOW & NOISE) ─── */}
-      <section className="relative min-h-[82vh] lg:min-h-[86vh] flex flex-col justify-between pt-10 sm:pt-14 pb-12 sm:pb-16 bg-gradient-to-br from-[#0e1638] via-[#09102c] to-[#040817] text-white overflow-hidden">
+      {/* ─── 1. HERO SECTION (STUDIO CANVAS VIBE WITH AURORA, GLOW & NOISE) ─── */}
+      <section className="relative min-h-[84vh] lg:min-h-[88vh] flex flex-col justify-between pt-10 sm:pt-14 pb-12 sm:pb-16 bg-gradient-to-br from-[#0e1638] via-[#09102c] to-[#040817] text-white overflow-hidden">
         {/* Subtle Noise Texture */}
         {effectsConfig.graphicDesignNoise && (
           <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-soft-light z-0">
             <Noise patternSize={250} patternScaleType="repeat" patternAlpha={15} />
+          </div>
+        )}
+
+        {/* React Bits Aurora Ambient Shader Background */}
+        {effectsConfig.graphicDesignAurora && (
+          <div className="absolute inset-0 pointer-events-none opacity-45 mix-blend-screen overflow-hidden z-0">
+            <Aurora
+              colorStops={['#ec4899', '#3b82f6', '#06b6d4', '#8b5cf6']}
+              blend={0.65}
+              amplitude={1.1}
+              speed={0.7}
+              height={0.55}
+              glow={0.6}
+              brightness={0.8}
+            />
           </div>
         )}
 
@@ -540,23 +561,48 @@ export default function GraphicDesignDetail({ course: propCourse }) {
               <div className="flex flex-wrap items-center gap-2.5">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/15 backdrop-blur-md">
                   <Palette size={12} className="text-pink-400" />
-                  <span>Design &amp; Visual Arts</span>
+                  {effectsConfig.graphicDesignShinyText ? (
+                    <ShinyText text="4-Month Flagship Design Program" speed={2.8} className="text-white font-semibold" />
+                  ) : (
+                    <span>4-Month Flagship Design Program</span>
+                  )}
                 </span>
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
                   <ShieldCheck size={13} />
                   <span>Govt. Recognized &amp; ISO 9001:2015</span>
                 </span>
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/15 text-blue-300 border border-blue-500/30">
-                  <span>4 Months Short Course</span>
+                  <span>Design &amp; Visual Arts</span>
                 </span>
               </div>
 
-              {/* Course Main Title with Typography Treatment */}
+              {/* Course Main Title with Typography Treatment & RotatingText */}
               <div className="space-y-3">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08] font-heading">
                   Graphic Design.
                 </h1>
-                <p className="text-lg sm:text-xl text-white/80 font-normal leading-relaxed max-w-2xl">
+
+                {effectsConfig.graphicDesignRotatingText && (
+                  <div className="flex flex-wrap items-center gap-2 pt-1 text-base sm:text-lg font-bold text-white/90">
+                    <span className="text-white/60">Learn to create</span>
+                    <RotatingText
+                      texts={[
+                        'Brand Identity Systems',
+                        'Vector Logos & Icons',
+                        'Editorial Magazine Spreads',
+                        'Highway Advertising Billboards',
+                        'High-CTR Social Ad Creatives',
+                        'Retail Box Packaging',
+                      ]}
+                      mainClassName="px-2.5 py-0.5 rounded-lg bg-pink-500/20 text-pink-300 border border-pink-500/30 font-bold inline-block"
+                      staggerDuration={0.02}
+                      rotationInterval={2600}
+                      splitBy="words"
+                    />
+                  </div>
+                )}
+
+                <p className="text-base sm:text-lg text-white/80 font-normal leading-relaxed max-w-2xl">
                   Master branding, advertising art, publication layout, and social media creatives using Photoshop, Illustrator, CorelDRAW, InDesign, and Canva Pro.
                 </p>
               </div>
@@ -608,18 +654,26 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                 </div>
               </div>
 
-              {/* Primary Call-to-Action Buttons */}
+              {/* Primary Call-to-Action Buttons with ClickSpark & Magnet */}
               <div className="flex flex-wrap items-center gap-4 pt-4">
-                <Button
-                  to="/contact"
-                  size="lg"
-                  variant="primary"
-                  className="rounded-full shadow-lg hover:shadow-xl font-bold bg-[#4a6df0] hover:bg-[#3b5bd8] text-white px-7 py-3.5"
-                  spark={true}
+                <ClickSpark
+                  sparkColor={['#ec4899', '#38bdf8', '#facc15', '#a855f7']}
+                  sparkCount={8}
+                  sparkRadius={20}
                 >
-                  <span>Book a free demo class</span>
-                  <ArrowRight size={16} />
-                </Button>
+                  <Magnet padding={50} magnetStrength={2} disabled={!effectsConfig.graphicDesignMagnet}>
+                    <Button
+                      to="/contact"
+                      size="lg"
+                      variant="primary"
+                      className="rounded-full shadow-lg hover:shadow-xl font-bold bg-[#4a6df0] hover:bg-[#3b5bd8] text-white px-7 py-3.5"
+                      spark={false}
+                    >
+                      <span>Book a free demo class</span>
+                      <ArrowRight size={16} />
+                    </Button>
+                  </Magnet>
+                </ClickSpark>
 
                 <a
                   href="/assets/Infodesk_Computer_Education.pdf"
@@ -748,9 +802,37 @@ export default function GraphicDesignDetail({ course: propCourse }) {
             <Monitor size={13} />
             <span>5 Industry Tool Stacks</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-            Software you will master in the lab.
-          </h2>
+
+          {effectsConfig.graphicDesignScrollFloat ? (
+            <ScrollFloat
+              containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
+              animationDuration={0.8}
+              ease="back.out(1.4)"
+              scrollStart="top 85%"
+              scrollEnd="top 55%"
+              splitBy="words"
+            >
+              Software you will master in the lab.
+            </ScrollFloat>
+          ) : (
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
+              Software you will master in the lab.
+            </h2>
+          )}
+
+          {effectsConfig.graphicDesignDecryptedText && (
+            <div className="pt-1 flex justify-center">
+              <DecryptedText
+                text="DUAL-TRACK LAB TRAINING: CMYK PRINT & RGB DIGITAL SCREEN"
+                animateOn="view"
+                speed={40}
+                maxIterations={10}
+                className="text-xs font-mono font-bold tracking-wider text-primary"
+                scrambleColor="#ec4899"
+              />
+            </div>
+          )}
+
           <p className="text-muted text-sm sm:text-base leading-relaxed">
             Hands-on mentor guidance across the world's most in-demand design and desktop publishing applications.
           </p>
@@ -823,21 +905,51 @@ export default function GraphicDesignDetail({ course: propCourse }) {
         </div>
       </section>
 
-      {/* ─── 4. FOUR COMMERCIAL DESIGN DISCIPLINES (BROCHURE PAGE 14) ─── */}
+      {/* ─── 4. FOUR COMMERCIAL DESIGN DISCIPLINES (BROCHURE PAGE 14) + TRUEFOCUS ─── */}
       <section className="py-14 sm:py-20 bg-soft/40 border-y border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
+          <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-primary text-xs font-semibold border border-line shadow-2xs">
               <Layout size={13} />
               <span>Commercial Disciplines</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              Four pillars of commercial design.
-            </h2>
+
+            {effectsConfig.graphicDesignScrollFloat ? (
+              <ScrollFloat
+                containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
+                animationDuration={0.8}
+                ease="back.out(1.4)"
+                scrollStart="top 85%"
+                scrollEnd="top 55%"
+                splitBy="words"
+              >
+                Four pillars of commercial design.
+              </ScrollFloat>
+            ) : (
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
+                Four pillars of commercial design.
+              </h2>
+            )}
+
             <p className="text-muted text-sm sm:text-base leading-relaxed">
               Everything taught in this 4-month course directly maps to real-world agency briefs and client commissions.
             </p>
           </div>
+
+          {/* React Bits TrueFocus: Core Design Competencies */}
+          {effectsConfig.graphicDesignTrueFocus && (
+            <div className="py-3 mb-8 flex justify-center overflow-x-auto select-none">
+              <TrueFocus
+                sentence="BRAND IDENTITY • VECTOR ART • EDITORIAL SPREADS • PACKAGING • SOCIAL ADS"
+                separator="•"
+                borderColor="#ec4899"
+                glowColor="rgba(236, 72, 153, 0.4)"
+                animationDuration={0.5}
+                pauseBetweenAnimations={1.6}
+                borderWidth={2}
+              />
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {DESIGN_PILLARS.map((pillar) => {
@@ -877,6 +989,128 @@ export default function GraphicDesignDetail({ course: propCourse }) {
         </div>
       </section>
 
+      {/* ─── 4.5 COMMERCIAL PORTFOLIO PROJECTS (INTERACTIVE 3D TILTEDCARDS) ─── */}
+      <section className="py-14 sm:py-20 max-w-content mx-auto px-4 sm:px-6">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-primary text-xs font-semibold border border-line">
+            <Sparkles size={13} className="text-pink-500" />
+            <span>Real Commercial Deliverables</span>
+          </div>
+
+          {effectsConfig.graphicDesignScrollFloat ? (
+            <ScrollFloat
+              containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
+              animationDuration={0.8}
+              ease="back.out(1.4)"
+              scrollStart="top 85%"
+              scrollEnd="top 55%"
+              splitBy="words"
+            >
+              Commercial projects you will design.
+            </ScrollFloat>
+          ) : (
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
+              Commercial projects you will design.
+            </h2>
+          )}
+
+          <p className="text-muted text-sm sm:text-base leading-relaxed">
+            Move your mouse or tilt your screen over each project to inspect 3D layers, lighting, and production specifications.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {PORTFOLIO_PROJECTS.map((proj) => {
+            return (
+              <div key={proj.title} className="h-full">
+                {effectsConfig.graphicDesignTiltedCard ? (
+                  <TiltedCard
+                    containerHeight="290px"
+                    containerWidth="100%"
+                    imageHeight="290px"
+                    imageWidth="100%"
+                    rotateAmplitude={11}
+                    scaleOnHover={1.02}
+                    showTooltip={false}
+                    radius={22}
+                    glare={0.35}
+                    className="w-full h-full"
+                  >
+                    <div className="w-full h-full p-6 sm:p-7 flex flex-col justify-between bg-white border border-line/80 rounded-[22px] shadow-card hover:shadow-xl transition-shadow select-none">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span
+                            className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
+                            style={{
+                              color: proj.accent,
+                              borderColor: `${proj.accent}40`,
+                              backgroundColor: `${proj.accent}15`,
+                            }}
+                          >
+                            {proj.category}
+                          </span>
+                          <span className="text-[11px] font-mono text-muted">{proj.tools}</span>
+                        </div>
+
+                        <h3 className="text-lg font-bold text-deep font-heading leading-snug">
+                          {proj.title}
+                        </h3>
+
+                        <p className="text-xs text-ink/80 leading-relaxed">
+                          {proj.description}
+                        </p>
+                      </div>
+
+                      <div className="pt-4 border-t border-line/60 flex items-center justify-between text-xs text-muted">
+                        <span className="flex items-center gap-1.5 font-semibold" style={{ color: proj.accent }}>
+                          <Sparkle size={12} />
+                          <span>Student Deliverable</span>
+                        </span>
+                        <span className="font-mono text-[11px]">Behance Ready</span>
+                      </div>
+                    </div>
+                  </TiltedCard>
+                ) : (
+                  <div className="w-full h-full p-6 sm:p-7 flex flex-col justify-between bg-white border border-line/80 rounded-[22px] shadow-card hover:shadow-lg transition-shadow">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span
+                          className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
+                          style={{
+                            color: proj.accent,
+                            borderColor: `${proj.accent}40`,
+                            backgroundColor: `${proj.accent}15`,
+                          }}
+                        >
+                          {proj.category}
+                        </span>
+                        <span className="text-[11px] font-mono text-muted">{proj.tools}</span>
+                      </div>
+
+                      <h3 className="text-lg font-bold text-deep font-heading leading-snug">
+                        {proj.title}
+                      </h3>
+
+                      <p className="text-xs text-ink/80 leading-relaxed">
+                        {proj.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-line/60 flex items-center justify-between text-xs text-muted">
+                      <span className="flex items-center gap-1.5 font-semibold" style={{ color: proj.accent }}>
+                        <Sparkle size={12} />
+                        <span>Student Deliverable</span>
+                      </span>
+                      <span className="font-mono text-[11px]">Behance Ready</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
       {/* ─── 5. DETAILED SYLLABUS (MODULEACCORDION + STICKY OVERVIEW CARD + FOLDER) ─── */}
       <section id="syllabus" className="py-14 sm:py-20 bg-surface scroll-mt-[88px] content-auto-lg">
         <div className="max-w-content mx-auto px-4 sm:px-6">
@@ -888,9 +1122,24 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                   <Layers size={13} />
                   <span>Curriculum Breakdown</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
-                  Detailed 4-month syllabus.
-                </h2>
+
+                {effectsConfig.graphicDesignScrollFloat ? (
+                  <ScrollFloat
+                    containerClassName="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading"
+                    animationDuration={0.8}
+                    ease="back.out(1.4)"
+                    scrollStart="top 85%"
+                    scrollEnd="top 55%"
+                    splitBy="words"
+                  >
+                    Detailed 4-month syllabus.
+                  </ScrollFloat>
+                ) : (
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+                    Detailed 4-month syllabus.
+                  </h2>
+                )}
+
                 <p className="text-muted text-sm leading-relaxed">
                   Topic breakdown directly from the official Infodesk brochure.
                 </p>
@@ -942,17 +1191,23 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                   />
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveCertTab(0);
-                    setIsCertModalOpen(true);
-                  }}
-                  className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-soft hover:bg-soft/80 text-primary border border-primary/20 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                <ClickSpark
+                  sparkColor={['#ec4899', '#38bdf8', '#facc15']}
+                  sparkCount={7}
+                  sparkRadius={18}
                 >
-                  <Award size={14} />
-                  <span>Preview official certificate</span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveCertTab(0);
+                      setIsCertModalOpen(true);
+                    }}
+                    className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-soft hover:bg-soft/80 text-primary border border-primary/20 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <Award size={14} />
+                    <span>Preview official certificate</span>
+                  </button>
+                </ClickSpark>
               </div>
             </div>
           </div>
@@ -966,9 +1221,24 @@ export default function GraphicDesignDetail({ course: propCourse }) {
             <div className="flex justify-center mb-1">
               <GoogleRatingBadge variant="pill" />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              Student stories.
-            </h2>
+
+            {effectsConfig.graphicDesignScrollFloat ? (
+              <ScrollFloat
+                containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
+                animationDuration={0.8}
+                ease="back.out(1.4)"
+                scrollStart="top 85%"
+                scrollEnd="top 55%"
+                splitBy="words"
+              >
+                Student stories.
+              </ScrollFloat>
+            ) : (
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
+                Student stories.
+              </h2>
+            )}
+
             <p className="text-muted text-sm sm:text-base leading-relaxed">
               What our students say about hands-on learning at Infodesk Computer Education.
             </p>
@@ -1025,9 +1295,24 @@ export default function GraphicDesignDetail({ course: propCourse }) {
               <MapPin size={13} />
               <span>4 Mumbai Centers</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              Train in-person across Mumbai.
-            </h2>
+
+            {effectsConfig.graphicDesignScrollFloat ? (
+              <ScrollFloat
+                containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
+                animationDuration={0.8}
+                ease="back.out(1.4)"
+                scrollStart="top 85%"
+                scrollEnd="top 55%"
+                splitBy="words"
+              >
+                Train in-person across Mumbai.
+              </ScrollFloat>
+            ) : (
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
+                Train in-person across Mumbai.
+              </h2>
+            )}
+
             <p className="text-muted text-sm sm:text-base leading-relaxed">
               Visit our air-conditioned computer labs for dedicated mentor guidance and hands-on design practice.
             </p>
@@ -1074,9 +1359,23 @@ export default function GraphicDesignDetail({ course: propCourse }) {
       <section id="faqs" className="py-14 sm:py-20 bg-soft/30 border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
-              Frequently asked questions.
-            </h2>
+            {effectsConfig.graphicDesignScrollFloat ? (
+              <ScrollFloat
+                containerClassName="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading"
+                animationDuration={0.8}
+                ease="back.out(1.4)"
+                scrollStart="top 85%"
+                scrollEnd="top 55%"
+                splitBy="words"
+              >
+                Frequently asked questions.
+              </ScrollFloat>
+            ) : (
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+                Frequently asked questions.
+              </h2>
+            )}
+
             <p className="text-muted text-sm leading-relaxed">
               Key details about the 4-month Graphic Design course, lab timings, and software.
             </p>
@@ -1135,9 +1434,23 @@ export default function GraphicDesignDetail({ course: propCourse }) {
       <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
-              Related courses in design &amp; marketing.
-            </h2>
+            {effectsConfig.graphicDesignScrollFloat ? (
+              <ScrollFloat
+                containerClassName="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading"
+                animationDuration={0.8}
+                ease="back.out(1.4)"
+                scrollStart="top 85%"
+                scrollEnd="top 55%"
+                splitBy="words"
+              >
+                Related courses in design &amp; marketing.
+              </ScrollFloat>
+            ) : (
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+                Related courses in design &amp; marketing.
+              </h2>
+            )}
+
             <p className="text-muted text-sm mt-1">
               Tap or click any card to flip between program highlights and syllabus previews.
             </p>
