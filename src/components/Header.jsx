@@ -61,7 +61,6 @@ const navLinks = [
   { label: 'About', href: '/about' },
   { label: 'Placements', href: '/placements' },
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Header() {
@@ -152,12 +151,9 @@ export default function Header() {
           <img
             src="/assets/logo-transparent.png"
             alt="Infodesk Computer Education"
-            className="h-[44px] hidden lg:block w-auto object-contain"
-          />
-          <img
-            src="/assets/logo-transparent.png"
-            alt="Infodesk Computer Education"
-            className="h-[36px] lg:hidden w-auto object-contain"
+            className="h-9 sm:h-10 lg:h-12 w-auto object-contain select-none transition-transform hover:opacity-95"
+            decoding="async"
+            fetchpriority="high"
           />
         </Link>
 
@@ -264,16 +260,8 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Right: Phone number (>=1100px) & Book a free demo CTA */}
-        <div className="hidden lg:flex items-center gap-4">
-          <a
-            href="tel:+919769445334"
-            className="hidden min-[1100px]:flex items-center gap-2 text-[14px] font-medium text-ink hover:text-primary transition-colors"
-          >
-            <Phone size={15} className="text-primary" />
-            <span>+91 9769 445334</span>
-          </a>
-
+        {/* Right: Book a free demo CTA */}
+        <div className="hidden lg:flex items-center">
           <Button to="/contact" size="md" variant="primary" className="rounded-full shadow-signature">
             Book a free demo
           </Button>
@@ -317,7 +305,8 @@ export default function Header() {
                 <img
                   src="/assets/logo-transparent.png"
                   alt="Infodesk Computer Education"
-                  className="h-[36px] w-auto object-contain"
+                  className="h-9 w-auto object-contain select-none"
+                  decoding="async"
                 />
                 <button
                   type="button"
