@@ -6,7 +6,6 @@ import {
   ChevronDown,
   Award,
   CheckCircle2,
-  Clock,
   Search,
   Share2,
   Heart,
@@ -37,7 +36,7 @@ import SpotlightCard from '../components/SpotlightCard';
 import TiltedCard from '../components/TiltedCard';
 import Folder from '../components/Folder';
 import LogoLoop from '../components/LogoLoop';
-import PixelCard from '../components/PixelCard';
+import FlipCard from '../components/FlipCard';
 import LazyMount from '../components/common/LazyMount';
 
 // Roadmap Section
@@ -1089,69 +1088,99 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 8. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
+      {/* ─── 8. RELATED COURSES AS FLIPCARD (SAME AS DATA SCIENCE PAGE) ─── */}
       <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
               Related courses in marketing and design.
             </h2>
-            <p className="text-muted text-sm leading-relaxed">
-              Broaden your career path with diploma and specialization tracks.
+            <p className="text-muted text-sm mt-1">
+              Tap or click any card to flip between program highlights and syllabus previews.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {relatedCourses.map((rel) => (
-              <PixelCard
-                key={rel.slug}
-                variant="blue"
-                gap={8}
-                speed={30}
-                className="p-6 sm:p-7 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-soft text-primary border border-line/60">
-                      {rel.level}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-xs text-muted">
-                      <Clock size={12} />
-                      <span>{rel.duration}</span>
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-deep leading-snug font-heading">
-                    {rel.title}
-                  </h3>
-
-                  <p className="text-sm text-muted leading-relaxed">
-                    {rel.summary}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {rel.tools.slice(0, 3).map((tool) => (
-                      <span
-                        key={tool}
-                        className="text-[11px] px-2.5 py-0.5 rounded-full bg-soft/70 border border-line/50 text-ink/80 font-medium"
-                      >
-                        {tool}
+            {relatedCourses.map((rel) => {
+              const frontContent = (
+                <div className="w-full h-full p-6 bg-surface border border-line/80 rounded-[22px] flex flex-col justify-between shadow-card">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-primary px-3 py-1 rounded-full bg-soft">
+                        {rel.level}
                       </span>
-                    ))}
+                      <span className="text-xs font-mono text-muted">{rel.duration}</span>
+                    </div>
+                    <h4 className="text-xl font-bold text-deep font-heading">{rel.title}</h4>
+                    <p className="text-muted text-xs sm:text-sm leading-relaxed line-clamp-2">{rel.summary}</p>
+                    {rel.tools && rel.tools.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {rel.tools.slice(0, 5).map((tool) => (
+                          <span
+                            key={tool}
+                            className="px-2.5 py-0.5 rounded-full bg-soft/80 border border-line/60 text-[11px] font-medium text-deep"
+                          >
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="pt-3 border-t border-line/50 flex items-center justify-between text-xs text-primary font-bold">
+                    <span>Tap to see syllabus topics</span>
+                    <span>Flip &rarr;</span>
                   </div>
                 </div>
+              );
 
-                <div className="pt-6 border-t border-line/50 mt-6">
-                  <Link
-                    to={`/courses/${rel.slug}`}
-                    className="inline-flex items-center gap-2 font-bold text-sm text-primary hover:text-deep transition-colors group"
-                  >
-                    <span>View syllabus</span>
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                  </Link>
+              const backContent = (
+                <div className="w-full h-full p-6 bg-[#0b1a52] text-white border border-[#4a6df0]/40 rounded-[22px] flex flex-col justify-between shadow-card">
+                  <div className="space-y-3">
+                    <span className="text-xs font-mono text-[#a5d8ff] font-bold block">
+                      Tools &amp; Curriculum
+                    </span>
+                    <h4 className="text-lg font-bold text-white font-heading">{rel.title}</h4>
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {rel.tools?.slice(0, 8).map((tool) => (
+                        <span key={tool} className="px-2.5 py-1 rounded-full bg-white/10 text-[11px] font-medium text-[#a5d8ff]">
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                    <Link
+                      to={`/courses/${rel.slug}`}
+                      className="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold hover:bg-bright transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      View full course &rarr;
+                    </Link>
+                    <span className="text-[11px] text-white/60">Flip back &larr;</span>
+                  </div>
                 </div>
-              </PixelCard>
-            ))}
+              );
+
+              return (
+                <div key={rel.slug} className="h-[300px]">
+                  <FlipCard
+                    front={frontContent}
+                    back={backContent}
+                    width="100%"
+                    height={300}
+                    radius={22}
+                    tilt={false}
+                    glare={false}
+                    shadow={false}
+                    hoverScale={1}
+                    draggable={false}
+                    background="transparent"
+                    className="w-full h-full rounded-[22px] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus:outline-none"
+                    ariaLabel={`${rel.title} course details`}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
