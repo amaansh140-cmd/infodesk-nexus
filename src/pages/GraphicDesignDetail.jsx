@@ -373,18 +373,18 @@ const GRAPHIC_DESIGN_FAQS = [
 ];
 
 const DESIGN_MARQUEE_ITEMS = [
-  'ADOBE PHOTOSHOP',
-  'ADOBE ILLUSTRATOR',
-  'CORELDRAW',
-  'ADOBE INDESIGN',
-  'CANVA PRO',
-  'BRAND IDENTITY',
-  'LOGO DESIGN',
-  'EDITORIAL LAYOUT',
-  'CMYK PRE-PRESS',
-  'PACKAGING DESIGN',
-  'ANIMATED GIF ADS',
-  'TYPOGRAPHY',
+  'Photoshop',
+  'Illustrator',
+  'CorelDRAW',
+  'InDesign',
+  'Canva Pro',
+  'Brand identity',
+  'Logo design',
+  'Editorial layout',
+  'CMYK pre-press',
+  'Packaging design',
+  'Animated GIF ads',
+  'Typography',
 ];
 
 export default function GraphicDesignDetail({ course: propCourse }) {
@@ -557,7 +557,7 @@ export default function GraphicDesignDetail({ course: propCourse }) {
               </div>
 
               {/* H1 Heading with ShinyText */}
-              <h1 className="text-[clamp(44px,6vw,84px)] font-bold tracking-tight text-white leading-[1.02] font-heading">
+              <h1 className="text-[clamp(44px,6.2vw,92px)] font-bold tracking-tight text-white leading-[1.02] font-heading">
                 {effectsConfig.graphicDesignShinyText && !prefersReducedMotion ? (
                   <ShinyText
                     text="Graphic Design"
@@ -576,20 +576,40 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                 Master branding, advertising art, publication layout, and social media creatives using Photoshop, Illustrator, CorelDRAW, InDesign, and Canva Pro.
               </p>
 
+              {/* TrueFocus Tagline with ice-blue bracket frame */}
+              <div className="py-1">
+                {effectsConfig.graphicDesignTrueFocus && !prefersReducedMotion ? (
+                  <TrueFocus
+                    sentence="Branding Editorial Packaging Ads"
+                    manualMode={false}
+                    blurAmount={3}
+                    borderColor="#a5d8ff"
+                    glowColor="rgba(165, 216, 255, 0.4)"
+                    animationDuration={0.6}
+                    pauseBetweenAnimations={1.2}
+                    borderWidth={2}
+                    cornerSize={14}
+                  />
+                ) : (
+                  <div className="text-xl sm:text-2xl font-bold text-[#a5d8ff] font-heading">
+                    Branding <span className="text-white/60 font-normal text-base">· Editorial · Packaging · Ads</span>
+                  </div>
+                )}
+              </div>
+
               {/* RotatingText Specialty Ticker */}
               {effectsConfig.graphicDesignRotatingText && !prefersReducedMotion && (
-                <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base font-semibold text-white/90 pt-1">
-                  <span className="text-[#a5d8ff]">Learn to create:</span>
+                <div className="flex flex-wrap items-center gap-2 text-sm text-[#a5d8ff]/90 pt-0.5 font-medium">
+                  <span>Specializations:</span>
                   <RotatingText
                     texts={[
-                      'Brand Identity Systems',
-                      'Vector Logos & Icons',
-                      'Editorial Magazine Spreads',
-                      'Highway Advertising Billboards',
-                      'High-CTR Social Ad Creatives',
-                      'Retail Box Packaging',
+                      'Brand Identity & Logo Systems',
+                      'Editorial Spreads & Magazines',
+                      'Highway Billboard Advertising',
+                      'High-Converting Social Creatives',
+                      'FMCG Packaging & Die-Lines',
                     ]}
-                    mainClassName="px-2.5 py-0.5 rounded-lg bg-white/10 text-[#a5d8ff] border border-white/20 font-bold inline-block"
+                    mainClassName="px-2.5 py-0.5 rounded-lg bg-white/10 text-white border border-white/20 font-semibold inline-block"
                     staggerDuration={0.02}
                     rotationInterval={2600}
                     splitBy="words"
@@ -777,29 +797,29 @@ export default function GraphicDesignDetail({ course: propCourse }) {
         </div>
       </section>
 
-      {/* ─── 2. CREATIVE SKILLS STRIP (CURVEDLOOP MARQUEE) ─── */}
-      <section className="bg-[#101b44] border-y border-white/10 py-3 overflow-hidden relative">
+      {/* ─── 2. CREATIVE SKILLS STRIP (MATCHING DIGITAL MARKETING) ─── */}
+      <section className="bg-[#eef2fd] border-y border-[#c3d1fb]/60 py-2 sm:py-2.5 overflow-hidden relative">
         {!prefersReducedMotion && effectsConfig.graphicDesignCurvedLoop ? (
-          <div className="w-full h-12 flex items-center justify-center">
+          <div className="w-full h-12 sm:h-14 flex items-center justify-center">
             <CurvedLoop
               marqueeText={DESIGN_MARQUEE_ITEMS.join(' · ')}
-              speed={1.4}
+              speed={1.5}
               shape="line"
-              fontSize={24}
-              fontWeight={700}
-              color="#ffffff"
+              fontSize={30}
+              fontWeight={600}
+              color="#13266f"
               separator="·"
-              separatorColor="#ec4899"
+              separatorColor="#4a6df0"
               interactive={false}
-              className="tracking-wider font-heading select-none opacity-90"
+              className="font-semibold tracking-normal font-heading select-none"
             />
           </div>
         ) : (
-          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap justify-center gap-2 py-1">
+          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap justify-center gap-2 py-1.5">
             {DESIGN_MARQUEE_ITEMS.map((item) => (
               <span
                 key={item}
-                className="px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-white/90 border border-white/10"
+                className="px-3 py-1 bg-surface rounded-full text-xs font-semibold text-primary border border-line shadow-sm"
               >
                 {item}
               </span>
@@ -841,7 +861,7 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                 speed={40}
                 maxIterations={10}
                 className="text-xs font-mono font-bold tracking-wider text-primary"
-                scrambleColor="#ec4899"
+                scrambleColor="#4a6df0"
               />
             </div>
           )}

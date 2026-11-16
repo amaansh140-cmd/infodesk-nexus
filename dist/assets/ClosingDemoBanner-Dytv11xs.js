@@ -1,4 +1,4 @@
-import{j as d}from"./vendor-motion-iuFgYMdS.js";import{r as v,L as eo}from"./vendor-react-6YCBRoeX.js";import{d as to,m as Jt,B as kr,e as ro,p as oo,i as no,j as so}from"./index-Bf4HCUnb.js";import{g as Ot}from"./vendor-gsap-CnPRBKv6.js";import{a as ao}from"./ScrollReveal-CBUgFB3T.js";import{c as io,F as lo,d as lr}from"./vendor-icons-CyNvKEFQ.js";import{L as co,S as uo}from"./SpotlightCard-CBoHviRv.js";const yr=5,Kr=3,fo=2.4,ho=`#version 300 es
+import{j as d}from"./vendor-motion-iuFgYMdS.js";import{r as v,L as eo}from"./vendor-react-6YCBRoeX.js";import{d as to,m as Jt,B as kr,e as ro,p as oo,i as no,j as so}from"./index-CHZFJ1gh.js";import{g as Ot}from"./vendor-gsap-CnPRBKv6.js";import{a as ao}from"./ScrollReveal-BWxX0vM2.js";import{c as io,F as lo,d as lr}from"./vendor-icons-CyNvKEFQ.js";import{L as co,S as uo}from"./SpotlightCard-C3Psjj7n.js";const yr=5,Kr=3,fo=2.4,ho=`#version 300 es
 in vec2 aPosition;
 void main() {
   gl_Position = vec4(aPosition, 0.0, 1.0);
