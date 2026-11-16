@@ -481,266 +481,218 @@ export default function GraphicDesignDetail({ course: propCourse }) {
 
   return (
     <div className="relative w-full bg-[#f6f5f1] text-ink overflow-x-clip selection:bg-primary/20 selection:text-deep">
-      {/* ─── 1. HERO SECTION (STUDIO CANVAS VIBE WITH AURORA, GLOW & NOISE) ─── */}
-      <section className="relative min-h-[84vh] lg:min-h-[88vh] flex flex-col justify-between pt-10 sm:pt-14 pb-12 sm:pb-16 bg-gradient-to-br from-[#0e1638] via-[#09102c] to-[#040817] text-white overflow-hidden">
+      {/* ─── 1. HERO SECTION (SAME DEEP-BLUE THEME AS DIGITAL MARKETING & DATA SCIENCE) ─── */}
+      <section
+        id="overview"
+        className="relative bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white min-h-[82vh] flex flex-col justify-between pt-14 pb-10 overflow-hidden"
+      >
+        {/* React Bits Aurora Ambient Shader Background (Deep Blue & Ice Blue Palette) */}
+        {effectsConfig.graphicDesignAurora && !prefersReducedMotion && !isSaveData && !isTouchDevice ? (
+          <LazyMount
+            isCanvasOrWebGL={true}
+            fallback={<div className="absolute inset-0 bg-[#0b1a52]/60 pointer-events-none" aria-hidden="true" />}
+            className="absolute inset-0 pointer-events-none"
+          >
+            <Aurora
+              colorStops={['#2448c9', '#4a6df0', '#a5d8ff']}
+              amplitude={0.9}
+              speed={0.4}
+              mouseInteraction={false}
+              className="absolute inset-0 w-full h-full pointer-events-none opacity-45"
+            />
+          </LazyMount>
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] pointer-events-none" />
+        )}
+
+        {/* Left-to-right contrast protection overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#071138]/95 via-[#0b1a52]/75 to-transparent pointer-events-none" />
+
+        {/* Faint CSS Grid Line Pattern */}
+        <div
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px] opacity-40 pointer-events-none"
+          aria-hidden="true"
+        />
+
         {/* Subtle Noise Texture */}
         {effectsConfig.graphicDesignNoise && (
-          <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-soft-light z-0">
-            <Noise patternSize={250} patternScaleType="repeat" patternAlpha={15} />
+          <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay z-0">
+            <Noise patternSize={250} patternScaleType="repeat" patternAlpha={10} />
           </div>
         )}
 
-        {/* React Bits Aurora Ambient Shader Background */}
-        {effectsConfig.graphicDesignAurora && (
-          <div className="absolute inset-0 pointer-events-none opacity-45 mix-blend-screen overflow-hidden z-0">
-            <Aurora
-              colorStops={['#ec4899', '#3b82f6', '#06b6d4', '#8b5cf6']}
-              blend={0.65}
-              amplitude={1.1}
-              speed={0.7}
-              height={0.55}
-              glow={0.6}
-              brightness={0.8}
-            />
-          </div>
-        )}
-
-        {/* Ambient Creative Lighting (Magenta & Cyan Studio Orbs) */}
-        <div
-          className="absolute -top-32 -left-32 w-[420px] h-[420px] rounded-full bg-[#ec4899]/15 blur-[120px] pointer-events-none"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute top-1/3 -right-32 w-[480px] h-[480px] rounded-full bg-[#06b6d4]/15 blur-[140px] pointer-events-none"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute -bottom-24 left-1/3 w-[360px] h-[360px] rounded-full bg-[#8b5cf6]/15 blur-[120px] pointer-events-none"
-          aria-hidden="true"
-        />
-
-        {/* Hero Content Container */}
-        <div className="relative z-10 w-full max-w-content mx-auto px-4 sm:px-6 my-auto">
-          {/* Breadcrumb Navigation */}
-          <nav aria-label="Breadcrumb" className="mb-6">
-            <ol className="flex flex-wrap items-center gap-2 text-xs text-white/70">
-              <li>
+        {/* Main Hero Container */}
+        <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10 w-full my-auto py-6 sm:py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column: ~58% (7 cols on lg) */}
+            <div className="lg:col-span-7 space-y-5 text-left">
+              {/* Breadcrumb Navigation */}
+              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-[14px] text-[#a5d8ff] flex-wrap">
                 <Link to="/" className="hover:text-white transition-colors">
                   Home
                 </Link>
-              </li>
-              <li>
-                <ChevronRight size={12} className="text-white/40" />
-              </li>
-              <li>
+                <ChevronRight size={13} />
                 <Link to="/courses" className="hover:text-white transition-colors">
                   Courses
                 </Link>
-              </li>
-              <li>
-                <ChevronRight size={12} className="text-white/40" />
-              </li>
-              <li>
+                <ChevronRight size={13} />
                 <Link to="/courses?category=Design+and+video" className="hover:text-white transition-colors">
                   Design and video
                 </Link>
-              </li>
-              <li>
-                <ChevronRight size={12} className="text-white/40" />
-              </li>
-              <li className="text-white font-semibold" aria-current="page">
-                Graphic Design
-              </li>
-            </ol>
-          </nav>
+                <ChevronRight size={13} />
+                <span className="font-semibold text-white">Graphic Design</span>
+              </nav>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Column: Headlines, Highlights & CTAs (7 cols) */}
-            <div className="lg:col-span-7 space-y-6">
-              {/* Eyebrow Badges */}
-              <div className="flex flex-wrap items-center gap-2.5">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/15 backdrop-blur-md">
-                  <Palette size={12} className="text-pink-400" />
-                  {effectsConfig.graphicDesignShinyText ? (
-                    <ShinyText text="4-Month Flagship Design Program" speed={2.8} className="text-white font-semibold" />
-                  ) : (
-                    <span>4-Month Flagship Design Program</span>
-                  )}
+              {/* Glass Metadata Badges */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-md">
+                  {course.level || 'Short course'}
                 </span>
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                  <ShieldCheck size={13} />
-                  <span>Govt. Recognized &amp; ISO 9001:2015</span>
+                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-md">
+                  {course.duration || '4 months'}
                 </span>
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/15 text-blue-300 border border-blue-500/30">
-                  <span>Design &amp; Visual Arts</span>
+                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold backdrop-blur-md">
+                  {course.category || 'Design and video'}
                 </span>
               </div>
 
-              {/* Course Main Title with Typography Treatment & RotatingText */}
-              <div className="space-y-3">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08] font-heading">
-                  Graphic Design.
-                </h1>
-
-                {effectsConfig.graphicDesignRotatingText && (
-                  <div className="flex flex-wrap items-center gap-2 pt-1 text-base sm:text-lg font-bold text-white/90">
-                    <span className="text-white/60">Learn to create</span>
-                    <RotatingText
-                      texts={[
-                        'Brand Identity Systems',
-                        'Vector Logos & Icons',
-                        'Editorial Magazine Spreads',
-                        'Highway Advertising Billboards',
-                        'High-CTR Social Ad Creatives',
-                        'Retail Box Packaging',
-                      ]}
-                      mainClassName="px-2.5 py-0.5 rounded-lg bg-pink-500/20 text-pink-300 border border-pink-500/30 font-bold inline-block"
-                      staggerDuration={0.02}
-                      rotationInterval={2600}
-                      splitBy="words"
-                    />
-                  </div>
+              {/* H1 Heading with ShinyText */}
+              <h1 className="text-[clamp(44px,6vw,84px)] font-bold tracking-tight text-white leading-[1.02] font-heading">
+                {effectsConfig.graphicDesignShinyText && !prefersReducedMotion ? (
+                  <ShinyText
+                    text="Graphic Design"
+                    color="#a5d8ff"
+                    shineColor="#ffffff"
+                    speed={3}
+                    className="inline-block"
+                  />
+                ) : (
+                  'Graphic Design'
                 )}
+              </h1>
 
-                <p className="text-base sm:text-lg text-white/80 font-normal leading-relaxed max-w-2xl">
-                  Master branding, advertising art, publication layout, and social media creatives using Photoshop, Illustrator, CorelDRAW, InDesign, and Canva Pro.
-                </p>
-              </div>
+              {/* Subtitle */}
+              <p className="text-[#c3cbf2] text-base sm:text-lg leading-relaxed max-w-xl">
+                Master branding, advertising art, publication layout, and social media creatives using Photoshop, Illustrator, CorelDRAW, InDesign, and Canva Pro.
+              </p>
 
-              {/* 4-Stat Pills Strip */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/10 backdrop-blur-sm">
-                  <div className="text-2xl font-extrabold text-white font-heading">
-                    {effectsConfig.graphicDesignCountUp ? (
-                      <CountUp to={4} duration={1.6} />
-                    ) : (
-                      '4'
-                    )}
-                  </div>
-                  <div className="text-xs text-white/60 font-medium mt-0.5">Months Training</div>
+              {/* RotatingText Specialty Ticker */}
+              {effectsConfig.graphicDesignRotatingText && !prefersReducedMotion && (
+                <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base font-semibold text-white/90 pt-1">
+                  <span className="text-[#a5d8ff]">Learn to create:</span>
+                  <RotatingText
+                    texts={[
+                      'Brand Identity Systems',
+                      'Vector Logos & Icons',
+                      'Editorial Magazine Spreads',
+                      'Highway Advertising Billboards',
+                      'High-CTR Social Ad Creatives',
+                      'Retail Box Packaging',
+                    ]}
+                    mainClassName="px-2.5 py-0.5 rounded-lg bg-white/10 text-[#a5d8ff] border border-white/20 font-bold inline-block"
+                    staggerDuration={0.02}
+                    rotationInterval={2600}
+                    splitBy="words"
+                  />
                 </div>
+              )}
 
-                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/10 backdrop-blur-sm">
-                  <div className="text-2xl font-extrabold text-white font-heading">
-                    {effectsConfig.graphicDesignCountUp ? (
-                      <CountUp to={5} duration={1.8} />
-                    ) : (
-                      '5'
-                    )}
-                  </div>
-                  <div className="text-xs text-white/60 font-medium mt-0.5">Industry Tools</div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/10 backdrop-blur-sm">
-                  <div className="text-2xl font-extrabold text-white font-heading">
-                    {effectsConfig.graphicDesignCountUp ? (
-                      <CountUp to={14} duration={2.0} />
-                    ) : (
-                      '14+'
-                    )}
-                  </div>
-                  <div className="text-xs text-white/60 font-medium mt-0.5">Portfolio Projects</div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/10 backdrop-blur-sm">
-                  <div className="text-2xl font-extrabold text-white font-heading">
-                    {effectsConfig.graphicDesignCountUp ? (
-                      <CountUp to={4} duration={1.6} />
-                    ) : (
-                      '4'
-                    )}
-                  </div>
-                  <div className="text-xs text-white/60 font-medium mt-0.5">Mumbai Centers</div>
-                </div>
-              </div>
-
-              {/* Primary Call-to-Action Buttons with ClickSpark & Magnet */}
-              <div className="flex flex-wrap items-center gap-4 pt-4">
-                <ClickSpark
-                  sparkColor={['#ec4899', '#38bdf8', '#facc15', '#a855f7']}
-                  sparkCount={8}
-                  sparkRadius={20}
+              {/* Primary Call-to-Action Buttons */}
+              <div className="pt-2 flex flex-wrap items-center gap-4">
+                <GlareHover
+                  width="auto"
+                  height="auto"
+                  borderRadius="9999px"
+                  glareOpacity={0.4}
+                  glareColor="#ffffff"
+                  className="rounded-full inline-block"
                 >
-                  <Magnet padding={50} magnetStrength={2} disabled={!effectsConfig.graphicDesignMagnet}>
-                    <Button
-                      to="/contact"
-                      size="lg"
-                      variant="primary"
-                      className="rounded-full shadow-lg hover:shadow-xl font-bold bg-[#4a6df0] hover:bg-[#3b5bd8] text-white px-7 py-3.5"
-                      spark={false}
-                    >
-                      <span>Book a free demo class</span>
-                      <ArrowRight size={16} />
-                    </Button>
-                  </Magnet>
-                </ClickSpark>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center justify-center font-bold text-sm sm:text-base px-8 py-3.5 min-h-[48px] rounded-full bg-[#f6f5f1] text-[#13266f] hover:bg-white transition-all shadow-lg hover:shadow-xl"
+                  >
+                    Book a free demo
+                  </Link>
+                </GlareHover>
 
                 <a
                   href="/assets/Infodesk_Computer_Education.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-white/90 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 transition-all backdrop-blur-sm"
+                  className="inline-flex items-center justify-center gap-2 font-bold text-sm sm:text-base px-7 py-3.5 min-h-[48px] rounded-full border border-[#a5d8ff]/40 text-white hover:bg-white/10 transition-colors backdrop-blur-sm"
                 >
                   <FileDown size={16} />
                   <span>Download brochure</span>
                 </a>
               </div>
 
-              {/* Direct Mentor In-Person Note */}
-              <div className="flex items-center gap-3 pt-2 text-xs text-white/60">
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Small in-person batches · 100% practical lab practice · Mentor feedback on every design</span>
+              {/* Glass-style Trust Chips */}
+              <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-[#a5d8ff]/90">
+                <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
+                  <ShieldCheck size={14} className="text-emerald-400" />
+                  <span>Govt. Recognized ISO 9001:2015</span>
+                </span>
+                <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
+                  <Briefcase size={14} className="text-[#a5d8ff]" />
+                  <span>100% Job Placement Assistance</span>
+                </span>
               </div>
             </div>
 
-            {/* Right Column: React Bits CardSwap Design Showcase (5 cols) */}
-            <div className="lg:col-span-5 flex justify-center w-full">
+            {/* Right Column: React Bits CardSwap Design Showcase (5 cols on lg) */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end relative">
+              {/* Radial glow behind right column matching brand blue */}
+              <div
+                className="absolute w-[440px] h-[360px] bg-[#4a6df0]/20 rounded-full blur-[80px] pointer-events-none -z-0"
+                aria-hidden="true"
+              />
+
               {effectsConfig.graphicDesignCardSwap && !prefersReducedMotion ? (
-                <div className="relative w-full max-w-[420px] h-[360px] sm:h-[400px] flex items-center justify-center">
+                <div className="relative w-full max-w-[420px] h-[360px] sm:h-[400px] flex items-center justify-center z-10">
                   <CardSwap
-                    width={360}
-                    height={300}
+                    width={380}
+                    height={290}
                     cardRadius={22}
                     visibleCards={4}
                     theme="dark"
                     autoplay={true}
                     pauseOnHover={true}
-                    delay={3200}
+                    delay={3500}
                     className="w-full h-full"
                   >
                     {PORTFOLIO_PROJECTS.slice(0, 5).map((proj) => (
                       <Card key={proj.title}>
-                        <div className="w-full h-full p-6 sm:p-7 flex flex-col justify-between bg-[#101b44] text-white rounded-[22px] border border-white/15 shadow-2xl select-none">
+                        <div className="w-full h-full p-6 sm:p-7 flex flex-col justify-between bg-[#0b1a52]/95 text-white rounded-[22px] border border-[#a5d8ff]/30 shadow-2xl backdrop-blur-md select-none">
                           <div className="space-y-3">
                             <div className="flex items-center justify-between">
                               <span
                                 className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
                                 style={{
-                                  color: proj.accent,
-                                  borderColor: `${proj.accent}40`,
-                                  backgroundColor: `${proj.accent}15`,
+                                  color: '#a5d8ff',
+                                  borderColor: 'rgba(165, 216, 255, 0.4)',
+                                  backgroundColor: 'rgba(165, 216, 255, 0.1)',
                                 }}
                               >
                                 {proj.category}
                               </span>
-                              <span className="text-[11px] font-mono text-white/50">{proj.tools}</span>
+                              <span className="text-[11px] font-mono text-[#a5d8ff]/70">{proj.tools}</span>
                             </div>
 
                             <h3 className="text-lg font-bold text-white font-heading leading-snug">
                               {proj.title}
                             </h3>
 
-                            <p className="text-xs text-white/70 leading-relaxed line-clamp-3">
+                            <p className="text-xs text-[#c3cbf2] leading-relaxed line-clamp-3">
                               {proj.description}
                             </p>
                           </div>
 
-                          <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-white/50">
-                            <span className="flex items-center gap-1.5">
-                              <Sparkle size={12} style={{ color: proj.accent }} />
-                              <span>Live Lab Project</span>
+                          <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#a5d8ff]/80">
+                            <span className="flex items-center gap-1.5 font-medium">
+                              <Sparkle size={12} className="text-[#a5d8ff]" />
+                              <span>Live Lab Deliverable</span>
                             </span>
-                            <span className="font-mono text-[11px] text-white/40">Portfolio Ready</span>
+                            <span className="font-mono text-[11px] text-white/50">Portfolio Ready</span>
                           </div>
                         </div>
                       </Card>
@@ -749,16 +701,77 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                 </div>
               ) : (
                 /* Fallback static showcase card for reduced motion */
-                <div className="w-full max-w-[420px] p-6 bg-[#101b44] rounded-[22px] border border-white/15 text-white space-y-4 shadow-xl">
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">
+                <div className="w-full max-w-[420px] p-6 bg-[#0b1a52]/95 border border-[#a5d8ff]/30 rounded-[22px] text-white space-y-4 shadow-xl z-10">
+                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#4a6df0]/20 text-[#a5d8ff] border border-[#4a6df0]/30">
                     Live Lab Deliverables
                   </span>
                   <h3 className="text-xl font-bold font-heading">Complete Agency-Ready Portfolio</h3>
-                  <p className="text-xs text-white/70 leading-relaxed">
+                  <p className="text-xs text-[#c3cbf2] leading-relaxed">
                     Build 14+ commercial design projects including brand identity guidelines, high-fashion magazine spreads, animated GIF banner ads, highway hoardings, and packaging mockups.
                   </p>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Glass Stats Bar (Matching Digital Marketing & Data Science) */}
+        <div className="max-w-content mx-auto px-4 sm:px-6 w-full relative z-10 pt-4 sm:pt-6">
+          <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.14] rounded-[22px] grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/10 text-center shadow-lg">
+            {/* 1. Months Training */}
+            <div className="p-4 sm:p-5">
+              <p className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
+                {effectsConfig.graphicDesignCountUp ? (
+                  <CountUp to={4} duration={1.2} />
+                ) : (
+                  '4'
+                )}
+              </p>
+              <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-1">
+                Months Training
+              </p>
+            </div>
+
+            {/* 2. Industry Tools */}
+            <div className="p-4 sm:p-5">
+              <p className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
+                {effectsConfig.graphicDesignCountUp ? (
+                  <CountUp to={5} duration={1.2} />
+                ) : (
+                  '5'
+                )}
+              </p>
+              <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-1">
+                Industry Tools
+              </p>
+            </div>
+
+            {/* 3. Portfolio Projects */}
+            <div className="p-4 sm:p-5">
+              <p className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
+                {effectsConfig.graphicDesignCountUp ? (
+                  <CountUp to={14} duration={1.4} />
+                ) : (
+                  '14+'
+                )}
+              </p>
+              <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-1">
+                Portfolio Projects
+              </p>
+            </div>
+
+            {/* 4. Mumbai Centers */}
+            <div className="p-4 sm:p-5">
+              <p className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
+                {effectsConfig.graphicDesignCountUp ? (
+                  <CountUp to={4} duration={1.2} />
+                ) : (
+                  '4'
+                )}
+              </p>
+              <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-1">
+                Mumbai Centers
+              </p>
             </div>
           </div>
         </div>
@@ -838,56 +851,64 @@ export default function GraphicDesignDetail({ course: propCourse }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {DESIGN_TOOLS_DATA.map((tool) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
+          {DESIGN_TOOLS_DATA.map((tool, idx) => {
             const Icon = tool.icon;
+            const gridClass =
+              idx < 3
+                ? 'lg:col-span-2'
+                : idx === 3
+                ? 'lg:col-span-2 lg:col-start-2 md:col-span-1'
+                : 'lg:col-span-2 md:col-span-2 md:max-w-md md:mx-auto w-full lg:max-w-none';
+
             return effectsConfig.graphicDesignSpotlight ? (
-              <SpotlightCard
-                key={tool.id}
-                theme="light"
-                spotlightColor={tool.accentBg}
-                className="p-6 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between transition-all hover:shadow-lg"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Icon className="w-10 h-10 shrink-0" />
-                    <span
-                      className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
-                      style={{
-                        color: tool.color,
-                        borderColor: `${tool.color}40`,
-                        backgroundColor: tool.accentBg,
-                      }}
-                    >
-                      {tool.badge}
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-deep font-heading">{tool.name}</h3>
-                    <p className="text-xs font-semibold text-muted mt-0.5">{tool.category}</p>
-                  </div>
-
-                  <p className="text-xs text-ink/80 leading-relaxed">{tool.focus}</p>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-line/60">
-                  <div className="flex flex-wrap gap-1.5">
-                    {tool.deliverables.map((deliv) => (
+              <div key={tool.id} className={gridClass}>
+                <SpotlightCard
+                  theme="light"
+                  spotlightColor={tool.accentBg}
+                  className="p-6 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between h-full transition-all hover:shadow-lg"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Icon className="w-10 h-10 shrink-0" />
                       <span
-                        key={deliv}
-                        className="text-[11px] px-2.5 py-0.5 rounded-full bg-soft/80 border border-line/50 text-deep font-medium"
+                        className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
+                        style={{
+                          color: tool.color,
+                          borderColor: `${tool.color}40`,
+                          backgroundColor: tool.accentBg,
+                        }}
                       >
-                        {deliv}
+                        {tool.badge}
                       </span>
-                    ))}
+                    </div>
+
+                    <div>
+                      <h3 className="text-xl font-bold text-deep font-heading">{tool.name}</h3>
+                      <p className="text-xs font-semibold text-muted mt-0.5">{tool.category}</p>
+                    </div>
+
+                    <p className="text-xs text-ink/80 leading-relaxed">{tool.focus}</p>
                   </div>
-                </div>
-              </SpotlightCard>
+
+                  <div className="pt-4 mt-4 border-t border-line/60">
+                    <div className="flex flex-wrap gap-1.5">
+                      {tool.deliverables.map((deliv) => (
+                        <span
+                          key={deliv}
+                          className="text-[11px] px-2.5 py-0.5 rounded-full bg-soft/80 border border-line/50 text-deep font-medium"
+                        >
+                          {deliv}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </SpotlightCard>
+              </div>
             ) : (
               <div
                 key={tool.id}
-                className="p-6 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between"
+                className={`${gridClass} p-6 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between`}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -942,8 +963,8 @@ export default function GraphicDesignDetail({ course: propCourse }) {
               <TrueFocus
                 sentence="BRAND IDENTITY • VECTOR ART • EDITORIAL SPREADS • PACKAGING • SOCIAL ADS"
                 separator="•"
-                borderColor="#ec4899"
-                glowColor="rgba(236, 72, 153, 0.4)"
+                borderColor="#3b82f6"
+                glowColor="rgba(59, 130, 246, 0.4)"
                 animationDuration={0.5}
                 pauseBetweenAnimations={1.6}
                 borderWidth={2}
@@ -1025,9 +1046,9 @@ export default function GraphicDesignDetail({ course: propCourse }) {
               <div key={proj.title} className="h-full">
                 {effectsConfig.graphicDesignTiltedCard ? (
                   <TiltedCard
-                    containerHeight="290px"
+                    containerHeight="320px"
                     containerWidth="100%"
-                    imageHeight="290px"
+                    imageHeight="320px"
                     imageWidth="100%"
                     rotateAmplitude={11}
                     scaleOnHover={1.02}
