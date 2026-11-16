@@ -6,7 +6,6 @@ import {
   ChevronDown,
   Award,
   CheckCircle2,
-  Calendar,
   Clock,
   Search,
   Share2,
@@ -17,7 +16,6 @@ import {
   Send,
   FileDown,
   ArrowRight,
-  ArrowLeft,
   ShieldCheck,
   Sparkles,
   X,
@@ -137,118 +135,6 @@ const DIGITAL_MARKETING_TOOLS = [
   },
 ];
 
-// 6-Month Campaign Progression & Learning Curve (Source: Brochure Page 4)
-const MONTHLY_TIMELINE = [
-  {
-    month: 1,
-    title: 'Search Engine Architecture & Keyword Foundations',
-    shortLabel: 'Month 1',
-    badge: 'Organic Search',
-    brochureModules: ['Module 1: Search Engine Optimization (SEO)', 'Module 6: Blogging'],
-    headline: 'Build search authority and earn unpaid Google page 1 real estate.',
-    description: 'Start with deep keyword intent mapping and technical on-page architecture. Learn how search engines crawl, index, and rank content to attract buyers actively searching for your offer.',
-    deliverables: [
-      'Conduct seed keyword clustering, intent classification, and competitor search gap analysis',
-      'Configure robots.txt, XML sitemaps, canonical tags, and Google Search Console property',
-      'Optimize page titles, meta descriptions, image alt tags, and internal topical link clusters',
-      'Audit on-page Core Web Vitals, eliminate crawl budget waste, and resolve 404 redirect chains',
-    ],
-    tools: ['Google Search Console', 'Yoast SEO', 'Semrush / Ahrefs', 'Screaming Frog'],
-    milestone: 'Target website indexed on Google with live search impression tracking.',
-    linkedModuleIndex: 0,
-  },
-  {
-    month: 2,
-    title: 'WordPress CMS, Web Presence & Content Publishing',
-    shortLabel: 'Month 2',
-    badge: 'Web & Content Engine',
-    brochureModules: ['Module 5: WordPress', 'Module 6: Blogging', 'Module 7: Content Marketing'],
-    headline: 'Build lightning-fast conversion landing pages and high-retention content hubs.',
-    description: 'Create fully custom responsive web pages on WordPress without writing backend code. Structure content editorial calendars, high-converting lead capture forms, and blog architectures that generate organic inbound leads.',
-    deliverables: [
-      'Install and configure WordPress themes, page builders, conversion plugins, and security layers',
-      'Design mobile-responsive service landing pages with clear above-the-fold value propositions',
-      'Structure an editorial pillar-and-cluster blog series with optimized search snippet layouts',
-      'Implement lead capture forms, CTA trigger bars, and automated lead notification routing',
-    ],
-    tools: ['WordPress CMS', 'Elementor', 'WooCommerce', 'Google Forms / WPForms'],
-    milestone: 'Production website launched with live landing page, blog engine, and lead capture.',
-    linkedModuleIndex: 4,
-  },
-  {
-    month: 3,
-    title: 'Social Media Marketing & Creative Funnel Strategy',
-    shortLabel: 'Month 3',
-    badge: 'Social & Creative',
-    brochureModules: ['Module 2: Social Media Marketing (SMM)', 'Module 7: Content Marketing'],
-    headline: 'Turn casual social browsers into qualified community leads and repeat customers.',
-    description: 'Master content distribution and organic brand building across Instagram, Facebook, LinkedIn, and YouTube. Learn audience psychographics, creative production workflows, and social engagement mechanics.',
-    deliverables: [
-      'Develop a 30-day multi-channel brand content calendar with video hooks and carousel scripts',
-      'Design scroll-stopping creative assets, ad banners, and story formats using Canva',
-      'Set up Meta Business Suite, configure brand assets, and automate community response flows',
-      'Analyze organic reach metrics, engagement ratios, and demographic retention trends',
-    ],
-    tools: ['Meta Business Suite', 'Instagram Creator Studio', 'Canva Pro', 'LinkedIn Pages'],
-    milestone: 'Complete organic social campaign executed across 3 platforms with measurable engagement.',
-    linkedModuleIndex: 1,
-  },
-  {
-    month: 4,
-    title: 'Paid Search Reach & Google Ads Performance Bidding',
-    shortLabel: 'Month 4',
-    badge: 'Paid Performance',
-    brochureModules: ['Module 3: Search Engine Marketing (SEM)', 'Module 4: Google Ads'],
-    headline: 'Drive instant, predictable customer acquisition with data-backed PPC funnels.',
-    description: 'Launch and optimize high-ROI Google Ads campaigns. Master Search, Display, and Video campaigns, keyword match types, negative keyword hygiene, Quality Score optimization, and conversion bidding.',
-    deliverables: [
-      'Structure Google Search campaigns with tightly themed ad groups and exact/phrase match queries',
-      'Write high-CTR responsive search ads with dynamic keyword insertion and rich callout assets',
-      'Configure conversion tracking tags for phone calls, form submits, and checkout actions',
-      'Calculate Customer Acquisition Cost (CAC), Return on Ad Spend (ROAS), and optimize bidding',
-    ],
-    tools: ['Google Ads Manager', 'Google Tag Manager', 'Keyword Planner', 'Ad Preview Tool'],
-    milestone: 'Live Google Ads campaign with tracked conversion goals and sub-5% target CPA.',
-    linkedModuleIndex: 3,
-  },
-  {
-    month: 5,
-    title: 'App Marketing, ORM & Multi-Channel Retention',
-    shortLabel: 'Month 5',
-    badge: 'Scale & Retention',
-    brochureModules: ['Module 8: App Marketing', 'Module 9: Online Reputation Management (ORM)'],
-    headline: 'Protect brand sentiment, dominate app stores, and retain customers via automation.',
-    description: 'Scale customer reach beyond web search. Implement App Store Optimization (ASO) for Google Play & iOS, manage public review sentiment across Google Business Profile, and automate WhatsApp & email workflows.',
-    deliverables: [
-      'Optimize App Store listing assets: app title, description keywords, icon, and preview screenshots',
-      'Establish review response playbooks, crisis mitigation protocols, and sentiment tracking',
-      'Build automated email welcome & lead nurture drip sequences using Mailchimp',
-      'Deploy WhatsApp Business quick replies, catalog displays, and broadcast campaign tags',
-    ],
-    tools: ['Google Play Console', 'Google Business Profile', 'Mailchimp', 'WhatsApp Business API'],
-    milestone: 'Reputation monitoring hub active with 100% positive sentiment workflow and automated nurture.',
-    linkedModuleIndex: 7,
-  },
-  {
-    month: 6,
-    title: 'In-Person Job Training, Client Agency Projects & Placement',
-    shortLabel: 'Month 6',
-    badge: 'Agency Training & Career',
-    brochureModules: ['Module 10: Marketing (Full Capstone & Placement Prep)'],
-    headline: 'Execute live client campaign audits at Mumbai centers and ace placement interviews.',
-    description: 'Work side-by-side with senior practitioners at our Mumbai centers on live brand accounts. Build an executive agency-ready campaign portfolio, master reporting presentations, and prepare for interviews.',
-    deliverables: [
-      'Audit real-world business accounts across SEO, paid ads, and social media with actionable fixes',
-      'Synthesize end-to-end multi-channel marketing proposals with projected spend and ROAS models',
-      'Compile a verified personal campaign portfolio demonstrating measurable traffic and lead gains',
-      'Undergo mock agency interviews, resume reviews, and placement drive preparation',
-    ],
-    tools: ['Google Analytics 4', 'Looker Studio / Data Studio', 'Agency Pitch Decks', 'Client Reporting Suite'],
-    milestone: 'ISO 9001:2015 Diploma credential awarded, completed portfolio, and placement drive access.',
-    linkedModuleIndex: 9,
-  },
-];
-
 // High-Intent Student FAQs (Brochure Source of Truth)
 const DIGITAL_MARKETING_FAQS = [
   {
@@ -280,8 +166,6 @@ export default function DigitalMarketingDetail({ course }) {
   // Controlled module accordion open indices
   const [openModuleIndices, setOpenModuleIndices] = useState([0]);
 
-  // 6-Month Campaign Timeline Active Month (0-5)
-  const [activeMonthIndex, setActiveMonthIndex] = useState(0);
 
   // Certificate Lightbox Modal State & Active Tab (0: Diploma, 1: Job Training, 2: Transcript)
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
@@ -966,223 +850,7 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 6. 6-MONTH CAMPAIGN TIMELINE (LEARNING CURVE BREAKDOWN) ─── */}
-      <section id="timeline" className="py-12 sm:py-20 bg-surface border-t border-line/70 scroll-mt-[88px] content-auto">
-        <div className="max-w-content mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft border border-line text-xs font-semibold text-primary">
-              <Calendar size={13} />
-              <span>6 Months + Job Training</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
-              The 6-month campaign learning curve.
-            </h2>
-            <p className="text-muted text-sm leading-relaxed">
-              Step through each month to see the live marketing assets, campaigns, and agency deliverables you will build.
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            {/* Month Tabs Navigation */}
-            <div className="flex items-center justify-between gap-1 sm:gap-2 p-1.5 bg-soft/60 border border-line/60 rounded-2xl mb-8 overflow-x-auto scrollbar-none">
-              {MONTHLY_TIMELINE.map((m, idx) => {
-                const isSelected = activeMonthIndex === idx;
-                return (
-                  <button
-                    key={m.month}
-                    type="button"
-                    onClick={() => setActiveMonthIndex(idx)}
-                    className={`relative flex-1 min-w-[90px] sm:min-w-[110px] py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer text-center ${
-                      isSelected
-                        ? 'text-white'
-                        : 'text-ink/75 hover:text-deep hover:bg-white/60'
-                    }`}
-                  >
-                    {isSelected && (
-                      <motion.div
-                        layoutId="activeMonthGlider"
-                        className="absolute inset-0 bg-primary rounded-xl shadow-md"
-                        transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
-                      />
-                    )}
-                    <span className="relative z-10 block">{m.shortLabel}</span>
-                    <span className={`relative z-10 block text-[10px] font-normal truncate mt-0.5 ${isSelected ? 'text-white/80' : 'text-muted'}`}>
-                      {m.badge}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Active Month Detail Card */}
-            <AnimatePresence mode="wait">
-              {(() => {
-                const currentMonth = MONTHLY_TIMELINE[activeMonthIndex];
-                return (
-                  <motion.div
-                    key={currentMonth.month}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.28, ease: 'easeOut' }}
-                    className="bg-white rounded-[24px] border border-line/80 shadow-card p-6 sm:p-8 space-y-6"
-                  >
-                    {/* Header: Badge, Month Number & Headline */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-line/60">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-primary px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20">
-                            Month {currentMonth.month} of 6
-                          </span>
-                          <span className="text-xs font-semibold text-muted">
-                            {currentMonth.badge}
-                          </span>
-                        </div>
-                        <h3 className="text-lg sm:text-xl font-bold text-deep font-heading">
-                          {currentMonth.title}
-                        </h3>
-                      </div>
-                      {/* Jump to Syllabus Button */}
-                      <button
-                        type="button"
-                        onClick={() => handleOpenModule(currentMonth.linkedModuleIndex)}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-soft text-primary hover:bg-primary hover:text-white transition-all text-xs font-bold border border-primary/20 shrink-0 cursor-pointer group"
-                      >
-                        <span>Inspect in syllabus</span>
-                        <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
-                      </button>
-                    </div>
-
-                    {/* Headline statement */}
-                    <p className="text-base sm:text-lg font-semibold text-deep leading-snug">
-                      "{currentMonth.headline}"
-                    </p>
-                    <p className="text-sm text-muted leading-relaxed">
-                      {currentMonth.description}
-                    </p>
-
-                    {/* Main Content Grid: Deliverables on Left, Modules & Tools on Right */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
-                      {/* Left: Deliverables Checklist (7 cols) */}
-                      <div className="lg:col-span-7 space-y-3">
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-muted">
-                          Key Campaign Deliverables
-                        </h4>
-                        <div className="space-y-2.5">
-                          {currentMonth.deliverables.map((item, dIdx) => (
-                            <div
-                              key={dIdx}
-                              className="flex items-start gap-2.5 p-3 rounded-xl bg-soft/40 border border-line/50 text-xs text-ink/90 leading-relaxed"
-                            >
-                              <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
-                              <span>{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Right: Modules, Tools & Milestone (5 cols) */}
-                      <div className="lg:col-span-5 space-y-4">
-                        {/* Brochure Modules Covered */}
-                        <div className="p-4 rounded-xl bg-surface border border-line/70 space-y-2">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-muted">
-                            Brochure Modules Covered
-                          </h4>
-                          <div className="space-y-1.5">
-                            {currentMonth.brochureModules.map((modName, mIdx) => (
-                              <div key={mIdx} className="text-xs font-bold text-deep flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                                <span>{modName}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Platforms Mastered */}
-                        <div className="p-4 rounded-xl bg-surface border border-line/70 space-y-2">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-muted">
-                            Platforms & Software
-                          </h4>
-                          <div className="flex flex-wrap gap-1.5">
-                            {currentMonth.tools.map((toolName, tIdx) => (
-                              <span
-                                key={tIdx}
-                                className="px-2.5 py-1 rounded-lg bg-white border border-line/80 text-[11px] font-semibold text-deep shadow-2xs"
-                              >
-                                {toolName}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Milestone Card */}
-                        <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-1.5">
-                          <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
-                            <Award size={14} />
-                            <span>Monthly Milestone</span>
-                          </div>
-                          <p className="text-xs text-deep font-medium leading-relaxed">
-                            {currentMonth.milestone}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom Navigation: Prev / Next Month Controls */}
-                    <div className="pt-4 border-t border-line/60 flex items-center justify-between">
-                      <button
-                        type="button"
-                        disabled={activeMonthIndex === 0}
-                        onClick={() => setActiveMonthIndex((prev) => Math.max(0, prev - 1))}
-                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                          activeMonthIndex === 0
-                            ? 'opacity-40 cursor-not-allowed text-muted'
-                            : 'text-deep hover:bg-soft hover:text-primary cursor-pointer'
-                        }`}
-                      >
-                        <ArrowLeft size={14} />
-                        <span>Previous Month</span>
-                      </button>
-
-                      <div className="flex items-center gap-1.5">
-                        {MONTHLY_TIMELINE.map((_, dotIdx) => (
-                          <button
-                            key={dotIdx}
-                            type="button"
-                            onClick={() => setActiveMonthIndex(dotIdx)}
-                            aria-label={`Jump to Month ${dotIdx + 1}`}
-                            className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                              dotIdx === activeMonthIndex
-                                ? 'bg-primary w-6'
-                                : 'bg-line hover:bg-muted/60'
-                            }`}
-                          />
-                        ))}
-                      </div>
-
-                      <button
-                        type="button"
-                        disabled={activeMonthIndex === MONTHLY_TIMELINE.length - 1}
-                        onClick={() => setActiveMonthIndex((prev) => Math.min(MONTHLY_TIMELINE.length - 1, prev + 1))}
-                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                          activeMonthIndex === MONTHLY_TIMELINE.length - 1
-                            ? 'opacity-40 cursor-not-allowed text-muted'
-                            : 'text-primary hover:bg-soft cursor-pointer'
-                        }`}
-                      >
-                        <span>Next Month</span>
-                        <ArrowRight size={14} />
-                      </button>
-                    </div>
-                  </motion.div>
-                );
-              })()}
-            </AnimatePresence>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 7. STUDENT STORIES (VERIFIED REVIEWS & STORIES) ─── */}
+      {/* ─── 6. STUDENT STORIES (VERIFIED REVIEWS & STORIES) ─── */}
       <section id="stories" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
@@ -1330,7 +998,7 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 8. FREQUENTLY ASKED QUESTIONS (SPOTLIGHTCARD - B8) ─── */}
+      {/* ─── 7. FREQUENTLY ASKED QUESTIONS (SPOTLIGHTCARD - B8) ─── */}
       <section id="faqs" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
@@ -1421,7 +1089,7 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 9. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
+      {/* ─── 8. RELATED COURSES (PIXELCARD CARDS - B7 FIX) ─── */}
       <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
@@ -1488,7 +1156,7 @@ export default function DigitalMarketingDetail({ course }) {
         </div>
       </section>
 
-      {/* ─── 11. CLOSING DEMO BANNER (LASERFLOW IN LAZYMOUNT + STARBORDER BUTTON) ─── */}
+      {/* ─── 9. CLOSING DEMO BANNER (LASERFLOW IN LAZYMOUNT + STARBORDER BUTTON) ─── */}
       <ClosingDemoBanner
         title="Try a free demo class."
         description="Experience our hands-on data labs, mentor guidance, and production curriculums in-person at any of our 4 Mumbai centers."
