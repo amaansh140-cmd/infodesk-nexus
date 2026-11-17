@@ -86,6 +86,8 @@ export const effectsConfig = {
   graphicDesignShinyText: !prefersReducedMotion,
   graphicDesignCountUp: !prefersReducedMotion,
   graphicDesignStarBorder: true,
+  graphicDesignLogoLoop: !prefersReducedMotion,
+  graphicDesignFolder: true,
 
   // About Page (/about)
   seminarsMasonry: true,

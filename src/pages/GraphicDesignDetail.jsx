@@ -6,13 +6,6 @@ import {
   ChevronDown,
   Award,
   CheckCircle2,
-  Search,
-  Share2,
-  Heart,
-  MessageCircle,
-  Bookmark,
-  Mail,
-  Send,
   FileDown,
   ArrowRight,
   ShieldCheck,
@@ -22,50 +15,43 @@ import {
   MapPin,
   Phone,
   Printer,
-  Palette,
-  Layers,
   PenTool,
-  Image as ImageIcon,
   BookOpen,
-  Layout,
-  Maximize2,
-  Sparkle,
+  Package,
+  Megaphone,
   Briefcase,
-  Monitor,
 } from 'lucide-react';
 
 // React Bits Components
 import Aurora from '../components/Aurora';
-import Noise from '../components/Noise';
 import ShinyText from '../components/ShinyText';
-import RotatingText from '../components/RotatingText';
-import ScrollFloat from '../components/ScrollFloat';
 import TrueFocus from '../components/TrueFocus';
-import ClickSpark from '../components/ClickSpark';
-import Magnet from '../components/Magnet';
-import DecryptedText from '../components/DecryptedText';
 import GlareHover from '../components/GlareHover';
-import CardSwap, { Card } from '../components/CardSwap';
+import Stack from '../components/Stack';
+import Counter from '../components/Counter';
 import CurvedLoop from '../components/CurvedLoop';
 import SpotlightCard from '../components/SpotlightCard';
-import TiltedCard from '../components/TiltedCard';
 import Folder from '../components/Folder';
+import LogoLoop from '../components/LogoLoop';
 import FlipCard from '../components/FlipCard';
-import StarBorder from '../components/StarBorder';
-import CountUp from '../components/CountUp';
 import LazyMount from '../components/common/LazyMount';
+
+// Roadmap Section
+import ScrollRoadmap from '../components/roadmap/ScrollRoadmap';
+
+// Shared Components matching Digital Marketing & Data Science
 import ModuleAccordion from '../components/ModuleAccordion';
 import CourseOverviewCard from '../components/CourseOverviewCard';
 import ClosingDemoBanner from '../components/ClosingDemoBanner';
-import Button from '../components/Button';
-import GoogleRatingBadge, { GoogleIcon, GoogleStars } from '../components/GoogleRatingBadge';
 
+// Data Source of Truth
 import { branches } from '../data/branches';
 import { courses } from '../data/courses';
 import { testimonials, GOOGLE_BUSINESS_INFO } from '../data/testimonials';
-import { effectsConfig, prefersReducedMotion, isSaveData, isTouchDevice } from '../config/effects';
+import GoogleRatingBadge, { GoogleIcon, GoogleStars } from '../components/GoogleRatingBadge';
+import { prefersReducedMotion, isTouchDevice, isSaveData, effectsConfig } from '../config/effects';
 
-// ─── OFFICIAL 5 DESIGN TOOLS BRAND LOGOS (VECTOR SVGS) ───
+// ─── OFFICIAL SOFTWARE LOGOS FOR LOGOLOOP ───
 export function PhotoshopLogo({ className = 'w-7 h-7' }) {
   return (
     <svg viewBox="0 0 48 48" className={className} aria-label="Adobe Photoshop">
@@ -134,133 +120,73 @@ export function CanvaLogo({ className = 'w-7 h-7' }) {
   );
 }
 
-// ─── 5 OFFICIAL DESIGN TOOLS WITH ACCENTS ───
-const DESIGN_TOOLS_DATA = [
-  {
-    id: 'photoshop',
-    name: 'Adobe Photoshop',
-    category: 'Raster Art & Manipulation',
-    badge: 'Industry Standard',
-    color: '#31A8FF',
-    accentBg: 'rgba(49, 168, 255, 0.08)',
-    borderHover: 'hover:border-[#31A8FF]/60',
-    icon: PhotoshopLogo,
-    focus: 'Photo retouching, image restoration, blending modes, color grading & animated GIF ads.',
-    deliverables: ['Skin Retouching', 'Double Exposure', 'GIF Ads', 'Product Mockups'],
-  },
-  {
-    id: 'illustrator',
-    name: 'Adobe Illustrator',
-    category: 'Vector Graphics & Branding',
-    badge: 'Precision Vector',
-    color: '#FF9A00',
-    accentBg: 'rgba(255, 154, 0, 0.08)',
-    borderHover: 'hover:border-[#FF9A00]/60',
-    icon: IllustratorLogo,
-    focus: 'Pen tool mastery, logo design, vector illustrations, typography, icon systems & brand guides.',
-    deliverables: ['Vector Logos', 'Mascot Art', 'Brand Guidelines', 'Scalable Icons'],
-  },
-  {
-    id: 'coreldraw',
-    name: 'CorelDRAW Suite',
-    category: 'Commercial Print & Signage',
-    badge: 'Print Production',
-    color: '#00A651',
-    accentBg: 'rgba(0, 166, 81, 0.08)',
-    borderHover: 'hover:border-[#00A651]/60',
-    icon: CorelDrawLogo,
-    focus: 'Commercial visiting cards, hoardings, newspaper layouts, wedding cards & packaging boxes.',
-    deliverables: ['Visiting Cards', 'Hoardings & Banners', 'Brochures', 'CMYK Pre-Press'],
-  },
-  {
-    id: 'indesign',
-    name: 'Adobe InDesign',
-    category: 'Multi-Page Publication',
-    badge: 'Editorial Layout',
-    color: '#FF3366',
-    accentBg: 'rgba(255, 51, 102, 0.08)',
-    borderHover: 'hover:border-[#FF3366]/60',
-    icon: InDesignLogo,
-    focus: 'Master pages, multi-column grids, book typography, magazine spreads & print-ready press PDFs.',
-    deliverables: ['Magazine Layouts', 'Annual Reports', 'Catalogs', 'E-Books'],
-  },
-  {
-    id: 'canva',
-    name: 'Canva Pro',
-    category: 'Rapid Social & AI Design',
-    badge: 'Speed & Workflow',
-    color: '#00C4CC',
-    accentBg: 'rgba(0, 196, 204, 0.08)',
-    borderHover: 'hover:border-[#00C4CC]/60',
-    icon: CanvaLogo,
-    focus: 'Commercial social media templates, Magic Studio AI tools, fast client mockups & brand kits.',
-    deliverables: ['Social Kits', 'Event Posters', 'Quick Pitch Decks', 'Carousel Posts'],
-  },
-];
+export function GenerativeAILogo({ className = 'w-7 h-7' }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-label="Generative AI Design">
+      <rect width="48" height="48" rx="10" fill="#1e1b4b" />
+      <path
+        d="M24 10L26.5 19.5L36 22L26.5 24.5L24 34L21.5 24.5L12 22L21.5 19.5L24 10Z"
+        fill="#818cf8"
+      />
+      <circle cx="34" cy="14" r="2.5" fill="#c084fc" />
+    </svg>
+  );
+}
 
-// ─── 4 COMMERCIAL DESIGN DISCIPLINES (BROCHURE PAGE 14) ───
-const DESIGN_PILLARS = [
-  {
-    id: 'branding',
-    title: 'Brand Identity & Corporate Design',
-    subtitle: 'From conceptual sketches to executive brand guidelines.',
-    icon: Palette,
-    accent: '#ec4899', // Magenta
-    bgGlow: 'from-pink-500/10 to-transparent',
-    topics: [
-      'Memorable logo design & icon mark creation',
-      'Corporate stationery: Visiting cards, letterheads & envelopes',
-      'Typography pairing rules & optical spacing',
-      'Color psychology, Pantone swatches & brand style guides',
-    ],
-  },
-  {
-    id: 'print',
-    title: 'Commercial Print & Editorial Layout',
-    subtitle: 'Multi-page editorial spreads, magazines, books and newspapers.',
-    icon: BookOpen,
-    accent: '#3b82f6', // Electric Blue
-    bgGlow: 'from-blue-500/10 to-transparent',
-    topics: [
-      'Multi-fold brochures, flyers & promotional pamphlets',
-      'High-fashion magazine covers & catalog layouts',
-      'Newspaper column grids, leading & paragraph styles',
-      'Bleed, slug, trim marks & CMYK color separation',
-    ],
-  },
-  {
-    id: 'outdoor',
-    title: 'Outdoor Advertising & Large-Format Signage',
-    subtitle: 'High-impact hoardings, billboards, and retail displays.',
-    icon: Maximize2,
-    accent: '#f59e0b', // Amber
-    bgGlow: 'from-amber-500/10 to-transparent',
-    topics: [
-      'Highway hoardings & building wrap vector graphics',
-      'Retail storefront banners & window display graphics',
-      'Exhibition backdrops, roll-up standees & kiosk signage',
-      'Resolution calculation (DPI/PPI) for giant print scales',
-    ],
-  },
-  {
-    id: 'digital',
-    title: 'Digital Marketing & Social Media Creatives',
-    subtitle: 'High-converting ad graphics, GIF banners & carousels.',
-    icon: Sparkles,
-    accent: '#8b5cf6', // Violet
-    bgGlow: 'from-purple-500/10 to-transparent',
-    topics: [
-      'High-CTR Instagram & Facebook sponsored ad creatives',
-      'Multi-slide educational carousels with visual hooks',
-      'Animated GIF web banners created on Photoshop timeline',
-      'YouTube thumbnail architecture that drives click-throughs',
-    ],
-  },
-];
+export function PrePressLogo({ className = 'w-7 h-7' }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-label="CMYK Pre-Press">
+      <rect width="48" height="48" rx="10" fill="#0f172a" />
+      <circle cx="18" cy="18" r="7" fill="#00a8e8" opacity="0.85" />
+      <circle cx="30" cy="18" r="7" fill="#e8006f" opacity="0.85" />
+      <circle cx="24" cy="29" r="7" fill="#ffd100" opacity="0.85" />
+    </svg>
+  );
+}
 
-// ─── 4 BROCHURE MODULES (SOURCE: BROCHURE PAGE 14) ───
+export function PantoneLogo({ className = 'w-7 h-7' }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-label="Pantone Color Matching">
+      <rect width="48" height="48" rx="10" fill="#ffffff" stroke="#e2e8f0" strokeWidth="2" />
+      <rect x="4" y="4" width="40" height="26" rx="6" fill="#f43f5e" />
+      <text x="8" y="39" fill="#0f172a" fontFamily="system-ui, sans-serif" fontWeight="800" fontSize="7">
+        PANTONE
+      </text>
+    </svg>
+  );
+}
+
+export function BehanceLogo({ className = 'w-7 h-7' }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-label="Behance Portfolio">
+      <rect width="48" height="48" rx="10" fill="#0057ff" />
+      <text x="12" y="32" fill="#ffffff" fontFamily="system-ui, sans-serif" fontWeight="800" fontSize="22">
+        Bē
+      </text>
+    </svg>
+  );
+}
+
+export function DribbbleLogo({ className = 'w-7 h-7' }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-label="Dribbble Showcase">
+      <rect width="48" height="48" rx="10" fill="#ea4c89" />
+      <circle cx="24" cy="24" r="14" fill="none" stroke="#ffffff" strokeWidth="2.5" />
+      <path
+        d="M11 20C16 23 23 23 37 18M15 33C20 28 26 26 36 29M24 10C27 15 29 23 27 38"
+        stroke="#ffffff"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
+// ─── 4 OFFICIAL MODULES (BROCHURE PAGE 14) ───
 const GRAPHIC_DESIGN_MODULES = [
   {
+    number: 1,
     name: 'Module 1: CorelDRAW & Commercial Vector Art',
     topics: [
       'Interface navigation, shapes, bezier curve drawing & artistic media tools',
@@ -271,6 +197,7 @@ const GRAPHIC_DESIGN_MODULES = [
     ],
   },
   {
+    number: 2,
     name: 'Module 2: Adobe Photoshop & Digital Image Manipulation',
     topics: [
       'Workspace navigation, layers, layer masks, adjustment layers & blending modes',
@@ -281,6 +208,7 @@ const GRAPHIC_DESIGN_MODULES = [
     ],
   },
   {
+    number: 3,
     name: 'Module 3: Adobe Illustrator & InDesign Publication Design',
     topics: [
       'Pen tool precision, vector geometry, pathfinder, appearance panels & gradient mesh',
@@ -291,6 +219,7 @@ const GRAPHIC_DESIGN_MODULES = [
     ],
   },
   {
+    number: 4,
     name: 'Module 4: Canva Pro, AI Design & Commercial Portfolio Capstone',
     topics: [
       'Canva Pro workflow: Rapid social media design, brand kits & commercial templates',
@@ -302,76 +231,9 @@ const GRAPHIC_DESIGN_MODULES = [
   },
 ];
 
-// ─── REAL STUDENT DESIGN PORTFOLIO SHOWCASE ───
-const PORTFOLIO_PROJECTS = [
-  {
-    title: 'Aura Botanics Luxury Identity',
-    category: 'Brand Identity',
-    tools: 'Illustrator & CorelDRAW',
-    accent: '#10b981',
-    description: 'Complete brand guidelines featuring vector icon mark, Pantone color system, luxury business cards with gold foil accent, and branded letterheads.',
-  },
-  {
-    title: 'Vogue Haute Couture Magazine Spread',
-    category: 'Editorial Layout',
-    tools: 'Photoshop & InDesign',
-    accent: '#ec4899',
-    description: 'Multi-page editorial layout with custom 12-column grid, retouched portrait cover, sophisticated drop-cap typography, and CMYK pre-press export.',
-  },
-  {
-    title: 'Artisan Coffee Roasters Retail Packaging',
-    category: 'Product & Packaging',
-    tools: 'Illustrator & Photoshop',
-    accent: '#f59e0b',
-    description: 'Full 3D retail box packaging with accurate die-cut fold lines, nutritional label typography, spot UV varnish layer, and matte finish rendering.',
-  },
-  {
-    title: 'Nike Velocity Animated Banner Campaign',
-    category: 'Digital Ads & GIF',
-    tools: 'Photoshop Timeline',
-    accent: '#3b82f6',
-    description: 'Suite of standard IAB animated display ads (300x250, 728x90, 160x600) built on Photoshop timeline with motion-blur transitions and dynamic CTA buttons.',
-  },
-  {
-    title: 'Metro Grand Expressway Hoarding',
-    category: 'Outdoor Advertising',
-    tools: 'CorelDRAW Suite',
-    accent: '#8b5cf6',
-    description: '40ft x 20ft highway billboard vector artwork engineered with high-impact typography, bleed margins, and ultra-high-resolution print readiness.',
-  },
-  {
-    title: 'FitPulse 30-Day Social Launch Kit',
-    category: 'Social Media & Canva',
-    tools: 'Canva Pro & Illustrator',
-    accent: '#06b6d4',
-    description: 'Comprehensive 15-post Instagram launch kit with seamless carousel panoramas, story highlight icons, promotional event posters, and brand kit.',
-  },
-];
+const TOTAL_GRAPHIC_DESIGN_TOPICS = 20;
 
-// ─── FAQ DATA ───
-const GRAPHIC_DESIGN_FAQS = [
-  {
-    q: 'Do I need drawing or sketching skills to learn graphic design?',
-    a: 'No prior drawing or fine-art sketching experience is required. Professional graphic design focuses on visual communication, layout hierarchy, typography, and mastering industry software tools (Photoshop, Illustrator, CorelDRAW, InDesign, Canva). Our mentors guide you from zero.',
-  },
-  {
-    q: 'What career opportunities are available after completing this 4-month course?',
-    a: 'Graduates enter roles such as Graphic Designer, Brand Identity Designer, DTP (Desktop Publishing) Operator, Social Media Creative Designer, Packaging Designer, and Freelance Visualizer with agencies, e-commerce brands, print presses, and digital studios across Mumbai.',
-  },
-  {
-    q: 'Will I learn both print design (CMYK) and digital screen design (RGB)?',
-    a: 'Yes, absolutely. The curriculum gives equal rigor to commercial print (CorelDRAW and InDesign for visiting cards, brochures, magazines, bleed margins, spot UV, and CMYK color separation) and digital screen design (Photoshop and Illustrator for social media ads, animated GIFs, and web graphics).',
-  },
-  {
-    q: 'Do you assist with building a design portfolio and job placements?',
-    a: 'Yes! Throughout the 4 months, you will create 14+ commercial design projects. In Module 4, you will assemble an industry-ready portfolio on Behance and Dribbble. Infodesk provides 100% placement assistance and mock interview preparation at our Mumbai centers.',
-  },
-  {
-    q: 'Can I practice in the computer lab outside of lecture hours?',
-    a: 'Yes. All 4 Mumbai branches (Goregaon West, Jogeshwari West, Behram Baug, Motilal Nagar) offer dedicated practice computer lab hours before and after your scheduled class timings at no additional charge.',
-  },
-];
-
+// ─── CHANNEL STRIP MARQUEE ITEMS ───
 const DESIGN_MARQUEE_ITEMS = [
   'Photoshop',
   'Illustrator',
@@ -387,23 +249,68 @@ const DESIGN_MARQUEE_ITEMS = [
   'Typography',
 ];
 
+// ─── SOFTWARE LOGOLOOP ITEMS ───
+const GRAPHIC_DESIGN_TOOLS = [
+  { name: 'Adobe Photoshop', icon: <PhotoshopLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'Adobe Illustrator', icon: <IllustratorLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'CorelDRAW Suite', icon: <CorelDrawLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'Adobe InDesign', icon: <InDesignLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'Canva Pro', icon: <CanvaLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'Generative AI Design', icon: <GenerativeAILogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'Pre-Press & CMYK', icon: <PrePressLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'Pantone Matching', icon: <PantoneLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'Behance Portfolio', icon: <BehanceLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+  { name: 'Dribbble Showcase', icon: <DribbbleLogo className="w-9 h-9 sm:w-10 sm:h-10" /> },
+];
+
+// ─── FREQUENTLY ASKED QUESTIONS ───
+const GRAPHIC_DESIGN_FAQS = [
+  {
+    q: 'Do I need drawing skills or an art background to learn Graphic Design?',
+    a: 'No prior sketching or drawing skills are required. The course starts from foundational design principles, color theory, and typography, teaching you industry tools like CorelDRAW, Illustrator, Photoshop, and InDesign step-by-step with practical lab assignments.',
+  },
+  {
+    q: 'Which software suites are taught in this 4-month program?',
+    a: 'You will master 5 industry-standard tools: Adobe Photoshop (raster editing & manipulation), Adobe Illustrator (vector illustration & logos), CorelDRAW (commercial print & hoardings), Adobe InDesign (multi-page publication layout), and Canva Pro with Generative AI tools.',
+  },
+  {
+    q: 'How does in-person practical lab training work across Mumbai centers?',
+    a: 'Classes are conducted 100% practically in modern computer labs at our 4 Mumbai centers (Goregaon West, Behram Baug, Jogeshwari West, and Motilal Nagar). Each student works on an individual workstation with mentor guidance on every project.',
+  },
+  {
+    q: 'Will I build a design portfolio for job interviews and freelancing?',
+    a: 'Yes. By graduation, you will build 14+ portfolio pieces—including luxury brand guidelines, vector logos, 16-page editorial magazine spreads, commercial packaging die-lines, highway hoardings, and animated GIF display ads—ready for agency interviews and freelance clients.',
+  },
+  {
+    q: 'Are weekend or flexible batch timings available for working professionals?',
+    a: 'Yes. We offer morning, afternoon, evening, and dedicated Sunday weekend batches. Additionally, all enrolled students receive extra practice lab hours with dedicated mentor support to ensure complete schedule flexibility.',
+  },
+];
+
 export default function GraphicDesignDetail({ course: propCourse }) {
   const navigate = useNavigate();
 
-  // Find course data from courses.js or use props
+  // Resolve course data safely
   const course = useMemo(() => {
-    return propCourse || courses.find((c) => c.slug === 'graphic-design') || {
-      title: 'Graphic Design',
-      category: 'Design and video',
-      duration: '4 months',
-      level: 'Short course',
-      summary: 'Professional design for branding, print, and social media using Corel Draw, Illustrator, Photoshop, InDesign, and Canva.',
-    };
+    if (propCourse) return propCourse;
+    const found = courses.find((c) => c.slug === 'graphic-design');
+    return (
+      found || {
+        slug: 'graphic-design',
+        title: 'Graphic Design',
+        category: 'Design and video',
+        duration: '4 months',
+        level: 'Short course',
+        summary:
+          'Professional design for branding, print, and social media using Corel Draw, Illustrator, Photoshop, InDesign, and Canva Pro.',
+        tools: ['Photoshop', 'Illustrator', 'Corel Draw', 'InDesign', 'Canva Pro'],
+      }
+    );
   }, [propCourse]);
 
-  // Related courses (Web Design and ADDM)
+  // Related courses (Digital Marketing and ADDM per prompt)
   const relatedCourses = useMemo(() => {
-    return courses.filter((c) => ['web-design', 'addm'].includes(c.slug));
+    return courses.filter((c) => ['digital-marketing', 'addm'].includes(c.slug));
   }, []);
 
   // Controlled module accordion open indices
@@ -418,75 +325,289 @@ export default function GraphicDesignDetail({ course: propCourse }) {
 
   // Accessible Escape listener and body scroll lock for certificate modal
   useEffect(() => {
+    if (!isCertModalOpen) return;
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isCertModalOpen) {
-        setIsCertModalOpen(false);
-      }
+      if (e.key === 'Escape') setIsCertModalOpen(false);
     };
-    if (isCertModalOpen) {
-      document.body.style.overflow = 'hidden';
-      window.addEventListener('keydown', handleKeyDown);
-    } else {
-      document.body.style.overflow = '';
-    }
+    window.addEventListener('keydown', handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
     };
   }, [isCertModalOpen]);
 
-  // Module toggle handler
-  const handleModuleToggle = (idx) => {
+  const handleModuleToggle = (index) => {
     setOpenModuleIndices((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
 
-  // Certificate items for React Bits Folder
+  const handleOpenModule = (targetIndex) => {
+    setOpenModuleIndices((prev) =>
+      prev.includes(targetIndex) ? prev : [...prev, targetIndex]
+    );
+    const syllabusEl = document.getElementById('syllabus');
+    if (syllabusEl) {
+      syllabusEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // Certificate Folder items
   const certificateFolderItems = useMemo(
     () => [
       {
-        id: 'cert-1',
-        title: 'ISO 9001:2015 Diploma',
-        desc: 'Govt. Recognized Certification',
-        color: '#13266f',
-        onClick: () => {
-          setActiveCertTab(0);
-          setIsCertModalOpen(true);
-        },
+        title: 'Course Diploma',
+        description: 'Govt. Recognized · ISO 9001:2015',
       },
       {
-        id: 'cert-2',
-        title: 'Practical Lab Credentials',
-        desc: 'Verified Project Training',
-        color: '#4a6df0',
-        onClick: () => {
-          setActiveCertTab(1);
-          setIsCertModalOpen(true);
-        },
+        title: 'Studio Training Letter',
+        description: '14+ live commercial portfolio deliverables',
       },
       {
-        id: 'cert-3',
-        title: 'Behance Portfolio Scorecard',
-        desc: '14+ Commercial Projects',
-        color: '#2448c9',
-        onClick: () => {
-          setActiveCertTab(2);
-          setIsCertModalOpen(true);
-        },
+        title: 'Module Transcript',
+        description: '4 modules · 5 software suites verified',
       },
     ],
     []
   );
 
+  const handleFolderItemClick = (item, index) => {
+    setActiveCertTab(index);
+    setIsCertModalOpen(true);
+  };
+
+  // ─── 4 ROADMAP STATIONS (MATCHING SCROLLROADMAP ARCHITECTURE) ───
+  const roadmapStations = useMemo(() => {
+    return [
+      {
+        id: 'roadmap-station-1',
+        number: 1,
+        title: 'CorelDRAW',
+        description: 'Commercial vector art, hoardings, visiting cards & pre-press color separation.',
+        chips: ['Interface & Shapes', 'Visiting Cards & Stationery', 'Hoardings & Banners'],
+        moreCount: 2,
+        onMore: () => handleOpenModule(0),
+      },
+      {
+        id: 'roadmap-station-2',
+        number: 2,
+        title: 'Photoshop',
+        description: 'High-end portrait photo retouching, surreal manipulation & animated GIF ads.',
+        chips: ['Layers, Masks & Modes', 'Portrait Retouching', 'Animated GIF Ads'],
+        moreCount: 2,
+        onMore: () => handleOpenModule(1),
+      },
+      {
+        id: 'roadmap-station-3',
+        number: 3,
+        title: 'Illustrator & InDesign',
+        description: 'Precision vector branding, icon systems & multi-page publication editorial.',
+        chips: ['Pen Tool Mastery', 'Scalable Brand Marks', 'Editorial Layouts'],
+        moreCount: 2,
+        onMore: () => handleOpenModule(2),
+      },
+      {
+        id: 'roadmap-station-4',
+        number: 4,
+        title: 'Canva Pro & AI',
+        description: 'Rapid social media design, Generative AI Magic Studio & 14+ portfolio capstones.',
+        chips: ['Canva Brand Kits', 'Generative AI Tools', '14+ Portfolio Capstones'],
+        moreCount: 2,
+        onMore: () => handleOpenModule(3),
+      },
+    ];
+  }, []);
+
+  const finishStation = useMemo(
+    () => ({
+      title: 'Commercial Portfolio & Placement',
+      ctaLabel: 'Book a free demo',
+      onCta: () => {
+        navigate('/contact');
+      },
+    }),
+    [navigate]
+  );
+
+  // ─── 4 HERO DECK CARDS FOR STACK COMPONENT (IDENTICAL TO DIGITAL MARKETING) ───
+  const heroCards = [
+    // Card (a): Brand Identity & Vector Art
+    <div
+      key="brand-card"
+      className="w-full h-full p-6 rounded-[22px] bg-[#0c1a4b]/90 backdrop-blur-xl border border-[#a5d8ff]/30 text-white flex flex-col justify-between shadow-2xl select-none"
+    >
+      <div className="space-y-3">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div className="flex items-center gap-2 text-xs font-mono text-[#a5d8ff]">
+            <PenTool size={14} className="text-[#4a6df0]" />
+            <span className="truncate max-w-[200px]">aura-botanics-identity.ai</span>
+          </div>
+          <span className="text-[10px] font-semibold text-[#a5d8ff] bg-white/10 px-2 py-0.5 rounded-full border border-white/15">
+            Live Lab Project
+          </span>
+        </div>
+        <p className="text-[11px] text-[#a5d8ff]/80 truncate">
+          Infodesk Lab › Brand Identity &amp; Logo System
+        </p>
+        <h4 className="text-base sm:text-lg font-bold text-white leading-snug font-heading">
+          Aura Botanics Luxury Identity &amp; Stationery Suite
+        </h4>
+        <p className="text-xs text-[#c3cbf2] leading-relaxed">
+          Crafting{' '}
+          <mark className="bg-[#4a6df0]/30 text-[#a5d8ff] font-semibold px-1 rounded">
+            scalable vector marks, typography &amp; visiting cards
+          </mark>{' '}
+          with precision bezier curves in Illustrator &amp; CorelDRAW.
+        </p>
+        <div className="w-full h-16 rounded-xl bg-gradient-to-r from-[#13266f] via-[#2448c9]/40 to-[#0c1a4b] border border-white/10 flex items-center justify-around px-4">
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded-full bg-[#13266f] border border-white/30" />
+            <div className="w-5 h-5 rounded-full bg-[#2448c9] border border-white/30" />
+            <div className="w-5 h-5 rounded-full bg-[#4a6df0] border border-white/30" />
+            <div className="w-5 h-5 rounded-full bg-[#a5d8ff] border border-white/30" />
+          </div>
+          <span className="text-[11px] font-mono text-[#a5d8ff]">CMYK Palette</span>
+        </div>
+      </div>
+      <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-[#a5d8ff]">
+        <span>Complete Vector Brand Suite</span>
+        <span className="text-emerald-400 font-medium">Portfolio Ready</span>
+      </div>
+    </div>,
+
+    // Card (b): Editorial Magazine Spread
+    <div
+      key="editorial-card"
+      className="w-full h-full p-6 rounded-[22px] bg-[#0c1a4b]/90 backdrop-blur-xl border border-[#a5d8ff]/30 text-white flex flex-col justify-between shadow-2xl select-none"
+    >
+      <div className="space-y-3">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div className="flex items-center gap-2 text-xs font-mono text-[#a5d8ff]">
+            <BookOpen size={14} className="text-[#4a6df0]" />
+            <span className="truncate max-w-[200px]">fashion-magazine-spread.indd</span>
+          </div>
+          <span className="text-[10px] font-semibold text-[#a5d8ff] bg-white/10 px-2 py-0.5 rounded-full border border-white/15">
+            Live Lab Project
+          </span>
+        </div>
+        <p className="text-[11px] text-[#a5d8ff]/80 truncate">
+          Infodesk Lab › Editorial &amp; Publication Design
+        </p>
+        <h4 className="text-base sm:text-lg font-bold text-white leading-snug font-heading">
+          16-Page High-Fashion Magazine Editorial Feature
+        </h4>
+        <p className="text-xs text-[#c3cbf2] leading-relaxed">
+          Mastering{' '}
+          <mark className="bg-[#4a6df0]/30 text-[#a5d8ff] font-semibold px-1 rounded">
+            parent-child page grids, baseline typography &amp; image wraps
+          </mark>{' '}
+          for commercial high-resolution publication in InDesign.
+        </p>
+        <div className="w-full h-16 rounded-xl bg-gradient-to-r from-[#0c1a4b] via-[#13266f] to-[#2448c9]/40 border border-white/10 flex items-center justify-between px-4">
+          <div className="space-y-1">
+            <div className="w-20 h-2 bg-white/20 rounded" />
+            <div className="w-14 h-2 bg-white/10 rounded" />
+          </div>
+          <span className="text-[10px] font-mono px-2 py-1 rounded bg-white/10 text-[#a5d8ff]">
+            Bleed 3mm · Slug 5mm
+          </span>
+        </div>
+      </div>
+      <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-[#a5d8ff]">
+        <span>InDesign Master Pages</span>
+        <span className="text-emerald-400 font-medium">Pre-Press Verified</span>
+      </div>
+    </div>,
+
+    // Card (c): Commercial Packaging & Die-Lines
+    <div
+      key="packaging-card"
+      className="w-full h-full p-6 rounded-[22px] bg-[#0c1a4b]/90 backdrop-blur-xl border border-[#a5d8ff]/30 text-white flex flex-col justify-between shadow-2xl select-none"
+    >
+      <div className="space-y-3">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div className="flex items-center gap-2 text-xs font-mono text-[#a5d8ff]">
+            <Package size={14} className="text-[#4a6df0]" />
+            <span className="truncate max-w-[200px]">coffee-retail-packaging.ai</span>
+          </div>
+          <span className="text-[10px] font-semibold text-[#a5d8ff] bg-white/10 px-2 py-0.5 rounded-full border border-white/15">
+            Live Lab Project
+          </span>
+        </div>
+        <p className="text-[11px] text-[#a5d8ff]/80 truncate">
+          Infodesk Lab › Product &amp; Packaging Design
+        </p>
+        <h4 className="text-base sm:text-lg font-bold text-white leading-snug font-heading">
+          Artisan Coffee Roasters Retail FMCG Box Packaging
+        </h4>
+        <p className="text-xs text-[#c3cbf2] leading-relaxed">
+          Designing{' '}
+          <mark className="bg-[#4a6df0]/30 text-[#a5d8ff] font-semibold px-1 rounded">
+            accurate die-cut fold lines, nutritional typography &amp; spot UV
+          </mark>{' '}
+          varnish separations ready for automated press manufacturing.
+        </p>
+        <div className="flex gap-2 pt-1 text-[11px] text-[#a5d8ff]">
+          <span className="px-2.5 py-1 rounded bg-white/10 border border-white/10">3D Box Fold</span>
+          <span className="px-2.5 py-1 rounded bg-white/10 border border-white/10">Spot UV Layer</span>
+        </div>
+      </div>
+      <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-[#a5d8ff]">
+        <span>Full Die-Cut Precision</span>
+        <span className="text-emerald-400 font-medium">CMYK Press PDF</span>
+      </div>
+    </div>,
+
+    // Card (d): Billboard & Animated Ads
+    <div
+      key="billboard-card"
+      className="w-full h-full p-6 rounded-[22px] bg-[#0c1a4b]/90 backdrop-blur-xl border border-[#a5d8ff]/30 text-white flex flex-col justify-between shadow-2xl select-none"
+    >
+      <div className="space-y-3">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div className="flex items-center gap-2 text-xs text-[#a5d8ff]">
+            <Megaphone size={14} className="text-[#4a6df0]" />
+            <span className="font-mono truncate">neon-energy-hoarding.cdr</span>
+          </div>
+          <span className="text-[10px] font-semibold text-[#a5d8ff] bg-white/10 px-2 py-0.5 rounded-full border border-white/15">
+            Live Lab Project
+          </span>
+        </div>
+        <p className="text-[11px] text-[#a5d8ff]/80 truncate">
+          Infodesk Lab › Large-Format Print &amp; Animated Ads
+        </p>
+        <h4 className="text-base sm:text-lg font-bold text-white leading-snug font-heading">
+          Highway Billboard Hoarding &amp; Animated Display Ads
+        </h4>
+        <p className="text-xs text-[#c3cbf2] leading-relaxed">
+          Creating{' '}
+          <mark className="bg-[#4a6df0]/30 text-[#a5d8ff] font-semibold px-1 rounded">
+            40x20 ft vector hoardings
+          </mark>{' '}
+          and multi-frame animated GIF social banner ads in Photoshop Timeline.
+        </p>
+        <div className="flex gap-2 pt-1 text-[11px] text-[#a5d8ff]">
+          <span className="px-2.5 py-1 rounded bg-white/10 border border-white/10">Timeline GIF</span>
+          <span className="px-2.5 py-1 rounded bg-white/10 border border-white/10">Large Format</span>
+        </div>
+      </div>
+      <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-[#a5d8ff]">
+        <span>Outdoor Advertising &amp; Web</span>
+        <span className="text-emerald-400 font-medium">Agency Ready</span>
+      </div>
+    </div>,
+  ];
+
   return (
-    <div className="relative w-full bg-[#f6f5f1] text-ink overflow-x-clip selection:bg-primary/20 selection:text-deep">
-      {/* ─── 1. HERO SECTION (SAME DEEP-BLUE THEME AS DIGITAL MARKETING & DATA SCIENCE) ─── */}
+    <div className="min-h-screen bg-background text-ink overflow-x-hidden">
+      {/* ─── 1. HERO SECTION (IDENTICAL TO DIGITAL MARKETING & DATA SCIENCE) ─── */}
       <section
         id="overview"
         className="relative bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white min-h-[82vh] flex flex-col justify-between pt-14 pb-10 overflow-hidden"
       >
-        {/* React Bits Aurora Ambient Shader Background (Deep Blue & Ice Blue Palette) */}
+        {/* Background Aurora WebGL Canvas mounted through LazyMount */}
         {effectsConfig.graphicDesignAurora && !prefersReducedMotion && !isSaveData && !isTouchDevice ? (
           <LazyMount
             isCanvasOrWebGL={true}
@@ -505,45 +626,28 @@ export default function GraphicDesignDetail({ course: propCourse }) {
           <div className="absolute inset-0 bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] pointer-events-none" />
         )}
 
-        {/* Left-to-right contrast protection overlay */}
+        {/* Left-to-right contrast gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#071138]/95 via-[#0b1a52]/75 to-transparent pointer-events-none" />
-
-        {/* Faint CSS Grid Line Pattern */}
-        <div
-          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px] opacity-40 pointer-events-none"
-          aria-hidden="true"
-        />
-
-        {/* Subtle Noise Texture */}
-        {effectsConfig.graphicDesignNoise && (
-          <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay z-0">
-            <Noise patternSize={250} patternScaleType="repeat" patternAlpha={10} />
-          </div>
-        )}
 
         {/* Main Hero Container */}
         <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10 w-full my-auto py-6 sm:py-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: ~58% (7 cols on lg) */}
-            <div className="lg:col-span-7 space-y-5 text-left">
+            <div className="lg:col-span-7 space-y-6 text-left">
               {/* Breadcrumb Navigation */}
-              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-[14px] text-[#a5d8ff] flex-wrap">
-                <Link to="/" className="hover:text-white transition-colors">
-                  Home
-                </Link>
-                <ChevronRight size={13} />
-                <Link to="/courses" className="hover:text-white transition-colors">
-                  Courses
-                </Link>
-                <ChevronRight size={13} />
-                <Link to="/courses?category=Design+and+video" className="hover:text-white transition-colors">
+              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#a5d8ff] flex-wrap">
+                <Link to="/" className="hover:text-white transition-colors">Home</Link>
+                <ChevronRight size={12} />
+                <Link to="/courses" className="hover:text-white transition-colors">Courses</Link>
+                <ChevronRight size={12} />
+                <Link to="/courses?category=Design%20and%20video" className="hover:text-white transition-colors">
                   Design and video
                 </Link>
-                <ChevronRight size={13} />
+                <ChevronRight size={12} />
                 <span className="font-semibold text-white">Graphic Design</span>
               </nav>
 
-              {/* Glass Metadata Badges */}
+              {/* Glass Metadata Chips */}
               <div className="flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-md">
                   {course.level || 'Short course'}
@@ -597,27 +701,7 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                 )}
               </div>
 
-              {/* RotatingText Specialty Ticker */}
-              {effectsConfig.graphicDesignRotatingText && !prefersReducedMotion && (
-                <div className="flex flex-wrap items-center gap-2 text-sm text-[#a5d8ff]/90 pt-0.5 font-medium">
-                  <span>Specializations:</span>
-                  <RotatingText
-                    texts={[
-                      'Brand Identity & Logo Systems',
-                      'Editorial Spreads & Magazines',
-                      'Highway Billboard Advertising',
-                      'High-Converting Social Creatives',
-                      'FMCG Packaging & Die-Lines',
-                    ]}
-                    mainClassName="px-2.5 py-0.5 rounded-lg bg-white/10 text-white border border-white/20 font-semibold inline-block"
-                    staggerDuration={0.02}
-                    rotationInterval={2600}
-                    splitBy="words"
-                  />
-                </div>
-              )}
-
-              {/* Primary Call-to-Action Buttons */}
+              {/* CTA Buttons (Off-white button with deep blue text + ghost button) */}
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <GlareHover
                   width="auto"
@@ -646,158 +730,90 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                 </a>
               </div>
 
-              {/* Glass-style Trust Chips */}
-              <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-[#a5d8ff]/90">
-                <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
-                  <ShieldCheck size={14} className="text-emerald-400" />
-                  <span>Govt. Recognized ISO 9001:2015</span>
+              {/* Trust Chips */}
+              <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-[#a5d8ff]/90">
+                <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                  <Award size={14} className="text-[#a5d8ff]" />
+                  <span>Govt. Recognized Certification</span>
                 </span>
-                <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
-                  <Briefcase size={14} className="text-[#a5d8ff]" />
+                <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                  <CheckCircle2 size={14} className="text-emerald-400" />
                   <span>100% Job Placement Assistance</span>
                 </span>
               </div>
             </div>
 
-            {/* Right Column: React Bits CardSwap Design Showcase (5 cols on lg) */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end relative">
-              {/* Radial glow behind right column matching brand blue */}
-              <div
-                className="absolute w-[440px] h-[360px] bg-[#4a6df0]/20 rounded-full blur-[80px] pointer-events-none -z-0"
-                aria-hidden="true"
-              />
+            {/* Right Column: Stack of 4 illustration cards (460x380px container) */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              {/* Desktop (>= 1024px): Stack of 4 illustration cards */}
+              <div className="hidden lg:block w-[460px] h-[380px] relative">
+                <Stack
+                  cards={heroCards}
+                  layout="deck"
+                  autoplay={false}
+                  visible={4}
+                  radius={22}
+                  spread={0.6}
+                  depth={0.4}
+                  className="w-full h-full"
+                />
+              </div>
 
-              {effectsConfig.graphicDesignCardSwap && !prefersReducedMotion ? (
-                <div className="relative w-full max-w-[420px] h-[360px] sm:h-[400px] flex items-center justify-center z-10">
-                  <CardSwap
-                    width={380}
-                    height={290}
-                    cardRadius={22}
-                    visibleCards={4}
-                    theme="dark"
-                    autoplay={true}
-                    pauseOnHover={true}
-                    delay={3500}
-                    className="w-full h-full"
-                  >
-                    {PORTFOLIO_PROJECTS.slice(0, 5).map((proj) => (
-                      <Card key={proj.title}>
-                        <div className="w-full h-full p-6 sm:p-7 flex flex-col justify-between bg-[#0b1a52]/95 text-white rounded-[22px] border border-[#a5d8ff]/30 shadow-2xl backdrop-blur-md select-none">
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                              <span
-                                className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
-                                style={{
-                                  color: '#a5d8ff',
-                                  borderColor: 'rgba(165, 216, 255, 0.4)',
-                                  backgroundColor: 'rgba(165, 216, 255, 0.1)',
-                                }}
-                              >
-                                {proj.category}
-                              </span>
-                              <span className="text-[11px] font-mono text-[#a5d8ff]/70">{proj.tools}</span>
-                            </div>
-
-                            <h3 className="text-lg font-bold text-white font-heading leading-snug">
-                              {proj.title}
-                            </h3>
-
-                            <p className="text-xs text-[#c3cbf2] leading-relaxed line-clamp-3">
-                              {proj.description}
-                            </p>
-                          </div>
-
-                          <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#a5d8ff]/80">
-                            <span className="flex items-center gap-1.5 font-medium">
-                              <Sparkle size={12} className="text-[#a5d8ff]" />
-                              <span>Live Lab Deliverable</span>
-                            </span>
-                            <span className="font-mono text-[11px] text-white/50">Portfolio Ready</span>
-                          </div>
-                        </div>
-                      </Card>
-                    ))}
-                  </CardSwap>
-                </div>
-              ) : (
-                /* Fallback static showcase card for reduced motion */
-                <div className="w-full max-w-[420px] p-6 bg-[#0b1a52]/95 border border-[#a5d8ff]/30 rounded-[22px] text-white space-y-4 shadow-xl z-10">
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#4a6df0]/20 text-[#a5d8ff] border border-[#4a6df0]/30">
-                    Live Lab Deliverables
-                  </span>
-                  <h3 className="text-xl font-bold font-heading">Complete Agency-Ready Portfolio</h3>
-                  <p className="text-xs text-[#c3cbf2] leading-relaxed">
-                    Build 14+ commercial design projects including brand identity guidelines, high-fashion magazine spreads, animated GIF banner ads, highway hoardings, and packaging mockups.
-                  </p>
-                </div>
-              )}
+              {/* Mobile (< 1024px): Single static card to avoid touch conflicts */}
+              <div className="block lg:hidden w-full max-w-[420px] mx-auto mt-4">
+                {heroCards[0]}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Glass Stats Bar (Matching Digital Marketing & Data Science) */}
-        <div className="max-w-content mx-auto px-4 sm:px-6 w-full relative z-10 pt-4 sm:pt-6">
+        {/* Bottom Glass Stats Bar */}
+        <div className="max-w-content mx-auto px-4 sm:px-6 w-full relative z-10 pt-4">
           <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.14] rounded-[22px] grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/10 text-center shadow-lg">
-            {/* 1. Months Training */}
+            {/* 1. Modules */}
             <div className="p-4 sm:p-5">
               <p className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
-                {effectsConfig.graphicDesignCountUp ? (
-                  <CountUp to={4} duration={1.2} />
-                ) : (
-                  '4'
-                )}
+                <Counter value={GRAPHIC_DESIGN_MODULES.length} duration={0.8} />
               </p>
               <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-1">
-                Months Training
+                Modules
               </p>
             </div>
 
-            {/* 2. Industry Tools */}
+            {/* 2. Months of training */}
             <div className="p-4 sm:p-5">
               <p className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
-                {effectsConfig.graphicDesignCountUp ? (
-                  <CountUp to={5} duration={1.2} />
-                ) : (
-                  '5'
-                )}
+                <Counter value={4} duration={0.8} />
               </p>
               <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-1">
-                Industry Tools
+                Months of training
               </p>
             </div>
 
-            {/* 3. Portfolio Projects */}
+            {/* 3. Mumbai branches */}
             <div className="p-4 sm:p-5">
               <p className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
-                {effectsConfig.graphicDesignCountUp ? (
-                  <CountUp to={14} duration={1.4} />
-                ) : (
-                  '14+'
-                )}
+                <Counter value={branches.length} duration={0.8} />
               </p>
               <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-1">
-                Portfolio Projects
+                Mumbai branches
               </p>
             </div>
 
-            {/* 4. Mumbai Centers */}
+            {/* 4. Portfolio Projects */}
             <div className="p-4 sm:p-5">
               <p className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
-                {effectsConfig.graphicDesignCountUp ? (
-                  <CountUp to={4} duration={1.2} />
-                ) : (
-                  '4'
-                )}
+                <Counter value={14} duration={0.8} suffix="+" />
               </p>
               <p className="text-xs sm:text-sm font-medium text-[#a5d8ff] mt-1">
-                Mumbai Centers
+                Portfolio projects
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── 2. CREATIVE SKILLS STRIP (MATCHING DIGITAL MARKETING) ─── */}
+      {/* ─── 2. CHANNEL STRIP (SLIM BAND, SENTENCE CASE, 30PX FONT) ─── */}
       <section className="bg-[#eef2fd] border-y border-[#c3d1fb]/60 py-2 sm:py-2.5 overflow-hidden relative">
         {!prefersReducedMotion && effectsConfig.graphicDesignCurvedLoop ? (
           <div className="w-full h-12 sm:h-14 flex items-center justify-center">
@@ -828,365 +844,78 @@ export default function GraphicDesignDetail({ course: propCourse }) {
         )}
       </section>
 
-      {/* ─── 3. THE 5 OFFICIAL DESIGN SOFTWARE SUITES (INTERACTIVE SPOTLIGHT GRID) ─── */}
-      <section className="py-14 sm:py-20 max-w-content mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-primary text-xs font-semibold border border-line">
-            <Monitor size={13} />
-            <span>5 Industry Tool Stacks</span>
-          </div>
+      {/* ─── 3. ROADMAP (SCROLLROADMAP) ─── */}
+      {effectsConfig.roadmap && (
+        <ScrollRoadmap
+          stations={roadmapStations}
+          finish={finishStation}
+          heading="Your design roadmap"
+          subheading="Four modules, then commercial portfolio."
+        />
+      )}
 
-          {effectsConfig.graphicDesignScrollFloat ? (
-            <ScrollFloat
-              containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
-              animationDuration={0.8}
-              ease="back.out(1.4)"
-              scrollStart="top 85%"
-              scrollEnd="top 55%"
-              splitBy="words"
-            >
-              Software you will master in the lab.
-            </ScrollFloat>
-          ) : (
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              Software you will master in the lab.
-            </h2>
-          )}
-
-          {effectsConfig.graphicDesignDecryptedText && (
-            <div className="pt-1 flex justify-center">
-              <DecryptedText
-                text="DUAL-TRACK LAB TRAINING: CMYK PRINT & RGB DIGITAL SCREEN"
-                animateOn="view"
-                speed={40}
-                maxIterations={10}
-                className="text-xs font-mono font-bold tracking-wider text-primary"
-                scrambleColor="#4a6df0"
-              />
-            </div>
-          )}
-
-          <p className="text-muted text-sm sm:text-base leading-relaxed">
-            Hands-on mentor guidance across the world's most in-demand design and desktop publishing applications.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
-          {DESIGN_TOOLS_DATA.map((tool, idx) => {
-            const Icon = tool.icon;
-            const gridClass =
-              idx < 3
-                ? 'lg:col-span-2'
-                : idx === 3
-                ? 'lg:col-span-2 lg:col-start-2 md:col-span-1'
-                : 'lg:col-span-2 md:col-span-2 md:max-w-md md:mx-auto w-full lg:max-w-none';
-
-            return effectsConfig.graphicDesignSpotlight ? (
-              <div key={tool.id} className={gridClass}>
-                <SpotlightCard
-                  theme="light"
-                  spotlightColor={tool.accentBg}
-                  className="p-6 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between h-full transition-all hover:shadow-lg"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <Icon className="w-10 h-10 shrink-0" />
-                      <span
-                        className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
-                        style={{
-                          color: tool.color,
-                          borderColor: `${tool.color}40`,
-                          backgroundColor: tool.accentBg,
-                        }}
-                      >
-                        {tool.badge}
-                      </span>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-bold text-deep font-heading">{tool.name}</h3>
-                      <p className="text-xs font-semibold text-muted mt-0.5">{tool.category}</p>
-                    </div>
-
-                    <p className="text-xs text-ink/80 leading-relaxed">{tool.focus}</p>
-                  </div>
-
-                  <div className="pt-4 mt-4 border-t border-line/60">
-                    <div className="flex flex-wrap gap-1.5">
-                      {tool.deliverables.map((deliv) => (
-                        <span
-                          key={deliv}
-                          className="text-[11px] px-2.5 py-0.5 rounded-full bg-soft/80 border border-line/50 text-deep font-medium"
-                        >
-                          {deliv}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </SpotlightCard>
-              </div>
-            ) : (
-              <div
-                key={tool.id}
-                className={`${gridClass} p-6 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between`}
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Icon className="w-10 h-10 shrink-0" />
-                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-soft text-primary">
-                      {tool.badge}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-deep font-heading">{tool.name}</h3>
-                  <p className="text-xs text-ink/80 leading-relaxed">{tool.focus}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ─── 4. FOUR COMMERCIAL DESIGN DISCIPLINES (BROCHURE PAGE 14) + TRUEFOCUS ─── */}
-      <section className="py-14 sm:py-20 bg-soft/40 border-y border-line/70 content-auto">
-        <div className="max-w-content mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-primary text-xs font-semibold border border-line shadow-2xs">
-              <Layout size={13} />
-              <span>Commercial Disciplines</span>
-            </div>
-
-            {effectsConfig.graphicDesignScrollFloat ? (
-              <ScrollFloat
-                containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
-                animationDuration={0.8}
-                ease="back.out(1.4)"
-                scrollStart="top 85%"
-                scrollEnd="top 55%"
-                splitBy="words"
-              >
-                Four pillars of commercial design.
-              </ScrollFloat>
-            ) : (
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-                Four pillars of commercial design.
-              </h2>
-            )}
-
-            <p className="text-muted text-sm sm:text-base leading-relaxed">
-              Everything taught in this 4-month course directly maps to real-world agency briefs and client commissions.
-            </p>
-          </div>
-
-          {/* React Bits TrueFocus: Core Design Competencies */}
-          {effectsConfig.graphicDesignTrueFocus && (
-            <div className="py-3 mb-8 flex justify-center overflow-x-auto select-none">
-              <TrueFocus
-                sentence="BRAND IDENTITY • VECTOR ART • EDITORIAL SPREADS • PACKAGING • SOCIAL ADS"
-                separator="•"
-                borderColor="#3b82f6"
-                glowColor="rgba(59, 130, 246, 0.4)"
-                animationDuration={0.5}
-                pauseBetweenAnimations={1.6}
-                borderWidth={2}
-              />
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {DESIGN_PILLARS.map((pillar) => {
-              const PillarIcon = pillar.icon;
-              return (
+      {/* ─── 4. SOFTWARE & DESIGN PLATFORMS MARQUEE (LOGOLOOP) ─── */}
+      <section aria-label="Design platforms and tools" className="bg-soft/40 border-y border-line/80 py-5 sm:py-6 overflow-hidden">
+        {effectsConfig.graphicDesignLogoLoop && !prefersReducedMotion ? (
+          <div className="w-full max-w-full overflow-hidden">
+            <LogoLoop
+              logos={GRAPHIC_DESIGN_TOOLS}
+              ariaLabel="Industry graphic design tools and creative suites"
+              speed={38}
+              direction="left"
+              gap={24}
+              pauseOnHover={true}
+              fadeOut={true}
+              fadeOutWidth={0.12}
+              renderItem={(item) => (
                 <div
-                  key={pillar.id}
-                  className="p-7 sm:p-8 rounded-[24px] bg-white border border-line/80 shadow-card flex flex-col justify-between space-y-5 transition-all hover:shadow-lg"
+                  key={item.name}
+                  title={item.name}
+                  aria-label={item.name}
+                  className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-2xl sm:rounded-[20px] bg-gradient-to-b from-white via-surface to-[#f8f9fc] border border-line/90 shadow-[0_4px_16px_-2px_rgba(15,23,42,0.06),0_1px_3px_rgba(15,23,42,0.04)] hover:shadow-[0_12px_28px_-6px_rgba(36,72,201,0.22),0_4px_8px_rgba(0,0,0,0.04)] hover:border-primary/50 hover:scale-110 hover:-translate-y-1 transition-all duration-300 ease-out flex items-center justify-center p-3 select-none shrink-0 group cursor-pointer ring-1 ring-inset ring-white/70"
                 >
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                        style={{ backgroundColor: `${pillar.accent}15`, color: pillar.accent }}
-                      >
-                        <PillarIcon size={22} />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-deep font-heading">{pillar.title}</h3>
-                        <p className="text-xs text-muted mt-0.5">{pillar.subtitle}</p>
-                      </div>
-                    </div>
-
-                    <div className="pt-2 space-y-2.5">
-                      {pillar.topics.map((top, tIdx) => (
-                        <div key={tIdx} className="flex items-start gap-2.5 text-xs text-ink/90 leading-relaxed">
-                          <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
-                          <span>{top}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <span className="w-full h-full flex items-center justify-center shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.04)] group-hover:scale-105 transition-transform duration-300">
+                    {item.icon}
+                  </span>
                 </div>
-              );
-            })}
+              )}
+            />
           </div>
-        </div>
-      </section>
-
-      {/* ─── 4.5 COMMERCIAL PORTFOLIO PROJECTS (INTERACTIVE 3D TILTEDCARDS) ─── */}
-      <section className="py-14 sm:py-20 max-w-content mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-primary text-xs font-semibold border border-line">
-            <Sparkles size={13} className="text-pink-500" />
-            <span>Real Commercial Deliverables</span>
-          </div>
-
-          {effectsConfig.graphicDesignScrollFloat ? (
-            <ScrollFloat
-              containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
-              animationDuration={0.8}
-              ease="back.out(1.4)"
-              scrollStart="top 85%"
-              scrollEnd="top 55%"
-              splitBy="words"
-            >
-              Commercial projects you will design.
-            </ScrollFloat>
-          ) : (
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-              Commercial projects you will design.
-            </h2>
-          )}
-
-          <p className="text-muted text-sm sm:text-base leading-relaxed">
-            Move your mouse or tilt your screen over each project to inspect 3D layers, lighting, and production specifications.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PORTFOLIO_PROJECTS.map((proj) => {
-            return (
-              <div key={proj.title} className="h-full">
-                {effectsConfig.graphicDesignTiltedCard ? (
-                  <TiltedCard
-                    containerHeight="320px"
-                    containerWidth="100%"
-                    imageHeight="320px"
-                    imageWidth="100%"
-                    rotateAmplitude={11}
-                    scaleOnHover={1.02}
-                    showTooltip={false}
-                    radius={22}
-                    glare={0.35}
-                    className="w-full h-full"
-                  >
-                    <div className="w-full h-full p-6 sm:p-7 flex flex-col justify-between bg-white border border-line/80 rounded-[22px] shadow-card hover:shadow-xl transition-shadow select-none">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span
-                            className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
-                            style={{
-                              color: proj.accent,
-                              borderColor: `${proj.accent}40`,
-                              backgroundColor: `${proj.accent}15`,
-                            }}
-                          >
-                            {proj.category}
-                          </span>
-                          <span className="text-[11px] font-mono text-muted">{proj.tools}</span>
-                        </div>
-
-                        <h3 className="text-lg font-bold text-deep font-heading leading-snug">
-                          {proj.title}
-                        </h3>
-
-                        <p className="text-xs text-ink/80 leading-relaxed">
-                          {proj.description}
-                        </p>
-                      </div>
-
-                      <div className="pt-4 border-t border-line/60 flex items-center justify-between text-xs text-muted">
-                        <span className="flex items-center gap-1.5 font-semibold" style={{ color: proj.accent }}>
-                          <Sparkle size={12} />
-                          <span>Student Deliverable</span>
-                        </span>
-                        <span className="font-mono text-[11px]">Behance Ready</span>
-                      </div>
-                    </div>
-                  </TiltedCard>
-                ) : (
-                  <div className="w-full h-full p-6 sm:p-7 flex flex-col justify-between bg-white border border-line/80 rounded-[22px] shadow-card hover:shadow-lg transition-shadow">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span
-                          className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border"
-                          style={{
-                            color: proj.accent,
-                            borderColor: `${proj.accent}40`,
-                            backgroundColor: `${proj.accent}15`,
-                          }}
-                        >
-                          {proj.category}
-                        </span>
-                        <span className="text-[11px] font-mono text-muted">{proj.tools}</span>
-                      </div>
-
-                      <h3 className="text-lg font-bold text-deep font-heading leading-snug">
-                        {proj.title}
-                      </h3>
-
-                      <p className="text-xs text-ink/80 leading-relaxed">
-                        {proj.description}
-                      </p>
-                    </div>
-
-                    <div className="pt-4 border-t border-line/60 flex items-center justify-between text-xs text-muted">
-                      <span className="flex items-center gap-1.5 font-semibold" style={{ color: proj.accent }}>
-                        <Sparkle size={12} />
-                        <span>Student Deliverable</span>
-                      </span>
-                      <span className="font-mono text-[11px]">Behance Ready</span>
-                    </div>
-                  </div>
-                )}
+        ) : (
+          /* Reduced motion fallback: Clean wrapping premium logo tiles */
+          <div className="max-w-content mx-auto px-4 sm:px-6 flex flex-wrap gap-3.5 justify-center">
+            {GRAPHIC_DESIGN_TOOLS.map((item) => (
+              <div
+                key={item.name}
+                title={item.name}
+                aria-label={item.name}
+                className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-2xl sm:rounded-[20px] bg-gradient-to-b from-white via-surface to-[#f8f9fc] border border-line/90 shadow-[0_4px_16px_-2px_rgba(15,23,42,0.06)] flex items-center justify-center p-3 ring-1 ring-inset ring-white/70"
+              >
+                <span className="w-full h-full flex items-center justify-center shrink-0">
+                  {item.icon}
+                </span>
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ─── 5. DETAILED SYLLABUS (MODULEACCORDION + STICKY OVERVIEW CARD + FOLDER) ─── */}
-      <section id="syllabus" className="py-14 sm:py-20 bg-surface scroll-mt-[88px] content-auto-lg">
+      <section id="syllabus" className="py-12 sm:py-20 bg-soft/30 scroll-mt-[88px] content-auto-lg">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: 4 Modules Accordion (col-span-8) */}
             <div className="lg:col-span-8 space-y-6">
               <div className="space-y-1.5">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-primary text-xs font-semibold border border-line">
-                  <Layers size={13} />
-                  <span>Curriculum Breakdown</span>
-                </div>
-
-                {effectsConfig.graphicDesignScrollFloat ? (
-                  <ScrollFloat
-                    containerClassName="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading"
-                    animationDuration={0.8}
-                    ease="back.out(1.4)"
-                    scrollStart="top 85%"
-                    scrollEnd="top 55%"
-                    splitBy="words"
-                  >
-                    Detailed 4-month syllabus.
-                  </ScrollFloat>
-                ) : (
-                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
-                    Detailed 4-month syllabus.
-                  </h2>
-                )}
-
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+                  Detailed syllabus.
+                </h2>
                 <p className="text-muted text-sm leading-relaxed">
-                  Topic breakdown directly from the official Infodesk brochure.
+                  Full topic list for each module.
                 </p>
               </div>
 
-              {/* ModuleAccordion */}
+              {/* ModuleAccordion with controlled open indices and clean module titles */}
               <ModuleAccordion
                 modules={GRAPHIC_DESIGN_MODULES}
                 openIndices={openModuleIndices}
@@ -1195,303 +924,272 @@ export default function GraphicDesignDetail({ course: propCourse }) {
               />
             </div>
 
-            {/* Right Column: Sticky Course Overview Card & Certificate Credentials (col-span-4) */}
-            <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+            {/* Right Column: Sticky Course Overview Card (col-span-4) */}
+            <div className="lg:col-span-4 space-y-6">
               <CourseOverviewCard
                 course={course}
                 whatsappMessage={encodeURIComponent(
-                  `Hello Infodesk Computer Education, I am interested in the Graphic Design (4 months) course. Could you share batch timings, fee details, and book a free demo session?`
+                  `Hello Infodesk Computer Education, I am interested in the ${course.title} (${course.duration || '4 months'}) course. Could you share batch timings, fee details, and book a free demo session?`
                 )}
                 brochurePath="/assets/Infodesk_Computer_Education.pdf"
+                className="sticky lg:top-[92px]"
               />
 
-              {/* React Bits Folder: Interactive Course Credentials & Diploma */}
-              <div className="p-4 sm:p-5 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col items-center text-center space-y-4">
-                <div className="w-full flex items-center justify-between text-left">
-                  <div>
-                    <h4 className="text-sm font-bold text-deep font-heading">
-                      Graphic Design Certificate
-                    </h4>
-                    <p className="text-[11px] text-muted">
-                      ISO 9001:2015 certified qualification
-                    </p>
+              {/* React Bits Folder: Interactive Course Certificate & Credentials */}
+              {effectsConfig.graphicDesignFolder && (
+                <div className="block">
+                  <div className="p-4 sm:p-5 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col items-center text-center space-y-4">
+                    <div className="w-full flex items-center justify-between text-left">
+                      <div>
+                        <h4 className="text-sm font-bold text-deep font-heading">
+                          Course certificate &amp; credentials
+                        </h4>
+                        <p className="text-[11px] text-muted">
+                          Official certification awarded after course completion
+                        </p>
+                      </div>
+                      <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-soft text-primary border border-line/50">
+                        Govt. Recognized
+                      </span>
+                    </div>
+
+                    <div className="py-2 flex justify-center w-full min-h-[180px] sm:min-h-[195px] items-center overflow-visible">
+                      <Folder
+                        label="Course Certificate"
+                        color="#13266f"
+                        paperColor="#ffffff"
+                        theme="light"
+                        size={0.82}
+                        items={certificateFolderItems}
+                        onItemClick={handleFolderItemClick}
+                      />
+                    </div>
+
+                    <div className="w-full pt-3 border-t border-line/50 flex items-center justify-between text-[11px] text-muted">
+                      <span>3 verified credentials</span>
+                      <span className="text-primary font-semibold">Click sheet to preview</span>
+                    </div>
                   </div>
-                  <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-soft text-primary border border-line/50">
-                    Govt. Recognized
-                  </span>
                 </div>
-
-                <div className="py-2 flex justify-center w-full min-h-[175px] items-center overflow-visible">
-                  <Folder
-                    label="Design Diploma"
-                    color="#ec4899"
-                    paperColor="#ffffff"
-                    theme="light"
-                    size={0.82}
-                    items={certificateFolderItems}
-                  />
-                </div>
-
-                <ClickSpark
-                  sparkColor={['#ec4899', '#38bdf8', '#facc15']}
-                  sparkCount={7}
-                  sparkRadius={18}
-                >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActiveCertTab(0);
-                      setIsCertModalOpen(true);
-                    }}
-                    className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-soft hover:bg-soft/80 text-primary border border-primary/20 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <Award size={14} />
-                    <span>Preview official certificate</span>
-                  </button>
-                </ClickSpark>
-              </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── 6. STUDENT STORIES & VERIFIED GOOGLE REVIEWS ─── */}
-      <section id="stories" className="py-14 sm:py-20 bg-soft/30 border-t border-line/70 content-auto">
+      {/* ─── 6. STUDENT STORIES (VERIFIED REVIEWS & STORIES) ─── */}
+      <section id="stories" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
             <div className="flex justify-center mb-1">
               <GoogleRatingBadge variant="pill" />
             </div>
-
-            {effectsConfig.graphicDesignScrollFloat ? (
-              <ScrollFloat
-                containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
-                animationDuration={0.8}
-                ease="back.out(1.4)"
-                scrollStart="top 85%"
-                scrollEnd="top 55%"
-                splitBy="words"
-              >
-                Student stories.
-              </ScrollFloat>
-            ) : (
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-                Student stories.
-              </h2>
-            )}
-
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
+              Student stories
+            </h2>
             <p className="text-muted text-sm sm:text-base leading-relaxed">
-              What our students say about hands-on learning at Infodesk Computer Education.
+              What our students say about learning at Infodesk.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-content mx-auto">
-            {testimonials.slice(0, 3).map((t, idx) => {
+          {/* Curated Verified Student Reviews with SpotlightCard illumination */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {testimonials.slice(0, 4).map((t) => {
               const isGoogle = t.source === 'Google Review';
-              return (
-                <div
-                  key={t.id || idx}
-                  className="p-6 sm:p-7 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 text-amber-500">
+              const cardContent = (
+                <>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-2 border-b border-line/40 pb-2.5">
+                      <div className="flex items-center gap-1.5">
                         <GoogleStars rating={t.rating || 5} size={14} />
+                        <span className="text-xs font-bold text-deep font-mono">5.0</span>
                       </div>
                       {isGoogle ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-muted bg-soft px-2 py-0.5 rounded-full border border-line">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-soft text-[11px] font-semibold text-primary border border-primary/20">
                           <GoogleIcon className="w-3 h-3" />
                           <span>Google Review</span>
                         </span>
                       ) : (
-                        <span className="text-[11px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                          Verified Alum
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-[11px] font-semibold text-emerald-700 border border-emerald-200">
+                          <CheckCircle2 size={11} />
+                          <span>Alumni Story</span>
                         </span>
                       )}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-ink/90 leading-relaxed italic">
-                      "{t.quote}"
-                    </p>
+                    {(t.course || t.mentor) && (
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {t.course && (
+                          <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-soft text-deep border border-line/60">
+                            {t.course}
+                          </span>
+                        )}
+                        {t.mentor && (
+                          <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/60">
+                            {t.mentor}
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    <blockquote className="text-sm sm:text-[15px] text-ink/90 leading-relaxed italic pt-1">
+                      “{t.quote.replace(/'/g, '’')}”
+                    </blockquote>
                   </div>
 
-                  <div className="pt-4 border-t border-line/60 flex items-center justify-between mt-4">
-                    <div>
-                      <div className="text-sm font-bold text-deep font-heading">{t.name}</div>
-                      <div className="text-[11px] text-muted">{t.role} · {t.branch}</div>
+                  <div className="flex items-center justify-between gap-3.5 pt-4 border-t border-line/50">
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      {t.image ? (
+                        <img
+                          src={t.image}
+                          alt={t.name}
+                          className="w-12 h-12 rounded-full object-cover border-2 border-primary/30 shadow-sm shrink-0"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div
+                          className="w-12 h-12 rounded-full text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-sm"
+                          style={{ backgroundColor: t.avatarBg || '#4285F4' }}
+                          aria-hidden="true"
+                        >
+                          {t.initials || t.name.slice(0, 2).toUpperCase()}
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <h4 className="text-base font-bold text-deep leading-tight truncate">
+                          {t.name}
+                        </h4>
+                        <p className="text-xs text-muted mt-0.5 truncate">
+                          {t.date ? `${t.date} · ` : ''}{t.role || 'Infodesk student'}
+                        </p>
+                      </div>
                     </div>
+
+                    {isGoogle && (
+                      <a
+                        href={GOOGLE_BUSINESS_INFO.shareUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted hover:text-primary transition-colors p-1.5 rounded-lg hover:bg-soft"
+                        aria-label={`View ${t.name}'s review on Google`}
+                      >
+                        <ExternalLink size={14} />
+                      </a>
+                    )}
                   </div>
+                </>
+              );
+
+              return effectsConfig.graphicDesignSpotlight ? (
+                <SpotlightCard
+                  key={t.id}
+                  theme="light"
+                  spotlightColor="rgba(36, 72, 201, 0.12)"
+                  intensity={0.25}
+                  proximity={100}
+                  className="!p-6 sm:!p-7 !rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between space-y-5"
+                >
+                  {cardContent}
+                </SpotlightCard>
+              ) : (
+                <div
+                  key={t.id}
+                  className="p-6 sm:p-7 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between space-y-5"
+                >
+                  {cardContent}
                 </div>
               );
             })}
           </div>
-        </div>
-      </section>
 
-      {/* ─── 7. IN-PERSON MUMBAI TRAINING CENTERS ─── */}
-      <section className="py-14 sm:py-20 bg-surface border-t border-line/70 content-auto">
-        <div className="max-w-content mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-soft text-primary text-xs font-semibold border border-line">
-              <MapPin size={13} />
-              <span>4 Mumbai Centers</span>
-            </div>
-
-            {effectsConfig.graphicDesignScrollFloat ? (
-              <ScrollFloat
-                containerClassName="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading"
-                animationDuration={0.8}
-                ease="back.out(1.4)"
-                scrollStart="top 85%"
-                scrollEnd="top 55%"
-                splitBy="words"
-              >
-                Train in-person across Mumbai.
-              </ScrollFloat>
-            ) : (
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-deep font-heading">
-                Train in-person across Mumbai.
-              </h2>
-            )}
-
-            <p className="text-muted text-sm sm:text-base leading-relaxed">
-              Visit our air-conditioned computer labs for dedicated mentor guidance and hands-on design practice.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {branches.map((b) => (
-              <div
-                key={b.name}
-                className="p-6 rounded-[22px] bg-white border border-line/80 shadow-card flex flex-col justify-between space-y-4 hover:shadow-lg transition-shadow"
-              >
-                <div className="space-y-3">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                    <MapPin size={20} />
-                  </div>
-                  <h3 className="text-lg font-bold text-deep font-heading">{b.name}</h3>
-                  <p className="text-xs text-muted leading-relaxed line-clamp-3">{b.address}</p>
-                </div>
-
-                <div className="pt-3 border-t border-line/60 space-y-2">
-                  <a
-                    href={`tel:${b.phone}`}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
-                  >
-                    <Phone size={12} />
-                    <span>{b.phone}</span>
-                  </a>
-                  <Button
-                    to="/contact"
-                    size="sm"
-                    variant="outline"
-                    className="w-full text-xs font-bold rounded-xl py-2"
-                  >
-                    Book at this center
-                  </Button>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-10">
+            <Link
+              to="/placements"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-bright transition-colors group"
+            >
+              <span>See student stories</span>
+              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <span className="hidden sm:inline text-line">•</span>
+            <a
+              href={GOOGLE_BUSINESS_INFO.shareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-deep hover:text-primary transition-colors group"
+            >
+              <GoogleIcon className="w-3.5 h-3.5" />
+              <span>Read all 122+ Google reviews</span>
+              <ExternalLink size={13} className="text-muted group-hover:text-primary transition-colors" />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ─── 8. FREQUENTLY ASKED QUESTIONS (SPOTLIGHTCARD) ─── */}
-      <section id="faqs" className="py-14 sm:py-20 bg-soft/30 border-t border-line/70 content-auto">
+      {/* ─── 7. FREQUENTLY ASKED QUESTIONS (SPOTLIGHTCARD) ─── */}
+      <section id="faqs" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
-            {effectsConfig.graphicDesignScrollFloat ? (
-              <ScrollFloat
-                containerClassName="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading"
-                animationDuration={0.8}
-                ease="back.out(1.4)"
-                scrollStart="top 85%"
-                scrollEnd="top 55%"
-                splitBy="words"
-              >
-                Frequently asked questions.
-              </ScrollFloat>
-            ) : (
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
-                Frequently asked questions.
-              </h2>
-            )}
-
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+              Frequently asked questions.
+            </h2>
             <p className="text-muted text-sm leading-relaxed">
-              Key details about the 4-month Graphic Design course, lab timings, and software.
+              Key details about the 4-month Graphic Design curriculum, tools, and batch timings.
             </p>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
             {GRAPHIC_DESIGN_FAQS.map((faq, idx) => {
               const isOpen = openFaqIndex === idx;
-              return (
-                <SpotlightCard
-                  key={idx}
-                  theme="light"
-                  spotlightColor="rgba(236, 72, 153, 0.12)"
-                  className="rounded-[20px] bg-white border border-line/80 shadow-2xs overflow-hidden transition-all"
-                >
+              const faqContent = (
+                <div className="p-5 sm:p-6 space-y-2">
                   <button
                     type="button"
-                    onClick={() => setOpenFaqIndex(isOpen ? -1 : idx)}
+                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                    className="w-full flex items-center justify-between text-left gap-4 font-bold text-deep text-base sm:text-lg focus:outline-none"
                     aria-expanded={isOpen}
-                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   >
-                    <span className="text-sm sm:text-base font-bold text-deep font-heading">
-                      {faq.q}
-                    </span>
-                    <span
-                      className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                        isOpen ? 'rotate-180 bg-primary text-white' : 'bg-soft text-muted'
-                      }`}
-                    >
-                      <ChevronDown size={15} />
-                    </span>
+                    <span>{faq.q}</span>
+                    <ChevronDown
+                      size={18}
+                      className={`text-primary transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180' : ''}`}
+                    />
                   </button>
+                  {isOpen && (
+                    <p className="text-sm text-ink/80 leading-relaxed pt-2 border-t border-line/40">
+                      {faq.a}
+                    </p>
+                  )}
+                </div>
+              );
 
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.24, ease: 'easeOut' }}
-                      >
-                        <div className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-ink/80 leading-relaxed border-t border-line/50 pt-3">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+              return effectsConfig.graphicDesignSpotlight ? (
+                <SpotlightCard
+                  key={faq.q}
+                  theme="light"
+                  spotlightColor="rgba(36, 72, 201, 0.08)"
+                  intensity={0.2}
+                  proximity={80}
+                  className="!p-0 !rounded-2xl bg-white border border-line/80 shadow-sm"
+                >
+                  {faqContent}
                 </SpotlightCard>
+              ) : (
+                <div key={faq.q} className="rounded-2xl bg-white border border-line/80 shadow-sm">
+                  {faqContent}
+                </div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* ─── 9. RELATED COURSES AS FLIPCARD (DATA SCIENCE PAGE COMPLIANT) ─── */}
+      {/* ─── 8. RELATED COURSES AS FLIPCARD (MATCHING DIGITAL MARKETING & DATA SCIENCE) ─── */}
       <section id="related" className="py-12 sm:py-20 bg-surface border-t border-line/70 content-auto">
         <div className="max-w-content mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5 mb-10">
-            {effectsConfig.graphicDesignScrollFloat ? (
-              <ScrollFloat
-                containerClassName="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading"
-                animationDuration={0.8}
-                ease="back.out(1.4)"
-                scrollStart="top 85%"
-                scrollEnd="top 55%"
-                splitBy="words"
-              >
-                Related courses in design &amp; marketing.
-              </ScrollFloat>
-            ) : (
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
-                Related courses in design &amp; marketing.
-              </h2>
-            )}
-
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-deep font-heading">
+              Related courses in marketing and design.
+            </h2>
             <p className="text-muted text-sm mt-1">
               Tap or click any card to flip between program highlights and syllabus previews.
             </p>
@@ -1582,85 +1280,370 @@ export default function GraphicDesignDetail({ course: propCourse }) {
         </div>
       </section>
 
-      {/* ─── 10. CLOSING DEMO BANNER WITH LASERFLOW IN LAZYMOUNT + STARBORDER BUTTON ─── */}
+      {/* ─── 9. CLOSING DEMO BANNER (LASERFLOW IN LAZYMOUNT + STARBORDER BUTTON) ─── */}
       <ClosingDemoBanner
-        courseName="Graphic Design"
-        duration="4 months"
-        brochurePath="/assets/Infodesk_Computer_Education.pdf"
+        title="Try a free demo class."
+        description="Experience our hands-on design labs, mentor guidance, and commercial curriculums in-person at any of our 4 Mumbai centers."
+        buttonText="Book your free demo session"
       />
 
-      {/* ─── 11. OFFICIAL CERTIFICATE PREVIEW MODAL ─── */}
-      {isCertModalOpen && (
-        <div
-          className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Official Infodesk Certificate Preview"
-        >
-          <div className="relative w-full max-w-2xl bg-white rounded-[28px] shadow-2xl border border-line/80 overflow-hidden flex flex-col max-h-[90vh]">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-5 border-b border-line/60 bg-soft/40">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-                  <Award size={18} />
+      {/* ─── 10. CERTIFICATE LIGHTBOX MODAL ─── */}
+      <AnimatePresence>
+        {isCertModalOpen && (
+          <div
+            className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cert-modal-title"
+          >
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsCertModalOpen(false)}
+              className="fixed inset-0 bg-[#0b1a52]/70 backdrop-blur-sm"
+            />
+
+            {/* Modal Dialog Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="relative w-full max-w-2xl bg-white rounded-[24px] shadow-2xl border border-line/80 overflow-hidden z-10 my-auto flex flex-col max-h-[92dvh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-4 sm:p-6 border-b border-line/60 bg-surface shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-soft text-primary flex items-center justify-center shrink-0">
+                    <Award size={18} />
+                  </div>
+                  <div>
+                    <h3 id="cert-modal-title" className="text-base font-bold text-deep font-heading">
+                      Official Course Certificate
+                    </h3>
+                    <p className="text-xs text-muted">
+                      Government Recognized &amp; ISO 9001:2015 Certified
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-base font-bold text-deep font-heading">
-                    Graphic Design Qualification
-                  </h3>
-                  <p className="text-[11px] text-muted">
-                    ISO 9001:2015 Certified · Govt. Recognized
-                  </p>
+                <button
+                  type="button"
+                  onClick={() => setIsCertModalOpen(false)}
+                  className="w-10 h-10 min-h-[44px] min-w-[44px] rounded-full bg-soft/80 hover:bg-soft text-muted hover:text-deep flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                  aria-label="Close certificate modal"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Credential Tab Selector */}
+              <div className="px-4 sm:px-6 py-2.5 bg-surface border-b border-line/60 flex items-center justify-center shrink-0">
+                <div className="flex items-center gap-1 p-1 bg-white border border-line/60 rounded-full text-xs font-semibold shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => setActiveCertTab(0)}
+                    className={`px-3 sm:px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                      activeCertTab === 0
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'text-muted hover:text-deep'
+                    }`}
+                  >
+                    Course Diploma
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveCertTab(1)}
+                    className={`px-3 sm:px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                      activeCertTab === 1
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'text-muted hover:text-deep'
+                    }`}
+                  >
+                    Studio Training Letter
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveCertTab(2)}
+                    className={`px-3 sm:px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                      activeCertTab === 2
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'text-muted hover:text-deep'
+                    }`}
+                  >
+                    Module Transcript
+                  </button>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setIsCertModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-soft hover:bg-line/60 flex items-center justify-center text-muted hover:text-deep transition-colors cursor-pointer"
-                aria-label="Close modal"
-              >
-                <X size={16} />
-              </button>
-            </div>
 
-            {/* Modal Certificate View */}
-            <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
-              <div
-                id="printable-certificate"
-                className="relative p-6 sm:p-8 rounded-[20px] bg-gradient-to-br from-[#fdfcf9] to-[#f4f2ea] border-4 border-double border-primary/30 text-center space-y-4 shadow-inner"
-              >
-                <div className="text-xs font-bold uppercase tracking-widest text-primary">
-                  Infodesk Computer Education
+              {/* Certificate Document Body */}
+              <div id="printable-certificate" className="p-4 sm:p-8 bg-[#fdfcf9] overflow-y-auto flex-1">
+                {activeCertTab === 0 && (
+                  <motion.div
+                    key="tab-diploma"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="p-5 sm:p-8 rounded-[16px] border-2 border-primary/20 bg-white relative shadow-sm space-y-6"
+                  >
+                    {/* Decorative Corners */}
+                    <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-primary/40 pointer-events-none" />
+                    <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-primary/40 pointer-events-none" />
+                    <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-primary/40 pointer-events-none" />
+                    <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-primary/40 pointer-events-none" />
+
+                    <div className="text-center space-y-1">
+                      <p className="text-[11px] font-bold text-primary uppercase tracking-widest font-heading">
+                        Infodesk Computer Education · Mumbai
+                      </p>
+                      <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
+                        Certificate of Completion
+                      </h4>
+                      <p className="text-xs text-muted">
+                        This is to certify the successful completion of the professional program in
+                      </p>
+                      <p className="text-lg sm:text-xl font-bold text-primary font-heading pt-1">
+                        Graphic Design &amp; Commercial Visual Arts
+                      </p>
+                    </div>
+
+                    {/* Course Details Grid */}
+                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-line/60 text-xs">
+                      <div>
+                        <span className="text-muted block">Duration</span>
+                        <span className="font-semibold text-deep">4 Months + Portfolio Capstone</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Format</span>
+                        <span className="font-semibold text-deep">In-Person &amp; Live Projects</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Curriculum</span>
+                        <span className="font-semibold text-deep">4 Modules · 5 Software Suites</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Accreditation</span>
+                        <span className="font-semibold text-deep">Govt. Recognized · ISO 9001:2015</span>
+                      </div>
+                    </div>
+
+                    {/* Modules Pills Grid */}
+                    <div className="space-y-2">
+                      <p className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                        Verified Curriculum Modules (4)
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {GRAPHIC_DESIGN_MODULES.map((m) => (
+                          <span
+                            key={m.number}
+                            className="text-[10px] sm:text-[11px] font-medium px-2.5 py-1 rounded-md bg-soft text-primary border border-line/60"
+                          >
+                            {m.number}. {m.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Seals & Signatures */}
+                    <div className="flex items-center justify-between pt-4 border-t border-line/50 text-[11px] text-muted">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck size={24} className="text-primary" />
+                        <div>
+                          <p className="font-bold text-deep leading-none">ISO 9001:2015</p>
+                          <p className="text-[10px]">Quality Certified</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-deep leading-none">Infodesk Academic Council</p>
+                        <p className="text-[10px]">Mumbai Centers</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeCertTab === 1 && (
+                  <motion.div
+                    key="tab-training"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="p-5 sm:p-8 rounded-[16px] border-2 border-emerald-500/20 bg-white relative shadow-sm space-y-6"
+                  >
+                    {/* Decorative Corners */}
+                    <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-emerald-500/40 pointer-events-none" />
+                    <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-emerald-500/40 pointer-events-none" />
+                    <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-emerald-500/40 pointer-events-none" />
+                    <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-emerald-500/40 pointer-events-none" />
+
+                    <div className="text-center space-y-1">
+                      <p className="text-[11px] font-bold text-emerald-600 uppercase tracking-widest font-heading">
+                        Infodesk Computer Education · Design Studio Division
+                      </p>
+                      <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
+                        Practical Studio Training Certificate
+                      </h4>
+                      <p className="text-xs text-muted">
+                        This certifies the satisfactory completion of practical studio training on live graphic design workflows
+                      </p>
+                      <p className="text-lg sm:text-xl font-bold text-emerald-600 font-heading pt-1">
+                        Commercial Portfolio Execution &amp; Agency Projects
+                      </p>
+                    </div>
+
+                    {/* Training Details Grid */}
+                    <div className="grid grid-cols-2 gap-3 py-3 border-y border-line/60 text-xs">
+                      <div>
+                        <span className="text-muted block">Training Period</span>
+                        <span className="font-semibold text-deep">4 Months Hands-On Labs</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Centers</span>
+                        <span className="font-semibold text-deep">Goregaon W, Behram Baug, Jogeshwari W, Motilal Nagar</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Mentorship</span>
+                        <span className="font-semibold text-deep">Industry Professional Guided</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Evaluation</span>
+                        <span className="font-semibold text-emerald-600">100% Practical Verification</span>
+                      </div>
+                    </div>
+
+                    {/* Competency Blocks */}
+                    <div className="space-y-2.5">
+                      <p className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                        Practised Core Competencies
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div className="p-2.5 rounded-lg bg-soft/50 border border-line/60 space-y-1">
+                          <p className="font-bold text-deep">Brand Identity &amp; Logo Systems</p>
+                          <p className="text-muted text-[11px] leading-relaxed">
+                            Illustrator pen tool precision, vector geometry, brand guidelines &amp; stationery suites.
+                          </p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-soft/50 border border-line/60 space-y-1">
+                          <p className="font-bold text-deep">Photo Retouching &amp; Compositing</p>
+                          <p className="text-muted text-[11px] leading-relaxed">
+                            Photoshop layer masks, portrait retouching, color grading &amp; animated GIF banner ads.
+                          </p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-soft/50 border border-line/60 space-y-1">
+                          <p className="font-bold text-deep">Editorial &amp; Publication Layout</p>
+                          <p className="text-muted text-[11px] leading-relaxed">
+                            InDesign master pages, grid systems, typography hierarchy &amp; high-res PDF export.
+                          </p>
+                        </div>
+                        <div className="p-2.5 rounded-lg bg-soft/50 border border-line/60 space-y-1">
+                          <p className="font-bold text-deep">Print Production &amp; Die-Lines</p>
+                          <p className="text-muted text-[11px] leading-relaxed">
+                            CorelDRAW commercial hoardings, die-cut packaging &amp; CMYK color separation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Seals & Signatures */}
+                    <div className="flex items-center justify-between pt-4 border-t border-line/50 text-[11px] text-muted">
+                      <div className="flex items-center gap-2">
+                        <Briefcase size={22} className="text-emerald-600" />
+                        <div>
+                          <p className="font-bold text-deep leading-none">Studio Director</p>
+                          <p className="text-[10px]">Infodesk Design Studio</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-deep leading-none">Placement Verification</p>
+                        <p className="text-[10px] text-emerald-600 font-semibold">14+ Projects Approved</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeCertTab === 2 && (
+                  <motion.div
+                    key="tab-transcript"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="p-5 sm:p-8 rounded-[16px] border-2 border-line/80 bg-white relative shadow-sm space-y-6"
+                  >
+                    <div className="text-center space-y-1">
+                      <p className="text-[11px] font-bold text-primary uppercase tracking-widest font-heading">
+                        Academic Transcript
+                      </p>
+                      <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
+                        Official Curriculum Transcript
+                      </h4>
+                      <p className="text-xs text-muted">
+                        Graphic Design Program · 4 Months Full Practical
+                      </p>
+                    </div>
+
+                    <div className="space-y-3 pt-2">
+                      {GRAPHIC_DESIGN_MODULES.map((m) => (
+                        <div
+                          key={m.number}
+                          className="p-3 rounded-xl bg-soft/40 border border-line/60 flex items-center justify-between gap-3 text-xs"
+                        >
+                          <div className="space-y-0.5 min-w-0">
+                            <span className="font-bold text-deep block truncate">
+                              {m.name}
+                            </span>
+                            <span className="text-muted text-[11px]">
+                              {m.topics.length} syllabus topics mastered
+                            </span>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold text-[11px] border border-emerald-200">
+                              Completed · A+
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-line/50 text-[11px] text-muted">
+                      <span>Total Topics: 20</span>
+                      <span className="font-bold text-deep">Overall Grade: Distinction</span>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-4 sm:p-5 border-t border-line/60 bg-surface flex flex-wrap items-center justify-between gap-3 shrink-0">
+                <div className="flex items-center gap-2 text-xs text-muted">
+                  <ShieldCheck size={16} className="text-primary" />
+                  <span>Verified credentials linkable to LinkedIn &amp; Behance</span>
                 </div>
-                <h4 className="text-xl sm:text-2xl font-extrabold text-deep font-heading">
-                  Certificate of Completion
-                </h4>
-                <p className="text-xs text-muted max-w-md mx-auto">
-                  This certifies that the recipient has successfully completed the rigorous 4-month practical curriculum in Graphic Design &amp; Digital Publishing.
-                </p>
-                <div className="py-2 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">
-                  <Award size={14} />
-                  <span>Adobe &amp; Corel Suite Certified</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-line hover:border-primary text-xs font-semibold text-deep hover:text-primary transition-colors cursor-pointer"
+                  >
+                    <Printer size={13} />
+                    <span>Print</span>
+                  </button>
+                  <a
+                    href="/assets/Infodesk_Computer_Education.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary hover:bg-bright text-xs font-semibold text-white transition-colors cursor-pointer"
+                  >
+                    <FileDown size={13} />
+                    <span>Download Brochure</span>
+                  </a>
                 </div>
               </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="p-4 border-t border-line/60 bg-soft/30 flex items-center justify-between">
-              <span className="text-xs text-muted">Awarded upon course completion</span>
-              <Button
-                to="/contact"
-                size="sm"
-                variant="primary"
-                className="rounded-full text-xs font-bold"
-                onClick={() => setIsCertModalOpen(false)}
-              >
-                Enquire about batches
-              </Button>
-            </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 }
