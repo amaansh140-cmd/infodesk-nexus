@@ -1,7 +1,7 @@
 .focus-container {
   position: relative;
   display: flex;
-  gap: 1em;
+  gap: 0.85em;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -11,9 +11,10 @@
 
 .focus-word {
   position: relative;
-  font-size: 3rem;
-  font-weight: 900;
+  font-size: var(--focus-font-size, 3rem);
+  font-weight: 800;
   cursor: pointer;
+  white-space: nowrap;
   transition:
     filter 0.3s ease,
     color 0.3s ease;

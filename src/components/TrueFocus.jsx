@@ -28,7 +28,10 @@ const TrueFocus = ({
   pauseBetweenAnimations = 1,
   cornerSize = 16,
   borderWidth = 3,
-  unfocusedOpacity = 1
+  unfocusedOpacity = 1,
+  className = '',
+  fontSize,
+  justify = 'center'
 }) => {
   const words = sentence.split(separator).filter(word => word.trim() !== '');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -125,11 +128,13 @@ const TrueFocus = ({
     '--highlight-color': `color-mix(in srgb, ${highlightColor ?? borderColor} 30%, transparent)`,
     '--glow-color': glowColor,
     '--corner-size': `${cornerSize}px`,
-    '--border-width': `${borderWidth}px`
+    '--border-width': `${borderWidth}px`,
+    ...(fontSize ? { '--focus-font-size': fontSize } : {}),
+    ...(justify ? { justifyContent: justify === 'start' || justify === 'left' ? 'flex-start' : justify } : {})
   };
 
   return (
-    <div className="focus-container" ref={containerRef} style={frameStyle}>
+    <div className={`focus-container ${className}`.trim()} ref={containerRef} style={frameStyle}>
       {focusStyle === 'highlight' && shapes && (
         <motion.span
           className="focus-highlight"

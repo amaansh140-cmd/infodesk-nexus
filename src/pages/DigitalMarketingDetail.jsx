@@ -551,23 +551,26 @@ export default function DigitalMarketingDetail({ course }) {
               </p>
 
               {/* TrueFocus Tagline with ice-blue bracket frame */}
-              <div className="py-1">
+              <div className="py-0.5">
                 {effectsConfig.digitalMarketingTrueFocus && !prefersReducedMotion ? (
                   <TrueFocus
                     sentence="Search Social Ads Content"
                     manualMode={false}
-                    blurAmount={3}
+                    blurAmount={2.5}
                     borderColor="#a5d8ff"
                     glowColor="rgba(165, 216, 255, 0.4)"
                     animationDuration={0.6}
                     pauseBetweenAnimations={1.2}
                     borderWidth={2}
-                    cornerSize={14}
+                    cornerSize={12}
+                    fontSize="clamp(1.1rem, 1.8vw, 1.45rem)"
+                    justify="start"
+                    className="!justify-start font-heading"
                   />
                 ) : (
                   /* Reduced Motion Fallback: Show first word statically per Adjustment 5 */
-                  <div className="text-xl sm:text-2xl font-bold text-[#a5d8ff] font-heading">
-                    Search <span className="text-white/60 font-normal text-base">· Social · Ads · Content</span>
+                  <div className="text-lg sm:text-xl font-bold text-[#a5d8ff] font-heading">
+                    Search <span className="text-white/60 font-normal text-sm sm:text-base">· Social · Ads · Content</span>
                   </div>
                 )}
               </div>

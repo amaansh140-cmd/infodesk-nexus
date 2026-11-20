@@ -605,7 +605,7 @@ export default function GraphicDesignDetail({ course: propCourse }) {
       {/* ─── 1. HERO SECTION (IDENTICAL TO DIGITAL MARKETING & DATA SCIENCE) ─── */}
       <section
         id="overview"
-        className="relative bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white min-h-[82vh] flex flex-col justify-between pt-14 pb-10 overflow-hidden"
+        className="relative bg-gradient-to-br from-[#13266f] via-[#0b1a52] to-[#071138] text-white min-h-[82vh] flex flex-col justify-between pt-8 sm:pt-12 pb-6 sm:pb-8 overflow-hidden"
       >
         {/* Background Aurora WebGL Canvas mounted through LazyMount */}
         {effectsConfig.graphicDesignAurora && !prefersReducedMotion && !isSaveData && !isTouchDevice ? (
@@ -630,10 +630,10 @@ export default function GraphicDesignDetail({ course: propCourse }) {
         <div className="absolute inset-0 bg-gradient-to-r from-[#071138]/95 via-[#0b1a52]/75 to-transparent pointer-events-none" />
 
         {/* Main Hero Container */}
-        <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10 w-full my-auto py-6 sm:py-8">
+        <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10 w-full my-auto py-3 sm:py-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: ~58% (7 cols on lg) */}
-            <div className="lg:col-span-7 space-y-6 text-left">
+            <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-left">
               {/* Breadcrumb Navigation */}
               <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#a5d8ff] flex-wrap">
                 <Link to="/" className="hover:text-white transition-colors">Home</Link>
@@ -680,29 +680,32 @@ export default function GraphicDesignDetail({ course: propCourse }) {
                 Master branding, advertising art, publication layout, and social media creatives using Photoshop, Illustrator, CorelDRAW, InDesign, and Canva Pro.
               </p>
 
-              {/* TrueFocus Tagline with ice-blue bracket frame */}
-              <div className="py-1">
+              {/* TrueFocus Tagline with ice-blue bracket frame (Left-aligned & compact) */}
+              <div className="py-0.5">
                 {effectsConfig.graphicDesignTrueFocus && !prefersReducedMotion ? (
                   <TrueFocus
                     sentence="Branding Editorial Packaging Ads"
                     manualMode={false}
-                    blurAmount={3}
+                    blurAmount={2.5}
                     borderColor="#a5d8ff"
                     glowColor="rgba(165, 216, 255, 0.4)"
                     animationDuration={0.6}
                     pauseBetweenAnimations={1.2}
                     borderWidth={2}
-                    cornerSize={14}
+                    cornerSize={12}
+                    fontSize="clamp(1.1rem, 1.8vw, 1.45rem)"
+                    justify="start"
+                    className="!justify-start font-heading"
                   />
                 ) : (
-                  <div className="text-xl sm:text-2xl font-bold text-[#a5d8ff] font-heading">
-                    Branding <span className="text-white/60 font-normal text-base">· Editorial · Packaging · Ads</span>
+                  <div className="text-lg sm:text-xl font-bold text-[#a5d8ff] font-heading">
+                    Branding <span className="text-white/60 font-normal text-sm sm:text-base">· Editorial · Packaging · Ads</span>
                   </div>
                 )}
               </div>
 
               {/* CTA Buttons (Off-white button with deep blue text + ghost button) */}
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="pt-1.5 flex flex-wrap items-center gap-4">
                 <GlareHover
                   width="auto"
                   height="auto"
@@ -731,7 +734,7 @@ export default function GraphicDesignDetail({ course: propCourse }) {
               </div>
 
               {/* Trust Chips */}
-              <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-[#a5d8ff]/90">
+              <div className="pt-1.5 flex flex-wrap items-center gap-4 text-xs text-[#a5d8ff]/90">
                 <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
                   <Award size={14} className="text-[#a5d8ff]" />
                   <span>Govt. Recognized Certification</span>
@@ -768,7 +771,7 @@ export default function GraphicDesignDetail({ course: propCourse }) {
         </div>
 
         {/* Bottom Glass Stats Bar */}
-        <div className="max-w-content mx-auto px-4 sm:px-6 w-full relative z-10 pt-4">
+        <div className="max-w-content mx-auto px-4 sm:px-6 w-full relative z-10 pt-2 sm:pt-4">
           <div className="backdrop-blur-md bg-white/[0.06] border border-white/[0.14] rounded-[22px] grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/10 text-center shadow-lg">
             {/* 1. Modules */}
             <div className="p-4 sm:p-5">
