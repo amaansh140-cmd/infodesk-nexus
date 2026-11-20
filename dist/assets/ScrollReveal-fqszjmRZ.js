@@ -1,4 +1,4 @@
-import{j as kr}from"./vendor-motion-DJJiVLHx.js";import{r as Yt}from"./vendor-react-6YCBRoeX.js";import{g as Ke}from"./vendor-gsap-CnPRBKv6.js";import{p as So}from"./index-DCgzA6S6.js";function Mo(o,e){for(var n=0;n<e.length;n++){var t=e[n];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(o,t.key,t)}}function To(o,e,n){return e&&Mo(o.prototype,e),o}/*!
+import{j as kr}from"./vendor-motion-iuFgYMdS.js";import{r as Yt}from"./vendor-react-6YCBRoeX.js";import{g as Ke}from"./vendor-gsap-CnPRBKv6.js";import{p as So}from"./index-xso2L0O4.js";function Mo(o,e){for(var n=0;n<e.length;n++){var t=e[n];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(o,t.key,t)}}function To(o,e,n){return e&&Mo(o.prototype,e),o}/*!
  * Observer 3.15.1
  * https://gsap.com
  *

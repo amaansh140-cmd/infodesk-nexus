@@ -35,6 +35,9 @@ import Folder from '../components/Folder';
 import LogoLoop from '../components/LogoLoop';
 import FlipCard from '../components/FlipCard';
 import LazyMount from '../components/common/LazyMount';
+import ClickSpark from '../components/ClickSpark';
+import Magnet from '../components/Magnet';
+import RotatingText from '../components/RotatingText';
 
 // Roadmap Section
 import ScrollRoadmap from '../components/roadmap/ScrollRoadmap';
@@ -629,146 +632,180 @@ export default function GraphicDesignDetail({ course: propCourse }) {
         {/* Left-to-right contrast gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#071138]/95 via-[#0b1a52]/75 to-transparent pointer-events-none" />
 
-        {/* Main Hero Container */}
-        <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10 w-full my-auto py-3 sm:py-4">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: ~58% (7 cols on lg) */}
-            <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-left">
-              {/* Breadcrumb Navigation */}
-              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#a5d8ff] flex-wrap">
-                <Link to="/" className="hover:text-white transition-colors">Home</Link>
-                <ChevronRight size={12} />
-                <Link to="/courses" className="hover:text-white transition-colors">Courses</Link>
-                <ChevronRight size={12} />
-                <Link to="/courses?category=Design%20and%20video" className="hover:text-white transition-colors">
-                  Design and video
-                </Link>
-                <ChevronRight size={12} />
-                <span className="font-semibold text-white">Graphic Design</span>
-              </nav>
-
-              {/* Glass Metadata Chips */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-md">
-                  {course.level || 'Short course'}
-                </span>
-                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-md">
-                  {course.duration || '4 months'}
-                </span>
-                <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold backdrop-blur-md">
-                  {course.category || 'Design and video'}
-                </span>
-              </div>
-
-              {/* H1 Heading with ShinyText */}
-              <h1 className="text-[clamp(44px,6.2vw,92px)] font-bold tracking-tight text-white leading-[1.02] font-heading">
-                {effectsConfig.graphicDesignShinyText && !prefersReducedMotion ? (
-                  <ShinyText
-                    text="Graphic Design"
-                    color="#a5d8ff"
-                    shineColor="#ffffff"
-                    speed={3}
-                    className="inline-block"
-                  />
-                ) : (
-                  'Graphic Design'
-                )}
-              </h1>
-
-              {/* Subtitle */}
-              <p className="text-[#c3cbf2] text-base sm:text-lg leading-relaxed max-w-xl">
-                Master branding, advertising art, publication layout, and social media creatives using Photoshop, Illustrator, CorelDRAW, InDesign, and Canva Pro.
-              </p>
-
-              {/* TrueFocus Tagline with ice-blue bracket frame (Left-aligned & compact) */}
-              <div className="py-0.5">
-                {effectsConfig.graphicDesignTrueFocus && !prefersReducedMotion ? (
-                  <TrueFocus
-                    sentence="Branding Editorial Packaging Ads"
-                    manualMode={false}
-                    blurAmount={2.5}
-                    borderColor="#a5d8ff"
-                    glowColor="rgba(165, 216, 255, 0.4)"
-                    animationDuration={0.6}
-                    pauseBetweenAnimations={1.2}
-                    borderWidth={2}
-                    cornerSize={12}
-                    fontSize="clamp(1.1rem, 1.8vw, 1.45rem)"
-                    justify="start"
-                    className="!justify-start font-heading"
-                  />
-                ) : (
-                  <div className="text-lg sm:text-xl font-bold text-[#a5d8ff] font-heading">
-                    Branding <span className="text-white/60 font-normal text-sm sm:text-base">· Editorial · Packaging · Ads</span>
-                  </div>
-                )}
-              </div>
-
-              {/* CTA Buttons (Off-white button with deep blue text + ghost button) */}
-              <div className="pt-1.5 flex flex-wrap items-center gap-4">
-                <GlareHover
-                  width="auto"
-                  height="auto"
-                  borderRadius="9999px"
-                  glareOpacity={0.4}
-                  glareColor="#ffffff"
-                  className="rounded-full inline-block"
-                >
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center font-bold text-sm sm:text-base px-8 py-3.5 min-h-[48px] rounded-full bg-[#f6f5f1] text-[#13266f] hover:bg-white transition-all shadow-lg hover:shadow-xl"
-                  >
-                    Book a free demo
+        {/* Interactive ClickSpark Layer across Hero */}
+        <ClickSpark
+          sparkColor={['#a5d8ff', '#4a6df0', '#ffffff', '#7dd3fc']}
+          sparkSize={8}
+          sparkRadius={20}
+          sparkCount={8}
+          duration={350}
+          disabled={prefersReducedMotion}
+          className="relative z-10 w-full flex flex-col justify-between flex-1"
+        >
+          {/* Main Hero Container */}
+          <div className="max-w-content mx-auto px-4 sm:px-6 relative z-10 w-full my-auto py-3 sm:py-4">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Left Column: ~58% (7 cols on lg) */}
+              <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-left">
+                {/* Breadcrumb Navigation */}
+                <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#a5d8ff] flex-wrap">
+                  <Link to="/" className="hover:text-white transition-colors">Home</Link>
+                  <ChevronRight size={12} />
+                  <Link to="/courses" className="hover:text-white transition-colors">Courses</Link>
+                  <ChevronRight size={12} />
+                  <Link to="/courses?category=Design%20and%20video" className="hover:text-white transition-colors">
+                    Design and video
                   </Link>
-                </GlareHover>
+                  <ChevronRight size={12} />
+                  <span className="font-semibold text-white">Graphic Design</span>
+                </nav>
 
-                <a
-                  href="/assets/Infodesk_Computer_Education.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 font-bold text-sm sm:text-base px-7 py-3.5 min-h-[48px] rounded-full border border-[#a5d8ff]/40 text-white hover:bg-white/10 transition-colors backdrop-blur-sm"
-                >
-                  <FileDown size={16} />
-                  <span>Download brochure</span>
-                </a>
+                {/* Glass Metadata Chips + RotatingText Live Ticker */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-md">
+                    {course.level || 'Short course'}
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#a5d8ff] text-xs font-semibold backdrop-blur-md">
+                    {course.duration || '4 months'}
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold backdrop-blur-md">
+                    {course.category || 'Design and video'}
+                  </span>
+                  {effectsConfig.graphicDesignRotatingText && !prefersReducedMotion && (
+                    <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#4a6df0]/20 border border-[#a5d8ff]/30 text-[#a5d8ff] text-xs font-semibold backdrop-blur-md shadow-sm">
+                      <Sparkles size={12} className="text-[#a5d8ff] shrink-0" />
+                      <span>Live Studio:</span>
+                      <RotatingText
+                        texts={[
+                          'Brand Identity Systems',
+                          'Magazine Editorial Grids',
+                          'Retail Box Packaging',
+                          'Highway Hoarding Art',
+                          'Animated GIF Display Ads',
+                        ]}
+                        mainClassName="text-white font-bold inline-block"
+                        staggerDuration={0.02}
+                        rotationInterval={2400}
+                        splitBy="words"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* H1 Heading with ShinyText */}
+                <h1 className="text-[clamp(44px,6.2vw,92px)] font-bold tracking-tight text-white leading-[1.02] font-heading">
+                  {effectsConfig.graphicDesignShinyText && !prefersReducedMotion ? (
+                    <ShinyText
+                      text="Graphic Design"
+                      color="#a5d8ff"
+                      shineColor="#ffffff"
+                      speed={3}
+                      className="inline-block"
+                    />
+                  ) : (
+                    'Graphic Design'
+                  )}
+                </h1>
+
+                {/* Subtitle */}
+                <p className="text-[#c3cbf2] text-base sm:text-lg leading-relaxed max-w-xl">
+                  Master branding, advertising art, publication layout, and social media creatives using Photoshop, Illustrator, CorelDRAW, InDesign, and Canva Pro.
+                </p>
+
+                {/* TrueFocus Tagline with ice-blue bracket frame (Left-aligned & compact) */}
+                <div className="py-0.5">
+                  {effectsConfig.graphicDesignTrueFocus && !prefersReducedMotion ? (
+                    <TrueFocus
+                      sentence="Branding Editorial Packaging Ads"
+                      manualMode={false}
+                      blurAmount={2.5}
+                      borderColor="#a5d8ff"
+                      glowColor="rgba(165, 216, 255, 0.4)"
+                      animationDuration={0.6}
+                      pauseBetweenAnimations={1.2}
+                      borderWidth={2}
+                      cornerSize={12}
+                      fontSize="clamp(1.1rem, 1.8vw, 1.45rem)"
+                      justify="start"
+                      className="!justify-start font-heading"
+                    />
+                  ) : (
+                    <div className="text-lg sm:text-xl font-bold text-[#a5d8ff] font-heading">
+                      Branding <span className="text-white/60 font-normal text-sm sm:text-base">· Editorial · Packaging · Ads</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* CTA Buttons with Magnet interaction */}
+                <div className="pt-1.5 flex flex-wrap items-center gap-4">
+                  <Magnet padding={35} magnetStrength={2.5} disabled={isTouchDevice || prefersReducedMotion}>
+                    <GlareHover
+                      width="auto"
+                      height="auto"
+                      borderRadius="9999px"
+                      glareOpacity={0.4}
+                      glareColor="#ffffff"
+                      className="rounded-full inline-block"
+                    >
+                      <Link
+                        to="/contact"
+                        className="inline-flex items-center justify-center font-bold text-sm sm:text-base px-8 py-3.5 min-h-[48px] rounded-full bg-[#f6f5f1] text-[#13266f] hover:bg-white transition-all shadow-lg hover:shadow-xl"
+                      >
+                        Book a free demo
+                      </Link>
+                    </GlareHover>
+                  </Magnet>
+
+                  <Magnet padding={25} magnetStrength={2} disabled={isTouchDevice || prefersReducedMotion}>
+                    <a
+                      href="/assets/Infodesk_Computer_Education.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 font-bold text-sm sm:text-base px-7 py-3.5 min-h-[48px] rounded-full border border-[#a5d8ff]/40 text-white hover:bg-white/10 transition-colors backdrop-blur-sm"
+                    >
+                      <FileDown size={16} />
+                      <span>Download brochure</span>
+                    </a>
+                  </Magnet>
+                </div>
+
+                {/* Trust Chips */}
+                <div className="pt-1.5 flex flex-wrap items-center gap-4 text-xs text-[#a5d8ff]/90">
+                  <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                    <Award size={14} className="text-[#a5d8ff]" />
+                    <span>Govt. Recognized Certification</span>
+                  </span>
+                  <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                    <CheckCircle2 size={14} className="text-emerald-400" />
+                    <span>100% Job Placement Assistance</span>
+                  </span>
+                </div>
               </div>
 
-              {/* Trust Chips */}
-              <div className="pt-1.5 flex flex-wrap items-center gap-4 text-xs text-[#a5d8ff]/90">
-                <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-                  <Award size={14} className="text-[#a5d8ff]" />
-                  <span>Govt. Recognized Certification</span>
-                </span>
-                <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-                  <CheckCircle2 size={14} className="text-emerald-400" />
-                  <span>100% Job Placement Assistance</span>
-                </span>
-              </div>
-            </div>
+              {/* Right Column: Stack of 4 illustration cards (460x380px container) */}
+              <div className="lg:col-span-5 flex justify-center lg:justify-end">
+                {/* Desktop (>= 1024px): Stack of 4 illustration cards */}
+                <div className="hidden lg:block w-[460px] h-[380px] relative">
+                  <Stack
+                    cards={heroCards}
+                    layout="deck"
+                    autoplay={false}
+                    visible={4}
+                    radius={22}
+                    spread={0.6}
+                    depth={0.4}
+                    className="w-full h-full"
+                  />
+                </div>
 
-            {/* Right Column: Stack of 4 illustration cards (460x380px container) */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              {/* Desktop (>= 1024px): Stack of 4 illustration cards */}
-              <div className="hidden lg:block w-[460px] h-[380px] relative">
-                <Stack
-                  cards={heroCards}
-                  layout="deck"
-                  autoplay={false}
-                  visible={4}
-                  radius={22}
-                  spread={0.6}
-                  depth={0.4}
-                  className="w-full h-full"
-                />
-              </div>
-
-              {/* Mobile (< 1024px): Single static card to avoid touch conflicts */}
-              <div className="block lg:hidden w-full max-w-[420px] mx-auto mt-4">
-                {heroCards[0]}
+                {/* Mobile (< 1024px): Single static card to avoid touch conflicts */}
+                <div className="block lg:hidden w-full max-w-[420px] mx-auto mt-4">
+                  {heroCards[0]}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </ClickSpark>
 
         {/* Bottom Glass Stats Bar */}
         <div className="max-w-content mx-auto px-4 sm:px-6 w-full relative z-10 pt-2 sm:pt-4">
